@@ -4,6 +4,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SelectPage } from '../pages/select/select';
 import { MapOverviewPage } from '../pages/map-overview/map-overview';
+import { WelcomePage } from '../pages/welcome/welcome';
 
 import { MapData } from '../providers/map-data';
 
@@ -13,7 +14,8 @@ import { MapData } from '../providers/map-data';
     MyApp,
     HomePage,
     SelectPage,
-    MapOverviewPage
+    MapOverviewPage,
+    WelcomePage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -23,7 +25,8 @@ import { MapData } from '../providers/map-data';
     MyApp,
     HomePage,
     SelectPage,
-    MapOverviewPage
+    MapOverviewPage,
+    WelcomePage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, MapData]
 })
