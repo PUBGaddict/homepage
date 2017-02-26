@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
+import { MapOverviewPage } from '../map-overview/map-overview'
+
 /*
   Generated class for the Select page.
 
@@ -18,6 +20,10 @@ export class SelectPage {
   ionViewDidLoad() {
     this.sMap = this.navParams.get("sMap");
     console.log('ionViewDidLoad SelectPage');
+  }
+
+  openMapOverview() {
+    this.navCtrl.push(MapOverviewPage)
   }
 
 }
