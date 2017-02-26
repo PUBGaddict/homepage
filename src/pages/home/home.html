@@ -1,0 +1,55 @@
+<ion-split-panel>
+  <ion-menu [content]="content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>CSGO Positions</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <button ion-item (click)="openPage(loginPage)">
+          de_dust2
+        </button>
+        <button ion-item (click)="openPage(signupPage)">
+          de_train
+        </button>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-nav [root]="root" main #content> </ion-nav>
+  <ion-content class="card-background-page">
+
+    <ion-card>
+      <div class="card-content">
+        <img src="assets/img/csgo_t.png" />
+        <div class="card-title">T Positions</div>
+        <div class="card-subtitle">41 Listings</div>
+      </div>
+    </ion-card>
+
+    <ion-card>
+      <div class="card-content">
+        <img src="assets/img/csgo_ct.png" />
+        <div class="card-title">CT Positions</div>
+        <div class="card-subtitle">64 Listings</div>
+      </div>
+    </ion-card>
+
+    <ion-card>
+      <div class="card-content">
+        <img src="assets/img/csgo_smoke.png" />
+        <div class="card-title">Smokes</div>
+        <div class="card-subtitle">72 Listings</div>
+      </div>
+    </ion-card>
+
+    <ion-card>
+      <div class="card-content">
+        <img src="assets/img/csgo_flash.png" />
+        <div class="card-title">Flashes</div>
+        <div class="card-subtitle">28 Listings</div>
+      </div>
+    </ion-card>
+
+  </ion-content>
+</ion-split-panel>
