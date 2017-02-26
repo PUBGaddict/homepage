@@ -5,6 +5,9 @@ import { HomePage } from '../pages/home/home';
 import { SelectPage } from '../pages/select/select';
 import { MapOverviewPage } from '../pages/map-overview/map-overview';
 
+import { MapData } from '../providers/map-data';
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -22,6 +25,6 @@ import { MapOverviewPage } from '../pages/map-overview/map-overview';
     SelectPage,
     MapOverviewPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, MapData]
 })
 export class AppModule {}

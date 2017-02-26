@@ -1,0 +1,17 @@
+{
+    "maps" : [{
+        "title" : "de_dust2"
+    },{
+        "title" : "de_inferno"
+    },{
+        "title" : "de_cache"
+    },{
+        "title" : "de_mirage"
+    },{
+        "title" : "de_overpass"
+    },{
+        "title" : "de_train"
+    },{
+        "title" : "de_cbble"
+    }] 
+}

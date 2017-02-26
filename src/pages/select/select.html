@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>{{sMap}}</ion-title>
+    <ion-title>{{title}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -14,7 +14,7 @@
       </div>
     </ion-card>
 
-    <ion-card>
+    <ion-card (click)="openMapOverview('CT Positions')">
       <div class="card-content">
         <img src="assets/img/csgo_ct.png" />
         <div class="card-title">CT Positions</div>
@@ -22,7 +22,7 @@
       </div>
     </ion-card>
 
-    <ion-card>
+    <ion-card (click)="openMapOverview('Smokes')">
       <div class="card-content">
         <img src="assets/img/csgo_smoke.png" />
         <div class="card-title">Smokes</div>
@@ -30,7 +30,7 @@
       </div>
     </ion-card>
 
-    <ion-card>
+    <ion-card (click)="openMapOverview('Flashes')">
       <div class="card-content">
         <img src="assets/img/csgo_flash.png" />
         <div class="card-title">Flashes</div>

@@ -7,11 +7,11 @@
     </ion-header>
     <ion-content #content>
       <ion-list>
-        <button ion-item (click)="openPage('de_dust2')">
-          de_dust2
-        </button>
-        <button ion-item (click)="openPage('de_train')">
-          de_train
+        <ion-list-header>
+          Maps
+        </ion-list-header>
+        <button ion-item *ngFor="let map of maps" (click)="openPage(map)">
+          {{map.title}}
         </button>
       </ion-list>
     </ion-content>

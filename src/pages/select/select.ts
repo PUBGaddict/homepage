@@ -14,18 +14,20 @@ import { MapOverviewPage } from '../map-overview/map-overview'
   templateUrl: 'select.html'
 })
 export class SelectPage {
-  private sMap: String;
+  private map: Object;
+  private title: String;
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {
-    this.sMap = this.navParams.get("sMap");
+    this.map = this.navParams.get("map");
+    this.title = this.navParams.get("map").title;
     console.log('ionViewDidLoad SelectPage');
   }
 
-  openMapOverview(sOption) {
-    let sMap = this.sMap
+  openMapOverview(option) {
+    let map = this.map
     this.navCtrl.push(MapOverviewPage, {
-      sMap, sOption
+      map, option
     });
   }
 
