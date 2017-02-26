@@ -12,10 +12,15 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'map-overview.html'
 })
 export class MapOverviewPage {
+  private sMap: String;
+  private sOption: String;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {
+    this.sMap = this.navParams.get("sMap");
+    this.sOption = this.navParams.get("sOption");
+
     console.log('ionViewDidLoad MapOverviewPage');
   }
 

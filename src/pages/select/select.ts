@@ -22,8 +22,11 @@ export class SelectPage {
     console.log('ionViewDidLoad SelectPage');
   }
 
-  openMapOverview() {
-    this.navCtrl.push(MapOverviewPage)
+  openMapOverview(sOption) {
+    let sMap = this.sMap
+    this.navCtrl.push(MapOverviewPage, {
+      sMap, sOption
+    });
   }
 
 }
