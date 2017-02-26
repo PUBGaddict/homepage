@@ -1,0 +1,43 @@
+<ion-header no-border>
+  <ion-navbar>
+    <ion-buttons end *ngIf="showSkip">
+      <button ion-button (click)="startApp()" color="primary">Skip</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+  <ion-content no-bounce class="card-background-page">
+
+    <ion-card > 
+      <div class="card-content">
+        <img src="assets/img/csgo_t.png" />
+        <div class="card-title">T Positions</div>
+        <div class="card-subtitle">41 Listings</div>
+      </div>
+    </ion-card>
+
+    <ion-card>
+      <div class="card-content">
+        <img src="assets/img/csgo_ct.png" />
+        <div class="card-title">CT Positions</div>
+        <div class="card-subtitle">64 Listings</div>
+      </div>
+    </ion-card>
+
+    <ion-card>
+      <div class="card-content">
+        <img src="assets/img/csgo_smoke.png" />
+        <div class="card-title">Smokes</div>
+        <div class="card-subtitle">72 Listings</div>
+      </div>
+    </ion-card>
+
+    <ion-card>
+      <div class="card-content">
+        <img src="assets/img/csgo_flash.png" />
+        <div class="card-title">Flashes</div>
+        <div class="card-subtitle">28 Listings</div>
+      </div>
+    </ion-card>
+
+  </ion-content>
