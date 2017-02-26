@@ -12,10 +12,11 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'select.html'
 })
 export class SelectPage {
-
+  private sMap: String;
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {
+    this.sMap = this.navParams.get("sMap");
     console.log('ionViewDidLoad SelectPage');
   }
 

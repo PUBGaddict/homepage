@@ -16,19 +16,7 @@ export class HomePage {
 
   openPage (sMap) {
     
-    this.nav.setRoot(SelectPage);
-    /* else {
-      this.nav.setRoot(page.component).catch(() => {
-        console.log("Didn't set nav root");
-      });
-    }*/
-
-    /*if (page.logsOut === true) {
-      // Give the menu time to close before changing to logged out
-      setTimeout(() => {
-        this.userData.logout();
-      }, 1000);
-    }*/
+    this.nav.setRoot(SelectPage, {sMap});
   }
 
 }
