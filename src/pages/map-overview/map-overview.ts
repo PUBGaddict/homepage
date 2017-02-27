@@ -41,19 +41,23 @@ export class MapOverviewPage {
       var d3spots = d3g.selectAll("g")
          .data(data.spots)
          .enter();
-
-      d3spots.append("circle")
-          .attr("cx", function(d) { return d.x; })
-          .attr("cy", function(d) { return d.y; })
+      let selGroup = d3spots.append("g")
+            .attr("transform", function(d) { return "translate("+d.x + "," + d.y+")"; })
+            .attr("width", "20")
+            .attr("height", "20");
+      selGroup.append("circle")
+          .attr("cx", function(d) { return 10 })
+          .attr("cy", function(d) { return 10 })
           .attr("r", 10)
-          .style("fill", "purple");
+          .style("fill", "blue");
+        selGroup.append("rect").classed("test", true)
      
-      d3spots.append("path")
+      /*selGroup.append("path")
           .attr("d", d3.symbol()
-            .size(function(d) { return 300; } )
+            .size(function(d) { return 200; } )
             .type(function(d) { return d3.symbolTriangle; } ))
-          .attr("transform", function(d) { return "translate(" + d.x + "," + (d.y + 20) + ")"; });
-    });
+          .attr("transform", function(d) { return "translate(" + 10 + "," + (10 + 20) + ")"; });
+    */});
   }
 
 }
