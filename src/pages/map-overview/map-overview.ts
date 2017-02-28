@@ -15,13 +15,10 @@ import * as d3 from 'd3';
 export class MapOverviewPage {
   private mapname: String;
   private option: String;
-  private height: number;
-  private width: number;
-  private maxWidth: number;
-  private maxHeight: number;
+  private maxWidth: number = 1024;
+  private maxHeight: number = 1024;
   private selBackgroundImage: any;
   private selMap: any;
-  private selSvg: any;
   private selSpots: any;
   private d3sel: any;
   private xScale: any;
@@ -29,18 +26,16 @@ export class MapOverviewPage {
   private d3: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.maxHeight = 1024;
-    this.maxWidth = 1024;
     this.d3 = d3;
   }
 
   createSVG () {
     this.d3sel = d3.select(".d3");
 
-    this.selSvg = this.d3sel.append("svg")
+    let selSvg = this.d3sel.append("svg")
                      .attr("width", this.maxWidth)
                      .attr("height", this.maxHeight);
-    this.selMap = this.selSvg.append("g")
+    this.selMap = selSvg.append("g")
           .classed("map", true);
   }
 
@@ -87,16 +82,15 @@ export class MapOverviewPage {
   }
 
   createScale() {
-        this.xScale = d3.scaleLinear().range([0,this.maxWidth]).domain([0,this.maxWidth]);
-        this.yScale = d3.scaleLinear().range([0,this.maxHeight]).domain([0,this.maxHeight]);
+    this.xScale = d3.scaleLinear().range([0,this.maxWidth]).domain([0,this.maxWidth]);
+    this.yScale = d3.scaleLinear().range([0,this.maxHeight]).domain([0,this.maxHeight]);
   }
   
   render() {
-    let minWidth = this.d3sel.node().parentNode.offsetWidth <= 1024 ? this.d3sel.node().parentNode.offsetWidth : 1024;
-    this.width = minWidth < this.maxWidth ? minWidth : this.maxWidth;
-    this.height = this.width; // for 1:1 aspect ratio
+    let newWidth = this.d3sel.node().parentNode.offsetWidth,
+        width = newWidth > this.maxWidth ? newWidth : this.maxWidth;
 
-    this.selMap.attr("transform", "scale(" + minWidth / this.maxWidth + ")");
+    this.selMap.attr("transform", "scale(" + width / this.maxWidth + ")");
   }
 
   ionViewDidLoad() {
