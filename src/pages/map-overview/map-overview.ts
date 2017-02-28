@@ -15,10 +15,10 @@ import * as d3 from 'd3';
 export class MapOverviewPage {
   private mapname: String;
   private option: String;
-  private height: Number;
-  private width: Number;
-  private maxWidth: Number;
-  private maxHeight: Number;
+  private height: number;
+  private width: number;
+  private maxWidth: number;
+  private maxHeight: number;
   private selBackgroundImage: any;
   private selMap: any;
   private selSvg: any;
@@ -89,41 +89,14 @@ export class MapOverviewPage {
   createScale() {
         this.xScale = d3.scaleLinear().range([0,this.maxWidth]).domain([0,this.maxWidth]);
         this.yScale = d3.scaleLinear().range([0,this.maxHeight]).domain([0,this.maxHeight]);
-
-        this.selMap.append("g")
-            .classed("xAxis", true)
-            .attr("transform", "translate(0, " + this.maxHeight + ")")
-            .call(d3.axisBottom(this.xScale)),
-        
-        this.selMap.append("g")            
-            .classed("yAxis", true)
-            .attr("transform", "translate(" + this.maxWidth + ", 0)")
-            .call(d3.axisLeft(this.yScale));
   }
   
   render() {
-    let minWidth = this.d3sel.node().parentNode.offsetWidth;
+    let minWidth = this.d3sel.node().parentNode.offsetWidth <= 1024 ? this.d3sel.node().parentNode.offsetWidth : 1024;
     this.width = minWidth < this.maxWidth ? minWidth : this.maxWidth;
     this.height = this.width; // for 1:1 aspect ratio
 
-    // updates scales
-    this.xScale.range([0, this.width]);
-    this.yScale.range([this.height,0]);
-
-    // update svg element
-    this.selSvg
-        .attr("width", this.width)
-        .attr("height", this.height);
-
-    this.selBackgroundImage
-        .attr("width", this.width)
-        .attr("height", this.height);
-
-
-    var that = this; // no other way due to each() overwriting this with necessary information
-    this.selSpots.each(function(d, i) { // test
-      that.d3.select(this).attr("transform", "translate(" + that.xScale(d.x) + "," + that.yScale(d.y) + ") rotate(" + d.angle + " 25 25)");
-    })
+    this.selMap.attr("transform", "scale(" + minWidth / this.maxWidth + ")");
   }
 
   ionViewDidLoad() {
