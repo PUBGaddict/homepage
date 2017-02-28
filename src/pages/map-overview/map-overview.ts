@@ -88,7 +88,7 @@ export class MapOverviewPage {
   
   render() {
     let newWidth = this.d3sel.node().parentNode.offsetWidth,
-        width = newWidth > this.maxWidth ? newWidth : this.maxWidth;
+        width = newWidth > this.maxWidth ? this.maxWidth : newWidth;
 
     this.selMap.attr("transform", "scale(" + width / this.maxWidth + ")");
   }
