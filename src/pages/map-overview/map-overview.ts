@@ -41,7 +41,7 @@ export class MapOverviewPage {
 
   appendBackgroundImage () {
     this.selBackgroundImage = this.selMap.append("svg:image")
-                     .attr("xlink:href", "assets/img/de_dust2.png")                     
+                     .attr("xlink:href", "assets/img/" + this.mapname + ".png")                     
                      .attr("width", 1024)
                      .attr("height", 1024);
   }

@@ -13,5 +13,7 @@
         "mapname" : "de_train"
     },{
         "mapname" : "de_cbble"
+    },{
+        "mapname" : "de_nuke"
     }] 
 }
