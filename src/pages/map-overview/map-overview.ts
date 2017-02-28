@@ -31,7 +31,6 @@ export class MapOverviewPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.maxHeight = 1024;
     this.maxWidth = 1024;
-    this.selSpots;
     this.d3 = d3;
   }
 
@@ -59,30 +58,30 @@ export class MapOverviewPage {
   appendDataSpots() {
     return new Promise((resolve, reject) => {
       d3.json("assets/data/de_dust2.json", (err, data) => {
-        let selGroup = this.selMap.selectAll(".spot")
+        this.selSpots = this.selMap.selectAll(".spot")
           .data(data.spots)
           .enter().append("g")
               .classed("spot", true)
               .attr("transform", function(d) { return "translate(" + this.xScale(d.x) + "," + this.yScale(d.y) + ") rotate(" + d.angle + " 25 25)"; }.bind(this))
-        selGroup.append("circle")
+        this.selSpots.append("circle")
             .attr("cx", 25)
             .attr("cy", 25)
             .attr("r", 25)
             .classed("turn-indicator", true);
-        selGroup.append("circle")
+        this.selSpots.append("circle")
             .attr("transform", "translate(15,15)")
             .attr("cx", 10)
             .attr("cy", 10)
             .attr("r", 4)
             .classed("player", true);
-        selGroup.append("path")
+        this.selSpots.append("path")
             .attr("d", d3.symbol()
               .size(function(d) { return 200; } )
               .type(function(d) { return d3.symbolTriangle; } ))
             .attr("transform", "translate(25,40)")
             .classed("player-view", true);
         
-        resolve(selGroup);
+        resolve();
       });
     });
   }
@@ -102,7 +101,7 @@ export class MapOverviewPage {
             .call(d3.axisLeft(this.yScale));
   }
   
-  render(selGroup) {
+  render() {
     let minWidth = this.d3sel.node().parentNode.offsetWidth;
     this.width = minWidth < this.maxWidth ? minWidth : this.maxWidth;
     this.height = this.width; // for 1:1 aspect ratio
@@ -122,7 +121,7 @@ export class MapOverviewPage {
 
 
     var that = this; // no other way due to each() overwriting this with necessary information
-    selGroup.each(function(d, i) { // test
+    this.selSpots.each(function(d, i) { // test
       that.d3.select(this).attr("transform", "translate(" + that.xScale(d.x) + "," + that.yScale(d.y) + ") rotate(" + d.angle + " 25 25)");
     })
   }
@@ -138,10 +137,10 @@ export class MapOverviewPage {
     this.createScale();
 
     // this needs a promise, otherwise render happens too early and our data is not loaded yet.
-    this.appendDataSpots().then((selGroup) => {
-      this.render(selGroup);
+    this.appendDataSpots().then(() => {
+      this.render();
 
-      window.addEventListener('resize', this.render.bind(this, selGroup));
+      window.addEventListener('resize', this.render.bind(this));
     });
 
   }
