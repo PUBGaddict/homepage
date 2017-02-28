@@ -22,13 +22,17 @@ export class MapOverviewPage {
   private selBackgroundImage: any;
   private selMap: any;
   private selSvg: any;
+  private selSpots: any;
   private d3sel: any;
   private xScale: any;
   private yScale: any;
+  private d3: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.maxHeight = 1024;
     this.maxWidth = 1024;
+    this.selSpots;
+    this.d3 = d3;
   }
 
   createSVG () {
@@ -48,59 +52,64 @@ export class MapOverviewPage {
                      .attr("height", 1024);
   }
 
-  appendDataSpots() {
-    d3.json("assets/data/de_dust2.json", (err, data) => {
-      let d3spots = this.selMap.selectAll(".spot")
-         .data(data.spots)
-         .enter();
 
-      let selGroup = d3spots.append("g")
-            .classed("spot", true)
-            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ") rotate(" + d.angle + " 25 25)"; })
-      selGroup.append("circle")
-          .attr("cx", 25)
-          .attr("cy", 25)
-          .attr("r", 25)
-          .classed("turn-indicator", true);
-      selGroup.append("circle")
-          .attr("transform", "translate(15,15)")
-          .attr("cx", 10)
-          .attr("cy", 10)
-          .attr("r", 4)
-          .classed("player", true);
-      selGroup.append("path")
-          .attr("d", d3.symbol()
-            .size(function(d) { return 200; } )
-            .type(function(d) { return d3.symbolTriangle; } ))
-          .attr("transform", "translate(25,40)")
-          .classed("player-view", true);
+  /*
+  // returns a promise while loading the file so that we can easy chain
+  */
+  appendDataSpots() {
+    return new Promise((resolve, reject) => {
+      d3.json("assets/data/de_dust2.json", (err, data) => {
+        let selGroup = this.selMap.selectAll(".spot")
+          .data(data.spots)
+          .enter().append("g")
+              .classed("spot", true)
+              .attr("transform", function(d) { return "translate(" + this.xScale(d.x) + "," + this.yScale(d.y) + ") rotate(" + d.angle + " 25 25)"; }.bind(this))
+        selGroup.append("circle")
+            .attr("cx", 25)
+            .attr("cy", 25)
+            .attr("r", 25)
+            .classed("turn-indicator", true);
+        selGroup.append("circle")
+            .attr("transform", "translate(15,15)")
+            .attr("cx", 10)
+            .attr("cy", 10)
+            .attr("r", 4)
+            .classed("player", true);
+        selGroup.append("path")
+            .attr("d", d3.symbol()
+              .size(function(d) { return 200; } )
+              .type(function(d) { return d3.symbolTriangle; } ))
+            .attr("transform", "translate(25,40)")
+            .classed("player-view", true);
+        
+        resolve(selGroup);
+      });
     });
   }
 
   createScale() {
-        this.xScale = d3.scaleLinear().range([0,this.maxWidth]).domain([0,this.maxWidth]),
+        this.xScale = d3.scaleLinear().range([0,this.maxWidth]).domain([0,this.maxWidth]);
         this.yScale = d3.scaleLinear().range([0,this.maxHeight]).domain([0,this.maxHeight]);
 
         this.selMap.append("g")
             .classed("xAxis", true)
-            .attr("transform", "translate(0, " + this.maxWidth + ")")
+            .attr("transform", "translate(0, " + this.maxHeight + ")")
             .call(d3.axisBottom(this.xScale)),
         
         this.selMap.append("g")            
             .classed("yAxis", true)
-            .attr("transform", "translate(" + this.maxHeight + ", 0)")
+            .attr("transform", "translate(" + this.maxWidth + ", 0)")
             .call(d3.axisLeft(this.yScale));
   }
   
-  render() {
-    //let minWidth = window.innerWidth;
+  render(selGroup) {
     let minWidth = this.d3sel.node().parentNode.offsetWidth;
     this.width = minWidth < this.maxWidth ? minWidth : this.maxWidth;
     this.height = this.width; // for 1:1 aspect ratio
 
     // updates scales
     this.xScale.range([0, this.width]);
-    this.yScale.range([this.height],0);
+    this.yScale.range([this.height,0]);
 
     // update svg element
     this.selSvg
@@ -110,6 +119,12 @@ export class MapOverviewPage {
     this.selBackgroundImage
         .attr("width", this.width)
         .attr("height", this.height);
+
+
+    var that = this; // no other way due to each() overwriting this with necessary information
+    selGroup.each(function(d, i) { // test
+      that.d3.select(this).attr("transform", "translate(" + that.xScale(d.x) + "," + that.yScale(d.y) + ") rotate(" + d.angle + " 25 25)");
+    })
   }
 
   ionViewDidLoad() {
@@ -121,10 +136,14 @@ export class MapOverviewPage {
     this.createSVG();
     this.appendBackgroundImage();
     this.createScale();
-    this.render();
-    //this.appendDataSpots();
 
-    window.addEventListener('resize', this.render.bind(this));
+    // this needs a promise, otherwise render happens too early and our data is not loaded yet.
+    this.appendDataSpots().then((selGroup) => {
+      this.render(selGroup);
+
+      window.addEventListener('resize', this.render.bind(this, selGroup));
+    });
+
   }
 
 }
