@@ -3,12 +3,12 @@ page-select {
 
  .card-background-page {
 
-  ion-card {
+  .card {
     position: relative;
     float: left;
     text-align: center;
-    margin: 10px 0 0 10px;
-    width: calc(30% - 20px);
+    margin: 0px 0 10px 10px;
+    width: calc(20% - 20px);
     cursor: pointer;
     opacity: 1;
 
@@ -30,7 +30,7 @@ page-select {
         .card-title {
             pointer-events: none;
             position: absolute;
-            top: 36%;
+            top: 30%;
             font-size: 2.0em;
             width: 100%;
             font-weight: bold;
@@ -42,7 +42,7 @@ page-select {
             pointer-events: none;
             font-size: 1.0em;
             position: absolute;
-            top: 52%;
+            top: 75%;
             width: 100%;
             color: #fff;
             text-shadow: 2px 1px 21px rgba(0, 0, 0, 1);

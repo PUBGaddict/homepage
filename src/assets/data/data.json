@@ -1,19 +1,181 @@
 {
-    "maps" : [{
-        "mapname" : "de_dust2"
-    },{
-        "mapname" : "de_inferno"
-    },{
-        "mapname" : "de_cache"
-    },{
-        "mapname" : "de_mirage"
-    },{
-        "mapname" : "de_overpass"
-    },{
-        "mapname" : "de_train"
-    },{
-        "mapname" : "de_cbble"
-    },{
-        "mapname" : "de_nuke"
-    }] 
+    "de_maps": [
+        {
+            "mapname": "de_dust2",
+            "t": [
+                {
+                    "thing": "Rushes",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "Peeks",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "AWP Spots",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "Bomb Defends",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "Boosts",
+                    "tutorials": []
+                }
+            ],
+            "ct": [
+                {
+                    "thing": "Defending Positions",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "Peeks",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "AWP Spots",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "Boosts",
+                    "tutorials": []
+                }
+            ],
+            "smoke": [
+                {
+                    "thing": "Mid",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "A",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "B",
+                    "tutorials": [
+                        {}
+                    ]
+                }
+            ],
+            "flash": [
+                {
+                    "thing": "Mid",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "A",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "B",
+                    "tutorials": [
+                        {}
+                    ]
+                }
+            ],
+            "eco": [
+                {
+                    "thing": "Rush",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "Stack",
+                    "tutorials": [
+                        {}
+                    ]
+                }
+            ],
+            "teamtactics": [
+                {
+                    "thing": "Eco",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "Fake",
+                    "tutorials": [
+                        {}
+                    ]
+                },
+                {
+                    "thing": "Combinations",
+                    "tutorials": [
+                        {}
+                    ]
+                }
+            ]
+        },
+        {
+            "mapname": "de_inferno"
+        },
+        {
+            "mapname": "de_cache"
+        },
+        {
+            "mapname": "de_mirage"
+        },
+        {
+            "mapname": "de_overpass"
+        },
+        {
+            "mapname": "de_train"
+        },
+        {
+            "mapname": "de_cbble"
+        },
+        {
+            "mapname": "de_nuke"
+        }
+    ],
+    "cs_maps": [
+        {
+            "mapname": "cs_office"
+        },
+        {
+            "mapname": "cs_italy"
+        },
+        {
+            "mapname": "cs_assault"
+        },
+        {
+            "mapname": "cs_militia"
+        }
+    ],
+    "fy_maps": [
+        {
+            "mapname": "fy_pool_day"
+        },
+        {
+            "mapname": "fy_iceworld"
+        },
+        {
+            "mapname": "fy_snow"
+        }
+    ]
 }

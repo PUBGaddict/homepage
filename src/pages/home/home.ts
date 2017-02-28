@@ -12,12 +12,20 @@ import { MapData } from '../../providers/map-data';
 export class HomePage {
   @ViewChild(Nav) nav: Nav;
   selectPage = SelectPage;
-  maps: any[] = [];
+  de_maps: any[] = [];
+  cs_maps: any[] = [];
+  fy_maps: any[] = [];
 
   constructor(public navCtrl: NavController, public mapData: MapData) {
-    this.mapData.getMaps().subscribe((maps: any[]) => {
-      this.maps = maps;
+    this.mapData.getDefusalMaps().subscribe((de_maps: any[]) => {
+      this.de_maps = de_maps;
       this.nav.setRoot(WelcomePage);
+    });
+    this.mapData.getHostageMaps().subscribe((cs_maps: any[]) => {
+      this.cs_maps = cs_maps;
+    });
+    this.mapData.getFunMaps().subscribe((fy_maps: any[]) => {
+      this.fy_maps = fy_maps;
     });
   }
 

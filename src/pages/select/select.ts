@@ -14,20 +14,26 @@ import { MapOverviewPage } from '../map-overview/map-overview'
   templateUrl: 'select.html'
 })
 export class SelectPage {
-  private map: Object;
-  private mapname: String;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  public map: any;
+  public strategies_t: any;
+  public strategies_ct: any;
+  public strategies_smoke: any;
+  public strategies_flash: any;
+  public strategies_eco: any;
+  public strategies_teamtactics: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.map = navParams.get("map");
+    this.strategies_t = this.map.t;
+  }
 
   ionViewDidLoad() {
-    this.map = this.navParams.get("map");
-    this.mapname = this.navParams.get("map").mapname;
     console.log('ionViewDidLoad SelectPage');
   }
 
   openMapOverview(option) {
-    let map = this.map
     this.navCtrl.push(MapOverviewPage, {
-      map, option
+      map: this.map, option
     });
   }
 

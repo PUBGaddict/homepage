@@ -13,7 +13,7 @@ import * as d3 from 'd3';
   templateUrl: 'map-overview.html'
 })
 export class MapOverviewPage {
-  private mapname: String;
+  private map: any;
   private option: String;
   private maxWidth: number = 1024;
   private maxHeight: number = 1024;
@@ -27,6 +27,9 @@ export class MapOverviewPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.d3 = d3;
+
+    this.map = navParams.get("map");
+    this.option = navParams.get("option");
   }
 
   createSVG () {
@@ -41,7 +44,7 @@ export class MapOverviewPage {
 
   appendBackgroundImage () {
     this.selBackgroundImage = this.selMap.append("svg:image")
-                     .attr("xlink:href", "assets/img/" + this.mapname + ".png")                     
+                     .attr("xlink:href", "assets/img/" + this.map.mapname + ".png")                     
                      .attr("width", 1024)
                      .attr("height", 1024);
   }
@@ -52,7 +55,7 @@ export class MapOverviewPage {
   */
   appendDataSpots() {
     return new Promise((resolve, reject) => {
-      d3.json("assets/data/" + this.mapname + ".json", (err, data) => {
+      d3.json("assets/data/" + this.map.mapname + ".json", (err, data) => {
         this.selSpots = this.selMap.selectAll(".spot")
           .data(data.spots)
           .enter().append("g")
@@ -94,9 +97,6 @@ export class MapOverviewPage {
   }
 
   ionViewDidLoad() {
-    this.mapname = this.navParams.get("map").mapname;
-    this.option = this.navParams.get("option");
-
     console.log('ionViewDidLoad MapOverviewPage');
 
     this.createSVG();

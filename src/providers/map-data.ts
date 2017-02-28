@@ -21,9 +21,9 @@ export class MapData {
         .map(this.processMaps);
     }
   }
+
   processMaps (data: any) {
     return data.json();
-
   }
   /*processData(data: any) {
     // just some good 'ol JS fun with objects and arrays
@@ -152,10 +152,21 @@ export class MapData {
       return data.map;
     });
   }*/
-  getMaps() {
+  getDefusalMaps() {
       return this.load().map((data: any) => {
-        return data.maps;
+        return data.de_maps;
       });
   }
 
+  getHostageMaps() {
+      return this.load().map((data: any) => {
+        return data.cs_maps;
+      });
+  }
+
+  getFunMaps() {
+      return this.load().map((data: any) => {
+        return data.fy_maps;
+      });
+  }
 }
