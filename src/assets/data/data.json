@@ -1,17 +1,17 @@
 {
     "maps" : [{
-        "title" : "de_dust2"
+        "mapname" : "de_dust2"
     },{
-        "title" : "de_inferno"
+        "mapname" : "de_inferno"
     },{
-        "title" : "de_cache"
+        "mapname" : "de_cache"
     },{
-        "title" : "de_mirage"
+        "mapname" : "de_mirage"
     },{
-        "title" : "de_overpass"
+        "mapname" : "de_overpass"
     },{
-        "title" : "de_train"
+        "mapname" : "de_train"
     },{
-        "title" : "de_cbble"
+        "mapname" : "de_cbble"
     }] 
 }

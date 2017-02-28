@@ -13,7 +13,7 @@ import * as d3 from 'd3';
   templateUrl: 'map-overview.html'
 })
 export class MapOverviewPage {
-  private title: String;
+  private mapname: String;
   private option: String;
   private height: Number;
   private width: Number;
@@ -35,7 +35,7 @@ export class MapOverviewPage {
   }
 
   createSVG () {
-    this.d3sel = d3.select("#d3");
+    this.d3sel = d3.select(".d3");
 
     this.selSvg = this.d3sel.append("svg")
                      .attr("width", this.maxWidth)
@@ -57,7 +57,7 @@ export class MapOverviewPage {
   */
   appendDataSpots() {
     return new Promise((resolve, reject) => {
-      d3.json("assets/data/de_dust2.json", (err, data) => {
+      d3.json("assets/data/" + this.mapname + ".json", (err, data) => {
         this.selSpots = this.selMap.selectAll(".spot")
           .data(data.spots)
           .enter().append("g")
@@ -127,7 +127,7 @@ export class MapOverviewPage {
   }
 
   ionViewDidLoad() {
-    this.title = this.navParams.get("map").title;
+    this.mapname = this.navParams.get("map").mapname;
     this.option = this.navParams.get("option");
 
     console.log('ionViewDidLoad MapOverviewPage');

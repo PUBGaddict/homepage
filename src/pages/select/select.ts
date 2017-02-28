@@ -15,12 +15,12 @@ import { MapOverviewPage } from '../map-overview/map-overview'
 })
 export class SelectPage {
   private map: Object;
-  private title: String;
+  private mapname: String;
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {
     this.map = this.navParams.get("map");
-    this.title = this.navParams.get("map").title;
+    this.mapname = this.navParams.get("map").mapname;
     console.log('ionViewDidLoad SelectPage');
   }
 
