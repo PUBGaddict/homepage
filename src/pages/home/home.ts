@@ -29,8 +29,10 @@ export class HomePage {
     });
   }
 
-  openPage (map) {
-    this.nav.setRoot(SelectPage, {map});
+  openPage (basicmap) {
+    let map = this.mapData.getMap(basicmap.mapname).subscribe((map) : any => {
+      this.nav.setRoot(SelectPage, {map});
+    });
   }
 
 }

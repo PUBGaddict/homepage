@@ -14,18 +14,18 @@ import { MapOverviewPage } from '../map-overview/map-overview'
   templateUrl: 'select.html'
 })
 export class SelectPage {
-  public map: any;
+  public map: any;/*
   public strategies_t: any;
   public strategies_ct: any;
   public strategies_smoke: any;
   public strategies_flash: any;
   public strategies_eco: any;
-  public strategies_teamtactics: any;
+  public strategies_teamtactics: any;*/
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.map = navParams.get("map");
-    this.strategies_t = this.map.t;
-  }
+/*    this.strategies_t = this.map.t;
+*/  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SelectPage');

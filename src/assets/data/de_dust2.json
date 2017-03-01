@@ -1,14 +1,130 @@
 {
-    "spots" : [
+    "t": [
         {
-            "angle": 45,
-            "x": 63,
-            "y": 80
+            "thing": "Rushes",
+            "tutorials": [
+                {}
+            ]
         },
         {
-            "angle": 90,
-            "x": 500,
-            "y": 500
+            "thing": "Peeks",
+            "tutorials": [
+                {}
+            ]
+        },
+        {
+            "thing": "AWP Spots",
+            "tutorials": [
+                {}
+            ]
+        },
+        {
+            "thing": "Bomb Defends",
+            "tutorials": [
+                {}
+            ]
+        },
+        {
+            "thing": "Boosts",
+            "tutorials": []
+        }
+    ],
+    "ct": [
+        {
+            "thing": "Defending Positions",
+            "tutorials": [
+                {}
+            ]
+        },
+        {
+            "thing": "Peeks",
+            "tutorials": [
+                {}
+            ]
+        },
+        {
+            "thing": "AWP Spots",
+            "tutorials": [
+                {}
+            ]
+        },
+        {
+            "thing": "Boosts",
+            "tutorials": []
+        }
+    ],
+    "smoke": [
+        {
+            "thing": "Mid",
+            "tutorials": [
+                {}
+            ]
+        },
+        {
+            "thing": "A",
+            "tutorials": [
+                {}
+            ]
+        },
+        {
+            "thing": "B",
+            "tutorials": [
+                {}
+            ]
+        }
+    ],
+    "flash": [
+        {
+            "thing": "Mid",
+            "tutorials": [
+                {}
+            ]
+        },
+        {
+            "thing": "A",
+            "tutorials": [
+                {}
+            ]
+        },
+        {
+            "thing": "B",
+            "tutorials": [
+                {}
+            ]
+        }
+    ],
+    "eco": [
+        {
+            "thing": "Rush",
+            "tutorials": [
+                {}
+            ]
+        },
+        {
+            "thing": "Stack",
+            "tutorials": [
+                {}
+            ]
+        }
+    ],
+    "teamtactics": [
+        {
+            "thing": "Eco",
+            "tutorials": [
+                {}
+            ]
+        },
+        {
+            "thing": "Fake",
+            "tutorials": [
+                {}
+            ]
+        },
+        {
+            "thing": "Combinations",
+            "tutorials": [
+                {}
+            ]
         }
     ]
 }

@@ -10,10 +10,11 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class MapData {
   data: any;
+  mapCache: any;
 
   constructor(public http: Http) { }
 
-  load(): any {
+  private load(): any {
     if (this.data) {
       return Observable.of(this.data);
     } else {
@@ -25,6 +26,39 @@ export class MapData {
   processMaps (data: any) {
     return data.json();
   }
+
+  private loadMap(mapname: string): any {
+    if (this.mapCache) {
+      return Observable.of(this.mapCache);
+    } else {
+      return this.http.get('assets/data/' + mapname + '.json').map((data) => {return data.json()});
+    }
+  }
+
+  getMap(mapname: string) :any {
+    return this.loadMap(mapname).map((data: any) => {
+      return data;
+    });
+  }
+
+  getDefusalMaps() {
+    return this.load().map((data: any) => {
+      return data.de_maps;
+    });
+  }
+
+  getHostageMaps() {
+      return this.load().map((data: any) => {
+        return data.cs_maps;
+      });
+  }
+
+  getFunMaps() {
+      return this.load().map((data: any) => {
+        return data.fy_maps;
+      });
+  }
+
   /*processData(data: any) {
     // just some good 'ol JS fun with objects and arrays
     // build up the data by linking speakers to sessions
@@ -152,21 +186,5 @@ export class MapData {
       return data.map;
     });
   }*/
-  getDefusalMaps() {
-      return this.load().map((data: any) => {
-        return data.de_maps;
-      });
-  }
 
-  getHostageMaps() {
-      return this.load().map((data: any) => {
-        return data.cs_maps;
-      });
-  }
-
-  getFunMaps() {
-      return this.load().map((data: any) => {
-        return data.fy_maps;
-      });
-  }
 }
