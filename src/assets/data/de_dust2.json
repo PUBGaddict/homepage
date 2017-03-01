@@ -1,74 +1,89 @@
 {
-    "t": [
+    "mapname": "de_dust2",
+    "ct": [
         {
-            "thing": "Rushes",
-            "tutorials": [
-                {}
+            "thing": "Defending Positions",
+            "spots": [
+                {
+                    "angle": 45,
+                    "x": 63,
+                    "y": 80
+                },
+                {
+                    "angle": 90,
+                    "x": 500,
+                    "y": 500
+                }
             ]
         },
         {
             "thing": "Peeks",
-            "tutorials": [
+            "spots": [
                 {}
             ]
         },
         {
             "thing": "AWP Spots",
-            "tutorials": [
+            "spots": [
+                {}
+            ]
+        },
+        {
+            "thing": "Boosts",
+            "spots": [
+                {}
+            ]
+        }
+    ],
+    "t": [
+        {
+            "thing": "Rushes",
+            "spots": [
+                {}
+            ]
+        },
+        {
+            "thing": "Peeks",
+            "spots": [
+                {}
+            ]
+        },
+        {
+            "thing": "AWP Spots",
+            "spots": [
                 {}
             ]
         },
         {
             "thing": "Bomb Defends",
-            "tutorials": [
+            "spots": [
                 {}
             ]
         },
         {
             "thing": "Boosts",
-            "tutorials": []
-        }
-    ],
-    "ct": [
-        {
-            "thing": "Defending Positions",
-            "tutorials": [
+            "spots": [
                 {}
             ]
-        },
-        {
-            "thing": "Peeks",
-            "tutorials": [
-                {}
-            ]
-        },
-        {
-            "thing": "AWP Spots",
-            "tutorials": [
-                {}
-            ]
-        },
-        {
-            "thing": "Boosts",
-            "tutorials": []
         }
     ],
     "smoke": [
         {
             "thing": "Mid",
-            "tutorials": [
+            "spots": [
+                {},
                 {}
             ]
         },
         {
             "thing": "A",
-            "tutorials": [
+            "spots": [
                 {}
             ]
         },
         {
             "thing": "B",
-            "tutorials": [
+            "spots": [
                 {}
             ]
         }
@@ -76,19 +91,19 @@
     "flash": [
         {
             "thing": "Mid",
-            "tutorials": [
+            "spots": [
                 {}
             ]
         },
         {
             "thing": "A",
-            "tutorials": [
+            "spots": [
                 {}
             ]
         },
         {
             "thing": "B",
-            "tutorials": [
+            "spots": [
                 {}
             ]
         }
@@ -96,13 +111,13 @@
     "eco": [
         {
             "thing": "Rush",
-            "tutorials": [
+            "spots": [
                 {}
             ]
         },
         {
             "thing": "Stack",
-            "tutorials": [
+            "spots": [
                 {}
             ]
         }
@@ -110,19 +125,19 @@
     "teamtactics": [
         {
             "thing": "Eco",
-            "tutorials": [
+            "spots": [
                 {}
             ]
         },
         {
             "thing": "Fake",
-            "tutorials": [
+            "spots": [
                 {}
             ]
         },
         {
             "thing": "Combinations",
-            "tutorials": [
+            "spots": [
                 {}
             ]
         }

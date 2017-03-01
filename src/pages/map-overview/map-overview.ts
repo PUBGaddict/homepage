@@ -13,8 +13,8 @@ import * as d3 from 'd3';
   templateUrl: 'map-overview.html'
 })
 export class MapOverviewPage {
-  private map: any;
-  private option: String;
+  private strategy: any;
+  private mapData: any;
   private maxWidth: number = 1024;
   private maxHeight: number = 1024;
   private selBackgroundImage: any;
@@ -28,8 +28,8 @@ export class MapOverviewPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.d3 = d3;
 
-    this.map = navParams.get("map");
-    this.option = navParams.get("option");
+    this.mapData = navParams.get("map");
+    this.strategy = navParams.get("strategy");
   }
 
   createSVG () {
@@ -44,20 +44,19 @@ export class MapOverviewPage {
 
   appendBackgroundImage () {
     this.selBackgroundImage = this.selMap.append("svg:image")
-                     .attr("xlink:href", "assets/img/" + this.map.mapname + ".png")                     
+                     .attr("xlink:href", "assets/img/" + this.mapData.mapname + ".png")                     
                      .attr("width", 1024)
                      .attr("height", 1024);
   }
-
 
   /*
   // returns a promise while loading the file so that we can easy chain
   */
   appendDataSpots() {
-    return new Promise((resolve, reject) => {
-      d3.json("assets/data/" + this.map.mapname + ".json", (err, data) => {
+   // return new Promise((resolve, reject) => {
+     // d3.json("assets/data/" + this.mapData.mapname + ".json", (err, data) => {
         this.selSpots = this.selMap.selectAll(".spot")
-          .data(data.spots)
+          .data(this.strategy.spots)
           .enter().append("g")
               .classed("spot", true)
               .attr("transform", function(d) { return "translate(" + this.xScale(d.x) + "," + this.yScale(d.y) + ") rotate(" + d.angle + " 25 25)"; }.bind(this))
@@ -79,9 +78,9 @@ export class MapOverviewPage {
             .attr("transform", "translate(25,40)")
             .classed("player-view", true);
         
-        resolve();
-      });
-    });
+    //    resolve();
+     // });
+ //   });
   }
 
   createScale() {
@@ -104,11 +103,12 @@ export class MapOverviewPage {
     this.createScale();
 
     // this needs a promise, otherwise render happens too early and our data is not loaded yet.
-    this.appendDataSpots().then(() => {
+    //this.appendDataSpots().then(() => {
+      this.appendDataSpots();
       this.render();
 
       window.addEventListener('resize', this.render.bind(this));
-    });
+    //});
 
   }
 

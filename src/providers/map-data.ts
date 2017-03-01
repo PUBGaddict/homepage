@@ -10,7 +10,7 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class MapData {
   data: any;
-  mapCache: any;
+  private mapCache: any = {};
 
   constructor(public http: Http) { }
 
@@ -24,21 +24,27 @@ export class MapData {
   }
 
   processMaps (data: any) {
-    return data.json();
+    this.data = data;
+    return this.data.json();
   }
 
-  private loadMap(mapname: string): any {
-    if (this.mapCache) {
-      return Observable.of(this.mapCache);
+  private loadMap(mapname: string): Observable<any> {
+    if (this.mapCache[mapname]) {
+      return Observable.of(this.mapCache[mapname]);
     } else {
-      return this.http.get('assets/data/' + mapname + '.json').map((data) => {return data.json()});
+      return this.http.get('assets/data/' + mapname + '.json')
+        .map(this.processMapData.bind(this));
     }
   }
 
+  processMapData (data: any) {
+    let map = data.json();
+    this.mapCache[map.mapname] = map;
+    return map || { };
+  }
+     
   getMap(mapname: string) :any {
-    return this.loadMap(mapname).map((data: any) => {
-      return data;
-    });
+    return this.loadMap(mapname);
   }
 
   getDefusalMaps() {

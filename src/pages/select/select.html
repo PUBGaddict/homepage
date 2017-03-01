@@ -10,24 +10,24 @@
 <ion-content class="card-background-page">
   <ion-list>
     <ion-list-header>
-      T Stuff
-    </ion-list-header>
-
-    <ion-card *ngFor="let strategy of map.t" class="card" (click)="openMapOverview('T Positions')"> 
-      <div class="card-content">
-        <img src="assets/img/csgo_t.png" />
-        <div class="card-title">{{strategy.thing}}</div>
-        <div class="card-subtitle">{{strategy.tutorials.length}} Listings</div>
-      </div>
-    </ion-card>
-    <ion-list-header>
       CT Stuff
     </ion-list-header>
-    <ion-card *ngFor="let strategy of map.ct" (click)="openMapOverview('CT Positions')">
+
+    <ion-card *ngFor="let strategy of map.ct" class="card" (click)="openMapOverview(strategy)"> 
       <div class="card-content">
         <img src="assets/img/csgo_ct.png" />
         <div class="card-title">{{strategy.thing}}</div>
-        <div class="card-subtitle">{{strategy.tutorials.length}} Listings</div>
+        <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
+      </div>
+    </ion-card>
+    <ion-list-header>
+      T Stuff
+    </ion-list-header>
+    <ion-card *ngFor="let strategy of map.t" (click)="openMapOverview(strategy)">
+      <div class="card-content">
+        <img src="assets/img/csgo_t.png" />
+        <div class="card-title">{{strategy.thing}}</div>
+        <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
       </div>
     </ion-card>
     <ion-list-header>
@@ -37,7 +37,7 @@
       <div class="card-content">
         <img src="assets/img/csgo_smoke.png" />
         <div class="card-title">{{strategy.thing}}</div>
-        <div class="card-subtitle">{{strategy.tutorials.length}} Listings</div>
+        <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
       </div>
     </ion-card>
     <ion-list-header>
@@ -47,7 +47,7 @@
       <div class="card-content">
         <img src="assets/img/csgo_flash.png" />
         <div class="card-title">{{strategy.thing}}</div>
-        <div class="card-subtitle">{{strategy.tutorials.length}} Listings</div>
+        <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
       </div>
     </ion-card>
     <ion-list-header>
@@ -57,7 +57,7 @@
       <div class="card-content">
         <img src="assets/img/csgo_ct.png" />
         <div class="card-title">{{strategy.thing}}</div>
-        <div class="card-subtitle">{{strategy.tutorials.length}} Listings</div>
+        <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
       </div>
     </ion-card>
     <ion-list-header>
@@ -67,7 +67,7 @@
       <div class="card-content">
         <img src="assets/img/csgo_ct.png" />
         <div class="card-title">{{strategy.thing}}</div>
-        <div class="card-subtitle">{{strategy.tutorials.length}} Listings</div>
+        <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
       </div>
     </ion-card>
   </ion-list> 

@@ -30,7 +30,8 @@ export class HomePage {
   }
 
   openPage (basicmap) {
-    let map = this.mapData.getMap(basicmap.mapname).subscribe((map) : any => {
+    this.mapData.getMap(basicmap.mapname).subscribe((map) => {
+      debugger;
       this.nav.setRoot(SelectPage, {map});
     });
   }
