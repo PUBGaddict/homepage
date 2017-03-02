@@ -3,11 +3,20 @@ page-map-overview {
         fill: transparent;
         stroke-width:1;
         stroke:darkslateblue;
+        pointer-events: none;
     }
     .player {
         fill: blue;
+        &:hover {
+            fill:red;
+            stroke: white;
+            stroke-width: 1;
+            cursor: pointer;
+        }
     }
     .player-view {
+        opacity: .2;
         fill: lightblue;
+        pointer-events: none;
     }
 }

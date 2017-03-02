@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+
+import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
+
 import * as d3 from 'd3';
 
 /*
@@ -49,38 +52,34 @@ export class MapOverviewPage {
                      .attr("height", 1024);
   }
 
-  /*
-  // returns a promise while loading the file so that we can easy chain
-  */
   appendDataSpots() {
-   // return new Promise((resolve, reject) => {
-     // d3.json("assets/data/" + this.mapData.mapname + ".json", (err, data) => {
-        this.selSpots = this.selMap.selectAll(".spot")
-          .data(this.strategy.spots)
-          .enter().append("g")
-              .classed("spot", true)
-              .attr("transform", function(d) { return "translate(" + this.xScale(d.x) + "," + this.yScale(d.y) + ") rotate(" + d.angle + " 25 25)"; }.bind(this))
-        this.selSpots.append("circle")
-            .attr("cx", 25)
-            .attr("cy", 25)
-            .attr("r", 25)
-            .classed("turn-indicator", true);
-        this.selSpots.append("circle")
-            .attr("transform", "translate(15,15)")
-            .attr("cx", 10)
-            .attr("cy", 10)
-            .attr("r", 4)
-            .classed("player", true);
-        this.selSpots.append("path")
-            .attr("d", d3.symbol()
-              .size(function(d) { return 200; } )
-              .type(function(d) { return d3.symbolTriangle; } ))
-            .attr("transform", "translate(25,40)")
-            .classed("player-view", true);
-        
-    //    resolve();
-     // });
- //   });
+    this.selSpots = this.selMap.selectAll(".spot")
+      .data(this.strategy.spots)
+      .enter().append("g")
+          .classed("spot", true)
+          .attr("transform", function(d) { return "translate(" + this.xScale(d.x) + "," + this.yScale(d.y) + ") rotate(" + d.angle + " 25 25)"; }.bind(this))
+    this.selSpots.append("circle")
+        .attr("cx", 25)
+        .attr("cy", 25)
+        .attr("r", 25)
+        .classed("turn-indicator", true);
+    this.selSpots.append("circle")
+        .attr("transform", "translate(15,15)")
+        .attr("cx", 10)
+        .attr("cy", 10)
+        .attr("r", 7)
+        .classed("player", true)
+        .on("click", this.openPage.bind(this));
+    this.selSpots.append("path")
+        .attr("d", d3.symbol()
+          .size(function(d) { return 700; } )
+          .type(function(d) { return d3.symbolTriangle; } ))
+        .attr("transform", "translate(25,50)")
+        .classed("player-view", true);
+  }
+
+  openPage (strategy) {
+    this.navCtrl.push(StrategyDetailPage, {strategy});
   }
 
   createScale() {

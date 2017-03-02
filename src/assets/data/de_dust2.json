@@ -5,7 +5,8 @@
             "thing": "Defending Positions",
             "spots": [
                 {
-                    "angle": 45,
+                    "title" : "AWP aiming B tunnels",
+                    "angle": 90,
                     "x": 63,
                     "y": 80
                 },

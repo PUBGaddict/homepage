@@ -31,7 +31,6 @@ export class HomePage {
 
   openPage (basicmap) {
     this.mapData.getMap(basicmap.mapname).subscribe((map) => {
-      debugger;
       this.nav.setRoot(SelectPage, {map});
     });
   }
