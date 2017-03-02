@@ -1,18 +1,39 @@
-<!--
-  Generated template for the StrategyDetail page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
     <ion-title>{{strategy.title}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
+<ion-content padding #container>
+  <ion-list no-lines>
 
-<ion-content padding>
-
+    <h4>{{strategy.title}}</h4>
+    <ion-label color="primary">Rating</ion-label>
+    <p>{{strategy.rating}}/10</p>
+    <ion-label color="primary">Difficulty</ion-label>
+    <p>{{strategy.difficulty}}/10</p>
+    <ion-label color="primary">Description</ion-label>
+    <p>{{strategy.description}}</p>
+    <ion-label color="primary">Pros &amp; Cons</ion-label>
+    <ion-item>
+      <div class="pros-box">
+        <ul>
+          <li *ngFor="let pro of strategy.pros">
+            <p>{{pro}}</p>
+          </li>
+        </ul>
+      </div>
+      <div class="cons-box">
+        <ul>
+          <li *ngFor="let con of strategy.cons">
+            <p>{{con}}</p>
+          </li>
+        </ul>
+      </div>
+    </ion-item>
+    <ion-label color="primary">Screens</ion-label>
+    <ion-img width="100%" height="{{height}}" *ngFor="let img of strategy.pictures" class="screenshot" src="assets/img/{{img}}"> </ion-img>
+  </ion-list>
+  <div>
+  </div>
 </ion-content>
