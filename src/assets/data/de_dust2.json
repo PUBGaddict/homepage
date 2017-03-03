@@ -77,6 +77,44 @@
                     "pictures" : [
                         "de_dust2/de_dust20004.jpg"
                     ]
+                },{
+                    "title" : "Climb the quad behind B tunnels",
+                    "description" : "Smoke tunnels and run there, then climb the squad. If they sneak out you usually get at least one before jumping down.",
+                    "rating" : "5",
+                    "difficulty" : "5",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "very surprisive if the enemy has no clue", "allows escape if you are covered by a mate", "safe to reach with a smoke"
+                    ],
+                    "cons" : [
+                        "only usable once every some rounds", "takes time and some practice", "if they rush the may catch you while climbing"
+                    ],
+                    "angle": 70,
+                    "x": 115,
+                    "y": 325,
+                    "pictures" : [
+                        "de_dust2/de_dust20005.jpg", "de_dust2/de_dust20006.jpg"
+                    ]
+                },{
+                    "title" : "Aim B tunnels covering behind the quad that sits onspot",
+                    "description" : "One of the safest ways to hold B. Cover behind the quad that sits onspot and peek into B tunnels. Usually your mate on plateau is supporting you with the information if the enemy is coming. Usually they go for your mate first (because they see him first), thats where you can play out your advantage.",
+                    "rating" : "8",
+                    "difficulty" : "2",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "very safe position",
+                        "can support your mate",
+                        "easy to reach"
+                    ],
+                    "cons" : [
+                        "kind of obvious"
+                    ],
+                    "angle": 25,
+                    "x": 157,
+                    "y": 150,
+                    "pictures" : [
+                        "de_dust2/de_dust20007.jpg"
+                    ]
                 }
             ]
         },
