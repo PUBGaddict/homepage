@@ -5,7 +5,7 @@
             "thing": "Defending Positions",
             "spots": [
                 {
-                    "title" : "Aiming B Tunnels from Platform",
+                    "title" : "Aiming B Tunnels from B Platform",
                     "description" : "Just position yourself behind the box, and peek into B Tunnels. Make sure you are not standing directly behind the box, but some steps away from it to make sure you are not visible to double doors or window. Duck while waiting and peek every some seconds to make sure no one gets through.",
                     "rating" : "5",
                     "difficulty" : "2",
@@ -18,15 +18,65 @@
                     ],
                     "angle": 0,
                     "x": 63,
-                    "y": 80,
+                    "y": 50,
                     "pictures" : [
                         "de_dust2/de_dust20033.jpg"
                     ]
                 },
                 {
-                    "angle": 90,
-                    "x": 500,
-                    "y": 500
+                    "title" : "Aiming B Tunnels from B Platform behind Quad",
+                    "description" : "Just position yourself directly behind the box, and peek into B Tunnels. Stay in safety and peek every some seconds.",
+                    "rating" : "8",
+                    "difficulty" : "2",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "safe to reach", "easy to open from", "not accessible/peekable from other spots"
+                    ],
+                    "cons" : [
+                        "hard to escape if they rush"
+                    ],
+                    "angle": 20,
+                    "x": 115,
+                    "y": 175,
+                    "pictures" : [
+                        "de_dust2/de_dust20002.jpg"
+                    ]
+                },{
+                    "title" : "Corner directly behind B Tunnels",
+                    "description" : "Smoke tunnels and move silently to the corner. Stay there without making a sound. Wait until the first tries to sneak out.",
+                    "rating" : "4",
+                    "difficulty" : "2",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "safe to reach with smoke", "easy to open from"
+                    ],
+                    "cons" : [
+                        "they can peek the corner and kill you first", "hard to hold if there are multiple enemies"
+                    ],
+                    "angle": 280,
+                    "x": 42,
+                    "y": 325,
+                    "pictures" : [
+                        "de_dust2/de_dust20003.jpg"
+                    ]
+                },{
+                    "title" : "Hide behind doorpost",
+                    "description" : "Smoke tunnels and run there, then hide behind the doorpost. If you spot someone moving, shoot him and peek into tunnels to surprise possible others.",
+                    "rating" : "3",
+                    "difficulty" : "2",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "safe to reach with smoke", "can suprise enemies"
+                    ],
+                    "cons" : [
+                        "small to no cover if the spot you", "peekable from mid"
+                    ],
+                    "angle": 330,
+                    "x": 30,
+                    "y": 260,
+                    "pictures" : [
+                        "de_dust2/de_dust20004.jpg"
+                    ]
                 }
             ]
         },
