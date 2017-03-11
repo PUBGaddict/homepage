@@ -115,6 +115,43 @@
                     "pictures" : [
                         "de_dust2/de_dust20007.jpg"
                     ]
+                },{
+                    "title" : "Aim B tunnels while crouching behind the quad that sits on plateau",
+                    "description" : "Its possible to take an easy firstfrag from here, but if there are more enemies, you will probably have trouble leaving this place due to the crouching",
+                    "rating" : "3",
+                    "difficulty" : "2",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "possibility for a firstfrag"
+                    ],
+                    "cons" : [
+                        "hard to escape",
+                        "not to recommend for possible rushes/ecos"
+                    ],
+                    "angle": 25,
+                    "x": 130,
+                    "y": 185,
+                    "pictures" : [
+                        "de_dust2/de_dust20009.jpg"
+                    ]
+                },{
+                    "title" : "Aim B tunnels from the quad under window",
+                    "description" : "Save position to cover B tunnels or wait on the spot until they try to plant to go for a late suprise",
+                    "rating" : "7",
+                    "difficulty" : "2",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Safe spot if you are together with a mate"
+                    ],
+                    "cons" : [
+                        "hard to escape"
+                    ],
+                    "angle": 30,
+                    "x": 200,
+                    "y": 130,
+                    "pictures" : [
+                        "de_dust2/de_dust20008.jpg"
+                    ]
                 }
             ]
         },
