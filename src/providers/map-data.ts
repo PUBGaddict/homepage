@@ -49,13 +49,26 @@ export class MapData {
 
   getStrategyForIntentionOnMap (map: any, intentionName: string, strategyId: string) {
     if (!map || !intentionName || !strategyId) {
-      return;
+      return {};
     }
 
     let intention = map[intentionName];
     for (let strategy of intention) {
       if (strategy.id === strategyId) {
         return strategy;
+      }
+    }
+    return {};
+  }
+
+  getSpotFromStrategy (strategy: any, spotId: string) {
+    if (!strategy || !spotId) {
+      return {};
+    }
+
+    for (let spot of strategy.spots) {
+      if (spot.id === spotId) {
+        return spot;
       }
     }
     return {};

@@ -34,13 +34,14 @@ export class MapOverviewPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
     this.d3 = d3;
-    this.mapName = navParams.get("mapname");
+    this.mapName = navParams.get("mapName");
     this.strategyId = navParams.get("strategyId");
     this.intentionName = navParams.get("intentionName");
 
+    var that = this;
     this.mapData.getMap(this.mapName).subscribe(map => {
-      this.map = map;
-      this.strategy = mapData.getStrategyForIntentionOnMap(map, this.intentionName, this.strategyId);
+      that.map = map;
+      that.strategy = mapData.getStrategyForIntentionOnMap(map, that.intentionName, that.strategyId);
     });
   }
 
@@ -87,8 +88,15 @@ export class MapOverviewPage {
         .classed("player-view", true);
   }
 
-  openPage (strategy) {
-    this.navCtrl.push(StrategyDetailPage, {strategy});
+  openPage (spot) {
+    debugger;
+    this.navCtrl.push(StrategyDetailPage, {
+      mapName: this.mapName,
+      strategyId: this.strategyId,
+      intentionName: this.intentionName,
+      spotId: spot.id
+    });
+
   }
 
   createScale() {

@@ -30,7 +30,9 @@ export class HomePage {
   }
 
   openPage (basicmap) {
-    this.nav.setRoot(SelectPage, {mapname: basicmap.mapname});
+    this.nav.setRoot(SelectPage, {
+      mapName: basicmap.mapname
+    });
   }
 
 }
