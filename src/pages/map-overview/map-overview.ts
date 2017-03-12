@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { MapData } from '../../providers/map-data';
 
 import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
 
@@ -16,8 +17,11 @@ import * as d3 from 'd3';
   templateUrl: 'map-overview.html'
 })
 export class MapOverviewPage {
+  private strategyId: string;
   private strategy: any;
-  private mapData: any;
+  private intentionName: any;
+  private map: any;
+  private mapName: string;
   private maxWidth: number = 1024;
   private maxHeight: number = 1024;
   private selBackgroundImage: any;
@@ -28,11 +32,17 @@ export class MapOverviewPage {
   private yScale: any;
   private d3: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
     this.d3 = d3;
+    this.mapName = navParams.get("mapName");
+    this.strategyId = navParams.get("strategyId");
+    this.intentionName = navParams.get("intentionName");
 
-    this.mapData = navParams.get("map");
-    this.strategy = navParams.get("strategy");
+    var that = this;
+    this.mapData.getMap(this.mapName).subscribe(map => {
+      that.map = map;
+      that.strategy = mapData.getStrategyForIntentionOnMap(map, that.intentionName, that.strategyId);
+    });
   }
 
   createSVG () {
@@ -47,7 +57,7 @@ export class MapOverviewPage {
 
   appendBackgroundImage () {
     this.selBackgroundImage = this.selMap.append("svg:image")
-                     .attr("xlink:href", "assets/img/" + this.mapData.mapname + ".png")                     
+                     .attr("xlink:href", "assets/img/" + this.map.mapname + ".png")                     
                      .attr("width", 1024)
                      .attr("height", 1024);
   }
@@ -78,8 +88,15 @@ export class MapOverviewPage {
         .classed("player-view", true);
   }
 
-  openPage (strategy) {
-    this.navCtrl.push(StrategyDetailPage, {strategy});
+  openPage (spot) {
+    debugger;
+    this.navCtrl.push(StrategyDetailPage, {
+      mapName: this.mapName,
+      strategyId: this.strategyId,
+      intentionName: this.intentionName,
+      spotId: spot.id
+    });
+
   }
 
   createScale() {

@@ -2,9 +2,11 @@
     "mapname": "de_dust2",
     "ct": [
         {
-            "thing": "Defending Positions",
+            "id": "defending_positions",
+            "name" : "Defending Positions",
             "spots": [
                 {
+                    "id": 2000,
                     "title" : "Aiming B Tunnels from B Platform",
                     "description" : "Just position yourself behind the box, and peek into B Tunnels. Make sure you are not standing directly behind the box, but some steps away from it to make sure you are not visible to double doors or window. Duck while waiting and peek every some seconds to make sure no one gets through.",
                     "rating" : "5",
@@ -24,6 +26,7 @@
                     ]
                 },
                 {
+                    "id": 2001,
                     "title" : "Aiming B Tunnels from B Platform behind Quad",
                     "description" : "Just position yourself directly behind the box, and peek into B Tunnels. Stay in safety and peek every some seconds.",
                     "rating" : "8",
@@ -42,6 +45,7 @@
                         "de_dust2/de_dust20002.jpg"
                     ]
                 },{
+                    "id": 2002,
                     "title" : "Corner directly behind B Tunnels",
                     "description" : "Smoke tunnels and move silently to the corner. Stay there without making a sound. Wait until the first tries to sneak out.",
                     "rating" : "4",
@@ -60,6 +64,7 @@
                         "de_dust2/de_dust20003.jpg"
                     ]
                 },{
+                    "id": 2003,
                     "title" : "Hide behind doorpost",
                     "description" : "Smoke tunnels and run there, then hide behind the doorpost. If you spot someone moving, shoot him and peek into tunnels to surprise possible others.",
                     "rating" : "3",
@@ -78,6 +83,7 @@
                         "de_dust2/de_dust20004.jpg"
                     ]
                 },{
+                    "id": 2004,
                     "title" : "Climb the quad behind B tunnels",
                     "description" : "Smoke tunnels and run there, then climb the squad. If they sneak out you usually get at least one before jumping down.",
                     "rating" : "5",
@@ -96,6 +102,7 @@
                         "de_dust2/de_dust20005.jpg", "de_dust2/de_dust20006.jpg"
                     ]
                 },{
+                    "id": 2005,
                     "title" : "Aim B tunnels covering behind the quad that sits onspot",
                     "description" : "One of the safest ways to hold B. Cover behind the quad that sits onspot and peek into B tunnels. Usually your mate on plateau is supporting you with the information if the enemy is coming. Usually they go for your mate first (because they see him first), thats where you can play out your advantage.",
                     "rating" : "8",
@@ -116,6 +123,7 @@
                         "de_dust2/de_dust20007.jpg"
                     ]
                 },{
+                    "id": 2006,
                     "title" : "Aim B tunnels while crouching behind the quad that sits on plateau",
                     "description" : "Its possible to take an easy firstfrag from here, but if there are more enemies, you will probably have trouble leaving this place due to the crouching",
                     "rating" : "3",
@@ -135,6 +143,7 @@
                         "de_dust2/de_dust20009.jpg"
                     ]
                 },{
+                    "id": 2007,                    
                     "title" : "Aim B tunnels from the quad under window",
                     "description" : "Save position to cover B tunnels or wait on the spot until they try to plant to go for a late suprise",
                     "rating" : "7",
@@ -156,19 +165,22 @@
             ]
         },
         {
-            "thing": "Peeks",
+            "id" : "peeks",
+            "name": "Peeks",
             "spots": [
                 {}
             ]
         },
         {
-            "thing": "AWP Spots",
+            "id" : "awp_spots",
+            "name": "AWP Spots",
             "spots": [
                 {}
             ]
         },
         {
-            "thing": "Boosts",
+            "id" : "boosts",
+            "name": "Boosts",
             "spots": [
                 {}
             ]
@@ -176,31 +188,36 @@
     ],
     "t": [
         {
-            "thing": "Rushes",
+            "id" : "rushs",
+            "name": "Rushes",
             "spots": [
                 {}
             ]
         },
         {
-            "thing": "Peeks",
+            "id" : "peeks",
+            "name": "Peeks",
             "spots": [
                 {}
             ]
         },
         {
-            "thing": "AWP Spots",
+            "id" : "awp_spots",
+            "name": "AWP Spots",
             "spots": [
                 {}
             ]
         },
         {
-            "thing": "Bomb Defends",
+            "id" : "bomb_defends",
+            "name": "Bomb Defends",
             "spots": [
                 {}
             ]
         },
         {
-            "thing": "Boosts",
+            "id" : "boosts",
+            "name": "Boosts",
             "spots": [
                 {}
             ]
@@ -208,20 +225,23 @@
     ],
     "smoke": [
         {
-            "thing": "Mid",
+            "id" : "mid",
+            "name": "Mid",
             "spots": [
                 {},
                 {}
             ]
         },
         {
-            "thing": "A",
+            "id" : "a",
+            "name": "A",
             "spots": [
                 {}
             ]
         },
         {
-            "thing": "B",
+            "id" : "b",
+            "name": "B",
             "spots": [
                 {}
             ]
@@ -229,19 +249,22 @@
     ],
     "flash": [
         {
-            "thing": "Mid",
+            "id" : "mid",
+            "name": "Mid",
             "spots": [
                 {}
             ]
         },
         {
-            "thing": "A",
+            "id" : "a",
+            "name": "A",
             "spots": [
                 {}
             ]
         },
         {
-            "thing": "B",
+            "id" : "b",
+            "name": "B",
             "spots": [
                 {}
             ]
@@ -249,13 +272,15 @@
     ],
     "eco": [
         {
-            "thing": "Rush",
+            "id" : "rushs",
+            "name": "Rush",
             "spots": [
                 {}
             ]
         },
         {
-            "thing": "Stack",
+            "id" : "stacks",
+            "name": "Stack",
             "spots": [
                 {}
             ]
@@ -263,19 +288,22 @@
     ],
     "teamtactics": [
         {
-            "thing": "Eco",
+            "id" : "ecos",
+            "name": "Eco",
             "spots": [
                 {}
             ]
         },
         {
-            "thing": "Fake",
+            "id" : "fakes",
+            "name": "Fake",
             "spots": [
                 {}
             ]
         },
         {
-            "thing": "Combinations",
+            "id" : "combinations",
+            "name": "Combinations",
             "spots": [
                 {}
             ]

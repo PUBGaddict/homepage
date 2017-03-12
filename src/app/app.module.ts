@@ -20,7 +20,11 @@ import { MapData } from '../providers/map-data';
     StrategyDetailPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp, {}, {
+     links: [
+       { component: SelectPage, name: 'Select', segment: 'map/:mapName' }
+     ]
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{map.mapname}}</ion-title>
+    <ion-title>{{mapName}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -13,20 +13,20 @@
       CT Stuff
     </ion-list-header>
 
-    <ion-card *ngFor="let strategy of map.ct" class="card" (click)="openMapOverview(strategy)"> 
+    <ion-card *ngFor="let strategy of map.ct" class="card" (click)="openMapOverview(strategy.id, 'ct')"> 
       <div class="card-content">
         <img src="assets/img/csgo_ct.png" />
-        <div class="card-title">{{strategy.thing}}</div>
+        <div class="card-title">{{strategy.name}}</div>
         <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
       </div>
     </ion-card>
-    <ion-list-header>
+   <ion-list-header>
       T Stuff
     </ion-list-header>
     <ion-card *ngFor="let strategy of map.t" (click)="openMapOverview(strategy)">
       <div class="card-content">
         <img src="assets/img/csgo_t.png" />
-        <div class="card-title">{{strategy.thing}}</div>
+        <div class="card-title">{{strategy.name}}</div>
         <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
       </div>
     </ion-card>
@@ -36,7 +36,7 @@
     <ion-card *ngFor="let strategy of map.smoke" (click)="openMapOverview('CT Positions')">
       <div class="card-content">
         <img src="assets/img/csgo_smoke.png" />
-        <div class="card-title">{{strategy.thing}}</div>
+        <div class="card-title">{{strategy.name}}</div>
         <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
       </div>
     </ion-card>
@@ -46,7 +46,7 @@
     <ion-card *ngFor="let strategy of map.flash" (click)="openMapOverview('CT Positions')">
       <div class="card-content">
         <img src="assets/img/csgo_flash.png" />
-        <div class="card-title">{{strategy.thing}}</div>
+        <div class="card-title">{{strategy.name}}</div>
         <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
       </div>
     </ion-card>
@@ -56,7 +56,7 @@
     <ion-card *ngFor="let strategy of map.eco" (click)="openMapOverview('CT Positions')">
       <div class="card-content">
         <img src="assets/img/csgo_ct.png" />
-        <div class="card-title">{{strategy.thing}}</div>
+        <div class="card-title">{{strategy.name}}</div>
         <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
       </div>
     </ion-card>
@@ -66,7 +66,7 @@
     <ion-card *ngFor="let strategy of map.teamtactics" (click)="openMapOverview('CT Positions')">
       <div class="card-content">
         <img src="assets/img/csgo_ct.png" />
-        <div class="card-title">{{strategy.thing}}</div>
+        <div class="card-title">{{strategy.name}}</div>
         <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
       </div>
     </ion-card>
