@@ -13,14 +13,14 @@
       CT Stuff
     </ion-list-header>
 
-    <ion-card *ngFor="let strategy of ct" class="card" (click)="openMapOverview(strategy)"> 
+    <ion-card *ngFor="let strategy of map.ct" class="card" (click)="openMapOverview(strategy)"> 
       <div class="card-content">
         <img src="assets/img/csgo_ct.png" />
         <div class="card-title">{{strategy.thing}}</div>
         <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
       </div>
     </ion-card>
-   <!-- <ion-list-header>
+   <ion-list-header>
       T Stuff
     </ion-list-header>
     <ion-card *ngFor="let strategy of map.t" (click)="openMapOverview(strategy)">
@@ -69,6 +69,6 @@
         <div class="card-title">{{strategy.thing}}</div>
         <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
       </div>
-    </ion-card>-->
+    </ion-card>
   </ion-list> 
 </ion-content>

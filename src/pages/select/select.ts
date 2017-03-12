@@ -15,22 +15,21 @@ import { MapOverviewPage } from '../map-overview/map-overview'
   templateUrl: 'select.html'
 })
 export class SelectPage {
-  public map: any;
   public mapname: string;
-  public ct = [];
+  public map = {
+    ct: [],
+    t: [],
+    smoke: [],
+    flash: [],
+    eco: [],
+    teamtactics: []
+  };
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
     this.mapname = navParams.get("mapname");
-    var that = this;
-    this.mapData.getMap(this.mapname).subscribe(result => {
-      debugger;
-      that.ct = result.json().ct;
-    });
-    
-    /*.subscribe((map) => {
+    this.mapData.getMap(this.mapname).subscribe(map => {
       this.map = map;
-      //this.nav.setRoot(SelectPage, {map});
-    });*/
+    });
   }
 
   ionViewDidLoad() {
@@ -38,8 +37,9 @@ export class SelectPage {
   }
 
   openMapOverview(strategy) {
+    debugger;
     this.navCtrl.push(MapOverviewPage, {
-      map: this.map, strategy
+      mapname: this.mapname, strategy
     });
   }
 
