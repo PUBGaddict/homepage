@@ -46,13 +46,23 @@ export class MapData {
   getMap(mapname: string) : Observable<any> {
     return this.loadMap(mapname);
   }
+  
+  getIntentionFromMap (map: any, intentionName: string) {
+    if (!map || !intentionName) {
+      return;
+    }
 
-  getStrategyForIntentionOnMap (map: any, intentionName: string, strategyId: string) {
-    if (!map || !intentionName || !strategyId) {
+    if (!!map[intentionName]) {
+      return map[intentionName];
+    }
+    return {};
+  }
+
+  getStrategyFromIntention (intention: any, strategyId: string) {
+    if (!intention || !strategyId) {
       return {};
     }
 
-    let intention = map[intentionName];
     for (let strategy of intention) {
       if (strategy.id === strategyId) {
         return strategy;

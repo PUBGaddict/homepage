@@ -113,7 +113,9 @@ export class MapOverviewPage {
 
     this.mapData.getMap(this.mapName).subscribe(map => {
       this.map = map;
-      this.strategy = this.mapData.getStrategyForIntentionOnMap(map, this.intentionName, this.strategyId);
+
+      let intention = this.mapData.getIntentionFromMap(map, this.intentionName);
+      this.strategy = this.mapData.getStrategyFromIntention(intention, this.strategyId);
       
       this.createSVG();
       this.appendBackgroundImage();
