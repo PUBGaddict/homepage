@@ -2,7 +2,8 @@
     "mapname": "de_dust2",
     "ct": [
         {
-            "thing": "Defending Positions",
+            "strategy": "defending_positions",
+            "name" : "Defending Positions",
             "spots": [
                 {
                     "title" : "Aiming B Tunnels from B Platform",
@@ -156,18 +157,21 @@
             ]
         },
         {
-            "thing": "Peeks",
+            "strategy" : "peeks",
+            "name": "Peeks",
             "spots": [
                 {}
             ]
         },
         {
+            "strategy" : "awp_spots",
             "thing": "AWP Spots",
             "spots": [
                 {}
             ]
         },
         {
+            "strategy" : "boosts",
             "thing": "Boosts",
             "spots": [
                 {}
@@ -176,30 +180,35 @@
     ],
     "t": [
         {
+            "strategy" : "rushs",
             "thing": "Rushes",
             "spots": [
                 {}
             ]
         },
         {
+            "strategy" : "peeks",
             "thing": "Peeks",
             "spots": [
                 {}
             ]
         },
         {
+            "strategy" : "awp_spots",
             "thing": "AWP Spots",
             "spots": [
                 {}
             ]
         },
         {
+            "strategy" : "bomb_defends",
             "thing": "Bomb Defends",
             "spots": [
                 {}
             ]
         },
         {
+            "strategy" : "boosts",
             "thing": "Boosts",
             "spots": [
                 {}
@@ -208,6 +217,7 @@
     ],
     "smoke": [
         {
+            "strategy" : "mid",
             "thing": "Mid",
             "spots": [
                 {},
@@ -215,12 +225,14 @@
             ]
         },
         {
+            "strategy" : "a",
             "thing": "A",
             "spots": [
                 {}
             ]
         },
         {
+            "strategy" : "b",
             "thing": "B",
             "spots": [
                 {}
@@ -229,18 +241,21 @@
     ],
     "flash": [
         {
+            "strategy" : "mid",
             "thing": "Mid",
             "spots": [
                 {}
             ]
         },
         {
+            "strategy" : "a",
             "thing": "A",
             "spots": [
                 {}
             ]
         },
         {
+            "strategy" : "b",
             "thing": "B",
             "spots": [
                 {}
@@ -249,12 +264,14 @@
     ],
     "eco": [
         {
+            "strategy" : "rushs",
             "thing": "Rush",
             "spots": [
                 {}
             ]
         },
         {
+            "strategy" : "stacks",
             "thing": "Stack",
             "spots": [
                 {}
@@ -263,18 +280,21 @@
     ],
     "teamtactics": [
         {
+            "strategy" : "ecos",
             "thing": "Eco",
             "spots": [
                 {}
             ]
         },
         {
+            "strategy" : "fakes",
             "thing": "Fake",
             "spots": [
                 {}
             ]
         },
         {
+            "strategy" : "combinations",
             "thing": "Combinations",
             "spots": [
                 {}
