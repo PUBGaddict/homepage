@@ -28,13 +28,19 @@ export class MapData {
     return this.data.json();
   }
 
-  private loadMap(mapname: string): Observable<any> {
+  /*private loadMap(mapname: string): Observable<any> {
     if (this.mapCache[mapname]) {
       return Observable.of(this.mapCache[mapname]);
     } else {
       return this.http.get('assets/data/' + mapname + '.json')
         .map(this.processMapData.bind(this));
     }
+  }
+
+*/
+
+  private loadMap(mapname: string): Observable<any> {
+    return this.http.get('assets/data/' + mapname + '.json');
   }
 
   processMapData (data: any) {
