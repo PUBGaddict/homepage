@@ -41,12 +41,10 @@ export class StrategyDetailPage {
     this.strategyId = navParams.get("strategyId");
     this.intentionName = navParams.get("intentionName");
     this.spotId = navParams.get("spotId");
-    let that = this;
 
     this.mapData.getMap(this.mapName).subscribe(map => {
-      debugger;
-      that.strategy = mapData.getStrategyForIntentionOnMap(map, that.intentionName, that.strategyId);
-      that.spot = mapData.getSpotFromStrategy(that.strategy, that.spotId);
+      this.strategy = mapData.getStrategyForIntentionOnMap(map, this.intentionName, this.strategyId);
+      this.spot = mapData.getSpotFromStrategy(this.strategy, this.spotId);
     });
   }
 
