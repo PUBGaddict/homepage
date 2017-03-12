@@ -18,10 +18,9 @@ import * as d3 from 'd3';
 })
 export class MapOverviewPage {
   private strategyId: string;
-  private strategy: any;
   private intentionName: any;
   private map: any;
-  private mapName: string;
+  public mapName: string;
   private maxWidth: number = 1024;
   private maxHeight: number = 1024;
   private selBackgroundImage: any;
@@ -31,6 +30,11 @@ export class MapOverviewPage {
   private xScale: any;
   private yScale: any;
   private d3: any;
+
+  public strategy = {
+    name : "",
+    spots: []
+  };
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
     this.d3 = d3;
@@ -42,11 +46,21 @@ export class MapOverviewPage {
     this.mapData.getMap(this.mapName).subscribe(map => {
       that.map = map;
       that.strategy = mapData.getStrategyForIntentionOnMap(map, that.intentionName, that.strategyId);
+      
+      that.createSVG();
+      that.appendBackgroundImage();
+      that.createScale();
+
+      // this needs a promise, otherwise render happens too early and our data is not loaded yet.
+      that.appendDataSpots();
+      that.render();
+      window.addEventListener('resize', that.render.bind(that));
     });
   }
 
   createSVG () {
-    this.d3sel = d3.select(".d3");
+    debugger;
+    this.d3sel = this.d3.select(".d3");
 
     let selSvg = this.d3sel.append("svg")
                      .attr("width", this.maxWidth)
@@ -105,6 +119,7 @@ export class MapOverviewPage {
   }
   
   render() {
+    debugger;
     let newWidth = this.d3sel.node().parentNode.offsetWidth,
         width = newWidth > this.maxWidth ? this.maxWidth : newWidth;
 
@@ -113,19 +128,6 @@ export class MapOverviewPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MapOverviewPage');
-
-    this.createSVG();
-    this.appendBackgroundImage();
-    this.createScale();
-
-    // this needs a promise, otherwise render happens too early and our data is not loaded yet.
-    //this.appendDataSpots().then(() => {
-      this.appendDataSpots();
-      this.render();
-
-      window.addEventListener('resize', this.render.bind(this));
-    //});
-
   }
 
 }
