@@ -18,10 +18,9 @@ import * as d3 from 'd3';
 })
 export class MapOverviewPage {
   private strategyId: string;
-  private strategy: any;
   private intentionName: any;
   private map: any;
-  private mapName: string;
+  public mapName: string;
   private maxWidth: number = 1024;
   private maxHeight: number = 1024;
   private selBackgroundImage: any;
@@ -32,21 +31,21 @@ export class MapOverviewPage {
   private yScale: any;
   private d3: any;
 
+  public strategy = {
+    id: "",
+    name : "",
+    spots: []
+  };
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
     this.d3 = d3;
     this.mapName = navParams.get("mapName");
     this.strategyId = navParams.get("strategyId");
     this.intentionName = navParams.get("intentionName");
-
-    var that = this;
-    this.mapData.getMap(this.mapName).subscribe(map => {
-      that.map = map;
-      that.strategy = mapData.getStrategyForIntentionOnMap(map, that.intentionName, that.strategyId);
-    });
   }
 
   createSVG () {
-    this.d3sel = d3.select(".d3");
+    this.d3sel = this.d3.select(".d3");
 
     let selSvg = this.d3sel.append("svg")
                      .attr("width", this.maxWidth)
@@ -89,14 +88,12 @@ export class MapOverviewPage {
   }
 
   openPage (spot) {
-    debugger;
     this.navCtrl.push(StrategyDetailPage, {
       mapName: this.mapName,
       strategyId: this.strategyId,
       intentionName: this.intentionName,
       spotId: spot.id
     });
-
   }
 
   createScale() {
@@ -114,18 +111,19 @@ export class MapOverviewPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad MapOverviewPage');
 
-    this.createSVG();
-    this.appendBackgroundImage();
-    this.createScale();
+    this.mapData.getMap(this.mapName).subscribe(map => {
+      this.map = map;
+      this.strategy = this.mapData.getStrategyForIntentionOnMap(map, this.intentionName, this.strategyId);
+      
+      this.createSVG();
+      this.appendBackgroundImage();
+      this.createScale();
 
-    // this needs a promise, otherwise render happens too early and our data is not loaded yet.
-    //this.appendDataSpots().then(() => {
+      // this needs a promise, otherwise render happens too early and our data is not loaded yet.
       this.appendDataSpots();
       this.render();
-
       window.addEventListener('resize', this.render.bind(this));
-    //});
-
+    });
   }
 
 }

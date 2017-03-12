@@ -22,7 +22,9 @@ import { MapData } from '../providers/map-data';
   imports: [
     IonicModule.forRoot(MyApp, {}, {
      links: [
-       { component: SelectPage, name: 'Select', segment: 'map/:mapName' }
+       { component: SelectPage, name: 'Select', segment: 'maps/:mapName' },
+       { component: MapOverviewPage, name: 'MapOverview', segment: 'maps/:mapName/:strategyId/:intentionName' },
+       { component: StrategyDetailPage, name: 'StrategyDetail', segment: 'maps/:mapName/:strategyId/:intentionName/:spotId' }
      ]
     })
   ],

@@ -15,24 +15,36 @@ import { MapData } from '../../providers/map-data';
 export class StrategyDetailPage {
   @ViewChild('container') container;
   public strategy : any;
-  public spot: any;
   public height: any;
   private mapName: string;
   private strategyId: string;
   private intentionName: string;
   private spotId: string;
 
+  public spot = {
+     id: "",
+     title: "",
+     description: "",
+     rating: "",
+     difficulty: "",
+     prerequisites: "",
+     pros: [],
+     cons: [],
+     angle: "",
+     x: "",
+     y: "",
+     pictures: []
+  }
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
     this.mapName = navParams.get("mapName");
     this.strategyId = navParams.get("strategyId");
     this.intentionName = navParams.get("intentionName");
     this.spotId = navParams.get("spotId");
-    let that = this;
 
     this.mapData.getMap(this.mapName).subscribe(map => {
-      debugger;
-      that.strategy = mapData.getStrategyForIntentionOnMap(map, that.intentionName, that.strategyId);
-      that.spot = mapData.getSpotFromStrategy(that.strategy, that.spotId);
+      this.strategy = mapData.getStrategyForIntentionOnMap(map, this.intentionName, this.strategyId);
+      this.spot = mapData.getSpotFromStrategy(this.strategy, this.spotId);
     });
   }
 
