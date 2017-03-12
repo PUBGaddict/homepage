@@ -32,6 +32,7 @@ export class MapOverviewPage {
   private d3: any;
 
   public strategy = {
+    id: "",
     name : "",
     spots: []
   };
@@ -41,25 +42,9 @@ export class MapOverviewPage {
     this.mapName = navParams.get("mapName");
     this.strategyId = navParams.get("strategyId");
     this.intentionName = navParams.get("intentionName");
-
-    var that = this;
-    this.mapData.getMap(this.mapName).subscribe(map => {
-      that.map = map;
-      that.strategy = mapData.getStrategyForIntentionOnMap(map, that.intentionName, that.strategyId);
-      
-      that.createSVG();
-      that.appendBackgroundImage();
-      that.createScale();
-
-      // this needs a promise, otherwise render happens too early and our data is not loaded yet.
-      that.appendDataSpots();
-      that.render();
-      window.addEventListener('resize', that.render.bind(that));
-    });
   }
 
   createSVG () {
-    debugger;
     this.d3sel = this.d3.select(".d3");
 
     let selSvg = this.d3sel.append("svg")
@@ -103,14 +88,12 @@ export class MapOverviewPage {
   }
 
   openPage (spot) {
-    debugger;
     this.navCtrl.push(StrategyDetailPage, {
       mapName: this.mapName,
       strategyId: this.strategyId,
       intentionName: this.intentionName,
       spotId: spot.id
     });
-
   }
 
   createScale() {
@@ -119,7 +102,6 @@ export class MapOverviewPage {
   }
   
   render() {
-    debugger;
     let newWidth = this.d3sel.node().parentNode.offsetWidth,
         width = newWidth > this.maxWidth ? this.maxWidth : newWidth;
 
@@ -128,6 +110,20 @@ export class MapOverviewPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MapOverviewPage');
+
+    this.mapData.getMap(this.mapName).subscribe(map => {
+      this.map = map;
+      this.strategy = this.mapData.getStrategyForIntentionOnMap(map, this.intentionName, this.strategyId);
+      
+      this.createSVG();
+      this.appendBackgroundImage();
+      this.createScale();
+
+      // this needs a promise, otherwise render happens too early and our data is not loaded yet.
+      this.appendDataSpots();
+      this.render();
+      window.addEventListener('resize', this.render.bind(this));
+    });
   }
 
 }
