@@ -36,15 +36,29 @@ export class MapData {
         .map(this.processMapData.bind(this));
     }
   }
-  
+
   processMapData (data: any) {
     let map = data.json();
     this.mapCache[map.mapname] = map;
     return map || { };
   }
      
-  getMap(mapname: string) :any {
+  getMap(mapname: string) : Observable<any> {
     return this.loadMap(mapname);
+  }
+
+  getStrategyForIntentionOnMap (map: any, intentionName: string, strategyId: string) {
+    if (!map || !intentionName || !strategyId) {
+      return;
+    }
+
+    let intention = map[intentionName];
+    for (let strategy of intention) {
+      if (strategy.id === strategyId) {
+        return strategy;
+      }
+    }
+    return {};
   }
 
   getDefusalMaps() {

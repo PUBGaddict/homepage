@@ -36,10 +36,10 @@ export class SelectPage {
     console.log('ionViewDidLoad SelectPage');
   }
 
-  openMapOverview(strategy) {
+  openMapOverview(strategyId, intentionName) {
     debugger;
     this.navCtrl.push(MapOverviewPage, {
-      mapname: this.mapname, strategy
+      mapname: this.mapname, strategyId, intentionName
     });
   }
 

@@ -2,7 +2,7 @@
     "mapname": "de_dust2",
     "ct": [
         {
-            "strategy": "defending_positions",
+            "id": "defending_positions",
             "name" : "Defending Positions",
             "spots": [
                 {
@@ -157,22 +157,22 @@
             ]
         },
         {
-            "strategy" : "peeks",
+            "id" : "peeks",
             "name": "Peeks",
             "spots": [
                 {}
             ]
         },
         {
-            "strategy" : "awp_spots",
-            "thing": "AWP Spots",
+            "id" : "awp_spots",
+            "name": "AWP Spots",
             "spots": [
                 {}
             ]
         },
         {
-            "strategy" : "boosts",
-            "thing": "Boosts",
+            "id" : "boosts",
+            "name": "Boosts",
             "spots": [
                 {}
             ]
@@ -180,36 +180,36 @@
     ],
     "t": [
         {
-            "strategy" : "rushs",
-            "thing": "Rushes",
+            "id" : "rushs",
+            "name": "Rushes",
             "spots": [
                 {}
             ]
         },
         {
-            "strategy" : "peeks",
-            "thing": "Peeks",
+            "id" : "peeks",
+            "name": "Peeks",
             "spots": [
                 {}
             ]
         },
         {
-            "strategy" : "awp_spots",
-            "thing": "AWP Spots",
+            "id" : "awp_spots",
+            "name": "AWP Spots",
             "spots": [
                 {}
             ]
         },
         {
-            "strategy" : "bomb_defends",
-            "thing": "Bomb Defends",
+            "id" : "bomb_defends",
+            "name": "Bomb Defends",
             "spots": [
                 {}
             ]
         },
         {
-            "strategy" : "boosts",
-            "thing": "Boosts",
+            "id" : "boosts",
+            "name": "Boosts",
             "spots": [
                 {}
             ]
@@ -217,23 +217,23 @@
     ],
     "smoke": [
         {
-            "strategy" : "mid",
-            "thing": "Mid",
+            "id" : "mid",
+            "name": "Mid",
             "spots": [
                 {},
                 {}
             ]
         },
         {
-            "strategy" : "a",
-            "thing": "A",
+            "id" : "a",
+            "name": "A",
             "spots": [
                 {}
             ]
         },
         {
-            "strategy" : "b",
-            "thing": "B",
+            "id" : "b",
+            "name": "B",
             "spots": [
                 {}
             ]
@@ -241,22 +241,22 @@
     ],
     "flash": [
         {
-            "strategy" : "mid",
-            "thing": "Mid",
+            "id" : "mid",
+            "name": "Mid",
             "spots": [
                 {}
             ]
         },
         {
-            "strategy" : "a",
-            "thing": "A",
+            "id" : "a",
+            "name": "A",
             "spots": [
                 {}
             ]
         },
         {
-            "strategy" : "b",
-            "thing": "B",
+            "id" : "b",
+            "name": "B",
             "spots": [
                 {}
             ]
@@ -264,15 +264,15 @@
     ],
     "eco": [
         {
-            "strategy" : "rushs",
-            "thing": "Rush",
+            "id" : "rushs",
+            "name": "Rush",
             "spots": [
                 {}
             ]
         },
         {
-            "strategy" : "stacks",
-            "thing": "Stack",
+            "id" : "stacks",
+            "name": "Stack",
             "spots": [
                 {}
             ]
@@ -280,22 +280,22 @@
     ],
     "teamtactics": [
         {
-            "strategy" : "ecos",
-            "thing": "Eco",
+            "id" : "ecos",
+            "name": "Eco",
             "spots": [
                 {}
             ]
         },
         {
-            "strategy" : "fakes",
-            "thing": "Fake",
+            "id" : "fakes",
+            "name": "Fake",
             "spots": [
                 {}
             ]
         },
         {
-            "strategy" : "combinations",
-            "thing": "Combinations",
+            "id" : "combinations",
+            "name": "Combinations",
             "spots": [
                 {}
             ]
