@@ -15,12 +15,26 @@ import { MapData } from '../../providers/map-data';
 export class StrategyDetailPage {
   @ViewChild('container') container;
   public strategy : any;
-  public spot: any;
   public height: any;
   private mapName: string;
   private strategyId: string;
   private intentionName: string;
   private spotId: string;
+
+  public spot = {
+     id: "",
+     title: "",
+     description: "",
+     rating: "",
+     difficulty: "",
+     prerequisites: "",
+     pros: [],
+     cons: [],
+     angle: "",
+     x: "",
+     y: "",
+     pictures: []
+  }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
     this.mapName = navParams.get("mapName");
