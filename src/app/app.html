@@ -1,1 +1,36 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-split-panel>
+<ion-menu [content]="content">
+
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>CSGO Spots</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="outer-content">
+        <ion-list no-border>   
+            <ion-list-header>
+              Defusal Maps
+            </ion-list-header>
+            <button ion-item *ngFor="let map of de_maps" (click)="openPage(map)">
+            {{map.mapname}}
+            </button>
+            <ion-list-header>
+            Hostage Maps
+            </ion-list-header>
+            <button ion-item *ngFor="let map of cs_maps" (click)="openPage(map)">
+            {{map.mapname}}
+            </button>
+            <ion-list-header>
+            Funmaps
+            </ion-list-header>
+            <button ion-item *ngFor="let map of fy_maps" (click)="openPage(map)">
+            {{map.mapname}}
+            </button>        
+        </ion-list>
+    </ion-content>
+
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content main></ion-nav>
+</ion-split-panel>
