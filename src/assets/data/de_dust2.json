@@ -3,7 +3,7 @@
     "ct": [
         {
             "id": "defending_positions",
-            "picture" : "defending_spot.png",
+            "picture" : "de_dust2/ct_defending_spot.png",
             "name" : "Defending Positions",
             "spots": [
                 {
@@ -166,14 +166,16 @@
             ]
         },
         {
-            "id" : "peeks",
-            "name": "Peeks",
+            "id" : "moves",
+            "picture" : "de_dust2/ct_aggressive_moves.png",
+            "name": "Aggressive moves",
             "spots": [
                 {}
             ]
         },
         {
             "id" : "awp_spots",
+            "picture" : "de_dust2/ct_awp_spot.png",
             "name": "AWP Spots",
             "spots": [
                 {}
@@ -181,6 +183,7 @@
         },
         {
             "id" : "boosts",
+            "picture" : "de_dust2/ct_boosts.png",
             "name": "Boosts",
             "spots": [
                 {}
@@ -190,6 +193,7 @@
     "t": [
         {
             "id" : "rushs",
+            "picture" : "de_dust2/t_rushes.png",
             "name": "Rushes",
             "spots": [
                 {}
@@ -197,6 +201,7 @@
         },
         {
             "id" : "peeks",
+            "picture" : "de_dust2/t_peeks.png",
             "name": "Peeks",
             "spots": [
                 {}
@@ -204,6 +209,7 @@
         },
         {
             "id" : "awp_spots",
+            "picture" : "de_dust2/t_awp_spots.png",
             "name": "AWP Spots",
             "spots": [
                 {}
@@ -211,6 +217,7 @@
         },
         {
             "id" : "bomb_defends",
+            "picture" : "de_dust2/t_bomb_defends.png",
             "name": "Bomb Defends",
             "spots": [
                 {}
@@ -218,7 +225,8 @@
         },
         {
             "id" : "boosts",
-            "name": "Boosts",
+            "picture" : "de_dust2/t_boosts.png",
+            "name": "Boosts",            
             "spots": [
                 {}
             ]
@@ -228,6 +236,7 @@
         {
             "id" : "mid",
             "name": "Mid",
+            "picture" : "de_dust2/smoke_mid.png",
             "spots": [
                 {},
                 {}
@@ -236,6 +245,7 @@
         {
             "id" : "a",
             "name": "A",
+            "picture" : "de_dust2/smoke_a.png",
             "spots": [
                 {}
             ]
@@ -243,6 +253,7 @@
         {
             "id" : "b",
             "name": "B",
+            "picture" : "de_dust2/smoke_b.png",
             "spots": [
                 {}
             ]

@@ -28,6 +28,13 @@ page-select {
         }
 
         .card-title {
+            @media screen and (max-width: 1200px) {
+                font-size: 1.0em;
+            }
+
+            @media screen and (max-width: 500px) {
+                font-size: 0.6em;
+            }
             pointer-events: none;
             position: absolute;
             top: 30%;
@@ -38,7 +45,12 @@ page-select {
             text-shadow: 2px 1px 21px rgba(0, 0, 0, 1);
         }
 
+            
         .card-subtitle {
+            @media screen and (max-width: 800px) {
+                visibility: hidden;
+            }
+
             pointer-events: none;
             font-size: 1.0em;
             position: absolute;
