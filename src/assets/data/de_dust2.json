@@ -3,6 +3,7 @@
     "ct": [
         {
             "id": "defending_positions",
+            "picture" : "defending_spot.png",
             "name" : "Defending Positions",
             "spots": [
                 {
