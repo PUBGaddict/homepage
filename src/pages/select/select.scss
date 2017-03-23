@@ -1,14 +1,22 @@
 page-select {
- /* background-color: lightgray;
+  background-color: lightgray;
 
  .card-background-page {
+
+  .list-title {
+      .toolbar-title.toolbar-title-md {
+    font-size: 1.7rem;
+
+      }
+    padding: 10px 0 0 5px;
+  }
 
   .card {
     position: relative;
     float: left;
     text-align: center;
     margin: 0px 0 10px 10px;
-    width: calc(20% - 20px);
+    width: 100%;
     cursor: pointer;
     opacity: 1;
 
@@ -28,17 +36,17 @@ page-select {
         }
 
         .card-title {
-            @media screen and (max-width: 1200px) {
-                font-size: 1.0em;
+            @media screen and (max-width: 950px) {
+                font-size: 1.5em;
             }
-
+/*
             @media screen and (max-width: 500px) {
                 font-size: 0.6em;
-            }
+            }*/
             pointer-events: none;
             position: absolute;
             top: 30%;
-            font-size: 2.0em;
+            font-size: 1.8em;
             width: 100%;
             font-weight: bold;
             color: #fff;
@@ -47,9 +55,9 @@ page-select {
 
             
         .card-subtitle {
-            @media screen and (max-width: 800px) {
+         /*   @media screen and (max-width: 800px) {
                 visibility: hidden;
-            }
+            }*/
 
             pointer-events: none;
             font-size: 1.0em;
@@ -64,13 +72,10 @@ page-select {
     &:before{
 	    content: "";
 	    display: block;
-	    padding-top: 100%; 	/* initial ratio of 1:1
+	    padding-top: 100%; 	/* initial ratio of 1:1 */
     }
  
   }
 
- }*/
-.col {
-        border: 1px solid black;
-}
+ }
 }

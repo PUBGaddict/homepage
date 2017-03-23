@@ -8,89 +8,97 @@
 </ion-header>
 
 <ion-content class="card-background-page">
-<ion-grid>
-  <ion-row align-items-stretch>
-    <ion-col col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1 align-self-stretch align-self-center> 
-      1 of 6
-    </ion-col>
-    <ion-col col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1 align-self-stretch align-self-center>
-      2 of 6
-    </ion-col>
-    <ion-col col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1 align-self-stretch align-self-center>
-      3 of 6
-    </ion-col>
-    <ion-col col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1 align-self-stretch align-self-center>
-      4 of 6
-    </ion-col>
-    <ion-col col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1 align-self-stretch align-self-center>
-      5 of 6
-    </ion-col>
-    <ion-col col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1 align-self-stretch align-self-center>
-      6 of 6
-    </ion-col>
-  </ion-row>
-</ion-grid>
-  <!--<ion-list>
-    <ion-list-header>
+  <ion-grid>
+    <ion-title class="list-title">
       CT Stuff
-    </ion-list-header>
-
-    <ion-card *ngFor="let strategy of map.ct" class="card" (click)="openMapOverview(strategy.id, 'ct')"> 
-      <div class="card-content">
-        <ion-img width="100%" height="100%" class="picture" src="assets/img/{{strategy.picture}}"> </ion-img>
-        <div class="card-title">{{strategy.name}}</div>
-        <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
-      </div>
-    </ion-card>
-   <ion-list-header>
+    </ion-title>
+    <ion-row align-items-stretch>
+      <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.ct">
+        <ion-card class="card" (click)="openMapOverview(strategy.id, 'ct')">
+          <div class="card-content">
+            <ion-img width="100%" height="100%" class="picture" src="assets/img/{{strategy.picture}}"> </ion-img>
+            <div class="card-title">{{strategy.name}}</div>
+            <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-title class="list-title">
       T Stuff
-    </ion-list-header>
-    <ion-card *ngFor="let strategy of map.t" (click)="openMapOverview(strategy)">
-      <div class="card-content">
-        <ion-img width="100%" height="100%" class="picture" src="assets/img/{{strategy.picture}}"> </ion-img>
-        <div class="card-title">{{strategy.name}}</div>
-        <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
-      </div>
-    </ion-card>
-    <ion-list-header>
+    </ion-title>
+    <ion-row align-items-stretch>
+      <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.t">
+        <ion-card (click)="openMapOverview(strategy)">
+          <div class="card-content">
+            <ion-img width="100%" height="100%" class="picture" src="assets/img/{{strategy.picture}}"> </ion-img>
+            <div class="card-title">{{strategy.name}}</div>
+            <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-title class="list-title">
       Smokes
-    </ion-list-header>
-    <ion-card *ngFor="let strategy of map.smoke" (click)="openMapOverview('CT Positions')">
-      <div class="card-content">
-        <ion-img width="100%" height="100%" class="picture" src="assets/img/{{strategy.picture}}"> </ion-img>
-        <div class="card-title">{{strategy.name}}</div>
-        <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
-      </div>
-    </ion-card>
-    <ion-list-header>
+    </ion-title>
+    <ion-row align-items-stretch>
+      <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.smoke">
+        <ion-card (click)="openMapOverview('CT Positions')">
+          <div class="card-content">
+            <ion-img width="100%" height="100%" class="picture" src="assets/img/{{strategy.picture}}"> </ion-img>
+            <div class="card-title">{{strategy.name}}</div>
+            <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-title class="list-title">
       Flashes
-    </ion-list-header>
-    <ion-card *ngFor="let strategy of map.flash" (click)="openMapOverview('CT Positions')">
-      <div class="card-content">
-        <ion-img width="100%" height="100%" class="picture" src="assets/img/{{strategy.picture}}"> </ion-img>
-        <div class="card-title">{{strategy.name}}</div>
-        <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
-      </div>
-    </ion-card>
-    <ion-list-header>
+    </ion-title>
+    <ion-row align-items-stretch>
+      <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.flash">
+        <ion-card (click)="openMapOverview('CT Positions')">
+          <div class="card-content">
+            <ion-img width="100%" height="100%" class="picture" src="assets/img/{{strategy.picture}}"> </ion-img>
+            <div class="card-title">{{strategy.name}}</div>
+            <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-title class="list-title">
       Eco
-    </ion-list-header>
-    <ion-card *ngFor="let strategy of map.eco" (click)="openMapOverview('CT Positions')">
-      <div class="card-content">
-        <img src="assets/img/csgo_ct.png" />
-        <div class="card-title">{{strategy.name}}</div>
-        <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
-      </div>
-    </ion-card>
-    <ion-list-header>
+    </ion-title>
+    <ion-row align-items-stretch>
+      <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.eco">
+        <ion-card (click)="openMapOverview('CT Positions')">
+          <div class="card-content">
+            <img src="assets/img/csgo_ct.png" />
+            <div class="card-title">{{strategy.name}}</div>
+            <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-title class="list-title">
       Team Tactics
-    </ion-list-header>
-    <ion-card *ngFor="let strategy of map.teamtactics" (click)="openMapOverview('CT Positions')">
-      <div class="card-content">
-        <img src="assets/img/csgo_ct.png" />
-        <div class="card-title">{{strategy.name}}</div>
-        <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
-      </div>
-    </ion-card>
-  </ion-list> -->
+    </ion-title>
+    <ion-row align-items-stretch>
+      <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.teamtactics">
+        <ion-card (click)="openMapOverview('CT Positions')">
+          <div class="card-content">
+            <img src="assets/img/csgo_ct.png" />
+            <div class="card-title">{{strategy.name}}</div>
+            <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
