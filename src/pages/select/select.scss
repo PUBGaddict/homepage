@@ -1,5 +1,5 @@
 page-select {
-  background-color: lightgray;
+ /* background-color: lightgray;
 
  .card-background-page {
 
@@ -64,10 +64,13 @@ page-select {
     &:before{
 	    content: "";
 	    display: block;
-	    padding-top: 100%; 	/* initial ratio of 1:1*/
+	    padding-top: 100%; 	/* initial ratio of 1:1
     }
  
   }
 
- }
+ }*/
+.col {
+        border: 1px solid black;
+}
 }
