@@ -56,7 +56,7 @@ export class MapOverviewPage {
 
   appendBackgroundImage () {
     this.selBackgroundImage = this.selMap.append("svg:image")
-                     .attr("xlink:href", "assets/img/" + this.map.mapname + ".png")                     
+                     .attr("xlink:href", "http://csgospots.square7.ch/images/" + this.map.mapname + ".png")                     
                      .attr("width", 1024)
                      .attr("height", 1024);
   }
