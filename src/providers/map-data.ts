@@ -58,7 +58,7 @@ export class MapData {
     if (this.mapCache[mapname]) {
       return Observable.of(this.mapCache[mapname]);
     } else {
-      return this.http.get('assets/data/' + mapname + '.json')
+      return this.http.get('http://csgospots.square7.ch/data/' + mapname + '.json')
         .map(this.processMapData.bind(this));
     }
   }

@@ -15,7 +15,7 @@ import { MapOverviewPage } from '../map-overview/map-overview'
   templateUrl: 'select.html'
 })
 export class SelectPage {
-  public mapName: string;
+  public mapName: string = "";
   public map = {
     ct: [],
     t: [],
@@ -27,7 +27,9 @@ export class SelectPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
     this.mapName = navParams.get("mapName");
+    debugger;
     this.mapData.getMap(this.mapName).subscribe(map => {
+      debugger;
       this.map = map;
     });
   }

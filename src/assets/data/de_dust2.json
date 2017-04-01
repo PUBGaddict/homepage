@@ -238,7 +238,6 @@
             "name": "Mid",
             "picture" : "de_dust2/smoke_mid.png",
             "spots": [
-                {},
                 {}
             ]
         },
