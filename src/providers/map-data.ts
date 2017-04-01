@@ -9,23 +9,49 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class MapData {
-  data: any;
+  dataDefusal: any;
+  dataHostage: any;
   private mapCache: any = {};
 
   constructor(public http: Http) { }
 
-  private load(): any {
-    if (this.data) {
-      return Observable.of(this.data);
+  private loadDefusalMaps(): any {
+    if (this.dataDefusal) {
+      return Observable.of(this.dataDefusal);
     } else {
-      return this.http.get('assets/data/data.json')
-        .map(this.processMaps);
+      return this.http.get('https://csgospots-1f294.firebaseio.com/de_maps.json')
+        .map(this.processDefusalMaps);
     }
   }
 
-  processMaps (data: any) {
-    this.data = data;
-    return this.data.json();
+  private loadHostageMaps(): any {
+    if (this.dataHostage) {
+      return Observable.of(this.dataHostage);
+    } else {
+      return this.http.get('https://csgospots-1f294.firebaseio.com/cs_maps.json')
+        .map(this.processHostageMaps);
+    }
+  }
+
+  getDefusalMaps() {
+    return this.loadDefusalMaps().map((data: any) => {
+      return data;
+    });
+  }
+
+  getHostageMaps() {
+      return this.loadHostageMaps().map((data: any) => {
+        return data;
+      });
+  }
+
+  processDefusalMaps (data: any) {
+    this.dataDefusal = data;
+    return this.dataDefusal.json();
+  }
+  processHostageMaps (data: any) {
+    this.dataHostage = data;
+    return this.dataHostage.json();
   }
 
   private loadMap(mapname: string): Observable<any> {
@@ -84,23 +110,6 @@ export class MapData {
     return {};
   }
 
-  getDefusalMaps() {
-    return this.load().map((data: any) => {
-      return data.de_maps;
-    });
-  }
-
-  getHostageMaps() {
-      return this.load().map((data: any) => {
-        return data.cs_maps;
-      });
-  }
-
-  getFunMaps() {
-      return this.load().map((data: any) => {
-        return data.fy_maps;
-      });
-  }
 
   /*processData(data: any) {
     // just some good 'ol JS fun with objects and arrays
