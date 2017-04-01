@@ -16,7 +16,6 @@ export class MyApp {
 
   de_maps: any[] = [];
   cs_maps: any[] = [];
-  fy_maps: any[] = [];
 
   constructor(platform: Platform, public mapData : MapData) {
     platform.ready().then(() => {
@@ -31,9 +30,6 @@ export class MyApp {
     });
     this.mapData.getHostageMaps().subscribe((cs_maps: any[]) => {
       this.cs_maps = cs_maps;
-    });
-    this.mapData.getFunMaps().subscribe((fy_maps: any[]) => {
-      this.fy_maps = fy_maps;
     });
   }
 
