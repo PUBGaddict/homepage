@@ -170,7 +170,7 @@
             "picture" : "de_dust2/ct_aggressive_moves.png",
             "name": "Aggressive moves",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         },
         {
@@ -178,7 +178,7 @@
             "picture" : "de_dust2/ct_awp_spot.png",
             "name": "AWP Spots",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         },
         {
@@ -186,7 +186,7 @@
             "picture" : "de_dust2/ct_boosts.png",
             "name": "Boosts",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         }
     ],
@@ -196,7 +196,7 @@
             "picture" : "de_dust2/t_rushes.png",
             "name": "Rushes",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         },
         {
@@ -204,7 +204,7 @@
             "picture" : "de_dust2/t_peeks.png",
             "name": "Peeks",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         },
         {
@@ -212,7 +212,7 @@
             "picture" : "de_dust2/t_awp_spots.png",
             "name": "AWP Spots",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         },
         {
@@ -220,7 +220,7 @@
             "picture" : "de_dust2/t_bomb_defends.png",
             "name": "Bomb Defends",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         },
         {
@@ -228,7 +228,7 @@
             "picture" : "de_dust2/t_boosts.png",
             "name": "Boosts",            
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         }
     ],
@@ -238,7 +238,7 @@
             "name": "Mid",
             "picture" : "de_dust2/smoke_mid.png",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         },
         {
@@ -246,7 +246,7 @@
             "name": "A",
             "picture" : "de_dust2/smoke_a.png",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         },
         {
@@ -254,7 +254,7 @@
             "name": "B",
             "picture" : "de_dust2/smoke_b.png",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         }
     ],
@@ -263,21 +263,21 @@
             "id" : "mid",
             "name": "Mid",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         },
         {
             "id" : "a",
             "name": "A",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         },
         {
             "id" : "b",
             "name": "B",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         }
     ],
@@ -286,14 +286,14 @@
             "id" : "rushs",
             "name": "Rush",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         },
         {
             "id" : "stacks",
             "name": "Stack",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         }
     ],
@@ -302,21 +302,21 @@
             "id" : "ecos",
             "name": "Eco",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         },
         {
             "id" : "fakes",
             "name": "Fake",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         },
         {
             "id" : "combinations",
             "name": "Combinations",
             "spots": [
-                {}
+                { "null" : 0 }
             ]
         }
     ]
