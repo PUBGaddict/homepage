@@ -16,7 +16,7 @@
       <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.ct">
         <ion-card class="card" (click)="openMapOverview(strategy.id, 'ct')">
           <div class="card-content">
-            <ion-img width="100%" height="100%" class="picture" src="http://csgospots.square7.ch/images/{{strategy.picture}}"> </ion-img>
+            <img class="picture" src="http://csgospots.square7.ch/images/{{strategy.picture}}"/>
             <div class="card-title">{{strategy.name}}</div>
             <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
           </div>
@@ -30,7 +30,7 @@
       <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.t">
         <ion-card (click)="openMapOverview(strategy)">
           <div class="card-content">
-            <ion-img width="100%" height="100%" class="picture" src="http://csgospots.square7.ch/images/{{strategy.picture}}"> </ion-img>
+            <img class="picture" src="http://csgospots.square7.ch/images/{{strategy.picture}}"/>
             <div class="card-title">{{strategy.name}}</div>
             <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
           </div>
@@ -46,7 +46,7 @@
       <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.smoke">
         <ion-card (click)="openMapOverview('CT Positions')">
           <div class="card-content">
-            <ion-img width="100%" height="100%" class="picture" src="http://csgospots.square7.ch/images/{{strategy.picture}}"> </ion-img>
+            <img class="picture" src="http://csgospots.square7.ch/images/{{strategy.picture}}" />
             <div class="card-title">{{strategy.name}}</div>
             <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
           </div>
@@ -61,7 +61,7 @@
       <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.flash">
         <ion-card (click)="openMapOverview('CT Positions')">
           <div class="card-content">
-            <ion-img width="100%" height="100%" class="picture" src="http://csgospots.square7.ch/images/{{strategy.picture}}"> </ion-img>
+            <img class="picture" src="http://csgospots.square7.ch/images/{{strategy.picture}}" />
             <div class="card-title">{{strategy.name}}</div>
             <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
           </div>
@@ -77,7 +77,7 @@
       <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.eco">
         <ion-card (click)="openMapOverview('CT Positions')">
           <div class="card-content">
-            <ion-img width="100%" height="100%" class="picture" src="http://csgospots.square7.ch/images/{{strategy.picture}}"> </ion-img>
+            <img class="picture" src="http://csgospots.square7.ch/images/{{strategy.picture}}" />
             <div class="card-title">{{strategy.name}}</div>
             <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
           </div>
@@ -93,7 +93,7 @@
       <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.teamtactics">
         <ion-card (click)="openMapOverview('CT Positions')">
           <div class="card-content">
-            <ion-img width="100%" height="100%" class="picture" src="http://csgospots.square7.ch/images/{{strategy.picture}}"> </ion-img>
+            <img class="picture" src="http://csgospots.square7.ch/images/{{strategy.picture}}" />
             <div class="card-title">{{strategy.name}}</div>
             <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
           </div>
