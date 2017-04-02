@@ -27,9 +27,7 @@ export class SelectPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
     this.mapName = navParams.get("mapName");
-    debugger;
     this.mapData.getMap(this.mapName).subscribe(map => {
-      debugger;
       this.map = map;
     });
   }

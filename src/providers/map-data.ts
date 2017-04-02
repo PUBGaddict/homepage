@@ -58,7 +58,7 @@ export class MapData {
     if (this.mapCache[mapname]) {
       return Observable.of(this.mapCache[mapname]);
     } else {
-      return this.http.get('https://firebasestorage.googleapis.com/v0/b/csgospots-1f294.appspot.com/o/'  + mapname + '.json?alt=media&token=5fd55cc3-ed0e-4862-a275-2804bc9b2c77')
+      return this.http.get('http://csgospots.square7.ch/data/'  + mapname + '.json')
         .map(this.processMapData.bind(this));
     }
   }
