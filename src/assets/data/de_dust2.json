@@ -238,6 +238,63 @@
                     "pictures" : [
                         "de_dust2/de_dust20013.jpg"
                     ]
+                },{
+                    "id": "2012",                    
+                    "title" : "Aim window through the gap",
+                    "description" : "Not a spot for the beginning of the round, but a very good position to defend the spot a gainst a mid to B movement",
+                    "rating" : "8",
+                    "difficulty" : "4",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Solid against window pushing enemies"
+                    ],
+                    "cons" : [
+                        "open to B tunnels", "needs backup"
+                    ],
+                    "angle": 270,
+                    "x": 208,
+                    "y": 138,
+                    "pictures" : [
+                        "de_dust2/de_dust20015.jpg"
+                    ]
+                },{
+                    "id": "2013",                    
+                    "title" : "Aim doubledoor from car",
+                    "description" : "Not a spot for the beginning of the round, but a good position to secure the spot against a mid to b rush",
+                    "rating" : "6",
+                    "difficulty" : "2",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Can easily look window and door", "not peekable from B tunnels", "can hear steps in whole B tunnel"
+                    ],
+                    "cons" : [
+                        "Obvious position", "No possibility to hide or cover"
+                    ],
+                    "angle": 200,
+                    "x": 160,
+                    "y": 370,
+                    "pictures" : [
+                        "de_dust2/de_dust20015.jpg"
+                    ]
+                },{
+                    "id": "2014",                    
+                    "title" : "Stay behind quad that sits onspot",
+                    "description" : "A very flexible position. But its also dangerous because its open to various points.",
+                    "rating" : "7",
+                    "difficulty" : "5",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Can look window and door", "has good angle to window"
+                    ],
+                    "cons" : [
+                        "Hard to survive"
+                    ],
+                    "angle": 260,
+                    "x": 145,
+                    "y": 165,
+                    "pictures" : [
+                        "de_dust2/de_dust20019.jpg", "de_dust2/de_dust20020.jpg", "de_dust2/de_dust20021.jpg"
+                    ]
                 }
             ]
         },
