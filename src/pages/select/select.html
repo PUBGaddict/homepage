@@ -44,7 +44,7 @@
     </ion-title>
     <ion-row align-items-stretch>
       <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.smoke">
-        <ion-card (click)="openMapOverview('CT Positions')">
+        <ion-card class="card" (click)="openMapOverview(strategy.id, 'smoke')">
           <div class="card-content">
             <img class="picture" src="http://csgospots.square7.ch/images/{{strategy.picture}}" />
             <div class="card-title">{{strategy.name}}</div>

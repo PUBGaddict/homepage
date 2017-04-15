@@ -35,8 +35,11 @@
       </div>
     </ion-item>
     <ion-label color="primary">Screens</ion-label>
-    <ion-img width="100%" height="{{height}}" *ngFor="let img of spot.pictures" class="screenshot" src="http://csgospots.square7.ch/images/{{img}}"> </ion-img>
+    <div *ngIf="!(spot.vidUrl)">
+      <ion-img width="100%" height="{{height}}" *ngFor="let img of spot.pictures" class="screenshot" src="http://csgospots.square7.ch/images/{{img}}"> </ion-img>
+    </div>
+    <div *ngIf="spot.vidUrl" style="position:relative;padding-bottom:57%">
+      <iframe [src]='sanitizer.bypassSecurityTrustResourceUrl(spot.vidUrl)' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen></iframe>
+    </div>
   </ion-list>
-  <div>
-  </div>
 </ion-content>

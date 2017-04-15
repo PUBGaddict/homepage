@@ -162,6 +162,139 @@
                     "pictures" : [
                         "de_dust2/de_dust20008.jpg"
                     ]
+                },{
+                    "id": "2008",                    
+                    "title" : "Cover behind tunnels",
+                    "description" : "Cover there, waiting until you spot enemies. You can see them when they reach plateau.",
+                    "rating" : "6",
+                    "difficulty" : "2",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Good together with a friend that hides on spot"
+                    ],
+                    "cons" : [
+                        "hard if they rush"
+                    ],
+                    "angle": 160,
+                    "x": 133,
+                    "y": 328,
+                    "pictures" : [
+                        "de_dust2/de_dust20010.jpg"
+                    ]
+                },{
+                    "id": "2009",                    
+                    "title" : "Cover behind car",
+                    "description" : "Good position to surprise them when they often came B before and no one used that position. Just cover behind the car and look through its windows.",
+                    "rating" : "7",
+                    "difficulty" : "2",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Solid position for a surprise"
+                    ],
+                    "cons" : [
+                        "Easy to spot due to the bright background color of the wall"
+                    ],
+                    "angle": 130,
+                    "x": 175,
+                    "y": 345,
+                    "pictures" : [
+                        "de_dust2/de_dust20011.jpg"
+                    ]
+                },{
+                    "id": "2010",                    
+                    "title" : "Peek tunnels from window",
+                    "description" : "Nice spot to safely escape in case of a rush. Dont just stand there watching tunnels, move in and out every some seconds to make sure u dont get peeked yourself. Pretty solid position for a frag and a safe escape afterwards. A teammate should watch mid to cover your back",
+                    "rating" : "9",
+                    "difficulty" : "2",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Good view", "Great help for mates", "great escape"
+                    ],
+                    "cons" : [
+                        "Open to mid"
+                    ],
+                    "angle": 35,
+                    "x": 233,
+                    "y": 135,
+                    "pictures" : [
+                        "de_dust2/de_dust20012.jpg"
+                    ]
+                },{
+                    "id": "2011",                    
+                    "title" : "Watch B cross from doubledoors",
+                    "description" : "More the spot for a helping guy that comes from mid than a real spot, this position is still fine to do a surprisefrag while they move to plateau. Especially in rushes.",
+                    "rating" : "9",
+                    "difficulty" : "2",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Fine for rushes", "Good escape"
+                    ],
+                    "cons" : [
+                        "Losing control over the spot", "open to mid"
+                    ],
+                    "angle": 90,
+                    "x": 250,
+                    "y": 240,
+                    "pictures" : [
+                        "de_dust2/de_dust20013.jpg"
+                    ]
+                },{
+                    "id": "2012",                    
+                    "title" : "Aim window through the gap",
+                    "description" : "Not a spot for the beginning of the round, but a very good position to defend the spot a gainst a mid to B movement",
+                    "rating" : "8",
+                    "difficulty" : "4",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Solid against window pushing enemies"
+                    ],
+                    "cons" : [
+                        "open to B tunnels", "needs backup"
+                    ],
+                    "angle": 270,
+                    "x": 208,
+                    "y": 138,
+                    "pictures" : [
+                        "de_dust2/de_dust20015.jpg"
+                    ]
+                },{
+                    "id": "2013",                    
+                    "title" : "Aim doubledoor from car",
+                    "description" : "Not a spot for the beginning of the round, but a good position to secure the spot against a mid to b rush",
+                    "rating" : "6",
+                    "difficulty" : "2",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Can easily look window and door", "not peekable from B tunnels", "can hear steps in whole B tunnel"
+                    ],
+                    "cons" : [
+                        "Obvious position", "No possibility to hide or cover"
+                    ],
+                    "angle": 200,
+                    "x": 160,
+                    "y": 370,
+                    "pictures" : [
+                        "de_dust2/de_dust20015.jpg"
+                    ]
+                },{
+                    "id": "2014",                    
+                    "title" : "Stay behind quad that sits onspot",
+                    "description" : "A very flexible position. But its also dangerous because its open to various points.",
+                    "rating" : "7",
+                    "difficulty" : "5",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Can look window and door", "has good angle to window"
+                    ],
+                    "cons" : [
+                        "Hard to survive"
+                    ],
+                    "angle": 260,
+                    "x": 145,
+                    "y": 165,
+                    "pictures" : [
+                        "de_dust2/de_dust20019.jpg", "de_dust2/de_dust20020.jpg", "de_dust2/de_dust20021.jpg"
+                    ]
                 }
             ]
         },
@@ -178,7 +311,45 @@
             "picture" : "de_dust2/ct_awp_spot.png",
             "name": "AWP Spots",
             "spots": [
-                { "null" : 0 }
+                {
+                    "id": "2015",                    
+                    "title" : "Aim mid and CT spawn from B window",
+                    "description" : "Wait until someone peeks out mid or shows CT spawn",
+                    "rating" : "6",
+                    "difficulty" : "1",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Safe spot to aim mid", "Safe to switch between mid and ct spawn"
+                    ],
+                    "cons" : [
+                        "You cant see them moving A Short", "You are peekable from B tunnels", "Needs someome onspot"
+                    ],
+                    "angle": 300,
+                    "x": 230,
+                    "y": 132,
+                    "pictures" : [
+                        "de_dust2/de_dust20022.jpg", "de_dust2/de_dust20023.jpg"
+                    ]
+                },{
+                    "id": "2016",                    
+                    "title" : "Aim B tunnels from onspot",
+                    "description" : "Good spot to play on B if you have an AWP. Safe and hard to overrun, espeecially with a mate on your side.",
+                    "rating" : "8",
+                    "difficulty" : "3",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Safe spot", "Good view into B"
+                    ],
+                    "cons" : [
+                        ""
+                    ],
+                    "angle": 25,
+                    "x": 152,
+                    "y": 152,
+                    "pictures" : [
+                        "de_dust2/de_dust20025.jpg"
+                    ]
+                }
             ]
         },
         {
@@ -246,7 +417,25 @@
             "name": "A",
             "picture" : "de_dust2/smoke_a.png",
             "spots": [
-                { "null" : 0 }
+                {
+                    "id": "2500",                    
+                    "title" : "Smoke A-Long Doubledoors from car",
+                    "description" : "yeah",
+                    "rating" : "9",
+                    "difficulty" : "5",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Safe spot"
+                    ],
+                    "cons" : [
+                        "Need some practice"
+                    ],
+                    "angle": 25,
+                    "x": 152,
+                    "y": 152,
+                    "vidUrl" : "https://gfycat.com/ifr/RaggedRemorsefulConey",
+                    "pictures" : []
+                }
             ]
         },
         {

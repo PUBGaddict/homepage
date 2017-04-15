@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { MapData } from '../../providers/map-data';
+import { DomSanitizer } from '@angular/platform-browser';
 
 /*
   Generated class for the StrategyDetail page.
@@ -33,10 +34,11 @@ export class StrategyDetailPage {
      angle: "",
      x: "",
      y: "",
+     vid: false,
      pictures: []
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer) {
     this.mapName = navParams.get("mapName");
     this.strategyId = navParams.get("strategyId");
     this.intentionName = navParams.get("intentionName");
