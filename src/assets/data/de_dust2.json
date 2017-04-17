@@ -311,7 +311,45 @@
             "picture" : "de_dust2/ct_awp_spot.png",
             "name": "AWP Spots",
             "spots": [
-                { "null" : 0 }
+                {
+                    "id": "2015",                    
+                    "title" : "Aim mid and CT spawn from B window",
+                    "description" : "Wait until someone peeks out mid or shows CT spawn",
+                    "rating" : "6",
+                    "difficulty" : "1",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Safe spot to aim mid", "Safe to switch between mid and ct spawn"
+                    ],
+                    "cons" : [
+                        "You cant see them moving A Short", "You are peekable from B tunnels", "Needs someome onspot"
+                    ],
+                    "angle": 300,
+                    "x": 230,
+                    "y": 132,
+                    "pictures" : [
+                        "de_dust2/de_dust20022.jpg", "de_dust2/de_dust20023.jpg"
+                    ]
+                },{
+                    "id": "2016",                    
+                    "title" : "Aim B tunnels from onspot",
+                    "description" : "Good spot to play on B if you have an AWP. Safe and hard to overrun, espeecially with a mate on your side.",
+                    "rating" : "8",
+                    "difficulty" : "3",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Safe spot", "Good view into B"
+                    ],
+                    "cons" : [
+                        ""
+                    ],
+                    "angle": 25,
+                    "x": 152,
+                    "y": 152,
+                    "pictures" : [
+                        "de_dust2/de_dust20025.jpg"
+                    ]
+                }
             ]
         },
         {
@@ -379,7 +417,25 @@
             "name": "A",
             "picture" : "de_dust2/smoke_a.png",
             "spots": [
-                { "null" : 0 }
+                {
+                    "id": "2500",                    
+                    "title" : "Smoke A-Long Doubledoors from car",
+                    "description" : "yeah",
+                    "rating" : "9",
+                    "difficulty" : "5",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "Safe spot"
+                    ],
+                    "cons" : [
+                        "Need some practice"
+                    ],
+                    "angle": 25,
+                    "x": 152,
+                    "y": 152,
+                    "vidUrl" : "https://gfycat.com/ifr/RaggedRemorsefulConey",
+                    "pictures" : []
+                }
             ]
         },
         {
