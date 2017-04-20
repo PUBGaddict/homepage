@@ -1,0 +1,30 @@
+{
+    "mapname": "de_canals",
+    "ct": [
+        {
+            "id": "defending_positions",
+            "picture" : "de_dust2/ct_defending_spot.png",
+            "name" : "Defending Positions",
+            "spots": [
+                {
+                    "id": "2000",
+                    "title" : "Aiming B Tunnels from B Platform",
+                    "description" : "Just position yourself behind the box, and peek into B Tunnels. Make sure you are not standing directly behind the box, but some steps away from it to make sure you are not visible to double doors or window. Duck while waiting and peek every some seconds to make sure no one gets through.",
+                    "rating" : "5",
+                    "difficulty" : "2",
+                    "prerequisites" : "none",
+                    "pros" : [
+                        "safe to reach", "easy to open from", "not accessible/peekable from other spots"
+                    ],
+                    "cons" : [
+                        "you are stuck if they know you are there"
+                    ],
+                    "angle": 0,
+                    "x": 63,
+                    "y": 50,
+                    "pictures" : [
+                        "de_dust2/de_dust20033.jpg"
+                    ]
+                }]
+        }]
+}
