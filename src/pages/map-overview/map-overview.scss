@@ -19,4 +19,19 @@ page-map-overview {
         fill: lightblue;
         pointer-events: none;
     }
+
+    .smoke, .smokeline {
+        fill:gray;
+        stroke: white;
+        stroke-width: 2;
+        cursor: pointer;
+        &:hover {
+            fill:lightgray;
+            cursor: pointer;
+        }
+    }
+
+    .nodisplay {
+        display:none;
+    }
 }
