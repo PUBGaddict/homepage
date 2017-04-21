@@ -1,37 +1,48 @@
 page-map-overview {
-    .turn-indicator {
-        fill: transparent;
-        stroke-width:1;
-        stroke:darkslateblue;
-        pointer-events: none;
-    }
-    .player {
-        fill: blue;
-        &:hover {
-            fill:red;
-            stroke: white;
-            stroke-width: 1;
-            cursor: pointer;
-        }
-    }
-    .player-view {
-        opacity: .2;
-        fill: lightblue;
-        pointer-events: none;
-    }
 
-    .smoke, .smokeline {
-        fill:gray;
-        stroke: white;
-        stroke-width: 2;
+    .outerspot {
         cursor: pointer;
+
         &:hover {
-            fill:lightgray;
-            cursor: pointer;
+            .smoke, .smokeline {
+                fill:lightgray;
+                cursor: pointer;
+            }
+            .player {
+                fill:red;
+                stroke: white;
+                stroke-width: 1;
+                cursor: pointer;
+            }
+            .turn-indicator {
+                stroke: darkred;
+            }
+        }
+
+        .turn-indicator {
+            fill: transparent;
+            stroke-width:1;
+            stroke:darkslateblue;
+            pointer-events: none;
+        }
+        .player {
+            fill: blue;
+        }
+        .player-view {
+            opacity: .2;
+            fill: lightblue;
+            pointer-events: none;
+        }
+
+        .smoke, .smokeline {
+            fill:gray;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .nodisplay {
+            display:none;
         }
     }
-
-    .nodisplay {
-        display:none;
-    }
+    
 }
