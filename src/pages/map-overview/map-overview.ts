@@ -28,6 +28,7 @@ export class MapOverviewPage {
   private selSpotsEnter: any;
   private selSpots: any;
   private selSmoke: any;
+  private selSpotOuter: any;
   private d3sel: any;
   private xScale: any;
   private yScale: any;
@@ -67,7 +68,9 @@ export class MapOverviewPage {
     this.selSpotsEnter = this.selMap.selectAll(".spot")
         .data(this.strategy.spots)
         .enter();
-    this.selSpotsEnter.append("line")
+    this.selSpotOuter = this.selSpotsEnter.append("g")
+        .classed("outerspot", true);
+    this.selSpotOuter.append("line")
           .classed("smokeline", true)
           .classed("nodisplay", (d) => {
             return !d.endx; 
@@ -77,10 +80,10 @@ export class MapOverviewPage {
           .attr("x2", (d) => {return d.endx ? d.endx + 25 : 0})
           .attr("y2", (d) => {return d.endy ? d.endy + 25 : 0})
           .on("click", this.openPage.bind(this));
-    this.selSpots = this.selSpotsEnter.append("g")
+    this.selSpots = this.selSpotOuter.append("g")
           .classed("spot", true)
           .attr("transform", function(d) { return "translate(" + this.xScale(d.x) + "," + this.yScale(d.y) + ") rotate(" + d.angle + " 25 25)"; }.bind(this))
-    this.selSmoke = this.selSpotsEnter.append("g")
+    this.selSmoke = this.selSpotOuter.append("g")
           .attr("transform", function(d) { return (d.endx && d.endy) ? "translate(" + this.xScale(d.endx) + "," + this.yScale(d.endy) + ")" : "translate(0,0)"; }.bind(this))
           .classed("smoke", true)
           .classed("nodisplay", (d) => {
