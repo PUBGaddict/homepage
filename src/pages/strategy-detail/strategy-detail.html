@@ -11,12 +11,20 @@
   <ion-list no-lines>
 
     <h4>{{spot.title}}</h4>
-    <ion-label color="primary">Rating</ion-label>
-    <p>{{spot.rating}}/10</p>
-    <ion-label color="primary">Difficulty</ion-label>
-    <p>{{spot.difficulty}}/10</p>
-    <ion-label color="primary">Description</ion-label>
-    <p>{{spot.description}}</p>
+    <ion-label color="primary">Votes</ion-label>
+    <div>
+      <div class="floatLeft">
+        <h4>{{ (item | async)?.value }}</h4>
+      </div>
+      <div class="paddingLeft">
+        <button ion-button color="secondary" icon-only (click)="countUp()">
+          <ion-icon name='thumbs-up'></ion-icon>
+        </button>
+        <button ion-button color="danger" icon-only (click)="countDown()">
+          <ion-icon name='thumbs-down'></ion-icon>
+        </button>
+      </div>
+    </div>
     <ion-label color="primary">Pros &amp; Cons</ion-label>
     <ion-item>
       <div class="pros-box">

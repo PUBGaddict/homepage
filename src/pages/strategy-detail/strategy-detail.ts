@@ -3,6 +3,8 @@ import { NavController, NavParams } from 'ionic-angular';
 import { MapData } from '../../providers/map-data';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
+
 /*
   Generated class for the StrategyDetail page.
 
@@ -21,6 +23,7 @@ export class StrategyDetailPage {
   private strategyId: string;
   private intentionName: string;
   private spotId: string;
+  private item: FirebaseObjectObservable<any>;
 
   public spot = {
      id: "",
@@ -38,17 +41,39 @@ export class StrategyDetailPage {
      pictures: []
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer, private angularFire: AngularFire) {
     this.mapName = navParams.get("mapName");
     this.strategyId = navParams.get("strategyId");
     this.intentionName = navParams.get("intentionName");
     this.spotId = navParams.get("spotId");
+
+    this.item = angularFire.database.object('/ratings/' + this.spotId);
 
     this.mapData.getMap(this.mapName).subscribe(map => {
       let intention = mapData.getIntentionFromMap(map, this.intentionName);
       this.strategy = mapData.getStrategyFromIntention(intention, this.strategyId);
       this.spot = mapData.getSpotFromStrategy(this.strategy, this.spotId);
     });
+  }
+
+  countUp() {
+    let change = true;
+    this.item.subscribe((snapshot) => {
+      if (change) {
+        this.item.set({ value: snapshot.value + 1 });
+        change = false;
+      }
+    })
+  }
+
+  countDown() {
+    let change = true;
+    this.item.subscribe((snapshot) => {
+      if (change) {
+        this.item.set({ value: snapshot.value - 1 });
+        change = false;
+      }
+    })
   }
 
   ionViewDidLoad() {

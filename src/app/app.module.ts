@@ -8,6 +8,17 @@ import { StrategyDetailPage } from '../pages/strategy-detail/strategy-detail';
 
 import { MapData } from '../providers/map-data';
 
+import { AngularFireModule } from 'angularfire2';
+
+// Must export the config
+export const firebaseConfig = {
+  apiKey: "AIzaSyDIaR2jO4z66WRv_cA_8bzJw3QnoIqxkvA",
+  authDomain: "csgospots-1f294.firebaseapp.com",
+  databaseURL: "https://csgospots-1f294.firebaseio.com",
+  storageBucket: "csgospots-1f294.appspot.com",
+  messagingSenderId: "743445555111",
+  projectId: "csgospots-1f294",
+};
 
 @NgModule({
   declarations: [
@@ -24,7 +35,8 @@ import { MapData } from '../providers/map-data';
        { component: MapOverviewPage, name: 'MapOverview', segment: 'maps/:mapName/:strategyId/:intentionName' },
        { component: StrategyDetailPage, name: 'StrategyDetail', segment: 'maps/:mapName/:strategyId/:intentionName/:spotId' }
      ]
-    })
+    }),
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
