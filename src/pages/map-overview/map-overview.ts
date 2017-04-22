@@ -59,9 +59,12 @@ export class MapOverviewPage {
 
   appendBackgroundImage () {
     this.selBackgroundImage = this.selMap.append("svg:image")
-                     .attr("xlink:href", "http://csgospots.square7.ch/images/" + this.map.mapname + ".png")                     
-                     .attr("width", 1024)
-                     .attr("height", 1024);
+        .attr("xlink:href", "http://csgospots.square7.ch/images/" + this.map.mapname + ".png")                     
+        .attr("width", 1024)
+        .attr("height", 1024)
+        .on("click", function(d) {
+          console.log(parseInt(d3.mouse(this)[0]) + "," + parseInt(d3.mouse(this)[1]));
+        });
   }
 
   appendDataSpots() {
