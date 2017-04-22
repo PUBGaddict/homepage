@@ -56,6 +56,16 @@ export class StrategyDetailPage {
     });
   }
 
+  countUp() {
+    let change = true;
+    this.item.subscribe((snapshot) => {
+      if (change) {
+        this.item.set({ value: snapshot.value + 1 });
+        change = false;
+      }
+    })
+  }
+
   ionViewDidLoad() {
     this.resizeImages();
     console.log('ionViewDidLoad StrategyDetailPage');

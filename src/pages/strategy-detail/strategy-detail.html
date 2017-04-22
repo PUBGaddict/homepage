@@ -17,7 +17,7 @@
         <h4>{{ (item | async)?.value }}</h4>
       </div>
       <div class="paddingLeft">
-        <button ion-button color="secondary" icon-only>
+        <button ion-button color="secondary" icon-only (click)="countUp()">
           <ion-icon name='thumbs-up'></ion-icon>
         </button>
         <button ion-button color="danger" icon-only>
