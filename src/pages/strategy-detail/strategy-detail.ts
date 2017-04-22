@@ -23,6 +23,7 @@ export class StrategyDetailPage {
   private strategyId: string;
   private intentionName: string;
   private spotId: string;
+  private votes: number;
   private item: FirebaseObjectObservable<any>;
 
   public spot = {
@@ -48,6 +49,12 @@ export class StrategyDetailPage {
     this.spotId = navParams.get("spotId");
 
     this.item = angularFire.database.object('/ratings/' + this.spotId);
+    this.item.subscribe((snapshot) => {
+      if (snapshot.value === undefined) {
+        this.item.set({ value: 0 });
+      }
+      this.votes = snapshot.value;
+    })
 
     this.mapData.getMap(this.mapName).subscribe(map => {
       let intention = mapData.getIntentionFromMap(map, this.intentionName);
@@ -57,23 +64,11 @@ export class StrategyDetailPage {
   }
 
   countUp() {
-    let change = true;
-    this.item.subscribe((snapshot) => {
-      if (change) {
-        this.item.set({ value: snapshot.value + 1 });
-        change = false;
-      }
-    })
+    this.item.set({ value: this.votes + 1 });
   }
 
   countDown() {
-    let change = true;
-    this.item.subscribe((snapshot) => {
-      if (change) {
-        this.item.set({ value: snapshot.value - 1 });
-        change = false;
-      }
-    })
+    this.item.set({ value: this.votes - 1 });
   }
 
   ionViewDidLoad() {
