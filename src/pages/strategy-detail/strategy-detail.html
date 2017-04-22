@@ -11,13 +11,10 @@
   <ion-list no-lines>
 
     <h4>{{spot.title}}</h4>
-    <ion-label color="primary">Rating</ion-label>
+    <ion-label color="primary">Votes</ion-label>
     <div>
       <div class="floatLeft">
-        <p>{{spot.rating}}/10</p> 
-        <li class="text" *ngFor="let item of items | async">
-          {{item.$value}}
-        </li>
+        <h4>{{ (item | async)?.value }}</h4>
       </div>
       <div class="paddingLeft">
         <button ion-button color="secondary" icon-only>

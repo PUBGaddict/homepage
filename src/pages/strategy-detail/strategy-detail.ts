@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { MapData } from '../../providers/map-data';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 
 /*
   Generated class for the StrategyDetail page.
@@ -23,7 +23,7 @@ export class StrategyDetailPage {
   private strategyId: string;
   private intentionName: string;
   private spotId: string;
-  private items: FirebaseListObservable<any[]>;
+  private item: FirebaseObjectObservable<any>;
 
   public spot = {
      id: "",
@@ -47,7 +47,7 @@ export class StrategyDetailPage {
     this.intentionName = navParams.get("intentionName");
     this.spotId = navParams.get("spotId");
 
-    this.items = angularFire.database.list('/ratings');
+    this.item = angularFire.database.object('/ratings/2500');
 
     this.mapData.getMap(this.mapName).subscribe(map => {
       let intention = mapData.getIntentionFromMap(map, this.intentionName);
