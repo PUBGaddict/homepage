@@ -47,7 +47,7 @@ export class StrategyDetailPage {
     this.intentionName = navParams.get("intentionName");
     this.spotId = navParams.get("spotId");
 
-    this.item = angularFire.database.object('/ratings/2500');
+    this.item = angularFire.database.object('/ratings/' + this.spotId);
 
     this.mapData.getMap(this.mapName).subscribe(map => {
       let intention = mapData.getIntentionFromMap(map, this.intentionName);
@@ -61,6 +61,16 @@ export class StrategyDetailPage {
     this.item.subscribe((snapshot) => {
       if (change) {
         this.item.set({ value: snapshot.value + 1 });
+        change = false;
+      }
+    })
+  }
+
+  countDown() {
+    let change = true;
+    this.item.subscribe((snapshot) => {
+      if (change) {
+        this.item.set({ value: snapshot.value - 1 });
         change = false;
       }
     })
