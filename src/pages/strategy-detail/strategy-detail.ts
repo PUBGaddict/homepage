@@ -23,7 +23,8 @@ export class StrategyDetailPage {
   private strategyId: string;
   private intentionName: string;
   private spotId: string;
-  private votes: number;
+  private upvotes: number;
+  public color;
   private item: FirebaseObjectObservable<any>;
 
   public spot = {
@@ -53,7 +54,7 @@ export class StrategyDetailPage {
       if (snapshot.value === undefined) {
         this.item.set({ value: 0 });
       }
-      this.votes = snapshot.value;
+      this.upvotes = snapshot.value;
     })
 
     this.mapData.getMap(this.mapName).subscribe(map => {
@@ -63,12 +64,42 @@ export class StrategyDetailPage {
     });
   }
 
-  countUp() {
-    this.item.set({ value: this.votes + 1 });
+  getVoteObject() {
+    if (typeof(Storage) !== "undefined") {
+      if (!localStorage.getItem("votes")) {
+        localStorage.setItem("votes", "[]");
+      } 
+      return JSON.parse(localStorage.getItem("votes"));
+    }
+    return [this.spotId]; //means: users with no storage already voted.
+  }
+  
+  setVoteObject(votes) {
+    if (typeof(Storage) !== "undefined" && votes) {
+      localStorage.setItem("votes", JSON.stringify(votes));
+    }
   }
 
-  countDown() {
-    this.item.set({ value: this.votes - 1 });
+  mayVote() {
+    let votes = this.getVoteObject();
+    if (!votes.includes(this.spotId)) {
+      return true;  
+    }
+    return false;
+  }
+
+  saveVote() {
+    let votes = this.getVoteObject();
+    votes.push(this.spotId);
+    this.setVoteObject(votes);
+  }
+
+  vote(direction: boolean) {
+    let delta = direction ? 1 : -1;    
+    if (this.mayVote()) {
+      this.item.set({ value: this.upvotes + delta });
+      this.saveVote();
+    }
   }
 
   ionViewDidLoad() {
