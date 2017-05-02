@@ -1,6 +1,10 @@
 page-select {
   background-color: lightgray;
 
+  .isEmptyCol {
+      display: none;
+  }
+
  .card-background-page {
 
   .list-title {
