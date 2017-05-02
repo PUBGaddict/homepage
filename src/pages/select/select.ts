@@ -44,4 +44,14 @@ export class SelectPage {
     });
   }
 
+  getRowVisibility(strategyName) {
+    if (this.map[strategyName] && this.map[strategyName].length > 0) {
+      for (let strategy of this.map[strategyName]) {
+        if (strategy.spots.length > 0) {
+          return true;
+        } 
+      }
+    } 
+    return false;
+  }
 }
