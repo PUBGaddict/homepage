@@ -19,7 +19,7 @@ export class MapData {
     if (this.dataDefusal) {
       return Observable.of(this.dataDefusal);
     } else {
-      return this.http.get('https://csgospots-1f294.firebaseio.com/de_maps.json')
+      return this.http.get('assets/data/maps_de.json')
         .map(this.processDefusalMaps);
     }
   }
@@ -28,7 +28,7 @@ export class MapData {
     if (this.dataHostage) {
       return Observable.of(this.dataHostage);
     } else {
-      return this.http.get('https://csgospots-1f294.firebaseio.com/cs_maps.json')
+      return this.http.get('assets/data/maps_cs.json')
         .map(this.processHostageMaps);
     }
   }
