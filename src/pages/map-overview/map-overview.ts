@@ -28,6 +28,7 @@ export class MapOverviewPage {
   private selSpotsEnter: any;
   private selSpots: any;
   private selSmoke: any;
+  private selHoverSmoke: any;
   private selSpotOuter: any;
   private d3sel: any;
   private xScale: any;
@@ -63,7 +64,7 @@ export class MapOverviewPage {
         .attr("width", 1024)
         .attr("height", 1024)
         .on("click", function(d) {
-          console.log(parseInt(d3.mouse(this)[0]) + "," + parseInt(d3.mouse(this)[1]));
+          console.log((parseInt(d3.mouse(this)[0]) - 25) + "," + (parseInt(d3.mouse(this)[1]) - 25));
         });
   }
 
@@ -95,7 +96,16 @@ export class MapOverviewPage {
           .append("circle")
           .attr("cx", 25)
           .attr("cy", 25)
-          .attr("r", 25)
+          .attr("r", 10)
+          .on("click", this.openPage.bind(this));
+    this.selHoverSmoke = this.selSpotOuter.append("g")
+          .attr("transform", function(d) { return (d.endx && d.endy) ? "translate(" + this.xScale(d.endx) + "," + this.yScale(d.endy) + ")" : "translate(0,0)"; }.bind(this))
+          .classed("smoke", true)
+          .classed("nodisplay", true)
+          .append("circle")
+          .attr("cx", 25)
+          .attr("cy", 25)
+          .attr("r", 30)
           .on("click", this.openPage.bind(this));
     this.selSpots.append("circle")
         .attr("cx", 25)

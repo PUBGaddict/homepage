@@ -4,9 +4,13 @@ page-map-overview {
         cursor: pointer;
 
         &:hover {
-            .smoke, .smokeline {
+            .smoke {
                 fill:lightgray;
                 cursor: pointer;
+            }
+            .smokeline {
+                stroke-dasharray: 0;
+                stroke-width: 3;
             }
             .player {
                 fill:red;
@@ -16,6 +20,11 @@ page-map-overview {
             }
             .turn-indicator {
                 stroke: darkred;
+            }
+            .nodisplay {
+                display: block;
+                fill: black;
+                opacity: .4;
             }
         }
 
@@ -34,10 +43,16 @@ page-map-overview {
             pointer-events: none;
         }
 
-        .smoke, .smokeline {
+        .smoke {
             fill:gray;
             stroke: white;
             stroke-width: 2;
+        }
+
+        .smokeline {
+            stroke-dasharray: 2;
+            stroke-width: 2;
+            stroke: white;
         }
 
         .nodisplay {
