@@ -8,6 +8,11 @@ page-map-overview {
                 fill:lightgray;
                 cursor: pointer;
             }
+            .smokebig {
+                display: block;
+                fill: black;
+                opacity: .4;
+            }
             .smokeline {
                 stroke-dasharray: 0;
                 stroke-width: 3;
@@ -18,22 +23,9 @@ page-map-overview {
                 stroke-width: 1;
                 cursor: pointer;
             }
-            .turn-indicator {
-                stroke: darkred;
-            }
-            .nodisplay {
-                display: block;
-                fill: black;
-                opacity: .4;
-            }
+      
         }
 
-        .turn-indicator {
-            fill: transparent;
-            stroke-width:1;
-            stroke:darkslateblue;
-            pointer-events: none;
-        }
         .player {
             fill: blue;
         }

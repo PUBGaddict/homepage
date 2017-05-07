@@ -100,18 +100,13 @@ export class MapOverviewPage {
           .on("click", this.openPage.bind(this));
     this.selHoverSmoke = this.selSpotOuter.append("g")
           .attr("transform", function(d) { return (d.endx && d.endy) ? "translate(" + this.xScale(d.endx) + "," + this.yScale(d.endy) + ")" : "translate(0,0)"; }.bind(this))
-          .classed("smoke", true)
+          .classed("smokebig", true)
           .classed("nodisplay", true)
           .append("circle")
           .attr("cx", 25)
           .attr("cy", 25)
           .attr("r", 30)
           .on("click", this.openPage.bind(this));
-    this.selSpots.append("circle")
-        .attr("cx", 25)
-        .attr("cy", 25)
-        .attr("r", 25)
-        .classed("turn-indicator", true);
     this.selSpots.append("circle")
         .attr("transform", "translate(15,15)")
         .attr("cx", 10)
@@ -124,7 +119,10 @@ export class MapOverviewPage {
           .size(function(d) { return 700; } )
           .type(function(d) { return d3.symbolTriangle; } ))
         .attr("transform", "translate(25,50)")
-        .classed("player-view", true);
+        .classed("player-view", true)
+        .classed("nodisplay", (d) => {
+          return !!d.endx; 
+        });
   }
 
   openPage (spot) {
