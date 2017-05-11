@@ -54,6 +54,7 @@ export class MapOverviewPage {
 
   createSVG () {
     this.d3sel = this.d3.select(".d3");
+    this.maxHeight = this.d3sel.node().parentNode.offsetHeight;
 
     let selSvg = this.d3sel.append("svg")
                      .attr("width", this.maxWidth)
