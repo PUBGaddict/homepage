@@ -12,16 +12,16 @@
 
 </ion-header>
 
+<ion-content padding class="card-background-page">
 
-<ion-content padding>
-  <div class="toplist">
-    <ion-list inset no-lines>
-      <button ion-item *ngFor="let item of votings | async" (click)="openPage(item)">
-        {{item.value}}
-      </button>
-    </ion-list>
+  <div class="toplist" >
+    <ion-card class="card" *ngFor="let item of votings | async" (click)="openPage(item)" >
+      <div class="card-content">
+        <img class="picture" src="assets/img/csgo_smoke.png"/>
+        <div class="card-title">spotty</div>
+      </div>
+    </ion-card>
   </div>
-
   <div class="d3"></div>
 
 </ion-content>

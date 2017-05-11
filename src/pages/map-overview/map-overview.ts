@@ -157,7 +157,7 @@ export class MapOverviewPage {
     this.votings = this.angularfire.list('/ratings/' + this.mapName, {
        query: { 
          orderByChild: 'value',
-         limitToLast: 10
+         limitToLast: 8
         } 
     }).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
   }
