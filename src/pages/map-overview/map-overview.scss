@@ -1,5 +1,16 @@
 page-map-overview {
 
+    .toplist {
+        display: inline-block;
+        width: 100px;
+        float:left;
+    }
+
+    .d3 {
+        display: inline-block;
+        width: 50%;
+    }
+
     .outerspot {
         cursor: pointer;
 

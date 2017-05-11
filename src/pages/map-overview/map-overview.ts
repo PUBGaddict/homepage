@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Pipe } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { MapData } from '../../providers/map-data';
 
 import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 import * as d3 from 'd3';
 
@@ -34,6 +35,7 @@ export class MapOverviewPage {
   private xScale: any;
   private yScale: any;
   private d3: any;
+  public votings: FirebaseListObservable<any[]>;
 
   public strategy = {
     id: "",
@@ -41,11 +43,13 @@ export class MapOverviewPage {
     spots: []
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private angularfire: AngularFireDatabase) {
     this.d3 = d3;
     this.mapName = navParams.get("mapName");
     this.strategyId = navParams.get("strategyId");
     this.intentionName = navParams.get("intentionName");
+    
+    this.loadToplist();
   }
 
   createSVG () {
@@ -56,6 +60,9 @@ export class MapOverviewPage {
                      .attr("height", this.maxHeight);
     this.selMap = selSvg.append("g")
           .classed("map", true);
+  }
+  ionViewWillEnter () {
+    this.loadToplist();
   }
 
   appendBackgroundImage () {
@@ -130,7 +137,7 @@ export class MapOverviewPage {
       mapName: this.mapName,
       strategyId: this.strategyId,
       intentionName: this.intentionName,
-      spotId: spot.id
+      spotId: spot.id ? spot.id : spot.$key // its spot.id when clicking on the d3-svg on the map, and spot.$key when coming from the toplist 
     });
   }
 
@@ -143,12 +150,20 @@ export class MapOverviewPage {
     let newWidth = this.d3sel.node().parentNode.offsetWidth,
         width = newWidth > this.maxWidth ? this.maxWidth : newWidth;
 
-    this.selMap.attr("transform", "scale(" + width / this.maxWidth + ")");
+    this.selMap.attr("transform", "scale(" + (width-100) / this.maxWidth + ")");
+  }
+
+  loadToplist () {
+    this.votings = this.angularfire.list('/ratings/' + this.mapName, {
+       query: { 
+         orderByChild: 'value',
+         limitToLast: 10
+        } 
+    }).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MapOverviewPage');
-
     this.mapData.getMap(this.mapName).subscribe(map => {
       this.map = map;
 

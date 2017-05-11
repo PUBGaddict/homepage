@@ -14,6 +14,14 @@
 
 
 <ion-content padding>
+  <div class="toplist">
+    <ion-list inset no-lines>
+      <button ion-item *ngFor="let item of votings | async" (click)="openPage(item)">
+        {{item.value}}
+      </button>
+    </ion-list>
+  </div>
+
   <div class="d3"></div>
 
 </ion-content>
