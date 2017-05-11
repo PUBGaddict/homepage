@@ -1,30 +1,26 @@
 {
     "mapname": "de_canals",
-    "ct": [
+    "smoke": [
         {
-            "id": "defending_positions",
+            "id": "smoke",
             "picture" : "de_dust2/ct_defending_spot.png",
-            "name" : "Defending Positions",
+            "name" : "Smokes",
             "spots": [
                 {
-                    "id": "2000",
-                    "title" : "Aiming B Tunnels from B Platform",
-                    "description" : "Just position yourself behind the box, and peek into B Tunnels. Make sure you are not standing directly behind the box, but some steps away from it to make sure you are not visible to double doors or window. Duck while waiting and peek every some seconds to make sure no one gets through.",
-                    "rating" : "5",
-                    "difficulty" : "2",
-                    "prerequisites" : "none",
+                    "id": "3500",                    
+                    "title" : "Smoke A-Long Doubledoors from car",
                     "pros" : [
-                        "safe to reach", "easy to open from", "not accessible/peekable from other spots"
+                        "Safe spot", "Easy to land"
                     ],
                     "cons" : [
-                        "you are stuck if they know you are there"
                     ],
-                    "angle": 0,
-                    "x": 63,
-                    "y": 50,
-                    "pictures" : [
-                        "de_dust2/de_dust20033.jpg"
-                    ]
+                    "angle": 25,
+                    "x": 900,
+                    "y": 270,
+                    "endx" : 680,
+                    "endy" : 560, 
+                    "vidUrl" : "https://gfycat.com/ifr/FakeAggravatingBrant",
+                    "pictures" : []
                 }]
         }]
 }

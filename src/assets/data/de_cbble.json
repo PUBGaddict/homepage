@@ -1,14 +1,26 @@
 {
-    "spots" : [
+    "mapname": "de_cbble",
+    "smoke": [
         {
-            "angle": 45,
-            "x": 63,
-            "y": 80
-        },
-        {
-            "angle": 90,
-            "x": 500,
-            "y": 500
-        }
-    ]
+            "id": "smoke",
+            "picture" : "de_dust2/ct_defending_spot.png",
+            "name" : "Smokes",
+            "spots": [
+                {
+                    "id": "1500",                    
+                    "title" : "Smoke A-Long Doubledoors from car",
+                    "pros" : [
+                        "Safe spot", "Easy to land"
+                    ],
+                    "cons" : [
+                    ],
+                    "angle": 25,
+                    "x": 900,
+                    "y": 270,
+                    "endx" : 680,
+                    "endy" : 560, 
+                    "vidUrl" : "",
+                    "pictures" : []
+                }]
+        }]
 }
