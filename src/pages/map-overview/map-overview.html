@@ -15,7 +15,7 @@
 <ion-content padding class="card-background-page">
 
   <div class="toplist" >
-    <ion-card class="card" *ngFor="let item of votings | async" (click)="openPage(item)" >
+    <ion-card class="card" *ngFor="let item of votings | async" (click)="openPage(item)" (mouseenter)='onMouseEnterCard(item)' (mouseleave)='onMouseLeaveCard(item)'>
       <div class="card-content">
         <img class="picture" src="assets/img/csgo_smoke.png"/>
         <div class="card-title">{{item.value}}</div>

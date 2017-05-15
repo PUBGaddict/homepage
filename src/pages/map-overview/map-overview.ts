@@ -163,6 +163,17 @@ export class MapOverviewPage {
     }).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
   }
 
+  onMouseEnterCard (item) {
+    this.d3.selectAll("g.outerspot")
+        .filter(function(d) { return d.id === item.$key; })
+        .classed("hover", true);
+  }
+  onMouseLeaveCard (item) {
+    this.d3.selectAll("g.outerspot")
+        .filter(function(d) { return d.id === item.$key; })
+        .classed("hover", false);
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad MapOverviewPage');
     this.mapData.getMap(this.mapName).subscribe(map => {
@@ -179,6 +190,7 @@ export class MapOverviewPage {
       this.appendDataSpots();
       this.render();
       window.addEventListener('resize', this.render.bind(this));
+
     });
   }
 

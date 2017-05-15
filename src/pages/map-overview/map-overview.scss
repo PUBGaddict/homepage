@@ -1,5 +1,6 @@
 page-map-overview {
 
+
     .toplist {
         display: inline-block;
         width: 100px;
@@ -11,11 +12,11 @@ page-map-overview {
         display: inline-block;
         width: 50%;
     }
-
+    
     .outerspot {
         cursor: pointer;
 
-        &:hover {
+        &:hover, &.hover{
             .smoke {
                 fill:lightgray;
                 cursor: pointer;
