@@ -49,7 +49,11 @@ export class StrategyDetailPage {
     this.intentionName = navParams.get("intentionName");
     this.spotId = navParams.get("spotId");
 
-    this.item = angularFire.database.object('/ratings/' + this.mapName + "/" + this.spotId);
+    this.item = angularFire.database.object('/ratings/' + 
+            this.mapName + "/" + 
+            this.strategyId  + "/" + 
+            this.intentionName  + "/" + 
+            this.spotId);
     this.item.subscribe((snapshot) => {
       if (snapshot.value === undefined) {
         this.item.set({ value: 0 });

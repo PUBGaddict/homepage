@@ -155,7 +155,10 @@ export class MapOverviewPage {
   }
 
   loadToplist () {
-    this.votings = this.angularfire.list('/ratings/' + this.mapName, {
+    this.votings = this.angularfire.list('/ratings/' + 
+            this.mapName + "/" + 
+            this.strategyId  + "/" + 
+            this.intentionName, {
        query: { 
          orderByChild: 'value',
          limitToLast: 8
