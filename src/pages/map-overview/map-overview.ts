@@ -58,7 +58,7 @@ export class MapOverviewPage {
 
     let selSvg = this.d3sel.append("svg")
                      .attr("width", this.maxWidth)
-                     .attr("height", this.maxHeight);
+                     .attr("height", this.maxHeight > 1024 ? this.maxHeight : 1024);
     this.selMap = selSvg.append("g")
           .classed("map", true);
   }
@@ -159,10 +159,10 @@ export class MapOverviewPage {
             this.mapName + "/" + 
             this.strategyId  + "/" + 
             this.intentionName, {
-       query: { 
-         orderByChild: 'value',
-         limitToLast: 8
-        } 
+              query: { 
+              orderByChild: 'value',
+              limitToLast: 8
+            } 
     }).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
   }
 
