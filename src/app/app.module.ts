@@ -1,4 +1,9 @@
 import { NgModule, ErrorHandler } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { SelectPage } from '../pages/select/select';
@@ -29,6 +34,8 @@ export const firebaseConfig = {
     StrategyDetailPage
   ],
   imports: [
+    BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp, {}, {
      links: [
        { component: SelectPage, name: 'Select', segment: 'maps/:mapName' },
@@ -46,6 +53,9 @@ export const firebaseConfig = {
     WelcomePage,
     StrategyDetailPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, MapData]
+  providers: [
+    StatusBar,
+    SplashScreen,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}, MapData]
 })
 export class AppModule {}
