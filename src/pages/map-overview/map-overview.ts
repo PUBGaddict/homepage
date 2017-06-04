@@ -53,7 +53,8 @@ export class MapOverviewPage {
   }
 
   createSVG () {
-    this.d3sel = this.d3.select(".d3");
+    var alld3sels = this.d3.selectAll(".d3");
+    this.d3sel = d3.select(alld3sels.nodes()[alld3sels.size()-1]); //workaround to fix ionic backstack behavior
     this.maxHeight = this.d3sel.node().parentNode.offsetHeight;
 
     let selSvg = this.d3sel.append("svg")
