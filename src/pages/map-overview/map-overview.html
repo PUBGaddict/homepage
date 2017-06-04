@@ -14,15 +14,25 @@
 
 <ion-content padding class="card-background-page">
 
-  <div class="toplist" >
-    <ion-card class="card" *ngFor="let item of votings | async" (click)="openPage(item)" (mouseenter)='onMouseEnterCard(item)' (mouseleave)='onMouseLeaveCard(item)'>
-      <div class="card-content">
-        <img class="picture" src="assets/img/csgo_smoke.png"/>
-        <div class="card-title">{{item.value}}</div>
-        <ion-icon [color]="'secondary'" class="card-subtitle" name='thumbs-up'></ion-icon>
-      </div>
-    </ion-card>
+  <div class="mobile">
+    <ion-list >
+      <button ion-item *ngFor="let spot of strategy.spots" (click)="openPage(spot)" >
+        {{ spot.title }}
+      </button>  
+    </ion-list>    
   </div>
-  <div class="d3"></div>
+
+  <div class="desktop">
+    <div class="toplist" >
+      <ion-card class="card" *ngFor="let item of votings | async" (click)="openPage(item)" (mouseenter)='onMouseEnterCard(item)' (mouseleave)='onMouseLeaveCard(item)'>
+        <div class="card-content">
+          <img class="picture" src="assets/img/csgo_smoke.png"/>
+          <div class="card-title">{{item.value}}</div>
+          <ion-icon [color]="'secondary'" class="card-subtitle" name='thumbs-up'></ion-icon>
+        </div>
+      </ion-card>
+    </div>
+    <div class="d3"></div>
+  </div>
 
 </ion-content>

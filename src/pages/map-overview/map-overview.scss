@@ -1,5 +1,22 @@
 page-map-overview {
+    .mobile {
+        @media screen and (max-width: 768px){
+            display: block;
+        }
+        @media screen and (min-width: 768px){
+            display: none;
+        }
+    }
 
+    .desktop {
+        @media screen and (max-width: 768px){
+            display: none;
+        }
+        @media screen and (min-width: 768px){
+            display: block;
+        }
+    }
+   
 
     .toplist {
         display: inline-block;
