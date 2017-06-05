@@ -1,0 +1,36 @@
+{
+    "mapname": "de_dust2",
+    "smoke": [
+        {
+            "id": "mid",
+            "name": "Mid",
+            "picture": "de_dust2/smoke_mid.png",
+            "spots": []
+        },
+        {
+            "id": "a",
+            "name": "A",
+            "picture": "de_dust2/smoke_a.png",
+            "spots": [
+                {
+                    "id": "15500",
+                    "title": "Smoke B connector from T spawn",
+                    "pros": [
+                        "Safe spot"
+                    ],
+                    "cons": [
+                        "Need some practice"
+                    ],
+                    "angle": 25,
+                    "x": 900,
+                    "y": 270,
+                    "endx": 680,
+                    "endy": 560,
+                    "youtube": true,
+                    "vidUrl": "https://www.youtube.com/embed/AvtUHGSeU2g",
+                    "pictures": []
+                }
+            ]
+        }
+    ]
+}
