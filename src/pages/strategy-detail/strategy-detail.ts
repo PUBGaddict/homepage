@@ -26,6 +26,8 @@ export class StrategyDetailPage {
   private upvotes: number;
   public color;
   private item: FirebaseObjectObservable<any>;
+     
+  public safeVidUrl : any;
 
   public spot = {
      id: "",
@@ -40,6 +42,8 @@ export class StrategyDetailPage {
      x: "",
      y: "",
      vid: false,
+     youtube: false,
+     vidUrl: "",
      pictures: []
   }
 
@@ -65,6 +69,11 @@ export class StrategyDetailPage {
       let intention = mapData.getIntentionFromMap(map, this.intentionName);
       this.strategy = mapData.getStrategyFromIntention(intention, this.strategyId);
       this.spot = mapData.getSpotFromStrategy(this.strategy, this.spotId);
+      if (this.spot.youtube) {
+        this.safeVidUrl = sanitizer.bypassSecurityTrustResourceUrl(this.spot.vidUrl+'?autoplay=1&amp;controls=0&amp;loop=1&amp;rel=0');
+      } else {
+        this.safeVidUrl = sanitizer.bypassSecurityTrustResourceUrl(this.spot.vidUrl);
+      }
     });
   }
 
