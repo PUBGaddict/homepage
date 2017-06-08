@@ -10,5 +10,11 @@
     },
     {
         "mapname": "cs_militia"
+    },
+    {
+        "mapname": "cs_agency"
+    },
+    {
+        "mapname": "cs_insertion"
     }
 ]

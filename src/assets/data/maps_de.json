@@ -28,5 +28,17 @@
     },
     {
         "mapname": "de_austria"
-    }
+    },
+    {
+        "mapname": "de_thrill"
+    },
+    {
+        "mapname": "de_lite"
+    },
+    {
+        "mapname": "de_shipped"
+    },
+    {
+        "mapname": "de_blackgold"
+    }    
 ]
