@@ -34,6 +34,7 @@ export class SelectPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SelectPage');
+    ga('send', 'event', 'map-select', this.mapName);
   }
 
   openMapOverview(strategyId, intentionName) {
