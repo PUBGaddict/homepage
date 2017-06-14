@@ -16,6 +16,9 @@ export class WelcomePage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {
+    ga('set', 'page', '/welcome');
+    ga('send', 'event', "page", "visit", "welcome");
+
     console.log('ionViewDidLoad WelcomePage');
   }
 

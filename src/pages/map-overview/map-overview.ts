@@ -180,6 +180,12 @@ export class MapOverviewPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MapOverviewPage');
+
+    ga('set', 'page', '/map-overview');
+    ga('send', 'event', "page", "visit", "map-overview");
+    ga('send', 'event', "strategy", "selected", this.strategyId);
+    ga('send', 'event', "intention", "selected", this.intentionName);
+
     this.mapData.getMap(this.mapName).subscribe(map => {
       this.map = map;
 

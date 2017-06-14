@@ -116,6 +116,11 @@ export class StrategyDetailPage {
   }
 
   ionViewDidLoad() {
+
+    ga('set', 'page', '/strategy-detail');
+    ga('send', 'event', "page", "visit", "stragety-detail");
+    ga('send', 'event', "spot", "selected", this.spotId);
+
     this.resizeImages();
     console.log('ionViewDidLoad StrategyDetailPage');
 
