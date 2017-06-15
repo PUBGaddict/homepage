@@ -3,35 +3,35 @@ import { Component, Input, AfterViewInit } from '@angular/core';
 @Component({
   selector: 'youtube-player',
   template: `
-      <iframe [id]="playerId" width="640" height="390" frameborder="0"></iframe>
+      <div [id]="playerId"></div>
   `
 })
 export class YoutubePlayerComponent implements AfterViewInit {
   public player: any;
-  @Input() playerId: string = "player" + Math.floor(Math.random() * 1000);
+  @Input() playerId: string = "player" + Math.floor(Math.random() * 100000);
+  @Input() vid: string = "Dc6wTKOvpDk";
   @Input() start: string = "0";
   @Input() end: string = "99";
+  @Input() height: string = "390";
+  @Input() width: string = "640";
 
-  constructor() {    
+  constructor() {
    
   }
 
   ngAfterViewInit() {
-    debugger;
-    var YT = window["YT"];
-    this.player = new YT.Player(this.playerId, {
-/*      height: '390',
-      width: '640',*/
-      videoId: 'Dc6wTKOvpDk',
+    this.player = new window["YT"].Player(this.playerId, {
+      height: this.height,
+      width: this.width,
+      videoId: this.vid,
       playerVars: { 'autoplay': 1, 'loop': 1, 'controls': 0, 'fs': 0, 'iv_load_policy': 3, 'modestbranding': 1, 'playsinline': 1, 'rel': 0, 'showinfo': 0 },
       events: {
-        onReady: this.onPlayerReady
+        'onReady': this.onPlayerReady.bind(this)
       }
     });
   }
 
   onPlayerReady(event) {
-    debugger;
     var START = parseInt(this.start,10);
     var END = parseInt(this.end,10);
     event.target.seekTo(START);
