@@ -9,9 +9,7 @@
 
 <ion-content padding #container>
   <ion-list no-lines>
-
-    <h4>{{spot.title}}</h4>
-    <ion-label color="primary">Votes</ion-label>
+    <ion-label color="primary">Useful?</ion-label>
     <div>
       <div class="floatLeft">
         <h4>{{ (item | async)?.value }}</h4>
@@ -25,24 +23,8 @@
         </button>
       </div>
     </div>
-    <ion-label color="primary">Pros &amp; Cons</ion-label>
-    <ion-item>
-      <div class="pros-box">
-        <ul>
-          <li *ngFor="let pro of spot.pros">
-            <p>{{pro}}</p>
-          </li>
-        </ul>
-      </div>
-      <div class="cons-box">
-        <ul>
-          <li *ngFor="let con of spot.cons">
-            <p>{{con}}</p>
-          </li>
-        </ul>
-      </div>
-    </ion-item>
-    <ion-label color="primary">Screens</ion-label>
+    <ion-label *ngIf="(spot.vidUrl)" color="primary">Video</ion-label>
+    <ion-label *ngIf="!(spot.vidUrl)" color="primary">Screenshots</ion-label>
     <div *ngIf="!(spot.vidUrl)">
       <ion-img width="100%" height="{{height}}" *ngFor="let img of spot.pictures" class="screenshot" src="/assets/img/{{img}}"> </ion-img>
     </div>
