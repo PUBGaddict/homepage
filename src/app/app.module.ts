@@ -12,6 +12,7 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { StrategyDetailPage } from '../pages/strategy-detail/strategy-detail';
 
 import { MapData } from '../providers/map-data';
+import { PatchnoteData } from '../providers/patchnote-data';
 
 import { AngularFireModule } from 'angularfire2';
 
@@ -56,6 +57,8 @@ export const firebaseConfig = {
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}, MapData]
+    {provide: ErrorHandler, useClass: IonicErrorHandler}, 
+    MapData,
+    PatchnoteData]
 })
 export class AppModule {}

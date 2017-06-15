@@ -10,5 +10,31 @@
 
 
 <ion-content padding>
-  Choose a map to start with.
+  <ion-title>Latest News</ion-title>
+  <br>
+  <ion-list no-lines>
+    <ion-item *ngFor="let patchnote of patchNotes">
+      <ion-item>
+        <h1>{{patchnote.title}}</h1>
+        <ion-note item-end>
+          {{patchnote.date}}
+        </ion-note>
+        <ion-avatar item-start>
+          <img src="assets/icon/go.png">
+        </ion-avatar>
+      </ion-item>
+      <div *ngFor="let article of patchnote.articles" class="paddingLeft">
+        <h2>{{article.heading}}</h2>
+        <ion-list no-lines>
+          <ul> 
+            <li *ngFor="let paragraph of article.paragraphs">
+              <h3 class="wordWrap">{{paragraph.text}}</h3>
+              <a [href]="paragraph.link" class="wordWrap urlStyle" *ngIf="paragraph.link">More Details</a>
+            </li>
+          </ul>
+        </ion-list>
+      </div>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

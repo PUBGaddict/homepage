@@ -1,0 +1,65 @@
+[
+    {
+        "title": "Patch Notes",
+        "date": "13.06.2017",
+        "articles" : [{
+            "heading" : "MISC",
+            "paragraphs" : [{
+                "text": "Added a public WebAPI ICSGOServers_730/GetGameMapsPlaytime/v1 to allow community map creators to track play statistics of Operation Hydra maps in Casual and Competitive game modes.",
+                "link": "http://steamcommunity.com/games/CSGO/announcements/detail/1349240000434491873"
+            },{
+                "text": "Windows dedicated server executable can now handle large >2GB addresses."
+            },{
+                "text": "Replaced cl_teamid_overhead with sv_teamid_overhead, which is now a server convar."
+            },{
+                "text": "Added concommand itemtimedata_print_and_reset, which prints all current item time data and resets it."
+            },{
+                "text": "Changed item time data server log format to more closely match other server log entries." 
+            }]
+        },{
+            "heading" : "OPERATION HYDRA",
+            "paragraphs" : [{
+                "text": "Added ability to select Wargames to match into, accessible from the Custom menu in the Mission panel."
+            },{
+                "text": "Added ability to vote into maps while playing Wargames."
+            },{
+                "text": "Added “next map” or “random other Wargame” vote to end of match in Wargames."
+            },{
+                "text": "Updated Wargames maps."
+            }]
+        }]
+    },{
+        "title": "Patch Notes",
+        "date": "08.06.2017",
+        "articles" : [{
+            "heading" : "WEAPON FINISHES",
+            "paragraphs" : [{
+                "text": "Added normal mapping to Custom Paint Job, Patina, and Gunsmith paint styles."
+            },{
+                "text": "Upgraded CZ75-Auto | Victoria to use normal mapping."
+            }]
+        },{
+            "heading" : "OPERATION HYDRA",
+            "paragraphs" : [{
+                "text": "Fixed incorrect round number in Weapons Expert lobby description."
+            },{
+                "text": "Fixed a weapons purchase exploit in Weapons Expert."
+            }]
+        },{
+            "heading" : "MISC",
+            "paragraphs" : [{
+                "text": "Fixed scoreboard rows sometimes displaying local player’s rank on other rows."
+            },{
+                "text": "Fixed regressions related to having a gamepad plugged in."
+            },{
+                "text": "Fixed a regression in nearby Guardian lobbies mission names."
+            },{
+                "text": "Nav mesh location will now correctly update on HUD for spectators or GOTV viewers using the target observed player’s location."
+            },{
+                "text": "If bomb icon shows under radar, then spectators and GOTV viewers will correctly display the bomb icon under radar when observing the bomb carrier."
+            },{
+                "text": "Added convar sv_record_item_time_data, which adds player weapon usage data to server logs."
+            }]
+        }]
+    }
+]

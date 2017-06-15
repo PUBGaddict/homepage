@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { PatchnoteData } from '../../providers/patchnote-data';
 
 /*
   Generated class for the Welcome page.
@@ -12,8 +13,13 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'welcome.html'
 })
 export class WelcomePage {
+  public patchNotes;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, public patchnoteData : PatchnoteData) {
+    this.patchnoteData.getPatchnotes().subscribe(patchNotes => {
+      this.patchNotes = patchNotes;
+    });
+  }
 
   ionViewDidLoad() {
     ga('set', 'page', '/welcome');
