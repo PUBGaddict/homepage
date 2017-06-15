@@ -9,9 +9,9 @@ import { Component, Input, AfterViewInit } from '@angular/core';
 export class YoutubePlayerComponent implements AfterViewInit {
   public player: any;
   @Input() playerId: string = "player" + Math.floor(Math.random() * 100000);
-  @Input() vid: string = "Dc6wTKOvpDk";
-  @Input() start: string = "0";
-  @Input() end: string = "99";
+  @Input() vid: string = "";
+  @Input() start: number = 0;
+  @Input() end: number = 99;
   @Input() height: string = "390";
   @Input() width: string = "640";
 
@@ -32,8 +32,8 @@ export class YoutubePlayerComponent implements AfterViewInit {
   }
 
   onPlayerReady(event) {
-    var START = parseInt(this.start,10);
-    var END = parseInt(this.end,10);
+    var START = this.start;
+    var END = this.end;
     event.target.seekTo(START);
     setInterval(function () {
       if (event.target.getCurrentTime() > END) {
