@@ -4,6 +4,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { MapData } from '../providers/map-data';
+import { DefusalData } from '../providers/defusal-data';
+import { HostageData } from '../providers/hostage-data';
+
 import { WelcomePage } from '../pages/welcome/welcome';
 import { SelectPage } from '../pages/select/select';
 
@@ -18,16 +21,16 @@ export class MyApp {
   de_maps: any[] = [];
   cs_maps: any[] = [];
 
-  constructor(platform: Platform, public mapData : MapData) {
+  constructor(platform: Platform, public defusalData : DefusalData,  public hostageData : HostageData ,public mapData : MapData) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
     });
 
-    this.mapData.getDefusalMaps().subscribe((de_maps: any[]) => {
+    this.defusalData.getDefusalMaps().subscribe((de_maps: any[]) => {
       this.de_maps = de_maps;
     });
-    this.mapData.getHostageMaps().subscribe((cs_maps: any[]) => {
+    this.hostageData.getHostageMaps().subscribe((cs_maps: any[]) => {
       this.cs_maps = cs_maps;
     });
   }

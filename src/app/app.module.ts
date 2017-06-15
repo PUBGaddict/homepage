@@ -12,6 +12,8 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { StrategyDetailPage } from '../pages/strategy-detail/strategy-detail';
 
 import { MapData } from '../providers/map-data';
+import { DefusalData } from '../providers/defusal-data';
+import { HostageData } from '../providers/hostage-data';
 import { PatchnoteData } from '../providers/patchnote-data';
 
 import { AngularFireModule } from 'angularfire2';
@@ -59,6 +61,8 @@ export const firebaseConfig = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}, 
     MapData,
-    PatchnoteData]
+    PatchnoteData,
+    DefusalData,
+    HostageData]
 })
 export class AppModule {}

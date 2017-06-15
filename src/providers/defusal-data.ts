@@ -8,10 +8,8 @@ import 'rxjs/add/observable/of';
 
 
 @Injectable()
-export class MapData {
+export class DefusalData {
   dataDefusal: any;
-  dataHostage: any;
-  private mapCache: any = {};
 
   constructor(public http: Http) { }
 
