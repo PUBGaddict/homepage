@@ -17,6 +17,7 @@ import { HostageData } from '../providers/hostage-data';
 import { PatchnoteData } from '../providers/patchnote-data';
 
 import { AngularFireModule } from 'angularfire2';
+import { YoutubePlayerComponent } from './youtube-player.component';
 
 // Must export the config
 export const firebaseConfig = {
@@ -34,7 +35,8 @@ export const firebaseConfig = {
     SelectPage,
     MapOverviewPage,
     WelcomePage,
-    StrategyDetailPage
+    StrategyDetailPage,
+    YoutubePlayerComponent
   ],
   imports: [
     BrowserModule,
