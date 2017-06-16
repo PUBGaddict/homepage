@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { MapData } from '../../providers/map-data';
 
 /*
   Generated class for the MapOverview page.
@@ -15,6 +16,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
   templateUrl: 'map-overview.html'
 })
 export class MapOverviewPage {
+  private map: any;
   public strategyId: string;
   public intentionName: any;
   public mapName: string;
@@ -26,7 +28,7 @@ export class MapOverviewPage {
     spots: []
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private angularfire: AngularFireDatabase) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private angularfire: AngularFireDatabase, public mapData: MapData) {
 
     this.mapName = navParams.get("mapName");
     this.strategyId = navParams.get("strategyId");
@@ -73,6 +75,11 @@ export class MapOverviewPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MapOverviewPage');
+    this.mapData.getMap(this.mapName).subscribe(map => {
+        this.map = map;
+        let intention = this.mapData.getIntentionFromMap(map, this.intentionName);
+        this.strategy = this.mapData.getStrategyFromIntention(intention, this.strategyId);
+    });
 
     ga('set', 'page', '/map-overview');
     ga('send', 'event', "page", "visit", "map-overview");
