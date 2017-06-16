@@ -16,6 +16,7 @@ export class MapOverviewComponent implements AfterViewInit {
     @Input() maxWidth: number = 1024;
     @Input() maxHeight: number = 1024;
 
+    @Output() spotPress: EventEmitter<any> = new EventEmitter<any>();
     @Output() press: EventEmitter<any> = new EventEmitter<any>();
 
     private map: any;
@@ -58,12 +59,14 @@ export class MapOverviewComponent implements AfterViewInit {
     }
 
     appendBackgroundImage() {
+        var that = this;
         this.selBackgroundImage = this.selMap.append("svg:image")
             .attr("xlink:href", "/assets/img/" + this.map.mapname + ".png")
             .attr("width", 1024)
             .attr("height", 1024)
-            .on("click", function (d) {
-                console.log((parseInt(d3.mouse(this)[0]) - 25) + "," + (parseInt(d3.mouse(this)[1]) - 25));
+            .on("click", (e) => { 
+                let mouse = that.d3.mouse(that.d3.event.currentTarget);
+                that.press.emit({ x: parseInt(mouse[0])-25, y: parseInt(mouse[1])-25})
             });
     }
 
@@ -83,7 +86,7 @@ export class MapOverviewComponent implements AfterViewInit {
             .attr("y1", (d) => { return d.y + 25 })
             .attr("x2", (d) => { return d.endx ? d.endx + 25 : 0 })
             .attr("y2", (d) => { return d.endy ? d.endy + 25 : 0 })
-            .on("click", (e) => { that.press.emit(e) });
+            .on("click", (e) => { that.spotPress.emit(e) });
         this.selSpots = this.selSpotOuter.append("g")
             .classed("spot", true)
             .attr("transform", function (d) { return "translate(" + that.xScale(d.x) + "," + that.yScale(d.y) + ") rotate(" + d.angle + " 25 25)"; })
@@ -97,7 +100,7 @@ export class MapOverviewComponent implements AfterViewInit {
             .attr("cx", 25)
             .attr("cy", 25)
             .attr("r", 10)
-            .on("click", (e) => { that.press.emit(e) });
+            .on("click", (e) => { that.spotPress.emit(e) });
         this.selHoverSmoke = this.selSpotOuter.append("g")
             .attr("transform", function (d) { return (d.endx && d.endy) ? "translate(" + that.xScale(d.endx) + "," + that.yScale(d.endy) + ")" : "translate(0,0)"; })
             .classed("smokebig", true)
@@ -106,14 +109,14 @@ export class MapOverviewComponent implements AfterViewInit {
             .attr("cx", 25)
             .attr("cy", 25)
             .attr("r", 30)
-            .on("click", (e) => { that.press.emit(e) });
+            .on("click", (e) => { that.spotPress.emit(e) });
         this.selSpots.append("circle")
             .attr("transform", "translate(15,15)")
             .attr("cx", 10)
             .attr("cy", 10)
             .attr("r", 7)
             .classed("player", true)
-            .on("click", (e) => { that.press.emit(e) });
+            .on("click", (e) => { that.spotPress.emit(e) });
         this.selSpots.append("path")
             .attr("d", d3.symbol()
                 .size(function (d) { return 700; })

@@ -17,6 +17,10 @@ export class SubmitPage {
     
   }
 
+  logPress(event) {
+    console.log(event);
+  }
+
   ionViewDidLoad() {
     ga('set', 'page', '/submit');
     ga('send', 'event', "page", "visit", "submit");

@@ -37,5 +37,20 @@
     <ion-input type="text" value=""></ion-input>
   </ion-item>
 
+  <ion-item>
+    <ion-label fixed>YT Video Start</ion-label>
+    <ion-input type="text" value=""></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label fixed>YT Video End</ion-label>
+    <ion-input type="text" value=""></ion-input>
+  </ion-item>
+
+  <ion-label>Video Live Preview</ion-label>
+  <youtube-player></youtube-player>
+
+  <ion-label>Select position of your Spot on the map below</ion-label>
+  <map-overview [mapName]="'de_dust2'" [strategyId]="'defending_positions'" [intentionName]="'ct'" (press)="logPress($event)"></map-overview>
 
 </ion-content>
