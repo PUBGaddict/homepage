@@ -23,7 +23,7 @@
   </div>
 
   <div class="desktop">
-    <div class="toplist" >
+    <div class="toplist">
       <ion-card class="card" *ngFor="let item of votings | async" (click)="openPage(item)" (mouseenter)='onMouseEnterCard(item)' (mouseleave)='onMouseLeaveCard(item)'>
         <div class="card-content">
           <img class="picture" src="assets/img/csgo_smoke.png"/>
@@ -32,7 +32,7 @@
         </div>
       </ion-card>
     </div>
-    <div class="d3"></div>
+    <map-overview [mapName]="mapName" [strategyId]="strategyId" [intentionName]="intentionName" (press)="openPage($event)"></map-overview>
   </div>
 
 </ion-content>
