@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Submit new Spot</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-label>Map</ion-label>
+    <ion-select [(ngModel)]="map">
+      <ion-option value="de_austria">de_austria</ion-option>
+      <ion-option value="de_dust2">de_dust2</ion-option>
+      <ion-option value="de_mirage">de_mirage</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label fixed>Spot title</ion-label>
+    <ion-input type="text" value=""></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Category</ion-label>
+    <ion-select [(ngModel)]="category">
+      <ion-option value="spot">Spot</ion-option>
+      <ion-option value="smoke">Smoke</ion-option>
+      <ion-option value="awp">AWP Spot</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label fixed>YT Video ID</ion-label>
+    <ion-input type="text" value=""></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label fixed>YT Video Start</ion-label>
+    <ion-input type="text" value=""></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label fixed>YT Video End</ion-label>
+    <ion-input type="text" value=""></ion-input>
+  </ion-item>
+
+  <ion-label>Video Live Preview</ion-label>
+  <youtube-player></youtube-player>
+
+  <ion-label>Select position of your Spot on the map below</ion-label>
+  <map-overview [mapName]="'de_dust2'" [strategyId]="'defending_positions'" [intentionName]="'ct'" (press)="logPress($event)"></map-overview>
+
+</ion-content>

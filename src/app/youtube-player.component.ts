@@ -32,14 +32,14 @@ export class YoutubePlayerComponent implements AfterViewInit {
   }
 
   onPlayerReady(event) {
-    var START = this.start;
-    var END = this.end;
-    event.target.seekTo(START);
+    var player = event.target;
+    player.mute();
+    player.seekTo(this.start);
     setInterval(function () {
-      if (event.target.getCurrentTime() > END) {
-        event.target.seekTo(START);
+      if (player.getCurrentTime() > this.end) {
+        player.seekTo(this.start);
       }
     }, 100)
-    event.target.playVideo();
+    player.playVideo();
   }
 }

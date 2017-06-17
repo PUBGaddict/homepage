@@ -10,6 +10,7 @@ import { SelectPage } from '../pages/select/select';
 import { MapOverviewPage } from '../pages/map-overview/map-overview';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { StrategyDetailPage } from '../pages/strategy-detail/strategy-detail';
+import { SubmitPage } from '../pages/submit/submit';
 
 import { MapData } from '../providers/map-data';
 import { DefusalData } from '../providers/defusal-data';
@@ -18,6 +19,7 @@ import { PatchnoteData } from '../providers/patchnote-data';
 
 import { AngularFireModule } from 'angularfire2';
 import { YoutubePlayerComponent } from './youtube-player.component';
+import { MapOverviewComponent } from './map-overview.component';
 
 // Must export the config
 export const firebaseConfig = {
@@ -36,7 +38,9 @@ export const firebaseConfig = {
     MapOverviewPage,
     WelcomePage,
     StrategyDetailPage,
-    YoutubePlayerComponent
+    SubmitPage,
+    YoutubePlayerComponent,
+    MapOverviewComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,8 @@ export const firebaseConfig = {
      links: [
        { component: SelectPage, name: 'Select', segment: 'maps/:mapName' },
        { component: MapOverviewPage, name: 'MapOverview', segment: 'maps/:mapName/:strategyId/:intentionName' },
-       { component: StrategyDetailPage, name: 'StrategyDetail', segment: 'maps/:mapName/:strategyId/:intentionName/:spotId' }
+       { component: StrategyDetailPage, name: 'StrategyDetail', segment: 'maps/:mapName/:strategyId/:intentionName/:spotId' },
+       { component: SubmitPage, name: 'SubmitPage', segment: 'submit' }
      ]
     }),
     AngularFireModule.initializeApp(firebaseConfig)
@@ -56,6 +61,7 @@ export const firebaseConfig = {
     SelectPage,
     MapOverviewPage,
     WelcomePage,
+    SubmitPage,
     StrategyDetailPage
   ],
   providers: [
