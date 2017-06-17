@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { MapData } from '../../providers/map-data';
 
 import { MapOverviewPage } from '../map-overview/map-overview'
+import { SubmitPage } from '../submit/submit'
 
 /*
   Generated class for the Select page.
@@ -45,6 +46,10 @@ export class SelectPage {
       strategyId,
       intentionName
     });
+  }
+
+  openSubmitPage() {
+    this.navCtrl.push(SubmitPage);
   }
 
   getRowVisibility(strategyName) {

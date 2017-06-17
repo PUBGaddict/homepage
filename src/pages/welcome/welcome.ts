@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { PatchnoteData } from '../../providers/patchnote-data';
+import { SubmitPage } from '../submit/submit';
 
 /*
   Generated class for the Welcome page.
@@ -28,4 +29,7 @@ export class WelcomePage {
     console.log('ionViewDidLoad WelcomePage');
   }
 
+  openSubmitPage() {
+    this.navCtrl.push(SubmitPage);
+  }
 }

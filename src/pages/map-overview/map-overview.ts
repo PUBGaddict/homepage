@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
+import { SubmitPage } from '../submit/submit'
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { MapData } from '../../providers/map-data';
 
@@ -48,6 +49,10 @@ export class MapOverviewPage {
       intentionName: this.intentionName,
       spotId: spot.id ? spot.id : spot.$key // its spot.id when clicking on the d3-svg on the map, and spot.$key when coming from the toplist 
     });
+  }
+
+  openSubmitPage() {
+    this.navCtrl.push(SubmitPage);
   }
 
   loadToplist () {

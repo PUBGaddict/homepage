@@ -4,6 +4,7 @@ import { MapData } from '../../providers/map-data';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
+import { SubmitPage } from '../submit/submit';
 
 /*
   Generated class for the StrategyDetail page.
@@ -99,6 +100,10 @@ export class StrategyDetailPage {
       return true;  
     }
     return false;
+  }
+
+  openSubmitPage() {
+    this.navCtrl.push(SubmitPage);
   }
 
   saveVote() {
