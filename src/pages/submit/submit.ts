@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { DefusalData } from '../../providers/defusal-data';
+import { HostageData } from '../../providers/hostage-data';
 
 /*
   Generated class for the Submit page.
@@ -12,9 +14,16 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'submit.html'
 })
 export class SubmitPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    
+  de_maps: any[] = [];
+  cs_maps: any[] = [];
+  
+  constructor(public navCtrl: NavController, public navParams: NavParams, public defusalData: DefusalData, public hostageData: HostageData) {
+    this.defusalData.getDefusalMaps().subscribe((de_maps: any[]) => {
+      this.de_maps = de_maps;
+    });
+    this.hostageData.getHostageMaps().subscribe((cs_maps: any[]) => {
+      this.cs_maps = cs_maps;
+    });
   }
 
   logPress(event) {

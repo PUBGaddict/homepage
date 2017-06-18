@@ -12,15 +12,9 @@
   <ion-item>
     <ion-label>Map</ion-label>
     <ion-select [(ngModel)]="map">
-      <ion-option value="de_austria">de_austria</ion-option>
-      <ion-option value="de_dust2">de_dust2</ion-option>
-      <ion-option value="de_mirage">de_mirage</ion-option>
+      <ion-option *ngFor="let map of de_maps" value="{{map.mapname}}">{{map.mapname}}</ion-option>
+      <ion-option *ngFor="let map of cs_maps" value="{{map.mapname}}">{{map.mapname}}</ion-option>
     </ion-select>
-  </ion-item>
-
-  <ion-item>
-    <ion-label fixed>Spot title</ion-label>
-    <ion-input type="text" value=""></ion-input>
   </ion-item>
 
   <ion-item>
@@ -33,17 +27,22 @@
   </ion-item>
 
   <ion-item>
-    <ion-label fixed>YT Video ID</ion-label>
+    <ion-label fixed>Spot title</ion-label>
     <ion-input type="text" value=""></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label fixed>YT Video Start</ion-label>
+    <ion-label fixed>YouTube Video ID</ion-label>
     <ion-input type="text" value=""></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label fixed>YT Video End</ion-label>
+    <ion-label fixed>YouTube Video Start</ion-label>
+    <ion-input type="text" value=""></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label fixed>YouTube Video End</ion-label>
     <ion-input type="text" value=""></ion-input>
   </ion-item>
 
