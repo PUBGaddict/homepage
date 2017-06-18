@@ -78,6 +78,10 @@ export class MapOverviewPage {
         .classed("hover", false);*/
   }
 
+  logPress(event) {
+    console.log(event);
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad MapOverviewPage');
     this.mapData.getMap(this.mapName).subscribe(map => {
