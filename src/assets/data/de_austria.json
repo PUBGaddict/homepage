@@ -29,6 +29,50 @@
                     "youtube": true,
                     "vidUrl": "AvtUHGSeU2g",
                     "pictures": []
+                },{
+                    "id": "15501",
+                    "title": "Smoke B long from CT spawn",
+                    "angle": 25,
+                    "x": 579,
+                    "y": 190,
+                    "endx": 569,
+                    "endy": 512,
+                    "youtube": true,
+                    "vidUrl": "F77U04r37Zc",
+                    "pictures": []
+                },{
+                    "id": "15502",
+                    "title": "Smoke A long from CT spawn",
+                    "angle": 25,
+                    "x": 520,
+                    "y": 127,
+                    "endx": 282,
+                    "endy": 330,
+                    "youtube": true,
+                    "vidUrl": "AsdTnxyRcU0",
+                    "pictures": []
+                },{
+                    "id": "15503",
+                    "title": "Smoke B short from mid well",
+                    "angle": 25,
+                    "x": 422,
+                    "y": 569,
+                    "endx": 610,
+                    "endy": 466,
+                    "youtube": true,
+                    "vidUrl": "rcDkjDxQZus",
+                    "pictures": []
+                },{
+                    "id": "15504",
+                    "title": "Smoke A long from CT spawn",
+                    "angle": 25,
+                    "x": 475,
+                    "y": 103,
+                    "endx": 297,
+                    "endy": 448,
+                    "youtube": true,
+                    "vidUrl": "rcDkjDxQZus",
+                    "pictures": []
                 }
             ]
         }

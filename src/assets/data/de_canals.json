@@ -8,18 +8,35 @@
             "spots": [
                 {
                     "id": "3500",                    
-                    "title" : "Smoke A-Long Doubledoors from car",
-                    "pros" : [
-                        "Safe spot", "Easy to land"
-                    ],
-                    "cons" : [
-                    ],
+                    "title" : "Smoke A spot from A kiosk",
                     "angle": 25,
-                    "x": 900,
-                    "y": 270,
-                    "endx" : 680,
-                    "endy" : 560, 
+                    "x": 521,
+                    "y": 399,
+                    "endx" : 298,
+                    "endy" : 643, 
                     "vidUrl" : "https://gfycat.com/ifr/FakeAggravatingBrant",
+                    "pictures" : []
+                },{
+                    "id": "3501",                    
+                    "title" : "Smoke CT balcony from behind A spot",
+                    "angle": 25,
+                    "x": 289,
+                    "y": 548,
+                    "endx" : 383,
+                    "endy" : 801, 
+                    "youtube" : true,
+                    "vidUrl" : "QWF1oWvA",
+                    "pictures" : []
+                },{
+                    "id": "3502",                    
+                    "title" : "Smoke B spot from B kiosk",
+                    "angle": 25,
+                    "x": 815,
+                    "y": 489,
+                    "endx" : 675,
+                    "endy" : 693, 
+                    "youtube" : true,
+                    "vidUrl" : "vdnbvQCKEfI",
                     "pictures" : []
                 }]
         }]
