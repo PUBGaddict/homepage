@@ -140,6 +140,12 @@ export class MapOverviewComponent implements AfterViewInit {
         this.selMap.attr("transform", "scale(" + (width - 100) / this.maxWidth + ")");
     }
 
+    highlight(enable, item) {
+        this.d3.selectAll("g.outerspot")
+        .filter(function(d) { return d.id === item.$key; })
+        .classed("hover", enable);
+    }
+
     ngAfterViewInit() {
         this.mapData.getMap(this.mapName).subscribe(map => {
             this.map = map;

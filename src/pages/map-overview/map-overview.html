@@ -34,7 +34,7 @@
         </div>
       </ion-card>
     </div>
-    <map-overview [mapName]="mapName" [strategyId]="strategyId" [intentionName]="intentionName" (press)="logPress($event)" (spotPress)="openPage($event)"></map-overview>
+    <map-overview #mapOverview [mapName]="mapName" [strategyId]="strategyId" [intentionName]="intentionName" (press)="logPress($event)" (spotPress)="openPage($event)"></map-overview>
   </div>
 
 </ion-content>

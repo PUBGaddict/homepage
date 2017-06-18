@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild} from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
 import { SubmitPage } from '../submit/submit'
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { MapData } from '../../providers/map-data';
+import { MapOverviewComponent } from '../../app/map-overview.component';
 
 /*
   Generated class for the MapOverview page.
@@ -17,6 +18,9 @@ import { MapData } from '../../providers/map-data';
   templateUrl: 'map-overview.html'
 })
 export class MapOverviewPage {
+
+  @ViewChild('mapOverview') mapOverview: MapOverviewComponent;
+
   private map: any;
   public strategyId: string;
   public intentionName: any;
@@ -68,14 +72,10 @@ export class MapOverviewPage {
   }
 
   onMouseEnterCard (item) {
-    /*this.d3.selectAll("g.outerspot")
-        .filter(function(d) { return d.id === item.$key; })
-        .classed("hover", true);*/
+      this.mapOverview.highlight(true, item);
   }
   onMouseLeaveCard (item) {
-   /* this.d3.selectAll("g.outerspot")
-        .filter(function(d) { return d.id === item.$key; })
-        .classed("hover", false);*/
+      this.mapOverview.highlight(false, item);
   }
 
   logPress(event) {
