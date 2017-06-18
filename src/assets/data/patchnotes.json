@@ -1,6 +1,28 @@
 [
     {
         "title": "Patch Notes",
+        "date": "16.06.2017",
+        "articles" : [{
+            "heading" : "OPERATION HYDRA",
+            "paragraphs" : [{
+                "text": "For the upcoming Operation Hydra event, Wingman matchmaking now allows solo queue"
+            },{
+                "text": "When matchmaking solo in Wingman game mode, matchmaking algorithm will prefer to make a match where both teams have players entering the game via solo matchmaking"
+            },{
+                "text": "When matchmaking as a party in Wingman game mode, matchmaking algorithm will prefer to make a match where both teams entered the game as a party"
+            },{
+                "text": "Upcoming Wingman events will feature Inferno and Cobblestone as possible maps"
+            }]
+        },{
+            "heading" : "MISC",
+            "paragraphs" : [{
+                "text": "cl_draw_only_deathnotices no longer requires sv_cheats 1."
+            },{
+                "text": "Fixed a potential exploit in CS:GO engine reported by One Up Security."
+            }]
+        }]
+    },{
+        "title": "Patch Notes",
         "date": "13.06.2017",
         "articles" : [{
             "heading" : "MISC",

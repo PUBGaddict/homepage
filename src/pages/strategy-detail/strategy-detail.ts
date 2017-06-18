@@ -44,6 +44,8 @@ export class StrategyDetailPage {
      y: "",
      vid: false,
      youtube: false,
+     startTime: 0,
+     endTime: 99,
      vidUrl: "",
      pictures: []
   }
