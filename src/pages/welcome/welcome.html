@@ -28,7 +28,7 @@
         <h2>{{article.heading}}</h2>
         <ion-list no-lines>
           <ul> 
-            <li *ngFor="let paragraph of article.paragraphs">
+            <li class="paddingBottomSmall" *ngFor="let paragraph of article.paragraphs">
               <h3 class="wordWrap">{{paragraph.text}}</h3>
               <a [href]="paragraph.link" class="wordWrap urlStyle" *ngIf="paragraph.link">More Details</a>
             </li>

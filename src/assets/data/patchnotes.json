@@ -1,6 +1,28 @@
 [
     {
         "title": "Patch Notes",
+        "date": "19.06.2017",
+        "articles" : [{
+            "heading" : "GOTV",
+            "paragraphs" : [{
+                "text": "This build contains significant changes in the game server and GOTV network delta packets processing to allow running two GOTV server instances with different delays, to allow correcting cameraman shots using a spectator connected to a small delay TV, and airing corrected shots on the longer delay TV. This client build is compatible with regular public 1.35.8.9 game servers."
+            },{
+                "text": "New settings for the game server:\n\ntv_delay1 allows to set a custom delay on TV1 server, with the developed scenario having TV1 delay be at least 3 seconds, and not more than TV0 delay configured with tv_delay setting.\n\ntv_allow_camera_man_steamid2 allows configuring an additional interactive caster account, with the developed scenario connecting the main caster as a live spectator on the game server directly, and the additional interactive caster connect to TV1 server with a small delay.\n\ntv_challenge_steam_iprange allows configuring a set of comma-separated IP ranges, clients connecting from those IP addresses will go through full Steam authentication even for GOTV connections, which is necessary for additional interactive caster authentication."
+            },{
+                "text": "New settings for the game client:\n\ncameraman_override setting controls when additional interactive caster camera is used to override the primary caster. Setting cameraman_override 1 on the additional interactive caster connected to TV1 will start overriding the primary interactive caster from the moment this setting is enabled in small delay TV timeline, and setting cameraman_override 0 will stop the override at the moment this command is issued in small delay TV timeline. With cameraman_override set to 1, the camera position of the additional interactive caster is transmitted to the TV1 server and overrides camera positions of the primary interactive caster. Consumers of TV0 GOTV data delayed enough for the overrides to take place will be receiving corrected camera positions.\n\ncl_cameraman_override_messages setting controls whether UI message is displayed in spectate panel to indicate that the camera override is taking place. UI message can be disabled by setting cl_cameraman_override_messages 0."
+            },{
+                "text": "Developed example scenario:\n\nServer is configured with tv_delay1 3 seconds, and tv_delay 10 seconds, both TV0 and TV1 servers are active and additional interactive caster account connected to TV1 server.\n\nPlayers X and Y on one team playing against players U and V on another team, players X and U go towards bombsite A, players Y and V go towards bombsite B. There’s no camera that main caster account can select to keep all players in view, so they select to broadcast POV of player X approaching bombsite A. When the round clock in the live game shows 0:56 player V unexpectedly eliminates player Y, and that action wasn’t observed by the main caster.\n\nAt this point, our additional interactive caster connected to a 3 second delay server still has their round clock showing 0:59 and all players alive. Additional interactive caster switches their camera POV to player V to broadcast the shot and executes their bind to set cameraman_override 1. Alternatively additional interactive caster can switch to in-eye POV of player Y who is still alive at 0:59 but will be eliminated shortly and execute their bind to set cameraman_override 1.\n\nWhen TV1 round clock reaches 0:50, additional interactive caster may decide to relinquish broadcast control to the main live cameraman and should then execute their bind to set cameraman_override 0.\n\nBroadcast for viewers connected to the 10 seconds delayed TV0, broadcast for viewers watching GOTV+ HTTP stream from TV0, and the GOTV demo file recorded on TV0, will contain POV of player X until 0:59, then selected camera shot of player V eliminating player Y until 0:53, and then continued POV of player X. Neither GOTV broadcast, nor GOTV demo file, will have additional interactive caster’s SteamID recorded, and the data should be seamless on the client, just as if the main caster could have switched to different broadcast POVs at 0:59 and 0:53 round clock times.\n\nAlternatively, entire broadcast can be performed with the additional interactive caster on TV1 having cameraman_override 1, controlling camera POV all the time and never relinquishing control to the live interactive caster, while still being able to get information from live game either on the screen of live interactive caster or from game state integration data pushed from live interactive caster session. Keep in mind however that commentary sound is always recorded live from the main interactive caster voice channel and is not modified by additional interactive caster."
+            }]
+        },{
+            "heading" : "MISC",
+            "paragraphs" : [{
+                "text": "cl_draw_only_deathnotices no longer requires sv_cheats 1."
+            },{
+                "text": "Fixed a potential exploit in CS:GO engine reported by One Up Security."
+            }]
+        }]
+    },{
+        "title": "Patch Notes",
         "date": "16.06.2017",
         "articles" : [{
             "heading" : "OPERATION HYDRA",
