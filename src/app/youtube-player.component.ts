@@ -34,7 +34,7 @@ export class YoutubePlayerComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (window["YT"]) {
+    if (window["YT"].Player) {
       this.getPlayer();
     } 
   }
