@@ -16,6 +16,13 @@ import { HostageData } from '../../providers/hostage-data';
 export class SubmitPage {
   de_maps: any[] = [];
   cs_maps: any[] = [];
+
+  videoId: string = "";
+  category: string = "";
+  title: string = "";
+  map: string = "";
+  start: number = 0;
+  end: number = 99;
   
   constructor(public navCtrl: NavController, public navParams: NavParams, public defusalData: DefusalData, public hostageData: HostageData) {
     this.defusalData.getDefusalMaps().subscribe((de_maps: any[]) => {
@@ -24,6 +31,14 @@ export class SubmitPage {
     this.hostageData.getHostageMaps().subscribe((cs_maps: any[]) => {
       this.cs_maps = cs_maps;
     });
+  }
+
+  setVidUrl(sValue) {
+    debugger;
+  }
+
+  refresh() {
+    debugger;
   }
 
   logPress(event) {

@@ -27,27 +27,34 @@
   </ion-item>
 
   <ion-item>
-    <ion-label fixed>Spot title</ion-label>
-    <ion-input type="text" value=""></ion-input>
+    <ion-label class="moreWidth" fixed>Spot title</ion-label>
+    <ion-input type="text" [(ngModel)]="title"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label fixed>YouTube Video ID</ion-label>
-    <ion-input type="text" value=""></ion-input>
+    <ion-label class="moreWidth" fixed>YouTube Video ID</ion-label>
+    <ion-input type="text" [(ngModel)]="videoId"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label fixed>YouTube Video Start</ion-label>
-    <ion-input type="text" value=""></ion-input>
+    <ion-label class="moreWidth" fixed>YouTube Video Start</ion-label>
+    <ion-input type="text" [(ngModel)]="start"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label fixed>YouTube Video End</ion-label>
-    <ion-input type="text" value=""></ion-input>
+    <ion-label class="moreWidth" fixed>YouTube Video End</ion-label>
+    <ion-input type="text" [(ngModel)]="end"></ion-input>
   </ion-item>
 
-  <ion-label>Video Live Preview</ion-label>
-  <youtube-player></youtube-player>
+  <div style="padding-top:20px;">
+    <div>
+      <ion-title>Video Live Preview</ion-title>
+      <button ion-button icon-only (click)="refresh()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+    </div>
+    <youtube-player [vid]="'rcDkjDxQZus'" [width]="'100%'"></youtube-player>
+  </div>
 
   <ion-label>Select position of your Spot on the map below</ion-label>
   <map-overview [mapName]="'de_dust2'" [strategyId]="'defending_positions'" [intentionName]="'ct'" (press)="logPress($event)"></map-overview>
