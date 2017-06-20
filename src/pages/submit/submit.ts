@@ -17,13 +17,15 @@ export class SubmitPage {
   de_maps: any[] = [];
   cs_maps: any[] = [];
 
-  videoId: string = "";
-  category: string = "";
-  title: string = "";
-  map: string = "";
-  start: number = 0;
-  end: number = 99;
+  public video: string = "";
+  public videoId: string = "rH119K9wfAM";
+  public category: string = "";
+  public title: string = "";
+  public map: string = "";
+  public start: number = 0;
+  public end: number = 99;
   
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public defusalData: DefusalData, public hostageData: HostageData) {
     this.defusalData.getDefusalMaps().subscribe((de_maps: any[]) => {
       this.de_maps = de_maps;
@@ -33,12 +35,8 @@ export class SubmitPage {
     });
   }
 
-  setVidUrl(sValue) {
-    debugger;
-  }
-
   refresh() {
-    debugger;
+    this.video = this.videoId
   }
 
   logPress(event) {
