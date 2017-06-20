@@ -1,5 +1,4 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
-import * as $ from 'jquery';
 
 @Component({
   selector: 'youtube-player',
