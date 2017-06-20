@@ -1,4 +1,5 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'youtube-player',
@@ -14,12 +15,14 @@ export class YoutubePlayerComponent implements AfterViewInit {
   @Input() end: number = 99;
   @Input() height: string = "390";
   @Input() width: string = "640";
-
+  
   constructor() {
-   
+    (<any>window).onYouTubePlayerAPIReady = function() {
+      this.getPlayer();
+    }.bind(this)
   }
 
-  ngAfterViewInit() {
+  getPlayer () {
     this.player = new window["YT"].Player(this.playerId, {
       height: this.height,
       width: this.width,
@@ -29,6 +32,12 @@ export class YoutubePlayerComponent implements AfterViewInit {
         'onReady': this.onPlayerReady.bind(this)
       }
     });
+  }
+
+  ngAfterViewInit() {
+    if (window["YT"]) {
+      this.getPlayer();
+    } 
   }
 
   onPlayerReady(event) {
