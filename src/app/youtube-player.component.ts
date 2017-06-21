@@ -33,7 +33,8 @@ export class YoutubePlayerComponent implements AfterViewInit {
     });
   }
 
-  public reload() {
+  public play() {
+    //this.player.playVideo();
     this.getPlayer();
   }
 

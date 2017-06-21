@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { DefusalData } from '../../providers/defusal-data';
 import { HostageData } from '../../providers/hostage-data';
+import { YoutubePlayerComponent } from '../../app/youtube-player.component';
 
 /*
   Generated class for the Submit page.
@@ -14,6 +15,9 @@ import { HostageData } from '../../providers/hostage-data';
   templateUrl: 'submit.html'
 })
 export class SubmitPage {
+  @ViewChild('youtubePlayer') youtubePlayer: YoutubePlayerComponent;
+
+
   de_maps: any[] = [];
   cs_maps: any[] = [];
 
@@ -36,7 +40,8 @@ export class SubmitPage {
   }
 
   refresh() {
-    this.video = this.videoId
+    this.youtubePlayer.vid = this.videoId
+    this.youtubePlayer.play();
   }
 
   logPress(event) {
