@@ -11,7 +11,7 @@ export class YoutubePlayerComponent implements AfterViewInit {
   @Input() playerId: string = "player" + Math.floor(Math.random() * 100000);
   @Input() vid: string = "";
   @Input() start: number = 0;
-  @Input() end: number = 99;
+  @Input() end: number = 98;
   @Input() height: string = "390";
   @Input() width: string = "640";
   
@@ -33,9 +33,8 @@ export class YoutubePlayerComponent implements AfterViewInit {
     });
   }
 
-  public play() {
-    //this.player.playVideo();
-    this.getPlayer();
+  public play(mSettings) {
+    this.player.loadVideoById(mSettings);
   }
 
   ngAfterViewInit() {

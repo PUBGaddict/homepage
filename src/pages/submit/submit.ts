@@ -17,18 +17,16 @@ import { YoutubePlayerComponent } from '../../app/youtube-player.component';
 export class SubmitPage {
   @ViewChild('youtubePlayer') youtubePlayer: YoutubePlayerComponent;
 
-
   de_maps: any[] = [];
   cs_maps: any[] = [];
 
   public video: string = "";
-  public videoId: string = "rH119K9wfAM";
+  public videoId: string = "Dc6wTKOvpDk";
   public category: string = "";
   public title: string = "";
   public map: string = "";
   public start: number = 0;
-  public end: number = 99;
-  
+  public end: number = 15;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public defusalData: DefusalData, public hostageData: HostageData) {
     this.defusalData.getDefusalMaps().subscribe((de_maps: any[]) => {
@@ -40,8 +38,11 @@ export class SubmitPage {
   }
 
   refresh() {
-    this.youtubePlayer.vid = this.videoId
-    this.youtubePlayer.play();
+    this.youtubePlayer.play({
+      videoId : this.videoId,
+      startSeconds: this.start,
+      endSeconds: this.end,
+    });
   }
 
   logPress(event) {
