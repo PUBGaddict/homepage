@@ -1,6 +1,44 @@
 [
     {
         "title": "Patch Notes",
+        "date": "20.06.2017",
+        "articles" : [{
+            "heading" : "MAPS",
+            "paragraphs" : [{
+                "text": "Updated Cache to the latest Steam Workshop version: http://steamcommunity.com/sharedfiles/filedetails/changelog/163589843"
+            }]
+        },{
+            "heading" : "COMMUNITY SERVERS",
+            "paragraphs" : [{
+                "text": "Added Steam Workshop entries for community servers to run official versions of Canals and Rialto that come included with CS:GO:"
+            },{
+                "text": "Canals: http://steamcommunity.com/sharedfiles/filedetails/?id=951287718"
+            },{
+                "text": "Rialto: http://steamcommunity.com/sharedfiles/filedetails/?id=951294508"
+            }]
+        },{
+            "heading" : "GOTV",
+            "paragraphs" : [{
+                "text": "Promoted 1.35.8.9-beta1 GOTV changes to public release."
+            }]
+        },{
+            "heading" : "MISC",
+            "paragraphs" : [{
+                "text": "Updated the following community weapon finishes with normal maps:"
+            },{
+                "text": "M4A4 | The Battlestar"
+            },{
+                "text": "SSG 08 | Big Iron"
+            },{
+                "text": "Glock-18 | Wraiths"
+            },{
+                "text": "Desert Eagle | Directive"
+            },{
+                "text": "Thanks to Millenia, Primrose!~ and Gaunt."
+            }]
+        }]
+    },{
+        "title": "Patch Notes",
         "date": "19.06.2017",
         "articles" : [{
             "heading" : "GOTV",
