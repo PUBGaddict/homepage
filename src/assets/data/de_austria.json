@@ -8,8 +8,8 @@
             "spots": []
         },
         {
-            "id": "a",
-            "name": "A",
+            "id": "smokes",
+            "name": "Smokes",
             "picture": "de_dust2/smoke_a.png",
             "spots": [
                 {

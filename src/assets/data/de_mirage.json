@@ -1,14 +1,41 @@
 {
-    "spots" : [
+    "mapname": "de_mirage",
+    "smoke": [
         {
-            "angle": 45,
-            "x": 63,
-            "y": 80
-        },
+            "id": "smokes",
+            "name": "Smokes",
+            "picture": "de_dust2/smoke_a.png",
+            "spots": [
+                {
+                    "id": "4500",
+                    "title": "Oneway smoke B tunnels From T side",
+                    "angle": 25,
+                    "x": 376, 
+                    "y": 202,
+                    "endx": 388,
+                    "endy": 179,
+                    "vidUrl": "https://gfycat.com/ifr/PlumpBabyishErne"
+                }
+            ]
+        }
+    ],
+    "decoy": [
         {
-            "angle": 90,
-            "x": 500,
-            "y": 500
+            "id": "decoys",
+            "name": "Decoys",
+            "picture": "de_dust2/smoke_a.png",
+            "spots": [
+                {
+                    "id": "4601",
+                    "title": "Probably the best use of a decoy ingame.",
+                    "angle": 25,
+                    "x": 723, 
+                    "y": 510,
+                    "endx": 351,
+                    "endy": 510,
+                    "vidUrl": "https://gfycat.com/ifr/HastyDelectableDogfish"
+                }
+            ]
         }
     ]
 }
