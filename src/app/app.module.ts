@@ -15,9 +15,12 @@ import { SubmitPage } from '../pages/submit/submit';
 import { MapData } from '../providers/map-data';
 import { DefusalData } from '../providers/defusal-data';
 import { HostageData } from '../providers/hostage-data';
+import { SpotIdData } from '../providers/spotid-data';
 import { PatchnoteData } from '../providers/patchnote-data';
 
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import { YoutubePlayerComponent } from './youtube-player.component';
 import { MapOverviewComponent } from './map-overview.component';
 
@@ -53,7 +56,9 @@ export const firebaseConfig = {
        { component: SubmitPage, name: 'SubmitPage', segment: 'submit' }
      ]
     }),
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -71,6 +76,7 @@ export const firebaseConfig = {
     MapData,
     PatchnoteData,
     DefusalData,
-    HostageData]
+    HostageData,
+    SpotIdData]
 })
 export class AppModule {}

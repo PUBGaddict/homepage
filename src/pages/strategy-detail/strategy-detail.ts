@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { MapData } from '../../providers/map-data';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 import { SubmitPage } from '../submit/submit';
 
 /*
@@ -50,13 +50,13 @@ export class StrategyDetailPage {
      pictures: []
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer, private angularFire: AngularFire) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer, private angularFireDatabase: AngularFireDatabase) {
     this.mapName = navParams.get("mapName");
     this.strategyId = navParams.get("strategyId");
     this.intentionName = navParams.get("intentionName");
     this.spotId = navParams.get("spotId");
 
-    this.item = angularFire.database.object('/ratings/' + 
+    this.item = angularFireDatabase.object('/ratings/' + 
             this.mapName + "/" + 
             this.strategyId  + "/" + 
             this.intentionName  + "/" + 

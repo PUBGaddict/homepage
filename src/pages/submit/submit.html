@@ -9,6 +9,8 @@
 
 
 <ion-content padding>
+  <ion-label danger>Please be aware that we check every spot personally before making it public. This will take some minutes.</ion-label>
+
   <ion-item>
     <ion-label>Map</ion-label>
     <ion-select [(ngModel)]="map">
@@ -37,13 +39,13 @@
   </ion-item>
 
   <ion-item>
-    <ion-label class="moreWidth" fixed>YouTube Video Start</ion-label>
-    <ion-input type="text" [(ngModel)]="start"></ion-input>
+    <ion-label class="moreWidth" fixed>YouTube Video Start Time</ion-label>
+    <ion-input type="text" [(ngModel)]="startSeconds"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label class="moreWidth" fixed>YouTube Video End</ion-label>
-    <ion-input type="text" [(ngModel)]="end"></ion-input>
+    <ion-label class="moreWidth" fixed>YouTube Video End Time</ion-label>
+    <ion-input type="text" [(ngModel)]="endSeconds"></ion-input>
   </ion-item>
 
   <div style="padding-top:20px;">
@@ -53,10 +55,13 @@
         <ion-icon name="refresh"></ion-icon>
       </button>
     </div>
-    <youtube-player #youtubePlayer [start]="start" [end]="end" [vid]="video" [width]="'100%'"></youtube-player>
+    <youtube-player #youtubePlayer [start]="startSeconds" [end]="endSeconds" [vid]="''" [width]="'100%'"></youtube-player>
   </div>
 
   <ion-label>Select position of your Spot on the map below</ion-label>
   <map-overview [mapName]="'de_dust2'" [strategyId]="'defending_positions'" [intentionName]="'ct'" (press)="logPress($event)"></map-overview>
 
+  <button ion-button (click)="savePressed()" [disabled]="saveButtonDisabled">
+    Upload
+  </button>
 </ion-content>
