@@ -72,6 +72,22 @@ export class SubmitPage {
 
   savePressed () {
     this.saveButtonDisabled = true;
+    let oSpot = {
+      videoId : this.videoId,
+      strategy : this.category,
+      mapname : this.map,
+      title : this.title,
+      startSeconds : this.startSeconds,
+      endSeconds : this.endSeconds,
+      start : this.start,
+      end: this.end,
+      tmp: true
+    };
+    this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
+      debugger;
+    })
+
+    /*
     let oRealtimeObject = {
           mapname : this.map,
           title : this.title,
@@ -101,7 +117,7 @@ export class SubmitPage {
         console.log('Uploaded a new spot!');
         this.presentToast();
       }.bind(this));
-    });
+    });*/
   }
 
   presentToast() {

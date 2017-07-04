@@ -11,21 +11,19 @@ import 'rxjs/add/observable/of';
 export class SpotIdData {
   constructor(public http: Http) { }
 
-  private loadUniqueSpotId(data : any): any {
+  private submitPost(data : any): any {
     debugger;
-      return this.http.post('https://us-central1-csgospots-1f294.cloudfunctions.net/getUniqueId', data)
+      return this.http.post('https://csgospots-1f294.firebaseio.com/temp.json', data)
         .map(this.processMapIdData);
   }
 
-  getUniqueSpotId(data : any) {
-    return this.loadUniqueSpotId(data).map((data: any) => {
-      debugger;
+  submitSpot(data : any) {
+    return this.submitPost(data).map((data: any) => {
       return data;
     });
   }
 
   processMapIdData(data) {
-    debugger;
       return data.json();
   }
 }
