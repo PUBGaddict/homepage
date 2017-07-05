@@ -64,16 +64,23 @@ export class MapOverviewComponent implements AfterViewInit {
             .attr("xlink:href", "/assets/img/" + this.map.mapname + ".png")
             .attr("width", 1024)
             .attr("height", 1024)
-            .on("click", (e) => { 
+            .on("click", (e) => {
                 let mouse = that.d3.mouse(that.d3.event.currentTarget);
-                that.press.emit({ x: parseInt(mouse[0])-25, y: parseInt(mouse[1])-25})
+                that.press.emit({ x: parseInt(mouse[0]) - 25, y: parseInt(mouse[1]) - 25 })
             });
     }
 
-    appendDataSpots() {
+    public appendDataSpots(spots) {
         var that = this;
+        if (!!this.selSpotsEnter) {
+            this.selSpotsEnter.remove();
+            this.selSpotOuter.remove();
+            this.selSpots.remove();
+            this.selSmoke.remove();
+            this.selHoverSmoke.remove();
+        }
         this.selSpotsEnter = this.selMap.selectAll(".spot")
-            .data(this.strategy.spots)
+            .data(spots)
             .enter();
         this.selSpotOuter = this.selSpotsEnter.append("g")
             .classed("outerspot", true);
@@ -133,7 +140,7 @@ export class MapOverviewComponent implements AfterViewInit {
         this.yScale = d3.scaleLinear().range([0, this.maxHeight]).domain([0, this.maxHeight]);
     }
 
-    render() {
+    public render() {
         let newWidth = this.d3sel.node().parentNode.parentNode.offsetWidth,
             width = newWidth > this.maxWidth ? this.maxWidth : newWidth;
 
@@ -142,26 +149,28 @@ export class MapOverviewComponent implements AfterViewInit {
 
     highlight(enable, item) {
         this.d3.selectAll("g.outerspot")
-        .filter(function(d) { return d.id === item.$key; })
-        .classed("hover", enable);
+            .filter(function (d) { return d.id === item.$key; })
+            .classed("hover", enable);
     }
 
     ngAfterViewInit() {
         this.mapData.getMap(this.mapName).subscribe(map => {
             this.map = map;
-
-            let intention = this.mapData.getIntentionFromMap(map, this.intentionName);
-            this.strategy = this.mapData.getStrategyFromIntention(intention, this.strategyId);
-
             this.createSVG();
             this.appendBackgroundImage();
             this.createScale();
-
-            // this needs a promise, otherwise render happens too early and our data is not loaded yet.
-            this.appendDataSpots();
-            this.render();
             window.addEventListener('resize', this.render.bind(this));
+            if (!this.intentionName && !this.strategyId) {
 
+                // submit page
+            } else {
+                let intention = this.mapData.getIntentionFromMap(map, this.intentionName);
+                this.strategy = this.mapData.getStrategyFromIntention(intention, this.strategyId);
+
+                // this needs a promise, otherwise render happens too early and our data is not loaded yet.
+                this.appendDataSpots(this.strategy.spots);
+                this.render();
+            }
         });
     }
 }

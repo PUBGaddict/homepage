@@ -2,4 +2,87 @@ page-submit {
     .moreWidth {
         min-width: 200px;
     }
+
+    .mobile {
+        @media screen and (max-width: 768px){
+            display: block;
+        }
+        @media screen and (min-width: 768px){
+            display: none;
+        }
+    }
+
+    .desktop {
+        @media screen and (max-width: 768px){
+            display: none;
+        }
+        @media screen and (min-width: 768px){
+            display: block;
+        }
+    }
+   
+
+    .toplist {
+        display: inline-block;
+        width: 100px;
+        padding-right:10px;
+        float:left;
+    }
+
+    .d3 {
+        display: inline-block;
+        width: 50%;
+    }
+    
+    .outerspot {
+        cursor: pointer;
+
+        &:hover, &.hover{
+            .smoke {
+                fill:lightgray;
+                cursor: pointer;
+            }
+            .smokebig {
+                display: block;
+                fill: black;
+                opacity: .4;
+            }
+            .smokeline {
+                stroke-dasharray: 0;
+                stroke-width: 3;
+            }
+            .player {
+                fill:red;
+                stroke: white;
+                stroke-width: 1;
+                cursor: pointer;
+            }
+      
+        }
+
+        .player {
+            fill: blue;
+        }
+        .player-view {
+            opacity: .2;
+            fill: lightblue;
+            pointer-events: none;
+        }
+
+        .smoke {
+            fill:gray;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .smokeline {
+            stroke-dasharray: 2;
+            stroke-width: 2;
+            stroke: white;
+        }
+
+        .nodisplay {
+            display: none;
+        }
+    }
 }

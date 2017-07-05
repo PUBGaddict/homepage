@@ -59,7 +59,7 @@
   </div>
 
   <ion-label>Select position of your Spot on the map below</ion-label>
-  <map-overview [mapName]="'de_dust2'" [strategyId]="'defending_positions'" [intentionName]="'ct'" (press)="logPress($event)"></map-overview>
+  <map-overview #mapOverview [mapName]="'de_dust2'" [strategyId]="" [intentionName]="" (press)="logPress($event)"></map-overview>
 
   <button ion-button (click)="savePressed()" [disabled]="saveButtonDisabled">
     Upload

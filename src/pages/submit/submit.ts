@@ -5,6 +5,7 @@ import { HostageData } from '../../providers/hostage-data';
 import { SpotIdData } from '../../providers/spotid-data';
 import { Http } from '@angular/http';
 import { YoutubePlayerComponent } from '../../app/youtube-player.component';
+import { MapOverviewComponent } from '../../app/map-overview.component';
 
 import { FirebaseApp } from 'angularfire2';
 import 'firebase/storage';
@@ -21,9 +22,13 @@ import 'firebase/storage';
 })
 export class SubmitPage {
   @ViewChild('youtubePlayer') youtubePlayer: YoutubePlayerComponent;
+  @ViewChild('mapOverview') mapOverview: MapOverviewComponent;
 
   de_maps: any[] = [];
   cs_maps: any[] = [];
+
+  firstPress: any = null; 
+  secondPress: any = null;
 
   public storageRef : any = null;
   public saveButtonDisabled : boolean = false;
@@ -61,6 +66,25 @@ export class SubmitPage {
 
   logPress(event) {
     console.log(event);
+
+    if (!this.firstPress) {
+      this.firstPress = event;
+    } else if ( !!this.firstPress && !!this.secondPress) {
+      this.firstPress = event;
+      this.secondPress = null;
+    } else {
+      this.secondPress = event;
+
+      this.mapOverview.appendDataSpots([{
+        angle : 0,
+        x : this.firstPress.x,
+        y : this.firstPress.y,
+        endx : this.secondPress.x,
+        endy :  this.secondPress.y
+      }]);
+
+      this.mapOverview.render();
+    }
   }
 
   ionViewDidLoad() {
@@ -86,38 +110,6 @@ export class SubmitPage {
     this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
       debugger;
     })
-
-    /*
-    let oRealtimeObject = {
-          mapname : this.map,
-          title : this.title,
-          strategy : this.category
-        },
-        oSpot = {
-          videoId : this.videoId,
-          strategy : this.category,
-          mapname : this.map,
-          title : this.title,
-          startSeconds : this.startSeconds,
-          endSeconds : this.endSeconds,
-          start : this.start,
-          end: this.end,
-          tmp: true,
-          spotId : ""
-        };
-
-    this.spotIdData.getUniqueSpotId(oRealtimeObject).subscribe((spot: any) => {
-      let spotId = spot.spotId,
-          sChildPath = "/" + this.map + "/" + this.category + "/" + spotId + ".json";
-
-      oSpot.spotId = spotId;
-
-      this.storageRef = this.firebaseApp.storage().ref().child(sChildPath);
-      this.storageRef.putString(JSON.stringify(oSpot)).then(function(snapshot) {
-        console.log('Uploaded a new spot!');
-        this.presentToast();
-      }.bind(this));
-    });*/
   }
 
   presentToast() {
