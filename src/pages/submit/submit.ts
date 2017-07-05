@@ -82,8 +82,6 @@ export class SubmitPage {
         endx : this.secondPress.x,
         endy :  this.secondPress.y
       }]);
-
-      this.mapOverview.render();
     }
   }
 
