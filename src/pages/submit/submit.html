@@ -13,7 +13,7 @@
 
   <ion-item>
     <ion-label>Map</ion-label>
-    <ion-select [(ngModel)]="map">
+    <ion-select [(ngModel)]="map" (ionChange)="mapChanged()">
       <ion-option *ngFor="let map of de_maps" value="{{map.mapname}}">{{map.mapname}}</ion-option>
       <ion-option *ngFor="let map of cs_maps" value="{{map.mapname}}">{{map.mapname}}</ion-option>
     </ion-select>
@@ -21,7 +21,7 @@
 
   <ion-item>
     <ion-label>Category</ion-label>
-    <ion-select [(ngModel)]="category">
+    <ion-select [(ngModel)]="category" (ionChange)="categoryChanged()">
       <ion-option value="spot">Spot</ion-option>
       <ion-option value="smoke">Smoke</ion-option>
       <ion-option value="awp">AWP Spot</ion-option>

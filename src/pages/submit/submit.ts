@@ -93,20 +93,6 @@ export class SubmitPage {
       this.firstPress = {x:0,y:0}
       this.isFirstPress = true;
     }
-    /*} else if ( !!this.firstPress && !!this.secondPress) {
-      this.firstPress = event;
-      this.secondPress = null;
-    } else {
-      this.secondPress = event;
-
-      this.mapOverview.appendDataSpots([{
-        angle : 0,
-        x : this.firstPress.x,
-        y : this.firstPress.y,
-        endx : this.secondPress.x,
-        endy :  this.secondPress.y
-      }]);
-    }*/
   }
 
   ionViewDidLoad() {
@@ -132,6 +118,16 @@ export class SubmitPage {
     this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
       debugger;
     })
+  }
+
+  mapChanged () {
+    this.isFirstPress = true;
+    this.mapOverview.clearDataSpots();
+  }
+
+  categoryChanged () {
+    this.isFirstPress = true;
+    this.mapOverview.clearDataSpots();
   }
 
   presentToast() {
