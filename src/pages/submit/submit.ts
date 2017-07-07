@@ -115,7 +115,7 @@ export class SubmitPage {
       end: this.end
     };
     this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
-      debugger;
+      this.presentToast();
     })
   }
 
