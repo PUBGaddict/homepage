@@ -78,6 +78,10 @@ export class SubmitPage {
         endy : 0
       }]);
       this.isFirstPress = false;
+      
+      if (this.category !== 'smoke') {
+        this.isFirstPress = true;  
+      }
     } else {
       this.mapOverview.appendDataSpots([{
         angle : 0,
