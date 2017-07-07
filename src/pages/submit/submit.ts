@@ -69,7 +69,7 @@ export class SubmitPage {
     console.log(event);
 
     if (this.isFirstPress) {
-      this.firstPress = event;
+      this.start = event;
       this.mapOverview.appendDataSpots([{
         angle : 0,
         x : event.x,
@@ -85,12 +85,12 @@ export class SubmitPage {
     } else {
       this.mapOverview.appendDataSpots([{
         angle : 0,
-        x : this.firstPress.x,
-        y : this.firstPress.y,
+        x : this.start.x,
+        y : this.start.y,
         endx : event.x,
         endy :  event.y
       }]);
-      this.firstPress = {x:0,y:0}
+      this.end = event;
       this.isFirstPress = true;
     }
   }
@@ -112,8 +112,7 @@ export class SubmitPage {
       startSeconds : this.startSeconds,
       endSeconds : this.endSeconds,
       start : this.start,
-      end: this.end,
-      tmp: true
+      end: this.end
     };
     this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
       debugger;
