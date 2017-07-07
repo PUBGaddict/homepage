@@ -123,6 +123,8 @@ export class SubmitPage {
   mapChanged () {
     this.isFirstPress = true;
     this.mapOverview.clearDataSpots();
+    this.mapOverview.setMap(this.map);
+    this.mapOverview.displayMap();
   }
 
   categoryChanged () {

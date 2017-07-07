@@ -47,6 +47,9 @@ export class MapOverviewComponent implements AfterViewInit {
     }
 
     createSVG() {
+        if (this.d3sel) {
+            return;
+        }
         var alld3sels = this.d3.selectAll(".d3");
         this.d3sel = d3.select(alld3sels.nodes()[alld3sels.size() - 1]); //workaround to fix ionic backstack behavior
         this.maxHeight = this.d3sel.node().parentNode.offsetHeight;
@@ -60,10 +63,14 @@ export class MapOverviewComponent implements AfterViewInit {
 
     appendBackgroundImage() {
         var that = this;
+        if (this.selBackgroundImage && !this.selBackgroundImage.classed(this.map.mapname)) {
+            this.selBackgroundImage.remove();
+        } 
         this.selBackgroundImage = this.selMap.append("svg:image")
             .attr("xlink:href", "/assets/img/" + this.map.mapname + ".png")
             .attr("width", 1024)
             .attr("height", 1024)
+            .classed(this.map.mapname, true)
             .on("click", (e) => {
                 let mouse = that.d3.mouse(that.d3.event.currentTarget);
                 that.press.emit({ x: parseInt(mouse[0]) - 25, y: parseInt(mouse[1]) - 25 })
@@ -163,24 +170,33 @@ export class MapOverviewComponent implements AfterViewInit {
             .classed("hover", enable);
     }
 
-    ngAfterViewInit() {
+    public setMap (mapName : string) {
+        this.mapName = mapName;
+    } 
+
+    public displayMap () {
+        if (!this.mapName) {
+            return;
+        }
+
         this.mapData.getMap(this.mapName).subscribe(map => {
             this.map = map;
             this.createSVG();
             this.appendBackgroundImage();
             this.createScale();
             window.addEventListener('resize', this.render.bind(this));
-            if (!this.intentionName && !this.strategyId) {
-
-                // submit page
-            } else {
+            if (this.intentionName && this.strategyId) { // map overview page
                 let intention = this.mapData.getIntentionFromMap(map, this.intentionName);
                 this.strategy = this.mapData.getStrategyFromIntention(intention, this.strategyId);
 
                 // this needs a promise, otherwise render happens too early and our data is not loaded yet.
                 this.appendDataSpots(this.strategy.spots);
-                this.render();
             }
+            this.render();
         });
+    }
+
+    ngAfterViewInit() {
+        this.displayMap();
     }
 }
