@@ -72,7 +72,7 @@ export class MapOverviewComponent implements AfterViewInit {
 
     public appendDataSpots(spots) {
         var that = this;
-        if (!!this.selSpotsEnter) {
+        if (this.selSpotsEnter) {
             this.selSpotsEnter.remove();
             this.selSpotOuter.remove();
             this.selSpots.remove();

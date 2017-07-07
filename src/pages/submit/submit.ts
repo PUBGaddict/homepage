@@ -30,6 +30,7 @@ export class SubmitPage {
   firstPress: any = null; 
   secondPress: any = null;
 
+  private isFirstPress : boolean = true;
   public storageRef : any = null;
   public saveButtonDisabled : boolean = false;
   public videoId: string = "Dc6wTKOvpDk";
@@ -67,9 +68,28 @@ export class SubmitPage {
   logPress(event) {
     console.log(event);
 
-    if (!this.firstPress) {
+    if (this.isFirstPress) {
       this.firstPress = event;
-    } else if ( !!this.firstPress && !!this.secondPress) {
+      this.mapOverview.appendDataSpots([{
+        angle : 0,
+        x : event.x,
+        y : event.y,
+        endx : 0,
+        endy : 0
+      }]);
+      this.isFirstPress = false;
+    } else {
+      this.mapOverview.appendDataSpots([{
+        angle : 0,
+        x : this.firstPress.x,
+        y : this.firstPress.y,
+        endx : event.x,
+        endy :  event.y
+      }]);
+      this.firstPress = {x:0,y:0}
+      this.isFirstPress = true;
+    }
+    /*} else if ( !!this.firstPress && !!this.secondPress) {
       this.firstPress = event;
       this.secondPress = null;
     } else {
@@ -82,7 +102,7 @@ export class SubmitPage {
         endx : this.secondPress.x,
         endy :  this.secondPress.y
       }]);
-    }
+    }*/
   }
 
   ionViewDidLoad() {

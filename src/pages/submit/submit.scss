@@ -3,32 +3,6 @@ page-submit {
         min-width: 200px;
     }
 
-    .mobile {
-        @media screen and (max-width: 768px){
-            display: block;
-        }
-        @media screen and (min-width: 768px){
-            display: none;
-        }
-    }
-
-    .desktop {
-        @media screen and (max-width: 768px){
-            display: none;
-        }
-        @media screen and (min-width: 768px){
-            display: block;
-        }
-    }
-   
-
-    .toplist {
-        display: inline-block;
-        width: 100px;
-        padding-right:10px;
-        float:left;
-    }
-
     .d3 {
         display: inline-block;
         width: 50%;
@@ -64,9 +38,7 @@ page-submit {
             fill: blue;
         }
         .player-view {
-            opacity: .2;
-            fill: lightblue;
-            pointer-events: none;
+            display: none;
         }
 
         .smoke {
