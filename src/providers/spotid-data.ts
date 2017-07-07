@@ -12,7 +12,6 @@ export class SpotIdData {
   constructor(public http: Http) { }
 
   private submitPost(data : any): any {
-    debugger;
       return this.http.post('https://csgospots-1f294.firebaseio.com/temp.json', data)
         .map(this.processMapIdData);
   }
