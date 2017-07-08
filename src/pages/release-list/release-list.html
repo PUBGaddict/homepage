@@ -15,8 +15,8 @@
 
 <ion-content padding>
   <ion-list >
-    <button ion-item *ngFor="let release of releaseCandidates"  >
-      {{release.mapName}}: {{ release.title }}
+    <button ion-item *ngFor="let releaseCandidate of releaseCandidates" (click)="openReleasePage(releaseCandidate)" >
+      {{releaseCandidate.mapName}}: {{ releaseCandidate.title }}
     </button>  
   </ion-list>   
 

@@ -15,4 +15,50 @@
 
 <ion-content padding>
 
+  <ion-item>
+    <ion-label class="moreWidth" fixed>Map</ion-label>
+    <ion-input type="text" [(ngModel)]="releaseCandidate.mapName"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label class="moreWidth" fixed>Category</ion-label>
+    <ion-input type="text" [(ngModel)]="releaseCandidate.strategy"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label class="moreWidth" fixed>Spot title</ion-label>
+    <ion-input type="text" [(ngModel)]="releaseCandidate.title"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label class="moreWidth" fixed>YouTube Video ID</ion-label>
+    <ion-input type="text" [(ngModel)]="releaseCandidate.videoId"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label class="moreWidth" fixed>YouTube Video Start Time</ion-label>
+    <ion-input type="text" [(ngModel)]="releaseCandidate.startSeconds"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label class="moreWidth" fixed>YouTube Video End Time</ion-label>
+    <ion-input type="text" [(ngModel)]="releaseCandidate.endSeconds"></ion-input>
+  </ion-item>
+
+  <div style="padding-top:20px;">
+    <div>
+      <ion-title>Video Live Preview</ion-title>
+      <button ion-button icon-only (click)="refresh()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+    </div>
+    <youtube-player #youtubePlayer [start]="releaseCandidate.startSeconds" [end]="releaseCandidate.endSeconds" [vid]="releaseCandidate.videoId" [width]="'100%'"></youtube-player>
+  </div>
+
+  <ion-label>Select position of your Spot on the map below</ion-label>
+  <map-overview #mapOverview [mapName]="releaseCandidate.mapName" [strategyId]="" [intentionName]="" (press)="logPress($event)"></map-overview>
+
+  <button ion-button >
+    Release
+  </button>
 </ion-content>
