@@ -16,24 +16,10 @@ export class ReleaseData {
 
   private loadReleaseLocations(): Observable<Response> {
       return this.http.get('https://csgospots-1f294.firebaseio.com/locations/de_dust2/smoke.json?orderBy=%22published%22&endAt=false')
-        .map(data => {return data.json()});
+        .map((data) => {return data.json()});
   }
 
-  getReleases(): any {
-    /*return Rx.Observable.forkJoin(this.loadReleases(),this.loadReleaseLocations()).subscribe((data) => {
-      debugger;
-    })*/
-
-    /*return this.loadReleases().map((data) => {
-      return data;
-    });*/
-  }
-
-  
-
-  getReleaseLocations(): Observable<Response> {
-    return this.loadReleases().map((data) => {
-      return data;
-    });
+  getReleases(): Observable<Response[]> {
+    return Rx.Observable.forkJoin([this.loadReleases(),this.loadReleaseLocations()]);
   }
 }
