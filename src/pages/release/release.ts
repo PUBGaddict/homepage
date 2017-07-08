@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import { ReleaseData } from '../../providers/release-data';
+
 /**
  * Generated class for the ReleasePage page.
  *
@@ -14,7 +16,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ReleasePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public releaseData : ReleaseData) {
+    this.releaseData.getReleases().subscribe((data) => {
+      debugger;
+    }) 
   }
 
   ionViewDidLoad() {
