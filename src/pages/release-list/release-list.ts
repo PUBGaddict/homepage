@@ -11,10 +11,10 @@ import { ReleaseData } from '../../providers/release-data';
  */
 @IonicPage()
 @Component({
-  selector: 'page-release',
-  templateUrl: 'release.html',
+  selector: 'page-release-list',
+  templateUrl: 'release-list.html',
 })
-export class ReleasePage {
+export class ReleaseListPage {
 
   public releaseCandidates = [];
 
@@ -34,7 +34,7 @@ export class ReleasePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ReleasePage');
+    console.log('ionViewDidLoad ReleaseListPage');
   }
 
 }

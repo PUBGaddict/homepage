@@ -11,7 +11,7 @@ import { MapOverviewPage } from '../pages/map-overview/map-overview';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { StrategyDetailPage } from '../pages/strategy-detail/strategy-detail';
 import { SubmitPage } from '../pages/submit/submit';
-import { ReleasePage } from '../pages/release/release';
+import { ReleaseListPage } from '../pages/release-list/release-list';
 
 import { MapData } from '../providers/map-data';
 import { DefusalData } from '../providers/defusal-data';
@@ -46,7 +46,7 @@ export const firebaseConfig = {
     SubmitPage,
     YoutubePlayerComponent,
     MapOverviewComponent,
-    ReleasePage
+    ReleaseListPage
   ],
   imports: [
     BrowserModule,
@@ -57,7 +57,7 @@ export const firebaseConfig = {
        { component: MapOverviewPage, name: 'MapOverview', segment: 'maps/:mapName/:strategyId/:intentionName' },
        { component: StrategyDetailPage, name: 'StrategyDetail', segment: 'maps/:mapName/:strategyId/:intentionName/:spotId' },
        { component: SubmitPage, name: 'SubmitPage', segment: 'submit' },
-       { component: ReleasePage, name: 'ReleasePage', segment: 'release' }
+       { component: ReleaseListPage, name: 'ReleaseListPage', segment: 'releaselist' }
      ]
     }),
     AngularFireModule.initializeApp(firebaseConfig),
@@ -72,7 +72,7 @@ export const firebaseConfig = {
     WelcomePage,
     SubmitPage,
     StrategyDetailPage,
-    ReleasePage
+    ReleaseListPage
   ],
   providers: [
     StatusBar,
