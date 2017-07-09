@@ -2,6 +2,8 @@ import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/
 import { MapData } from '../providers/map-data';
 import * as d3 from 'd3';
 
+import { FirebaseApp } from 'angularfire2';
+
 @Component({
     selector: 'map-overview',
     template: `
@@ -39,7 +41,7 @@ export class MapOverviewComponent implements AfterViewInit {
     };
 
 
-    constructor(public mapData: MapData) {
+    constructor(public mapData: MapData, public firebaseApp : FirebaseApp) {
         this.d3 = d3;
         this.mapName = this.mapName;
         this.strategyId = this.strategyId;
@@ -66,15 +68,19 @@ export class MapOverviewComponent implements AfterViewInit {
         if (this.selBackgroundImage && !this.selBackgroundImage.classed(this.map.mapname)) {
             this.selBackgroundImage.remove();
         } 
-        this.selBackgroundImage = this.selMap.append("svg:image")
-            .attr("xlink:href", "/assets/img/" + this.map.mapname + ".png")
-            .attr("width", 1024)
-            .attr("height", 1024)
-            .classed(this.map.mapname, true)
-            .on("click", (e) => {
-                let mouse = that.d3.mouse(that.d3.event.currentTarget);
-                that.press.emit({ x: parseInt(mouse[0]) - 25, y: parseInt(mouse[1]) - 25 })
-            });
+
+        this.firebaseApp.storage().ref('i/o/' + this.map.mapname + '.png').getDownloadURL().then((url) => {
+            this.selBackgroundImage = this.selMap.insert("svg:image",":first-child")
+                .attr("xlink:href", url)
+                .attr("width", 1024)
+                .attr("height", 1024)
+                .classed(this.map.mapname, true)
+                .on("click", (e) => {
+                    let mouse = that.d3.mouse(that.d3.event.currentTarget);
+                    that.press.emit({ x: parseInt(mouse[0]) - 25, y: parseInt(mouse[1]) - 25 })
+                });
+        });
+
     }
 
     public clearDataSpots () {
