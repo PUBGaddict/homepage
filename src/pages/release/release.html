@@ -58,7 +58,7 @@
   <ion-label>Select position of your Spot on the map below</ion-label>
   <map-overview #mapOverview [mapName]="" [strategyId]="" [intentionName]="" (press)="logPress($event)"></map-overview>
 
-  <button ion-button >
+  <button ion-button (click)="releasePressed()" >
     Release
   </button>
 </ion-content>

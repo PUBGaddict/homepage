@@ -18,5 +18,5 @@ export class ReleaseData {
     return this.loadReleaseCandidates().map((data: any) => {
       return data;
     });;
-  }
+  } 
 }

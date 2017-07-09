@@ -20,9 +20,6 @@ export class ReleaseListPage {
   public releaseCandidates = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public releaseData : ReleaseData) {
-    this.releaseData.getReleases().subscribe((data : Response) => {
-      this.createCandidates(data);
-    });
   }
 
   private createCandidates(data) {
@@ -39,6 +36,16 @@ export class ReleaseListPage {
       releaseCandidate : releaseCandidate,
       spotId : releaseCandidate.spotId  
     })
+  }
+
+  ionViewWillEnter () {
+    this.loadReleaseData();
+  }
+
+  loadReleaseData () {
+    this.releaseData.getReleases().subscribe((data : Response) => {
+      this.createCandidates(data);
+    });
   }
 
   ionViewDidLoad() {
