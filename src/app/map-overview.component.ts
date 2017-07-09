@@ -194,6 +194,7 @@ export class MapOverviewComponent implements AfterViewInit {
                     this.appendDataSpots(this.strategy.spots);
                 }
                 this.render();
+                resolve();
             });
         });
     }

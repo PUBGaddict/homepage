@@ -17,7 +17,7 @@
 
   <ion-item>
     <ion-label class="moreWidth" fixed>Map</ion-label>
-    <ion-input type="text" [(ngModel)]="releaseCandidate.mapName"></ion-input>
+    <ion-input type="text" [(ngModel)]="releaseCandidate.mapname"></ion-input>
   </ion-item>
 
     <ion-item>
@@ -56,7 +56,7 @@
   </div>
 
   <ion-label>Select position of your Spot on the map below</ion-label>
-  <map-overview #mapOverview [mapName]="releaseCandidate.mapName" [strategyId]="" [intentionName]="" (press)="logPress($event)"></map-overview>
+  <map-overview #mapOverview [mapName]="" [strategyId]="" [intentionName]="" (press)="logPress($event)"></map-overview>
 
   <button ion-button >
     Release
