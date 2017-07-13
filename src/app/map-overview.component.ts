@@ -22,6 +22,7 @@ export class MapOverviewComponent implements AfterViewInit {
     @Output() press: EventEmitter<any> = new EventEmitter<any>();
 
     private map: any;
+    private locations: any;
     private selBackgroundImage: any;
     private selMap: any;
     private selSpotsEnter: any;
@@ -43,9 +44,6 @@ export class MapOverviewComponent implements AfterViewInit {
 
     constructor(public mapData: MapData, public firebaseApp : FirebaseApp) {
         this.d3 = d3;
-        this.mapName = this.mapName;
-        this.strategyId = this.strategyId;
-        this.intentionName = this.intentionName;
     }
 
     createSVG() {
@@ -65,16 +63,16 @@ export class MapOverviewComponent implements AfterViewInit {
 
     appendBackgroundImage() {
         var that = this;
-        if (this.selBackgroundImage && !this.selBackgroundImage.classed(this.map.mapname)) {
+        if (this.selBackgroundImage && !this.selBackgroundImage.classed(this.mapName)) {
             this.selBackgroundImage.remove();
         } 
 
-        this.firebaseApp.storage().ref('i/o/' + this.map.mapname + '.png').getDownloadURL().then((url) => {
+        this.firebaseApp.storage().ref('i/o/' + this.mapName + '.png').getDownloadURL().then((url) => {
             this.selBackgroundImage = this.selMap.insert("svg:image",":first-child")
                 .attr("xlink:href", url)
                 .attr("width", 1024)
                 .attr("height", 1024)
-                .classed(this.map.mapname, true)
+                .classed(this.mapName, true)
                 .on("click", (e) => {
                     let mouse = that.d3.mouse(that.d3.event.currentTarget);
                     that.press.emit({ x: parseInt(mouse[0]) - 25, y: parseInt(mouse[1]) - 25 })
@@ -93,8 +91,13 @@ export class MapOverviewComponent implements AfterViewInit {
         }
     }
 
-    public appendDataSpots(spots) {
+    public appendDataSpots(locations) {
         var that = this;
+
+        if (!locations) {
+            return;
+        }
+
         if (this.selSpotsEnter) {
             this.selSpotsEnter.remove();
             this.selSpotOuter.remove();
@@ -102,8 +105,9 @@ export class MapOverviewComponent implements AfterViewInit {
             this.selSmoke.remove();
             this.selHoverSmoke.remove();
         }
+        debugger;
         this.selSpotsEnter = this.selMap.selectAll(".spot")
-            .data(spots)
+            .data(locations)
             .enter();
         this.selSpotOuter = this.selSpotsEnter.append("g")
             .classed("outerspot", true);
@@ -181,18 +185,30 @@ export class MapOverviewComponent implements AfterViewInit {
     } 
 
     public displayMap () {
+        if (!this.mapName) {
+            return;
+        }
         return new Promise((resolve, reject) => {
-            if (!this.mapName) {
-                return;
-            }
+            this.mapData.getLocations(this.mapName, this.strategyId).subscribe(locations => {
+                debugger;
+                this.locations = locations;
+                this.createSVG();
+                this.appendBackgroundImage();
+                this.createScale();
 
-            this.mapData.getMap(this.mapName).subscribe(map => {
+                this.appendDataSpots(this.locations);
+                this.render();
+                resolve();
+            })
+
+          /*  this.mapData.getMap(this.mapName).subscribe(map => {
                 this.map = map;
                 this.createSVG();
                 this.appendBackgroundImage();
                 this.createScale();
+                debugger;
                 window.addEventListener('resize', this.render.bind(this));
-                if (this.intentionName && this.strategyId) { // map overview page
+                if (this.strategyId) { // map overview page
                     let intention = this.mapData.getIntentionFromMap(map, this.intentionName);
                     this.strategy = this.mapData.getStrategyFromIntention(intention, this.strategyId);
 
@@ -201,7 +217,7 @@ export class MapOverviewComponent implements AfterViewInit {
                 }
                 this.render();
                 resolve();
-            });
+            });*/
         });
     }
 

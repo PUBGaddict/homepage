@@ -20,6 +20,7 @@ import { HostageData } from '../providers/hostage-data';
 import { SpotIdData } from '../providers/spotid-data';
 import { PatchnoteData } from '../providers/patchnote-data';
 import { ReleaseData } from '../providers/release-data';
+import { StatisticsData } from '../providers/statistics-data';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -87,6 +88,7 @@ export const firebaseConfig = {
     DefusalData,
     HostageData,
     SpotIdData,
-    ReleaseData]
+    ReleaseData,
+    StatisticsData]
 })
 export class AppModule {}

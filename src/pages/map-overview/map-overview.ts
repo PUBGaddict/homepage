@@ -37,13 +37,11 @@ export class MapOverviewPage {
 
     this.mapName = navParams.get("mapName");
     this.strategyId = navParams.get("strategyId");
-    this.intentionName = navParams.get("intentionName");
-    
-    this.loadToplist();
+    //this.loadToplist();
   }
 
   ionViewWillEnter () {
-    this.loadToplist();
+    //this.loadToplist();
   }
 
   openPage (spot) {
@@ -84,11 +82,14 @@ export class MapOverviewPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MapOverviewPage');
-    this.mapData.getMap(this.mapName).subscribe(map => {
+    /*this.mapData.getLocations(this.mapName, this.strategyId).subscribe(locations => {
+      debugger;
+    })*/
+  /*  this.mapData.getMap(this.mapName).subscribe(map => {
         this.map = map;
         let intention = this.mapData.getIntentionFromMap(map, this.intentionName);
         this.strategy = this.mapData.getStrategyFromIntention(intention, this.strategyId);
-    });
+    });*/
 
     ga('set', 'page', '/map-overview');
     ga('send', 'event', "page", "visit", "map-overview");

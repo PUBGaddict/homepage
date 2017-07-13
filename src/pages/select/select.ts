@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { MapData } from '../../providers/map-data';
+import { StatisticsData } from '../../providers/statistics-data';
 
 import { MapOverviewPage } from '../map-overview/map-overview'
 import { SubmitPage } from '../submit/submit'
@@ -25,12 +26,25 @@ export class SelectPage {
     eco: [],
     teamtactics: []
   };
+  public mapStatistics = {
+    ct : 0,
+    t : 0,
+    smoke : 0,
+    flash : 0,
+    eco : 0,
+    teamtactics : 0
+  }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, public statisticsData : StatisticsData) {
     this.mapName = navParams.get("mapName");
-    this.mapData.getMap(this.mapName).subscribe(map => {
-      this.map = map;
+    this.statisticsData.getStatistics(this.mapName).subscribe(statistics => {
+      this.mapStatistics = Object.assign(this.mapStatistics, statistics);
     });
+
+    /*this.mapData.getMap(this.mapName).subscribe(map => {
+      debugger;
+      this.map = map;
+    });*/
   }
 
   ionViewDidLoad() {
@@ -40,11 +54,10 @@ export class SelectPage {
     ga('send', 'event', "map", "selected", this.mapName);
   }
 
-  openMapOverview(strategyId, intentionName) {
+  openMapOverview(strategyId) {
     this.navCtrl.push(MapOverviewPage, {
       mapName: this.mapName,
-      strategyId,
-      intentionName
+      strategyId
     });
   }
 
@@ -53,13 +66,6 @@ export class SelectPage {
   }
 
   getRowVisibility(strategyName) {
-    if (this.map[strategyName] && this.map[strategyName].length > 0) {
-      for (let strategy of this.map[strategyName]) {
-        if (strategy.spots.length > 0) {
-          return true;
-        } 
-      }
-    } 
-    return false;
+    return !!this.mapStatistics[strategyName];
   }
 }

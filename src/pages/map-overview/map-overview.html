@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Find {{strategy.name}} on {{mapName}}</ion-title>
+    <ion-title>Find {{strategyId}} on {{mapName}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -34,7 +34,7 @@
         </div>
       </ion-card>
     </div>
-    <map-overview #mapOverview [mapName]="mapName" [strategyId]="strategyId" [intentionName]="intentionName" (press)="logPress($event)" (spotPress)="openPage($event)"></map-overview>
+    <map-overview #mapOverview [mapName]="mapName" [strategyId]="strategyId" (press)="logPress($event)" (spotPress)="openPage($event)"></map-overview>
   </div>
 
 </ion-content>
