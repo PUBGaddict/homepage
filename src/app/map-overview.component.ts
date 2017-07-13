@@ -92,7 +92,11 @@ export class MapOverviewComponent implements AfterViewInit {
     }
 
     public appendDataSpots(locations) {
-        var that = this;
+        var that = this,
+            aLocations = Object.keys(locations).map((k) => {
+                return Object.assign(locations[k], {spotId:k});
+            });
+
 
         if (!locations) {
             return;
@@ -107,28 +111,28 @@ export class MapOverviewComponent implements AfterViewInit {
         }
         debugger;
         this.selSpotsEnter = this.selMap.selectAll(".spot")
-            .data(locations)
+            .data(aLocations)
             .enter();
         this.selSpotOuter = this.selSpotsEnter.append("g")
             .classed("outerspot", true);
         this.selSpotOuter.append("line")
             .classed("smokeline", true)
             .classed("nodisplay", (d) => {
-                return !d.endx;
+                return !d.end.x;
             })
-            .attr("x1", (d) => { return d.x + 25 })
-            .attr("y1", (d) => { return d.y + 25 })
-            .attr("x2", (d) => { return d.endx ? d.endx + 25 : 0 })
-            .attr("y2", (d) => { return d.endy ? d.endy + 25 : 0 })
+            .attr("x1", (d) => { return d.start.x + 25 })
+            .attr("y1", (d) => { return d.start.y + 25 })
+            .attr("x2", (d) => { return d.end.x + 25 })
+            .attr("y2", (d) => { return d.end.y + 25 })
             .on("click", (e) => { that.spotPress.emit(e) });
         this.selSpots = this.selSpotOuter.append("g")
             .classed("spot", true)
-            .attr("transform", function (d) { return "translate(" + that.xScale(d.x) + "," + that.yScale(d.y) + ") rotate(" + d.angle + " 25 25)"; })
+            .attr("transform", function (d) { return "translate(" + that.xScale(d.start.x) + "," + that.yScale(d.start.y) + ") rotate(" + d.angle + " 25 25)"; })
         this.selSmoke = this.selSpotOuter.append("g")
-            .attr("transform", function (d) { return (d.endx && d.endy) ? "translate(" + that.xScale(d.endx) + "," + that.yScale(d.endy) + ")" : "translate(0,0)"; })
+            .attr("transform", function (d) { return (d.end.x && d.end.y) ? "translate(" + that.xScale(d.end.x) + "," + that.yScale(d.end.y) + ")" : "translate(0,0)"; })
             .classed("smoke", true)
             .classed("nodisplay", (d) => {
-                return !d.endx;
+                return !d.end.x;
             })
             .append("circle")
             .attr("cx", 25)
@@ -136,7 +140,7 @@ export class MapOverviewComponent implements AfterViewInit {
             .attr("r", 10)
             .on("click", (e) => { that.spotPress.emit(e) });
         this.selHoverSmoke = this.selSpotOuter.append("g")
-            .attr("transform", function (d) { return (d.endx && d.endy) ? "translate(" + that.xScale(d.endx) + "," + that.yScale(d.endy) + ")" : "translate(0,0)"; })
+            .attr("transform", function (d) { return (d.end.x && d.end.y) ? "translate(" + that.xScale(d.end.x) + "," + that.yScale(d.end.y) + ")" : "translate(0,0)"; })
             .classed("smokebig", true)
             .classed("nodisplay", true)
             .append("circle")
@@ -158,7 +162,7 @@ export class MapOverviewComponent implements AfterViewInit {
             .attr("transform", "translate(25,50)")
             .classed("player-view", true)
             .classed("nodisplay", (d) => {
-                return !!d.endx;
+                return !!d.end.x;
             });
     }
 
@@ -190,7 +194,6 @@ export class MapOverviewComponent implements AfterViewInit {
         }
         return new Promise((resolve, reject) => {
             this.mapData.getLocations(this.mapName, this.strategyId).subscribe(locations => {
-                debugger;
                 this.locations = locations;
                 this.createSVG();
                 this.appendBackgroundImage();
