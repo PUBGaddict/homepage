@@ -32,6 +32,22 @@ export class MapData {
     return this.loadSpot(mapName, strategy, spotId);
   }
 
+  private loadSpotInformation(spotId : string): Observable<any> {
+    if (this.spotCache[spotId]) {
+      return Observable.of(this.spotCache[spotId]);
+    } else {
+      return this.http.get('https://csgospots-1f294.firebaseio.com/spotids/'
+         + spotId + '.json')
+        .map((data) => {
+          return data.json();
+        });
+    }
+  }
+
+  public getSpotInformation(spotId : string) {
+    return this.loadSpotInformation(spotId);
+  }
+
   private loadSpots(mapName : string, strategy : string): Observable<any> {
     return this.http.get('https://csgospots-1f294.firebaseio.com/spots/'
         + mapName + '/' + strategy + '.json')

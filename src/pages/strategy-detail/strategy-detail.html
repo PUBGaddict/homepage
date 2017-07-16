@@ -34,8 +34,8 @@
     <div *ngIf="spot.vidUrl && !spot.youtube" style="position:relative;padding-bottom:57%">
       <iframe [src]='safeVidUrl' webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen></iframe>
    </div>
-   <div *ngIf="spot.youtube">
-      <youtube-player [start]="spot.startTime" [end]="spot.endTime" [vid]="spot.vidUrl" [width]="'100%'"></youtube-player>
+   <div *ngIf="spot.videoId">
+      <youtube-player [start]="spot.startSeconds" [end]="spot.endSeconds" [vid]="spot.videoId" [width]="'100%'"></youtube-player>
    </div>
   </ion-list>
 </ion-content>

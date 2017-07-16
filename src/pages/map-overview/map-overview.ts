@@ -44,12 +44,12 @@ export class MapOverviewPage {
     //this.loadToplist();
   }
 
-  openPage (spot) {
+  openPage (location) {
     this.navCtrl.push(StrategyDetailPage, {
       mapName: this.mapName,
-      strategyId: this.strategyId,
-      intentionName: this.intentionName,
-      spotId: spot.id ? spot.id : spot.$key // its spot.id when clicking on the d3-svg on the map, and spot.$key when coming from the toplist 
+      strategy: this.strategyId,
+      spotId : location.spotId,
+      location // its spot.id when clicking on the d3-svg on the map, and spot.$key when coming from the toplist 
     });
   }
 

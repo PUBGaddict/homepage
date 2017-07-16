@@ -18,10 +18,9 @@ import { SubmitPage } from '../submit/submit';
 })
 export class StrategyDetailPage {
   @ViewChild('container') container;
-  public strategy : any;
   public height: any;
   private mapName: string;
-  private strategyId: string;
+  private strategy: string;
   private intentionName: string;
   private spotId: string;
   private upvotes: number;
@@ -29,37 +28,44 @@ export class StrategyDetailPage {
   private item: FirebaseObjectObservable<any>;
      
   public safeVidUrl : any;
+  private location;
 
   public spot = {
-     id: "",
-     title: "",
+ /*    title: "",
      description: "",
-     rating: "",
-     difficulty: "",
-     prerequisites: "",
-     pros: [],
-     cons: [],
-     angle: "",
-     x: "",
-     y: "",
-     vid: false,
-     youtube: false,
-     startTime: 0,
-     endTime: 99,
-     vidUrl: "",
-     pictures: []
+    rating: "",
+    difficulty: "",
+    prerequisites: "",
+    pros: [],
+    cons: [],
+    angle: "",
+    x: "",
+    y: "",
+    vid: false,
+    youtube: false,
+    startTime: 0,
+    endTime: 99,
+    vidUrl: "",
+    pictures: []
+*/
+    spotId : "",
+    title : "",
+    mapName : "",
+    startSeconds : 0, 
+    endSeconds : 0,
+    strategy : "",
+    videoId : ""
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer, private angularFireDatabase: AngularFireDatabase) {
     this.mapName = navParams.get("mapName");
-    this.strategyId = navParams.get("strategyId");
-    this.intentionName = navParams.get("intentionName");
+    this.strategy = navParams.get("strategy");
+    this.location = navParams.get("location");
     this.spotId = navParams.get("spotId");
 
     this.item = angularFireDatabase.object('/ratings/' + 
             this.mapName + "/" + 
-            this.strategyId  + "/" + 
-            this.intentionName  + "/" + 
+            this.strategy  + "/" + 
             this.spotId);
     this.item.subscribe((snapshot) => {
       if (snapshot.value === undefined) {
@@ -68,7 +74,11 @@ export class StrategyDetailPage {
       this.upvotes = snapshot.value;
     })
 
-    this.mapData.getMap(this.mapName).subscribe(map => {
+    this.mapData.getSpot(this.mapName, this.strategy, this.spotId).subscribe(spot => {
+      this.spot = spot;
+    })
+
+    /*this.mapData.getMap(this.mapName).subscribe(map => {
       let intention = mapData.getIntentionFromMap(map, this.intentionName);
       this.strategy = mapData.getStrategyFromIntention(intention, this.strategyId);
       this.spot = mapData.getSpotFromStrategy(this.strategy, this.spotId);
@@ -77,7 +87,7 @@ export class StrategyDetailPage {
       } else {
         this.safeVidUrl = sanitizer.bypassSecurityTrustResourceUrl(this.spot.vidUrl);
       }
-    });
+    });*/
   }
 
   getVoteObject() {

@@ -78,16 +78,20 @@ export class ReleasePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReleasePage');
-
+    debugger;
     this.mapOverview.clearDataSpots();
     this.mapOverview.setMap(this.releaseCandidate.mapname);
-    this.mapOverview.displayMap().then(() => {  // wait until rendered
+    this.mapOverview.displayMap(false).then(() => {  // wait until rendered
       this.mapOverview.appendDataSpots([{
         angle : 0,
-        x : this.releaseCandidate.start.x,
-        y : this.releaseCandidate.start.y,
-        endx : this.releaseCandidate.strategy === "smoke" ? this.releaseCandidate.end.x : 0,
-        endy : this.releaseCandidate.strategy === "smoke" ? this.releaseCandidate.end.y : 0
+        start : {
+          x : this.releaseCandidate.start.x,
+          y : this.releaseCandidate.start.y
+        },
+        end : {
+          x : this.releaseCandidate.strategy === "smoke" ? this.releaseCandidate.end.x : 0,
+          y : this.releaseCandidate.strategy === "smoke" ? this.releaseCandidate.end.y : 0
+        }
       }])
     });
   }

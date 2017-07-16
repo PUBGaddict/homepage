@@ -92,15 +92,15 @@ export class MapOverviewComponent implements AfterViewInit {
     }
 
     public appendDataSpots(locations) {
-        var that = this,
-            aLocations = Object.keys(locations).map((k) => {
-                return Object.assign(locations[k], {spotId:k});
-            });
-
 
         if (!locations) {
             return;
         }
+
+        var that = this,
+            aLocations = Object.keys(locations).map((k) => {
+                return Object.assign(locations[k], {spotId:k});
+            });
 
         if (this.selSpotsEnter) {
             this.selSpotsEnter.remove();
@@ -109,7 +109,7 @@ export class MapOverviewComponent implements AfterViewInit {
             this.selSmoke.remove();
             this.selHoverSmoke.remove();
         }
-        debugger;
+
         this.selSpotsEnter = this.selMap.selectAll(".spot")
             .data(aLocations)
             .enter();
@@ -124,7 +124,7 @@ export class MapOverviewComponent implements AfterViewInit {
             .attr("y1", (d) => { return d.start.y + 25 })
             .attr("x2", (d) => { return d.end.x + 25 })
             .attr("y2", (d) => { return d.end.y + 25 })
-            .on("click", (e) => { that.spotPress.emit(e) });
+            .on("click", (d) => { that.spotPress.emit(d) });
         this.selSpots = this.selSpotOuter.append("g")
             .classed("spot", true)
             .attr("transform", function (d) { return "translate(" + that.xScale(d.start.x) + "," + that.yScale(d.start.y) + ") rotate(" + d.angle + " 25 25)"; })
@@ -138,7 +138,7 @@ export class MapOverviewComponent implements AfterViewInit {
             .attr("cx", 25)
             .attr("cy", 25)
             .attr("r", 10)
-            .on("click", (e) => { that.spotPress.emit(e) });
+            .on("click", (d) => { that.spotPress.emit(d) });
         this.selHoverSmoke = this.selSpotOuter.append("g")
             .attr("transform", function (d) { return (d.end.x && d.end.y) ? "translate(" + that.xScale(d.end.x) + "," + that.yScale(d.end.y) + ")" : "translate(0,0)"; })
             .classed("smokebig", true)
@@ -147,14 +147,14 @@ export class MapOverviewComponent implements AfterViewInit {
             .attr("cx", 25)
             .attr("cy", 25)
             .attr("r", 30)
-            .on("click", (e) => { that.spotPress.emit(e) });
+            .on("click", (d) => { that.spotPress.emit(d) });
         this.selSpots.append("circle")
             .attr("transform", "translate(15,15)")
             .attr("cx", 10)
             .attr("cy", 10)
             .attr("r", 7)
             .classed("player", true)
-            .on("click", (e) => { that.spotPress.emit(e) });
+            .on("click", (d) => { that.spotPress.emit(d) });
         this.selSpots.append("path")
             .attr("d", d3.symbol()
                 .size(function (d) { return 700; })
@@ -188,21 +188,27 @@ export class MapOverviewComponent implements AfterViewInit {
         this.mapName = mapName;
     } 
 
-    public displayMap () {
+    public displayMap (drawSpots : boolean) {
         if (!this.mapName) {
             return;
         }
-        return new Promise((resolve, reject) => {
-            this.mapData.getLocations(this.mapName, this.strategyId).subscribe(locations => {
-                this.locations = locations;
-                this.createSVG();
-                this.appendBackgroundImage();
-                this.createScale();
+        this.createSVG();
+        this.appendBackgroundImage();
+        this.createScale();
+        this.render();
 
-                this.appendDataSpots(this.locations);
-                this.render();
+        return new Promise((resolve, reject) => {
+            if (drawSpots) {
+                this.mapData.getLocations(this.mapName, this.strategyId).subscribe(locations => {
+                    this.locations = locations;
+
+                    this.appendDataSpots(this.locations);
+                    this.render();
+                    resolve();
+                })
+            } else {
                 resolve();
-            })
+            }
 
           /*  this.mapData.getMap(this.mapName).subscribe(map => {
                 this.map = map;
@@ -225,6 +231,6 @@ export class MapOverviewComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.displayMap();
+        this.displayMap(true);
     }
 }

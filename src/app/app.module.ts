@@ -57,8 +57,8 @@ export const firebaseConfig = {
     IonicModule.forRoot(MyApp, {}, {
      links: [
        { component: SelectPage, name: 'Select', segment: 'maps/:mapName' },
-       { component: MapOverviewPage, name: 'MapOverview', segment: 'maps/:mapName/:strategyId/:intentionName' },
-       { component: StrategyDetailPage, name: 'StrategyDetail', segment: 'maps/:mapName/:strategyId/:intentionName/:spotId' },
+       { component: MapOverviewPage, name: 'MapOverview', segment: 'maps/:mapName/:strategyId' },
+       { component: StrategyDetailPage, name: 'StrategyDetail', segment: 's/:spotId' },
        { component: SubmitPage, name: 'SubmitPage', segment: 'submit' },
        { component: ReleaseListPage, name: 'ReleaseListPage', segment: 'releaselist' },
        { component: ReleasePage, name: 'ReleasePage', segment: 'releaselist/release/:spotId' }

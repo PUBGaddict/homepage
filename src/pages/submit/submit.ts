@@ -72,10 +72,14 @@ export class SubmitPage {
       this.start = event;
       this.mapOverview.appendDataSpots([{
         angle : 0,
-        x : event.x,
-        y : event.y,
-        endx : 0,
-        endy : 0
+        start : {
+          x : event.x,
+          y : event.y
+        },
+        end : {
+          x : 0,
+          y : 0
+        }
       }]);
       this.isFirstPress = false;
       
@@ -85,10 +89,14 @@ export class SubmitPage {
     } else {
       this.mapOverview.appendDataSpots([{
         angle : 0,
-        x : this.start.x,
-        y : this.start.y,
-        endx : event.x,
-        endy :  event.y
+        start : {
+          x : this.start.x,
+          y : this.start.y
+        },
+        end : {
+          x : event.x,
+          y : event.y
+        }
       }]);
       this.end = event;
       this.isFirstPress = true;
@@ -123,7 +131,7 @@ export class SubmitPage {
     this.isFirstPress = true;
     this.mapOverview.clearDataSpots();
     this.mapOverview.setMap(this.map);
-    this.mapOverview.displayMap();
+    this.mapOverview.displayMap(false);
   }
 
   categoryChanged () {
