@@ -37,11 +37,11 @@ export class MapOverviewPage {
 
     this.mapName = navParams.get("mapName");
     this.strategyId = navParams.get("strategyId");
-    //this.loadToplist();
+    this.loadToplist();
   }
 
   ionViewWillEnter () {
-    //this.loadToplist();
+    this.loadToplist();
   }
 
   openPage (location) {
@@ -60,8 +60,7 @@ export class MapOverviewPage {
   loadToplist () {
     this.votings = this.angularfire.list('/ratings/' + 
             this.mapName + "/" + 
-            this.strategyId  + "/" + 
-            this.intentionName, {
+            this.strategyId  + "/", {
               query: { 
               orderByChild: 'value',
               limitToLast: 8
