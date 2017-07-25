@@ -54,7 +54,9 @@ export const firebaseConfig = {
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp, {}, {
+    IonicModule.forRoot(MyApp, {
+      locationStrategy: "path"
+    }, {
      links: [
        { component: SelectPage, name: 'Select', segment: 'maps/:mapName' },
        { component: MapOverviewPage, name: 'MapOverview', segment: 'maps/:mapName/:strategyId' },
