@@ -2,8 +2,9 @@
   "rules": {
     "no-duplicate-variable": true,
     "no-unused-variable": [
-      true
-    ]
+      false
+    ],
+    "no-unused-expression": true
   },
   "rulesDirectory": [
     "node_modules/tslint-eslint-rules/dist/rules"
