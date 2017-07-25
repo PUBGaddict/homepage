@@ -13,6 +13,7 @@ import { StrategyDetailPage } from '../pages/strategy-detail/strategy-detail';
 import { SubmitPage } from '../pages/submit/submit';
 import { ReleaseListPage } from '../pages/release-list/release-list';
 import { ReleasePage } from '../pages/release/release';
+import { ImpressumPage } from '../pages/impressum/impressum';
 
 import { MapData } from '../providers/map-data';
 import { DefusalData } from '../providers/defusal-data';
@@ -49,21 +50,21 @@ export const firebaseConfig = {
     YoutubePlayerComponent,
     MapOverviewComponent,
     ReleaseListPage,
-    ReleasePage
+    ReleasePage,
+    ImpressumPage,
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp, {
-      locationStrategy: "path"
-    }, {
+    IonicModule.forRoot(MyApp, {}, {
      links: [
        { component: SelectPage, name: 'Select', segment: 'maps/:mapName' },
        { component: MapOverviewPage, name: 'MapOverview', segment: 'maps/:mapName/:strategyId' },
        { component: StrategyDetailPage, name: 'StrategyDetail', segment: 's/:spotId' },
        { component: SubmitPage, name: 'SubmitPage', segment: 'submit' },
        { component: ReleaseListPage, name: 'ReleaseListPage', segment: 'releaselist' },
-       { component: ReleasePage, name: 'ReleasePage', segment: 'releaselist/release/:spotId' }
+       { component: ReleasePage, name: 'ReleasePage', segment: 'releaselist/release/:spotId' },
+       { component: ImpressumPage, name: 'ImpressumPage', segment: 'impressum' }
      ]
     }),
     AngularFireModule.initializeApp(firebaseConfig),
@@ -79,7 +80,8 @@ export const firebaseConfig = {
     SubmitPage,
     StrategyDetailPage,
     ReleaseListPage,
-    ReleasePage
+    ReleasePage,
+    ImpressumPage
   ],
   providers: [
     StatusBar,
