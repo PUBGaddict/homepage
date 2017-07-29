@@ -54,7 +54,7 @@ export class ReleasePage {
   
   releasePressed () {
     let aPromises = [];
-    /*aPromises.push(this.angularFireDatabase.object('/locations/' + 
+    aPromises.push(this.angularFireDatabase.object('/locations/' + 
         this.releaseCandidate.mapname + '/' + 
         this.releaseCandidate.strategy + '/' + 
         this.releaseCandidate.spotId)
@@ -73,7 +73,7 @@ export class ReleasePage {
       
     Promise.all(aPromises).then(() => {
       this.presentToast();
-    });*/
+    });
 
     this.statistic.subscribe((snapshot) => {
       var value;
@@ -87,15 +87,6 @@ export class ReleasePage {
 
         this.statistic.set({ value : value });
       }
-
-      /*if (snapshot.value === undefined) {
-        debugger;
-        this.statistic.set({ value: 1 });
-      }
-      if (this.isFirstSubscribe) {
-        this.statistic.set({ value: this.upvotes + delta });
-      }
-      this.statisticsCount = snapshot.value;*/
     })
   }
 
