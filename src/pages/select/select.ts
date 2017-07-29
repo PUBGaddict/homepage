@@ -52,11 +52,6 @@ export class SelectPage {
     this.statisticsData.getStatistics(this.mapName).subscribe(statistics => {
       this.mapStatistics = Object.assign(this.mapStatistics, statistics);
     });
-
-    /*this.mapData.getMap(this.mapName).subscribe(map => {
-      debugger;
-      this.map = map;
-    });*/
   }
 
   ionViewDidLoad() {
