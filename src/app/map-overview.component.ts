@@ -180,7 +180,7 @@ export class MapOverviewComponent implements AfterViewInit {
 
     highlight(enable, item) {
         this.d3.selectAll("g.outerspot")
-            .filter(function (d) { return d.id === item.$key; })
+            .filter(function (d) { return d.spotId === item.$key; })
             .classed("hover", enable);
     }
 

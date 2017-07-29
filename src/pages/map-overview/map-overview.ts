@@ -48,8 +48,8 @@ export class MapOverviewPage {
     this.navCtrl.push(StrategyDetailPage, {
       mapName: this.mapName,
       strategy: this.strategyId,
-      spotId : location.spotId,
-      location // its spot.id when clicking on the d3-svg on the map, and spot.$key when coming from the toplist 
+      spotId : location.spotId ? location.spotId : location.$key,
+      location // its location.spotId when clicking on the d3-svg on the map, and location.$key when coming from the toplist 
     });
   }
 
