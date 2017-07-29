@@ -38,15 +38,23 @@ export class ReleasePage {
     endSeconds : 99,
     spotId : ""
   };
-  releaseButtonDisabled : boolean = false;
+  public statistic : FirebaseObjectObservable<any>;
+  public statisticsCount : number;
+  isFirstSubscribe : boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public angularFireDatabase : AngularFireDatabase, public toastCtrl : ToastController) {
     this.releaseCandidate = navParams.get("releaseCandidate");
+
+    this.statistic = angularFireDatabase.object('/statistics/' + 
+            this.releaseCandidate.mapname + "/" + 
+            this.releaseCandidate.strategy);
+    
+
   }
   
   releasePressed () {
     let aPromises = [];
-    aPromises.push(this.angularFireDatabase.object('/locations/' + 
+    /*aPromises.push(this.angularFireDatabase.object('/locations/' + 
         this.releaseCandidate.mapname + '/' + 
         this.releaseCandidate.strategy + '/' + 
         this.releaseCandidate.spotId)
@@ -65,7 +73,30 @@ export class ReleasePage {
       
     Promise.all(aPromises).then(() => {
       this.presentToast();
-    });
+    });*/
+
+    this.statistic.subscribe((snapshot) => {
+      var value;
+      if (snapshot.value === undefined) {
+        value = 1;
+      } else {
+        value = snapshot.value + 1;
+      }
+      if (this.isFirstSubscribe) {
+        this.isFirstSubscribe = false;
+
+        this.statistic.set({ value : value });
+      }
+
+      /*if (snapshot.value === undefined) {
+        debugger;
+        this.statistic.set({ value: 1 });
+      }
+      if (this.isFirstSubscribe) {
+        this.statistic.set({ value: this.upvotes + delta });
+      }
+      this.statisticsCount = snapshot.value;*/
+    })
   }
 
   presentToast() {
@@ -78,7 +109,6 @@ export class ReleasePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReleasePage');
-    debugger;
     this.mapOverview.clearDataSpots();
     this.mapOverview.setMap(this.releaseCandidate.mapname);
     this.mapOverview.displayMap(false).then(() => {  // wait until rendered

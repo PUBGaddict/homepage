@@ -27,12 +27,24 @@ export class SelectPage {
     teamtactics: []
   };
   public mapStatistics = {
-    ct : 0,
-    t : 0,
-    smoke : 0,
-    flash : 0,
-    eco : 0,
-    teamtactics : 0
+    ct : {
+      value : 0 
+    },
+    t : {
+      value : 0 
+    },
+    smoke : {
+      value : 0 
+    },
+    flash : {
+      value : 0 
+    },
+    eco : {
+      value : 0 
+    },
+    teamtactics : {
+      value : 0 
+    }
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, public statisticsData : StatisticsData) {
@@ -66,6 +78,10 @@ export class SelectPage {
   }
 
   getRowVisibility(strategyName) {
-    return !!this.mapStatistics[strategyName];
+    if (this.mapStatistics[strategyName]) {
+      return !!this.mapStatistics[strategyName].value;
+    } else {
+      return false;
+    }
   }
 }
