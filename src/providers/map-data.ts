@@ -50,7 +50,7 @@ export class MapData {
 
   private loadSpots(mapName : string, strategy : string): Observable<any> {
     return this.http.get('https://csgospots-1f294.firebaseio.com/spots/'
-        + mapName + '/' + strategy + '.json')
+        + mapName + '/' + strategy + '.json?orderBy="published"&startAt=true')
       .map((data) => {
         return data.json();
       });
@@ -62,7 +62,7 @@ export class MapData {
 
   private loadLocations(mapName : string, strategy : string): Observable<any> {
     return this.http.get('https://csgospots-1f294.firebaseio.com/locations/'
-        + mapName + '/' + strategy + '.json')
+        + mapName + '/' + strategy + '.json?orderBy="published"&startAt=true')
       .map((data) => {
         return data.json();
       });
