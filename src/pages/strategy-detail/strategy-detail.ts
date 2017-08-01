@@ -31,23 +31,6 @@ export class StrategyDetailPage {
   private location;
 
   public spot = {
- /*    title: "",
-     description: "",
-    rating: "",
-    difficulty: "",
-    prerequisites: "",
-    pros: [],
-    cons: [],
-    angle: "",
-    x: "",
-    y: "",
-    vid: false,
-    youtube: false,
-    startTime: 0,
-    endTime: 99,
-    vidUrl: "",
-    pictures: []
-*/
     spotId : "",
     title : "",
     mapName : "",
@@ -77,17 +60,6 @@ export class StrategyDetailPage {
     this.mapData.getSpot(this.mapName, this.strategy, this.spotId).subscribe(spot => {
       this.spot = spot;
     })
-
-    /*this.mapData.getMap(this.mapName).subscribe(map => {
-      let intention = mapData.getIntentionFromMap(map, this.intentionName);
-      this.strategy = mapData.getStrategyFromIntention(intention, this.strategyId);
-      this.spot = mapData.getSpotFromStrategy(this.strategy, this.spotId);
-      if (this.spot.youtube) {
-        this.safeVidUrl = sanitizer.bypassSecurityTrustResourceUrl(this.spot.vidUrl+'?autoplay=1&amp;controls=0&amp;loop=1&amp;rel=0');
-      } else {
-        this.safeVidUrl = sanitizer.bypassSecurityTrustResourceUrl(this.spot.vidUrl);
-      }
-    });*/
   }
 
   getVoteObject() {

@@ -209,24 +209,6 @@ export class MapOverviewComponent implements AfterViewInit {
             } else {
                 resolve();
             }
-
-          /*  this.mapData.getMap(this.mapName).subscribe(map => {
-                this.map = map;
-                this.createSVG();
-                this.appendBackgroundImage();
-                this.createScale();
-                debugger;
-                window.addEventListener('resize', this.render.bind(this));
-                if (this.strategyId) { // map overview page
-                    let intention = this.mapData.getIntentionFromMap(map, this.intentionName);
-                    this.strategy = this.mapData.getStrategyFromIntention(intention, this.strategyId);
-
-                    // this needs a promise, otherwise render happens too early and our data is not loaded yet.
-                    this.appendDataSpots(this.strategy.spots);
-                }
-                this.render();
-                resolve();
-            });*/
         });
     }
 
