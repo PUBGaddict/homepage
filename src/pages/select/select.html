@@ -30,16 +30,16 @@
     </div>
     
     <div *ngIf="getRowVisibility('t')">
-      <ion-title class="list-title">
+      <ion-title class="list-title" *ngIf="getRowVisibility('t')">
         T Stuff
       </ion-title>
       <ion-row align-items-stretch>
-        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.t" [class.isEmptyCol]="strategy.spots.length === 0">
-          <ion-card (click)="openMapOverview(strategy)">
+        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.t?.value === 0">
+          <ion-card class="card" (click)="openMapOverview('t')">
             <div class="card-content">
               <img class="picture" src="/assets/img/{{strategy.picture}}"/>
-              <div class="card-title">{{strategy.name}}</div>
-              <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
+              <div class="card-title">T Stuff</div>
+              <div class="card-subtitle">{{mapStatistics.t.length}} Listings</div>
             </div>
           </ion-card>
         </ion-col>
