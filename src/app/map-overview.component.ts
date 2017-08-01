@@ -8,8 +8,7 @@ import { FirebaseApp } from 'angularfire2';
     selector: 'map-overview',
     template: `
       <div class="d3"></div>
-    `/*,
-    styleUrls: ['map-overview.component.scss']*/
+    `
 })
 export class MapOverviewComponent implements AfterViewInit {
     @Input() mapName: string = "";
@@ -34,13 +33,7 @@ export class MapOverviewComponent implements AfterViewInit {
     private xScale: any;
     private yScale: any;
     private d3: any;
-
-    public strategy = {
-        id: "",
-        name: "",
-        spots: []
-    };
-
+    private divTooltip: any;
 
     constructor(public mapData: MapData, public firebaseApp : FirebaseApp) {
         this.d3 = d3;
@@ -109,7 +102,18 @@ export class MapOverviewComponent implements AfterViewInit {
             this.selSmoke.remove();
             this.selHoverSmoke.remove();
         }
-
+        this.divTooltip = this.d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0)
+            .style("position" ,"absolute")
+            .style("text-align" ,"center")
+            .style("height" ,"18px")
+            .style("padding" ,"2px")
+            .style("font" ,"12px sans-serif")
+            .style("background" ,"lightsteelblue")
+            .style("border-radius" ,"8px")
+            .style("pointer-events" ,"none")
+            .style("font" ,"12px sans-serif");
         this.selSpotsEnter = this.selMap.selectAll(".spot")
             .data(aLocations)
             .enter();
@@ -138,7 +142,8 @@ export class MapOverviewComponent implements AfterViewInit {
             .attr("cx", 25)
             .attr("cy", 25)
             .attr("r", 10)
-            .on("click", (d) => { that.spotPress.emit(d) });
+            .on("click", (d) => { that.spotPress.emit(d) })
+            .on("mouseover", this.displayTooltip.bind(this))
         this.selHoverSmoke = this.selSpotOuter.append("g")
             .attr("transform", function (d) { return (d.end.x && d.end.y) ? "translate(" + that.xScale(d.end.x) + "," + that.yScale(d.end.y) + ")" : "translate(0,0)"; })
             .classed("smokebig", true)
@@ -147,7 +152,8 @@ export class MapOverviewComponent implements AfterViewInit {
             .attr("cx", 25)
             .attr("cy", 25)
             .attr("r", 30)
-            .on("click", (d) => { that.spotPress.emit(d) });
+            .on("click", (d) => { that.spotPress.emit(d) })
+            .on("mouseout", this.hideToolTip.bind(this));
         this.selSpots.append("circle")
             .attr("transform", "translate(15,15)")
             .attr("cx", 10)
@@ -164,6 +170,27 @@ export class MapOverviewComponent implements AfterViewInit {
             .classed("nodisplay", (d) => {
                 return !!d.end.x;
             });
+    }
+
+    displayTooltip(d) {
+        let pageX = this.d3.event.pageX,
+            pageY = this.d3.event.pageY;
+        this.mapData.getSpot(this.mapName,this.strategyId,d.spotId).subscribe(data => {
+            let sText = data.title;
+            this.divTooltip.transition()    
+                .duration(200)
+                .style("opacity", .9);
+            this.divTooltip.html(sText)
+                .style("left", pageX + "px")
+                .style("width", (sText.length * 7) + "px")
+                .style("top", (pageY - 28) + "px");
+        })   
+    }
+
+    hideToolTip() {
+        this.divTooltip.transition()
+         .duration(500)
+         .style("opacity", 0);
     }
 
     createScale() {
