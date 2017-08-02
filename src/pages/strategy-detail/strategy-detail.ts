@@ -41,12 +41,27 @@ export class StrategyDetailPage {
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer, private angularFireDatabase: AngularFireDatabase) {
+    this.angularFireDatabase = angularFireDatabase;
     this.mapName = navParams.get("mapName");
     this.strategy = navParams.get("strategy");
     this.location = navParams.get("location");
     this.spotId = navParams.get("spotId");
+    let bDirectAccess = (!this.strategy || !this.mapName);
 
-    this.item = angularFireDatabase.object('/ratings/' + 
+    if (bDirectAccess) {
+      this.mapData.getSpotInformation(this.spotId).subscribe(data => {
+        this.strategy = data.strategy;
+        this.mapName = data.mapName;
+
+        this.displaySpot();
+      })
+    } else {
+      this.displaySpot();
+    }
+  }
+
+  displaySpot() {
+    this.item = this.angularFireDatabase.object('/ratings/' + 
             this.mapName + "/" + 
             this.strategy  + "/" + 
             this.spotId);
