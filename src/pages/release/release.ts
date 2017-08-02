@@ -98,6 +98,8 @@ export class ReleasePage {
     toast.present();
   }
 
+  logPress(event) {}
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReleasePage');
     this.mapOverview.clearDataSpots();
