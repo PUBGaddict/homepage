@@ -112,8 +112,8 @@ export class ReleasePage {
           y : this.releaseCandidate.start.y
         },
         end : {
-          x : this.releaseCandidate.strategy === "smoke" ? this.releaseCandidate.end.x : 0,
-          y : this.releaseCandidate.strategy === "smoke" ? this.releaseCandidate.end.y : 0
+          x : this.releaseCandidate.strategy === "smoke" || this.releaseCandidate.strategy === "decoy" ? this.releaseCandidate.end.x : 0,
+          y : this.releaseCandidate.strategy === "smoke" || this.releaseCandidate.strategy === "decoy" ? this.releaseCandidate.end.y : 0
         }
       }])
     });

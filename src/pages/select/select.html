@@ -67,12 +67,12 @@
         Decoys
       </ion-title>
       <ion-row align-items-stretch *ngIf="getRowVisibility('decoy')">
-        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center *ngFor="let strategy of map.decoy" [class.isEmptyCol]="strategy.spots.length === 0">
-          <ion-card class="card" (click)="openMapOverview(strategy.id, 'decoy')">
+        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.decoy?.value === 0">
+          <ion-card class="card" (click)="openMapOverview('decoy')">
             <div class="card-content">
-              <img class="picture" src="/assets/img/{{strategy.picture}}" />
-              <div class="card-title">{{strategy.name}}</div>
-              <div class="card-subtitle">{{strategy.spots.length}} Listings</div>
+              <img class="picture" src="/assets/img/de_dust2/smoke_a.png" />
+              <div class="card-title">Decoy</div>
+              <div class="card-subtitle">{{mapStatistics.decoy.value}} Listings</div>
             </div>
           </ion-card>
         </ion-col>
