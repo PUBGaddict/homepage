@@ -83,7 +83,7 @@ export class SubmitPage {
       }]);
       this.isFirstPress = false;
       
-      if (this.category !== 'smoke') {
+      if (this.category !== 'smoke' && this.category !== 'decoy') {
         this.isFirstPress = true;  
       }
     } else {
