@@ -173,6 +173,9 @@ export class MapOverviewComponent implements AfterViewInit {
     }
 
     displayTooltip(d) {
+        if (!this.mapName || !this.strategyId || !d.spotId) {
+            return;
+        }
         let pageX = this.d3.event.pageX,
             pageY = this.d3.event.pageY;
         this.mapData.getSpot(this.mapName,this.strategyId,d.spotId).subscribe(data => {
