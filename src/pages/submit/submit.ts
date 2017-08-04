@@ -23,6 +23,7 @@ import 'firebase/storage';
 export class SubmitPage {
   @ViewChild('youtubePlayer') youtubePlayer: YoutubePlayerComponent;
   @ViewChild('mapOverview') mapOverview: MapOverviewComponent;
+  @ViewChild('progress') progress;
 
   de_maps: any[] = [];
   cs_maps: any[] = [];
@@ -39,7 +40,11 @@ export class SubmitPage {
   public map: string = "";
   public startSeconds: number = 0;
   public endSeconds: number = 15;
-  public start :any =  {
+  public picture_1 : string = "";
+  public picture_2 : string = "";
+  public picture_3 : string = "";
+  public angle : number = 0;
+  public start :any = {
     x : 0,
     y : 0
   };
@@ -56,7 +61,12 @@ export class SubmitPage {
       this.cs_maps = cs_maps;
     });
   }
-
+ 
+  // onFileUpload(event) {
+  //   let files = event.srcElement.files;
+  //   debugger;
+  // }
+ 
   refresh() {
     this.youtubePlayer.play({
       videoId : this.videoId,
@@ -112,16 +122,35 @@ export class SubmitPage {
 
   savePressed () {
     this.saveButtonDisabled = true;
-    let oSpot = {
-      videoId : this.videoId,
-      strategy : this.category,
-      mapname : this.map,
-      title : this.title,
-      startSeconds : this.startSeconds,
-      endSeconds : this.endSeconds,
-      start : this.start,
-      end: this.end
+    var oSpot = {
+        title : this.title,
+        strategy : this.category,
+        mapname : this.map,
+        start : this.start,
+
+        // optional properties for youtube
+        videoId : undefined,
+        startSeconds : undefined,
+        endSeconds : undefined,
+        end : undefined,
+
+        // optional properties for 
+        angle : undefined,
+        picture_1 : undefined,
+        picture_2 : undefined,
+        picture_3 : undefined
     };
+    if (this.category === "smoke" || this.category === "decoy") {
+      oSpot.videoId = this.videoId;
+      oSpot.startSeconds = this.startSeconds;
+      oSpot.endSeconds = this.endSeconds;
+      oSpot.end = this.end;
+    } else {
+      oSpot.angle = this.angle;
+      oSpot.picture_1 = this.picture_1;
+      oSpot.picture_2 = this.picture_2;
+      oSpot.picture_3 = this.picture_3;
+    }
     this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
       this.presentToast();
     })

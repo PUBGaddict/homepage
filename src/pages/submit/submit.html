@@ -12,6 +12,11 @@
   <ion-label danger>Please be aware that we check every spot personally before making it public. This will take some minutes.</ion-label>
 
   <ion-item>
+    <ion-label required class="moreWidth" fixed>Spot title</ion-label>
+    <ion-input type="text" [(ngModel)]="title"></ion-input>
+  </ion-item>
+
+  <ion-item>
     <ion-label>Map</ion-label>
     <ion-select [(ngModel)]="map" (ionChange)="mapChanged()">
       <ion-option *ngFor="let map of de_maps" value="{{map.mapname}}">{{map.mapname}}</ion-option>
@@ -29,34 +34,59 @@
     </ion-select>
   </ion-item>
 
-  <ion-item>
-    <ion-label class="moreWidth" fixed>Spot title</ion-label>
-    <ion-input type="text" [(ngModel)]="title"></ion-input>
-  </ion-item>
 
-  <ion-item>
-    <ion-label class="moreWidth" fixed>YouTube Video ID</ion-label>
-    <ion-input type="text" [(ngModel)]="videoId"></ion-input>
-  </ion-item>
+  <div *ngIf="category === 'smoke' || category === 'decoy'" style="padding-top:20px;">
+    <ion-title>Youtube settings</ion-title>
 
-  <ion-item>
-    <ion-label class="moreWidth" fixed>YouTube Video Start Time</ion-label>
-    <ion-input type="text" [(ngModel)]="startSeconds"></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label class="moreWidth" fixed>YouTube Video ID</ion-label>
+      <ion-input type="text" [(ngModel)]="videoId"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label class="moreWidth" fixed>YouTube Video End Time</ion-label>
-    <ion-input type="text" [(ngModel)]="endSeconds"></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label class="moreWidth" fixed>YouTube Video Start Time</ion-label>
+      <ion-input type="text" [(ngModel)]="startSeconds"></ion-input>
+    </ion-item>
 
-  <div style="padding-top:20px;">
-    <div>
+    <ion-item>
+      <ion-label class="moreWidth" fixed>YouTube Video End Time</ion-label>
+      <ion-input type="text" [(ngModel)]="endSeconds"></ion-input>
+    </ion-item>
+    <div style="padding-top:20px;">
       <ion-title>Video Live Preview</ion-title>
       <button ion-button icon-only (click)="refresh()">
         <ion-icon name="refresh"></ion-icon>
       </button>
     </div>
     <youtube-player #youtubePlayer [start]="startSeconds" [end]="endSeconds" [vid]="''" [width]="'100%'"></youtube-player>
+  </div>
+  <div *ngIf="category === 'spot' || category === 'awp'" style="padding-top:20px;">
+    <ion-title style="padding-top:20px;">Viewport Angle (0-360 degrees)</ion-title>
+
+    <ion-item>
+      <ion-label fixed>Angle</ion-label>
+      <ion-input type="number" [(ngModel)]="angle"></ion-input>
+    </ion-item>
+    
+    <ion-title style="padding-top:20px;">Pictures</ion-title>
+    
+    <ion-item>
+      <ion-label fixed>Imgur URL #1</ion-label>
+      <ion-input type="text" [(ngModel)]="picture_1"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>Imgur URL #2</ion-label>
+      <ion-input type="text" [(ngModel)]="picture_2"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>Imgur URL #3</ion-label>
+      <ion-input type="text" [(ngModel)]="picture_3"></ion-input>
+    </ion-item>
+    
+   <!-- <progress #progress value="0" max="100" id="uploader">0%</progress>
+    <input #upload type="file" value="upload" id="fileButton" (change)="onFileUpload($event)"/>   -->
   </div>
 
   <ion-label>Select position of your Spot on the map below</ion-label>
