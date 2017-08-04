@@ -33,15 +33,11 @@ export class MapData {
   }
 
   private loadSpotInformation(spotId : string): Observable<any> {
-    if (this.spotCache[spotId]) {
-      return Observable.of(this.spotCache[spotId]);
-    } else {
-      return this.http.get('https://csgospots-1f294.firebaseio.com/spotids/'
-         + spotId + '.json')
-        .map((data) => {
-          return data.json();
-        });
-    }
+    return this.http.get('https://csgospots-1f294.firebaseio.com/spotids/'
+        + spotId + '.json')
+      .map((data) => {
+        return data.json();
+      });
   }
 
   public getSpotInformation(spotId : string) {
