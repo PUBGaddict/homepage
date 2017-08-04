@@ -19,4 +19,15 @@ export class ReleaseData {
       return data;
     });;
   } 
+
+  private loadReleaseCandidate (spotId : string) : Observable<Response> {
+    return this.http.get('https://csgospots-1f294.firebaseio.com/releaseCandidates/' + spotId + ".json")
+        .map(data => {return data.json()})
+  }
+
+  getReleaseCandidate(spotId : string): Observable<Response> {
+    return this.loadReleaseCandidate(spotId).map((data: any) => {
+      return data;
+    });;
+  } 
 }
