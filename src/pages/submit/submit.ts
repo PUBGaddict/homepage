@@ -86,10 +86,7 @@ export class SubmitPage {
           x : event.x,
           y : event.y
         },
-        end : {
-          x : 0,
-          y : 0
-        }
+        strategy : this.category
       }]);
       this.isFirstPress = false;
       
@@ -106,7 +103,8 @@ export class SubmitPage {
         end : {
           x : event.x,
           y : event.y
-        }
+        },
+        strategy : this.category
       }]);
       this.end = event;
       this.isFirstPress = true;
