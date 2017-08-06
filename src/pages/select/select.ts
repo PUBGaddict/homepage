@@ -19,18 +19,14 @@ import { SubmitPage } from '../submit/submit'
 export class SelectPage {
   public mapName: string = "";
   public map = {
-    ct: [],
-    t: [],
+    spot : [],
     smoke: [],
     flash: [],
     eco: [],
     teamtactics: []
   };
   public mapStatistics = {
-    ct : {
-      value : 0 
-    },
-    t : {
+    spot : {
       value : 0 
     },
     smoke : {
@@ -38,6 +34,9 @@ export class SelectPage {
     },
     flash : {
       value : 0 
+    },
+    decoy : {
+      value : 0
     },
     eco : {
       value : 0 
