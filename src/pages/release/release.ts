@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 
 import { YoutubePlayerComponent } from '../../app/youtube-player.component';
 import { MapOverviewComponent } from '../../app/map-overview.component';
+import { ReleaseData } from '../../providers/release-data';
 
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 
@@ -21,35 +22,47 @@ export class ReleasePage {
 
   @ViewChild('youtubePlayer') youtubePlayer: YoutubePlayerComponent;
   @ViewChild('mapOverview') mapOverview: MapOverviewComponent;
-  public releaseCandidate = {
-    mapname : "de_dust2",
-    title : "",
+  public releaseCandidate : any = {
+    mapname : "",
     strategy : "",
+    title : "",
+    spotId : "",
     start : {
       x : 0,
       y : 0
     },
+    startSeconds : 0,
+    endSeconds : 99,
     end : {
       x : 0,
       y : 0
     },
     videoId : "",
-    startSeconds : 0,
-    endSeconds : 99,
-    spotId : ""
+    angle : 0,
+    picture_1 : "",
+    picture_2 : "",
+    picture_3 : ""
   };
   public statistic : FirebaseObjectObservable<any>;
   public statisticsCount : number;
   isFirstSubscribe : boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public angularFireDatabase : AngularFireDatabase, public toastCtrl : ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public angularFireDatabase : AngularFireDatabase, public toastCtrl : ToastController, public releaseData : ReleaseData) {
     this.releaseCandidate = navParams.get("releaseCandidate");
+    if (this.releaseCandidate) {
+      this.createStatisticsRef();
+    } else {
+      this.releaseData.getReleaseCandidate(navParams.get("spotId")).subscribe(candidate => {
+        this.releaseCandidate = candidate;
+        this.createStatisticsRef();
+      })
+    }
+  }
 
-    this.statistic = angularFireDatabase.object('/statistics/' + 
-            this.releaseCandidate.mapname + "/" + 
-            this.releaseCandidate.strategy);
-    
-
+  createStatisticsRef () {
+    this.statistic = this.angularFireDatabase.object('/statistics/' + 
+        this.releaseCandidate.mapname + "/" + 
+        this.releaseCandidate.strategy);
   }
   
   releasePressed () {
