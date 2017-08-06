@@ -33,11 +33,14 @@ export class StrategyDetailPage {
   public spot = {
     spotId : "",
     title : "",
+    strategy : "",
     mapName : "",
     startSeconds : 0, 
     endSeconds : 0,
-    strategy : "",
-    videoId : ""
+    videoId : "",
+    picture_1 : "",
+    picture_2 : "",
+    picture_3 : ""
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer, private angularFireDatabase: AngularFireDatabase) {
@@ -120,21 +123,11 @@ export class StrategyDetailPage {
   }
 
   ionViewDidLoad() {
-
     ga('set', 'page', '/strategy-detail');
     ga('send', 'event', "page", "visit", "stragety-detail");
     ga('send', 'event', "spot", "selected", this.spotId);
 
-    this.resizeImages();
     console.log('ionViewDidLoad StrategyDetailPage');
-
-    window.addEventListener('resize', this.resizeImages.bind(this));
-
   }
-
-  resizeImages() {
-    this.height = this.container.getNativeElement().offsetWidth/16*8.5;
-  }
-
 
 }
