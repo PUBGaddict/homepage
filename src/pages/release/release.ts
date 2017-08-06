@@ -119,7 +119,8 @@ export class ReleasePage {
     this.mapOverview.setMap(this.releaseCandidate.mapname);
     this.mapOverview.displayMap(false).then(() => {  // wait until rendered
       this.mapOverview.appendDataSpots([{
-        angle : 0,
+        strategy : this.releaseCandidate.strategy,
+        angle : this.releaseCandidate.angle || 0,
         start : {
           x : this.releaseCandidate.start.x,
           y : this.releaseCandidate.start.y
