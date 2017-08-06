@@ -64,8 +64,11 @@
     <ion-title style="padding-top:20px;">Viewport Angle (0-360 degrees)</ion-title>
 
     <ion-item>
-      <ion-label fixed>Angle</ion-label>
-      <ion-input type="number" [(ngModel)]="angle"></ion-input>
+      <ion-label>{{angle}}</ion-label>
+      <ion-range min="0" max="360" [(ngModel)]="angle" color="secondary">
+        <ion-label range-left>0</ion-label>
+        <ion-label range-right>360</ion-label>
+      </ion-range>  
     </ion-item>
     
     <ion-title style="padding-top:20px;">Pictures</ion-title>
