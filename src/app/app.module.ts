@@ -63,7 +63,7 @@ export const firebaseConfig = {
        { component: StrategyDetailPage, name: 'StrategyDetail', segment: 's/:spotId' },
        { component: SubmitPage, name: 'SubmitPage', segment: 'submit' },
        { component: ReleaseListPage, name: 'ReleaseListPage', segment: 'releaselist' },
-       { component: ReleasePage, name: 'ReleasePage', segment: 'releaselist/release/:spotId' },
+       { component: ReleasePage, name: 'ReleasePage', segment: 'releaselist/:spotId' },
        { component: ImpressumPage, name: 'ImpressumPage', segment: 'impressum' }
      ]
     }),
