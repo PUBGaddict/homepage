@@ -34,7 +34,7 @@ export class ReleaseListPage {
   openReleasePage(releaseCandidate) {
     this.navCtrl.push(ReleasePage, {
       releaseCandidate : releaseCandidate,
-      spotId : releaseCandidate.spotId  
+      spotId : releaseCandidate.spotId
     })
   }
 
