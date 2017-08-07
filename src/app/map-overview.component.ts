@@ -163,7 +163,9 @@ export class MapOverviewComponent implements AfterViewInit {
             .attr("cy", 10)
             .attr("r", 7)
             .classed("player", true)
-            .on("click", (d) => { that.spotPress.emit(d) });
+            .on("click", (d) => { that.spotPress.emit(d) })
+            .on("mouseover", this.displayTooltip.bind(this))
+            .on("mouseout", this.hideToolTip.bind(this));
         this.selSpots.append("path")
             .attr("d", d3.symbol()
                 .size(function (d) { return 700; })
