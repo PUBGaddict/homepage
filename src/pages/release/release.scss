@@ -4,11 +4,12 @@ page-release {
         width: 50%;
     }
     
+    // general styling goes here
     .outerspot {
         cursor: pointer;
 
         &:hover, &.hover{
-            .smoke {
+            .smokebox {
                 fill:lightgray;
                 cursor: pointer;
             }
@@ -32,12 +33,9 @@ page-release {
 
         .player {
             fill: blue;
-        }
-        .player-view {
-            display: none;
-        }
+        } 
 
-        .smoke {
+        .smokebox {
             fill:gray;
             stroke: white;
             stroke-width: 2;
@@ -50,6 +48,20 @@ page-release {
         }
 
         .nodisplay {
+            display: none;
+        }
+    }
+    // specific stylings for spots
+    .spot, .awp {
+        .player-view {
+            opacity: .2;
+            fill: lightblue;
+            pointer-events: none;
+        }
+    }
+    // specific stylings for smokes
+    .smoke, .decoy {
+        .player-view {
             display: none;
         }
     }

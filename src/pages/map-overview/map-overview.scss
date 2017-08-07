@@ -30,11 +30,12 @@ page-map-overview {
         width: 50%;
     }
     
+    // general styling goes here
     .outerspot {
         cursor: pointer;
 
         &:hover, &.hover{
-            .smoke {
+            .smokebox {
                 fill:lightgray;
                 cursor: pointer;
             }
@@ -58,14 +59,9 @@ page-map-overview {
 
         .player {
             fill: blue;
-        }
-        .player-view {
-            opacity: .2;
-            fill: lightblue;
-            pointer-events: none;
-        }
+        } 
 
-        .smoke {
+        .smokebox {
             fill:gray;
             stroke: white;
             stroke-width: 2;
@@ -81,7 +77,20 @@ page-map-overview {
             display: none;
         }
     }
-    
+    // specific stylings for spots
+    .spot, .awp {
+        .player-view {
+            opacity: .2;
+            fill: lightblue;
+            pointer-events: none;
+        }
+    }
+    // specific stylings for smokes
+    .smoke, .decoy {
+        .player-view {
+            display: none;
+        }
+    }
 
 .card-background-page {
   .card {

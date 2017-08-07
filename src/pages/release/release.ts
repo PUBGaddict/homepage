@@ -118,18 +118,22 @@ export class ReleasePage {
     this.mapOverview.clearDataSpots();
     this.mapOverview.setMap(this.releaseCandidate.mapname);
     this.mapOverview.displayMap(false).then(() => {  // wait until rendered
-      this.mapOverview.appendDataSpots([{
+      let spot = {
         strategy : this.releaseCandidate.strategy,
         angle : this.releaseCandidate.angle || 0,
         start : {
           x : this.releaseCandidate.start.x,
           y : this.releaseCandidate.start.y
         },
-        end : {
+        end : undefined
+      };
+      if (this.releaseCandidate.strategy === "smoke" || this.releaseCandidate.strategy === "decoy" ) {
+        spot.end = {
           x : this.releaseCandidate.strategy === "smoke" || this.releaseCandidate.strategy === "decoy" ? this.releaseCandidate.end.x : 0,
           y : this.releaseCandidate.strategy === "smoke" || this.releaseCandidate.strategy === "decoy" ? this.releaseCandidate.end.y : 0
         }
-      }])
+      }
+      this.mapOverview.appendDataSpots([spot])
     });
   }
 }

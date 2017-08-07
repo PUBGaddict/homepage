@@ -133,11 +133,11 @@ export class MapOverviewComponent implements AfterViewInit {
             .attr("y2", (d) => { return d.end ? d.end.y + 25 : null })
             .on("click", (d) => { that.spotPress.emit(d) });
         this.selSpots = this.selSpotOuter.append("g")
-            .classed("spot", true)
+            .classed("innerspot", true)
             .attr("transform", function (d) { return "translate(" + that.xScale(d.start.x) + "," + that.yScale(d.start.y) + ") rotate(" + d.angle + " 25 25)"; })
         this.selSmoke = this.selSpotOuter.append("g")
             .attr("transform", function (d) { return d.end ? "translate(" + that.xScale(d.end.x) + "," + that.yScale(d.end.y) + ")" : "translate(0,0)"; })
-            .classed("smoke", true)
+            .classed("smokebox", true)
             .classed("nodisplay", (d) => {
                 return !d.end;
             })
