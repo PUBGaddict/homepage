@@ -65,12 +65,12 @@
 
     <ion-item>
       <ion-label>{{angle}}</ion-label>
-      <ion-range min="0" max="360" [(ngModel)]="angle" color="secondary">
+      <ion-range (ionChange)="onRangeChange()" min="0" max="360" [(ngModel)]="angle" color="secondary">
         <ion-label range-left>0</ion-label>
         <ion-label range-right>360</ion-label>
       </ion-range>  
     </ion-item>
-    
+
     <ion-title style="padding-top:20px;">Pictures</ion-title>
     
     <ion-item>

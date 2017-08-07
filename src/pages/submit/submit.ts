@@ -75,13 +75,24 @@ export class SubmitPage {
     });
   }
 
+  onRangeChange(angle) {
+    this.mapOverview.appendDataSpots([{
+        angle : this.angle,
+        start : {
+          x : this.start.x,
+          y : this.start.y
+        },
+        strategy : this.category
+    }]);  
+  }
+
   logPress(event) {
     console.log(event);
 
     if (this.isFirstPress) {
       this.start = event;
       this.mapOverview.appendDataSpots([{
-        angle : 0,
+        angle : this.angle,
         start : {
           x : event.x,
           y : event.y
