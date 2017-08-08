@@ -60,37 +60,39 @@
           <ion-icon name="refresh"></ion-icon>
         </button>
       </div>
-      <youtube-player #youtubePlayer [start]="startSeconds" [end]="endSeconds" [vid]="''" [width]="'100%'"></youtube-player>
+      <youtube-player #youtubePlayer [start]="smokeDetailForm.get('startSeconds').value" [end]="smokeDetailForm.get('endSeconds').value" [vid]="''" [width]="'100%'"></youtube-player>
     </form>
   </div>
   <div *ngIf="spotHeadForm.get('strategy').value === 'spot' || spotHeadForm.get('strategy').value === 'awp'" style="padding-top:20px;">
     <ion-title style="padding-top:20px;">Viewport Angle (0-360 degrees)</ion-title>
 
-    <ion-item>
-      <ion-label>{{angle}}</ion-label>
-      <ion-range (ionChange)="onRangeChange()" min="0" max="360" [(ngModel)]="angle" color="secondary">
-        <ion-label range-left>0</ion-label>
-        <ion-label range-right>360</ion-label>
-      </ion-range>  
-    </ion-item>
+    <form [formGroup]="spotDetailForm">
 
-    <ion-title style="padding-top:20px;">Pictures</ion-title>
-    
-    <ion-item>
-      <ion-label fixed>Imgur URL #1</ion-label>
-      <ion-input type="text" [(ngModel)]="picture_1"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label>{{angle}}</ion-label>
+        <ion-range (ionChange)="onRangeChange()" min="0" max="360" formControlName="angle" color="secondary">
+          <ion-label range-left>0</ion-label>
+          <ion-label range-right>360</ion-label>
+        </ion-range>  
+      </ion-item>
 
-    <ion-item>
-      <ion-label fixed>Imgur URL #2</ion-label>
-      <ion-input type="text" [(ngModel)]="picture_2"></ion-input>
-    </ion-item>
+      <ion-title style="padding-top:20px;">Pictures (use up to 3)</ion-title>
+      
+      <ion-item>
+        <ion-label fixed>Imgur URL #1</ion-label>
+        <ion-input type="text" formControlName="picture_1"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label fixed>Imgur URL #3</ion-label>
-      <ion-input type="text" [(ngModel)]="picture_3"></ion-input>
-    </ion-item>
-    
+      <ion-item>
+        <ion-label fixed>Imgur URL #2</ion-label>
+        <ion-input type="text" formControlName="picture_2"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Imgur URL #3</ion-label>
+        <ion-input type="text" formControlName="picture_3"></ion-input>
+      </ion-item>
+    </form>
    <!-- <progress #progress value="0" max="100" id="uploader">0%</progress>
     <input #upload type="file" value="upload" id="fileButton" (change)="onFileUpload($event)"/>   -->
   </div>
