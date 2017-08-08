@@ -1,11 +1,17 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { DefusalData } from '../../providers/defusal-data';
 import { HostageData } from '../../providers/hostage-data';
 import { SpotIdData } from '../../providers/spotid-data';
 import { Http } from '@angular/http';
 import { YoutubePlayerComponent } from '../../app/youtube-player.component';
 import { MapOverviewComponent } from '../../app/map-overview.component';
+
+import { EndSecondsValidator } from  '../../validators/endSeconds';
+import { StartSecondsValidator } from  '../../validators/startSeconds';
+import { PictureValidator } from  '../../validators/picture';
 
 import { FirebaseApp } from 'angularfire2';
 import 'firebase/storage';
@@ -34,8 +40,8 @@ export class SubmitPage {
   private isFirstPress : boolean = true;
   public storageRef : any = null;
   public saveButtonDisabled : boolean = false;
-  public videoId: string = "Dc6wTKOvpDk";
-  public category: string = "";
+  public videoId: string = "";
+  public strategy: string = "";
   public title: string = "";
   public map: string = "";
   public startSeconds: number = 0;
@@ -51,15 +57,39 @@ export class SubmitPage {
   public end : any = {
     x : 0,
     y : 0
-  }
+  };
+  public spotHeadForm : any;
+  public smokeDetailForm : any;
+  public spotDetailForm : any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public defusalData: DefusalData, public hostageData: HostageData, public firebaseApp : FirebaseApp, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData) {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public defusalData: DefusalData, public hostageData: HostageData, public firebaseApp : FirebaseApp, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder) {
     this.defusalData.getDefusalMaps().subscribe((de_maps: any[]) => {
       this.de_maps = de_maps;
     });
     this.hostageData.getHostageMaps().subscribe((cs_maps: any[]) => {
       this.cs_maps = cs_maps;
     });
+
+    this.spotHeadForm = formBuilder.group({
+        title: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.minLength(10), Validators.pattern('[a-zA-Z ]*')])],
+        map: ['', Validators.compose([Validators.required])],
+        strategy: ['', Validators.compose([Validators.required])]
+    });
+
+    this.smokeDetailForm = formBuilder.group({
+        startSeconds: ['', Validators.compose([Validators.required, Validators.min(0), Validators.pattern('[0-9]*')])],
+        endSeconds: ['', Validators.compose([Validators.required, Validators.min(0), Validators.pattern('[0-9]*')])],
+        videoId: ['', Validators.compose([Validators.required, Validators.maxLength(7), Validators.minLength(7), Validators.pattern('[0-9a-zA-Z_-]*')])]
+    });
+
+    this.spotDetailForm = formBuilder.group({
+        angle: ['', Validators.compose([Validators.max(360), Validators.min(0), Validators.required])],
+        picture_1: ['', PictureValidator.isValid],
+        picture_2: ['', PictureValidator.isValid],
+        picture_3: ['', PictureValidator.isValid]
+    });
+
   }
  
   // onFileUpload(event) {
@@ -82,12 +112,13 @@ export class SubmitPage {
           x : this.start.x,
           y : this.start.y
         },
-        strategy : this.category
+        strategy : this.spotHeadForm.get('strategy').value
     }]);  
   }
 
   logPress(event) {
     console.log(event);
+    let strategy = this.spotHeadForm.get('strategy').value;
 
     if (this.isFirstPress) {
       this.start = event;
@@ -97,11 +128,11 @@ export class SubmitPage {
           x : event.x,
           y : event.y
         },
-        strategy : this.category
+        strategy : strategy
       }]);
       this.isFirstPress = false;
       
-      if (this.category !== 'smoke' && this.category !== 'decoy') {
+      if (strategy !== 'smoke' && strategy !== 'decoy') {
         this.isFirstPress = true;  
       }
     } else {
@@ -115,7 +146,7 @@ export class SubmitPage {
           x : event.x,
           y : event.y
         },
-        strategy : this.category
+        strategy : strategy
       }]);
       this.end = event;
       this.isFirstPress = true;
@@ -130,11 +161,19 @@ export class SubmitPage {
   }
 
   savePressed () {
+    if (!this.spotHeadForm.valid) {
+      this.presentToast('Please fill out all the mandatory fields so we can process your great spot!')
+      return;
+    }
+    let map = this.spotHeadForm.get('map').value,
+        strategy = this.spotHeadForm.get('strategy').value,
+        title = this.spotHeadForm.get('title').value;
+
     this.saveButtonDisabled = true;
     var oSpot = {
-        title : this.title,
-        strategy : this.category,
-        mapname : this.map,
+        title : title,
+        strategy : strategy,
+        mapname : map,
         start : this.start,
 
         // optional properties for youtube
@@ -149,7 +188,7 @@ export class SubmitPage {
         picture_2 : undefined,
         picture_3 : undefined
     };
-    if (this.category === "smoke" || this.category === "decoy") {
+    if (strategy === "smoke" || strategy === "decoy") {
       oSpot.videoId = this.videoId;
       oSpot.startSeconds = this.startSeconds;
       oSpot.endSeconds = this.endSeconds;
@@ -160,26 +199,27 @@ export class SubmitPage {
       oSpot.picture_2 = this.picture_2;
       oSpot.picture_3 = this.picture_3;
     }
-    this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
-      this.presentToast();
-    })
+    console.log(oSpot);
+    // this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
+    //   this.presentToast('Spot successfully created. Lean back while we verify your great spot!');
+    // })
   }
 
   mapChanged () {
     this.isFirstPress = true;
     this.mapOverview.clearDataSpots();
-    this.mapOverview.setMap(this.map);
+    this.mapOverview.setMap(this.spotHeadForm.get("map").value);
     this.mapOverview.displayMap(false);
   }
 
-  categoryChanged () {
+  strategyChanged () {
     this.isFirstPress = true;
     this.mapOverview.clearDataSpots();
   }
 
-  presentToast() {
+  presentToast(message) {
     let toast = this.toastCtrl.create({
-      message: 'Spot successfully created. Lean back while we verify your great spot!',
+      message: message,
       duration: 7000
     });
     toast.present();
