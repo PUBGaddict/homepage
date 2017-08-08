@@ -99,9 +99,9 @@ export class SubmitPage {
  
   refresh() {
     this.youtubePlayer.play({
-      videoId : this.videoId,
-      startSeconds: this.startSeconds,
-      endSeconds: this.endSeconds,
+      videoId : this.smokeDetailForm.get('videoId').value,
+      startSeconds: this.smokeDetailForm.get('startSeconds').value,
+      endSeconds: this.smokeDetailForm.get('endSeconds').value,
     });
   }
 
@@ -189,9 +189,9 @@ export class SubmitPage {
         picture_3 : undefined
     };
     if (strategy === "smoke" || strategy === "decoy") {
-      oSpot.videoId = this.videoId;
-      oSpot.startSeconds = this.startSeconds;
-      oSpot.endSeconds = this.endSeconds;
+      oSpot.videoId = this.smokeDetailForm.get('videoId').value;
+      oSpot.startSeconds = this.smokeDetailForm.get('startSeconds').value;
+      oSpot.endSeconds = this.smokeDetailForm.get('endSeconds').value;
       oSpot.end = this.end;
     } else {
       oSpot.angle = this.angle;
