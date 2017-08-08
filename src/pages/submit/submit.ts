@@ -13,9 +13,6 @@ import { EndSecondsValidator } from  '../../validators/endSeconds';
 import { StartSecondsValidator } from  '../../validators/startSeconds';
 import { PictureValidator } from  '../../validators/picture';
 
-import { FirebaseApp } from 'angularfire2';
-import 'firebase/storage';
-
 /*
   Generated class for the Submit page.
 
@@ -38,32 +35,17 @@ export class SubmitPage {
   secondPress: any = null;
 
   private isFirstPress : boolean = true;
-  public storageRef : any = null;
+
   public saveButtonDisabled : boolean = false;
-  public videoId: string = "";
-  public strategy: string = "";
-  public title: string = "";
-  public map: string = "";
-  public startSeconds: number = 0;
-  public endSeconds: number = 15;
-  public picture_1 : string = "";
-  public picture_2 : string = "";
-  public picture_3 : string = "";
-  public angle : number = 0;
-  public start :any = {
-    x : 0,
-    y : 0
-  };
-  public end : any = {
-    x : 0,
-    y : 0
-  };
+  public start :any = {};
+  public end : any = {};
+
   public spotHeadForm : any;
   public smokeDetailForm : any;
   public spotDetailForm : any;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public defusalData: DefusalData, public hostageData: HostageData, public firebaseApp : FirebaseApp, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public defusalData: DefusalData, public hostageData: HostageData, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder) {
     this.defusalData.getDefusalMaps().subscribe((de_maps: any[]) => {
       this.de_maps = de_maps;
     });
@@ -106,8 +88,12 @@ export class SubmitPage {
   }
 
   onRangeChange(angle) {
+    if (!this.start.x && !this.start.y) {
+      return;
+    }
+
     this.mapOverview.appendDataSpots([{
-        angle : this.angle,
+        angle : this.spotDetailForm.get('angle').value,
         start : {
           x : this.start.x,
           y : this.start.y
@@ -123,7 +109,7 @@ export class SubmitPage {
     if (this.isFirstPress) {
       this.start = event;
       this.mapOverview.appendDataSpots([{
-        angle : this.angle,
+        angle : this.spotDetailForm.get('angle').value,
         start : {
           x : event.x,
           y : event.y
@@ -194,10 +180,10 @@ export class SubmitPage {
       oSpot.endSeconds = this.smokeDetailForm.get('endSeconds').value;
       oSpot.end = this.end;
     } else {
-      oSpot.angle = this.angle;
-      oSpot.picture_1 = this.picture_1;
-      oSpot.picture_2 = this.picture_2;
-      oSpot.picture_3 = this.picture_3;
+      oSpot.angle = this.spotDetailForm.get('angle').value;
+      oSpot.picture_1 = this.spotDetailForm.get('picture_1').value;
+      oSpot.picture_2 = this.spotDetailForm.get('picture_2').value;
+      oSpot.picture_3 = this.spotDetailForm.get('picture_3').value;
     }
     console.log(oSpot);
     // this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
