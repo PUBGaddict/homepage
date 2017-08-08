@@ -71,13 +71,7 @@ export class SubmitPage {
         picture_2: ['', PictureValidator.isValid],
         picture_3: ['', PictureValidator.isValid]
     });
-
   }
- 
-  // onFileUpload(event) {
-  //   let files = event.srcElement.files;
-  //   debugger;
-  // }
  
   refresh() {
     this.youtubePlayer.play({
