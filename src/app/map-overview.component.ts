@@ -3,6 +3,7 @@ import { MapData } from '../providers/map-data';
 import * as d3 from 'd3';
 
 import { FirebaseApp } from 'angularfire2';
+import 'firebase/storage';
 
 @Component({
     selector: 'map-overview',
