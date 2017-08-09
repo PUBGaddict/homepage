@@ -1,9 +1,9 @@
 page-submit {
-    #uploader {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 100%;
-        margin: 10px;
+    .invisible {
+        visibility: hidden;
+    }
+    .visible {
+        visibility: visible;
     }
 
     .moreWidth {

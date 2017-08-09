@@ -27,6 +27,7 @@ export class SubmitPage {
   @ViewChild('youtubePlayer') youtubePlayer: YoutubePlayerComponent;
   @ViewChild('mapOverview') mapOverview: MapOverviewComponent;
   @ViewChild('progress') progress;
+  @ViewChild('spotDetails') spotDetails;
 
   de_maps: any[] = [];
   cs_maps: any[] = [];
@@ -43,7 +44,8 @@ export class SubmitPage {
   public spotHeadForm : any;
   public smokeDetailForm : any;
   public spotDetailForm : any;
-
+  public hasMap : boolean = false;
+  public hasStrategy : boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public defusalData: DefusalData, public hostageData: HostageData, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder) {
     this.defusalData.getDefusalMaps().subscribe((de_maps: any[]) => {
@@ -186,14 +188,25 @@ export class SubmitPage {
   }
 
   mapChanged () {
+    this.hasMap = true;
     this.isFirstPress = true;
     this.mapOverview.clearDataSpots();
     this.mapOverview.displayMap(this.spotHeadForm.get("map").value, false);
+    this.displayDetails();
+  }
+
+  displayDetails() {
+    if (!this.hasMap || !this.hasStrategy) {
+      return;
+    }
+    this.spotDetails.nativeElement.className = "visible";
   }
 
   strategyChanged () {
+    this.hasStrategy = true;
     this.isFirstPress = true;
     this.mapOverview.clearDataSpots();
+    this.displayDetails();
   }
 
   presentToast(message) {

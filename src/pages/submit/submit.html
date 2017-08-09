@@ -36,71 +36,73 @@
     </ion-item>
   </form>
 
-  <div *ngIf="spotHeadForm.get('strategy').value === 'smoke' || spotHeadForm.get('strategy').value === 'decoy'" style="padding-top:20px;">
-    <form [formGroup]="smokeDetailForm">
+  <div #spotDetails class="invisible">
+    <div *ngIf="spotHeadForm.get('strategy').value === 'smoke' || spotHeadForm.get('strategy').value === 'decoy'" style="padding-top:20px;">
+      <form [formGroup]="smokeDetailForm">
 
-      <ion-title>Youtube settings</ion-title>
-      <ion-item>
-        <ion-label class="moreWidth" fixed>YouTube Video ID</ion-label>
-        <ion-input type="text" formControlName="videoId"></ion-input>
-      </ion-item>
+        <ion-title>Youtube settings</ion-title>
+        <ion-item>
+          <ion-label class="moreWidth" fixed>YouTube Video ID</ion-label>
+          <ion-input type="text" formControlName="videoId"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-label class="moreWidth" fixed>YouTube Video Start Time</ion-label>
-        <ion-input type="text" formControlName="startSeconds"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label class="moreWidth" fixed>YouTube Video Start Time</ion-label>
+          <ion-input type="text" formControlName="startSeconds"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-label class="moreWidth" fixed>YouTube Video End Time</ion-label>
-        <ion-input type="text" formControlName="endSeconds"></ion-input>
-      </ion-item>
-      <div style="padding-top:20px;">
-        <ion-title>Video Live Preview</ion-title>
-        <button ion-button icon-only (click)="refresh()">
-          <ion-icon name="refresh"></ion-icon>
-        </button>
-      </div>
-      <youtube-player #youtubePlayer [start]="smokeDetailForm.get('startSeconds').value" [end]="smokeDetailForm.get('endSeconds').value" [vid]="''" [width]="'100%'"></youtube-player>
-    </form>
+        <ion-item>
+          <ion-label class="moreWidth" fixed>YouTube Video End Time</ion-label>
+          <ion-input type="text" formControlName="endSeconds"></ion-input>
+        </ion-item>
+        <div style="padding-top:20px;">
+          <ion-title>Video Live Preview</ion-title>
+          <button ion-button icon-only (click)="refresh()">
+            <ion-icon name="refresh"></ion-icon>
+          </button>
+        </div>
+        <youtube-player #youtubePlayer [start]="smokeDetailForm.get('startSeconds').value" [end]="smokeDetailForm.get('endSeconds').value" [vid]="''" [width]="'100%'"></youtube-player>
+      </form>
+    </div>
+    <div *ngIf="spotHeadForm.get('strategy').value === 'spot' || spotHeadForm.get('strategy').value === 'awp'" style="padding-top:20px;">
+      <ion-title style="padding-top:20px;">Viewport Angle (0-360 degrees)</ion-title>
+
+      <form [formGroup]="spotDetailForm">
+
+        <ion-item>
+          <ion-label>{{angle}}</ion-label>
+          <ion-range (ionChange)="onRangeChange()" min="0" max="360" formControlName="angle" color="secondary">
+            <ion-label range-left>0</ion-label>
+            <ion-label range-right>360</ion-label>
+          </ion-range>  
+        </ion-item>
+
+        <ion-title style="padding-top:20px;">Pictures (use up to 3)</ion-title>
+        
+        <ion-item>
+          <ion-label fixed>Imgur URL #1</ion-label>
+          <ion-input type="text" formControlName="picture_1"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label fixed>Imgur URL #2</ion-label>
+          <ion-input type="text" formControlName="picture_2"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label fixed>Imgur URL #3</ion-label>
+          <ion-input type="text" formControlName="picture_3"></ion-input>
+        </ion-item>
+      </form>
+    <!-- <progress #progress value="0" max="100" id="uploader">0%</progress>
+      <input #upload type="file" value="upload" id="fileButton" (change)="onFileUpload($event)"/>   -->
+    </div>
+
+    <ion-label>Select position of your Spot on the map below</ion-label>
+    <map-overview #mapOverview [mapName]="" [strategyId]="" [intentionName]="" (press)="logPress($event)"></map-overview>
+
+    <button ion-button (click)="savePressed()" [disabled]="saveButtonDisabled">
+      Upload
+    </button>
   </div>
-  <div *ngIf="spotHeadForm.get('strategy').value === 'spot' || spotHeadForm.get('strategy').value === 'awp'" style="padding-top:20px;">
-    <ion-title style="padding-top:20px;">Viewport Angle (0-360 degrees)</ion-title>
-
-    <form [formGroup]="spotDetailForm">
-
-      <ion-item>
-        <ion-label>{{angle}}</ion-label>
-        <ion-range (ionChange)="onRangeChange()" min="0" max="360" formControlName="angle" color="secondary">
-          <ion-label range-left>0</ion-label>
-          <ion-label range-right>360</ion-label>
-        </ion-range>  
-      </ion-item>
-
-      <ion-title style="padding-top:20px;">Pictures (use up to 3)</ion-title>
-      
-      <ion-item>
-        <ion-label fixed>Imgur URL #1</ion-label>
-        <ion-input type="text" formControlName="picture_1"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label fixed>Imgur URL #2</ion-label>
-        <ion-input type="text" formControlName="picture_2"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label fixed>Imgur URL #3</ion-label>
-        <ion-input type="text" formControlName="picture_3"></ion-input>
-      </ion-item>
-    </form>
-   <!-- <progress #progress value="0" max="100" id="uploader">0%</progress>
-    <input #upload type="file" value="upload" id="fileButton" (change)="onFileUpload($event)"/>   -->
-  </div>
-
-  <ion-label>Select position of your Spot on the map below</ion-label>
-  <map-overview #mapOverview [mapName]="" [strategyId]="" [intentionName]="" (press)="logPress($event)"></map-overview>
-
-  <button ion-button (click)="savePressed()" [disabled]="saveButtonDisabled">
-    Upload
-  </button>
 </ion-content>
