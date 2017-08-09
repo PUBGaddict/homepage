@@ -221,14 +221,12 @@ export class MapOverviewComponent implements AfterViewInit {
             .classed("hover", enable);
     }
 
-    public setMap (mapName : string) {
-        this.mapName = mapName;
-    } 
-
-    public displayMap (drawSpots : boolean) {
-        if (!this.mapName) {
+    public displayMap (mapName : string, drawSpots : boolean) {
+        if (!mapName) {
             return;
         }
+
+        this.mapName = mapName;
         this.createSVG();
         this.appendBackgroundImage();
         this.createScale();
@@ -250,6 +248,6 @@ export class MapOverviewComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.displayMap(true);
+        this.displayMap(this.mapName, true);
     }
 }

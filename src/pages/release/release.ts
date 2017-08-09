@@ -116,8 +116,7 @@ export class ReleasePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReleasePage');
     this.mapOverview.clearDataSpots();
-    this.mapOverview.setMap(this.releaseCandidate.mapname);
-    this.mapOverview.displayMap(false).then(() => {  // wait until rendered
+    this.mapOverview.displayMap(this.releaseCandidate.mapname, false).then(() => {  // wait until rendered
       let spot = {
         strategy : this.releaseCandidate.strategy,
         angle : this.releaseCandidate.angle || 0,

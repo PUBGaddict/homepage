@@ -188,8 +188,7 @@ export class SubmitPage {
   mapChanged () {
     this.isFirstPress = true;
     this.mapOverview.clearDataSpots();
-    this.mapOverview.setMap(this.spotHeadForm.get("map").value);
-    this.mapOverview.displayMap(false);
+    this.mapOverview.displayMap(this.spotHeadForm.get("map").value, false);
   }
 
   strategyChanged () {
