@@ -103,7 +103,7 @@ export class SubmitPage {
     if (this.isFirstPress) {
       this.start = event;
       this.mapOverview.appendDataSpots([{
-        angle : this.spotDetailForm.get('angle').value,
+        angle : this.spotDetailForm.get('angle').value || 0,
         start : {
           x : event.x,
           y : event.y
