@@ -56,8 +56,9 @@ export class SubmitPage {
       this.cs_maps = cs_maps;
     });
 
+    // validators
     this.spotHeadForm = formBuilder.group({
-        title: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.minLength(10), Validators.pattern('[a-zA-Z ]*')])],
+        title: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.minLength(10), Validators.pattern('[a-zA-Z,. ]*')])],
         map: ['', Validators.compose([Validators.required])],
         strategy: ['', Validators.compose([Validators.required])]
     });
