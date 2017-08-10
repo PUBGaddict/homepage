@@ -112,7 +112,6 @@
       <ion-title style="padding-top:20px;">Viewport Angle (0-360 degrees)</ion-title>
 
       <form [formGroup]="spotDetailForm">
-
         <ion-item no-lines>
           <ion-range pin="true" (ionChange)="onRangeChange()" min="0" max="360" formControlName="angle" color="secondary">
             <ion-label range-left>0°</ion-label>
@@ -121,20 +120,47 @@
         </ion-item>
 
         <ion-title style="padding-top:20px;">Pictures (use up to 3)</ion-title>
-        
         <ion-item no-lines>
           <ion-label required stacked>Imgur URL #1</ion-label>
-          <ion-input type="text" formControlName="picture_1"></ion-input>
+          <ion-input type="text" formControlName="picture_1"
+            [class.invalid]="!spotDetailForm.controls.picture_1.valid && (spotDetailForm.controls.picture_1.dirty || submitAttempt)"
+            [class.valid]="spotDetailForm.controls.picture_1.valid">
+          </ion-input>
+        </ion-item>
+        <ion-item 
+          no-lines 
+          *ngIf="!spotDetailForm.controls.picture_1.valid  && (spotDetailForm.controls.picture_1.dirty || submitAttempt)">
+          <p>Please enter the URL of a screenshot hosted at imgur.com</p>
         </ion-item>
 
         <ion-item no-lines>
           <ion-label stacked>Imgur URL #2</ion-label>
-          <ion-input type="text" formControlName="picture_2"></ion-input>
+          <ion-input 
+            type="text" 
+            formControlName="picture_2"
+            [class.invalid]="!spotDetailForm.controls.picture_2.valid && (spotDetailForm.controls.picture_2.dirty || submitAttempt)"
+            [class.valid]="spotDetailForm.controls.picture_2.valid">
+          </ion-input>
+        </ion-item>
+        <ion-item 
+          no-lines 
+          *ngIf="!spotDetailForm.controls.picture_2.valid  && (spotDetailForm.controls.picture_2.dirty || submitAttempt)">
+          <p>Please enter the URL of a screenshot hosted at imgur.com</p>
         </ion-item>
 
         <ion-item no-lines>
           <ion-label stacked>Imgur URL #3</ion-label>
-          <ion-input type="text" formControlName="picture_3"></ion-input>
+          <ion-input 
+            type="text" 
+            formControlName="picture_3"
+            [class.invalid]="!spotDetailForm.controls.picture_3.valid && (spotDetailForm.controls.picture_3.dirty || submitAttempt)"
+            [class.valid]="spotDetailForm.controls.picture_3.valid">
+          </ion-input>
+        </ion-item>
+        <ion-item 
+          no-lines 
+          *ngIf="!spotDetailForm.controls.picture_3.valid  && (spotDetailForm.controls.picture_3.dirty || submitAttempt)">
+          <p>Please enter the URL of a screenshot hosted at imgur.com</p>
         </ion-item>
       </form>
     <!-- <progress #progress value="0" max="100" id="uploader">0%</progress>
