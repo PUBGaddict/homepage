@@ -183,10 +183,9 @@ export class SubmitPage {
       oSpot.picture_2 = this.spotDetailForm.get('picture_2').value;
       oSpot.picture_3 = this.spotDetailForm.get('picture_3').value;
     }
-    console.log(oSpot);
-    // this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
-    //   this.presentToast('Spot successfully created. Lean back while we verify your great spot!');
-    // })
+    this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
+      this.presentToast('Spot successfully created. Lean back while we verify your great spot!');
+    })
   }
 
   mapChanged () {
