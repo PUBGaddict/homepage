@@ -38,6 +38,7 @@ export class SubmitPage {
 
   private isFirstPress : boolean = true;
   private submitAttempt: boolean = false;
+  public detailsInvisible: boolean = true;
 
   public saveButtonDisabled : boolean = false;
   public start :any = {};
@@ -252,7 +253,7 @@ export class SubmitPage {
     if (!this.hasMap || !this.hasStrategy) {
       return;
     }
-    this.spotDetails.nativeElement.className = "visible";
+    this.detailsInvisible = false;
   }
 
   strategyChanged () {

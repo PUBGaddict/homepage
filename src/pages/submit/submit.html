@@ -53,7 +53,7 @@
     </ion-item>
   </form>
 
-  <div #spotDetails class="invisible">
+  <div #spotDetails [class.invisible]="detailsInvisible">
     <div *ngIf="spotHeadForm.get('strategy').value === 'smoke' || spotHeadForm.get('strategy').value === 'decoy'" style="padding-top:20px;">
       
       <form [formGroup]="smokeDetailForm">
