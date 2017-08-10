@@ -79,8 +79,16 @@ export class SubmitPage {
   }
 
   onVideoIdChanged(event) {
-    if (event.value.startsWith("https://www.youtube.com/watch?v=")) {
-      this.smokeDetailForm.get('videoId').setValue(event.value.substr(32, 11));
+    let url :string = event.value;
+    let videoId :string = "";
+    if (url.startsWith("https://www.youtube.com/watch")) {
+      if (url.includes("?v=")) {
+        videoId = url.substr(url.indexOf("?v=") + 3, 11);
+      }
+      if (url.includes("&v=")) {
+        videoId = url.substr(url.indexOf("&v=") + 3, 11);
+      }
+      this.smokeDetailForm.get('videoId').setValue(videoId);
     }
     if (this.smokeDetailForm.get('videoId').valid) {
       this.refresh();
