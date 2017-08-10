@@ -14,10 +14,17 @@
   <form [formGroup]="spotHeadForm">
     <ion-item no-lines>
       <ion-label stacked required>Spot title</ion-label>
-      <ion-input type="text" formControlName="title" [class.invalid]="!spotHeadForm.controls.title.valid && (spotHeadForm.controls.title.dirty || submitAttempt)"></ion-input>
+      <ion-input 
+        type="text" 
+        formControlName="title" 
+        [class.invalid]="!spotHeadForm.controls.title.valid && (spotHeadForm.controls.title.dirty || submitAttempt)"
+        [class.valid]="spotHeadForm.controls.title.valid">
+      </ion-input>
     </ion-item>
-    <ion-item *ngIf="!spotHeadForm.controls.title.valid  && (spotHeadForm.controls.title.dirty || submitAttempt)">
-      <p>Please enter a valid name.</p>
+    <ion-item 
+      no-lines 
+      *ngIf="!spotHeadForm.controls.title.valid  && (spotHeadForm.controls.title.dirty || submitAttempt)">
+      <p>Please enter a valid name with more than 10 characters</p>
     </ion-item>
 
     <ion-item no-lines>
