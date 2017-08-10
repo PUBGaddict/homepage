@@ -59,10 +59,11 @@
       <form [formGroup]="smokeDetailForm">
         <ion-title>Youtube settings</ion-title>
         <ion-item no-lines>
-          <ion-label required stacked class="moreWidth">YouTube Video ID</ion-label>
+          <ion-label required stacked class="moreWidth">YouTube URL / YouTube Video ID</ion-label>
           <ion-input 
             type="text" 
             formControlName="videoId"
+            (ionChange)="onVideoIdChanged($event)"
             [class.invalid]="!smokeDetailForm.controls.videoId.valid && (smokeDetailForm.controls.videoId.dirty || submitAttempt)"
             [class.valid]="smokeDetailForm.controls.videoId.valid">
           </ion-input>
@@ -70,12 +71,14 @@
         <ion-item 
           no-lines 
           *ngIf="!smokeDetailForm.controls.videoId.valid  && (smokeDetailForm.controls.videoId.dirty || submitAttempt)">
-          <p>Please enter a valid YouTube Video ID. It contains of 11 characters.</p>
+          <p>Please enter a valid YouTube Video ID or the URL of your YouTube video</p>
         </ion-item>
 
         <ion-item no-lines>
-          <ion-label required stacked class="moreWidth" >YouTube Video Start Time</ion-label>
-          <ion-input type="text" formControlName="startSeconds"            
+          <ion-label required stacked class="moreWidth" >YouTube Video Start Time in Seconds</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="startSeconds"            
             [class.invalid]="!smokeDetailForm.controls.startSeconds.valid && (smokeDetailForm.controls.startSeconds.dirty || submitAttempt)"
             [class.valid]="smokeDetailForm.controls.startSeconds.valid">
           </ion-input>
@@ -87,8 +90,10 @@
         </ion-item>
 
         <ion-item no-lines>
-          <ion-label required stacked class="moreWidth" >YouTube Video End Time</ion-label>
-          <ion-input type="text" formControlName="endSeconds"
+          <ion-label required stacked class="moreWidth" >YouTube Video End Time in Seconds</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="endSeconds"
             [class.invalid]="!smokeDetailForm.controls.endSeconds.valid && (smokeDetailForm.controls.endSeconds.dirty || submitAttempt)"
             [class.valid]="smokeDetailForm.controls.endSeconds.valid">
           </ion-input>
@@ -99,13 +104,7 @@
           <p>Please enter the second at which your YouTube video should end. Must be greater than startSeconds.</p>
         </ion-item>
         
-        <div style="padding-top:20px;">
-          <ion-title>Video Live Preview</ion-title>
-          <button ion-button icon-only (click)="refresh()">
-            <ion-icon name="refresh"></ion-icon>
-          </button>
-        </div>
-        <youtube-player #youtubePlayer [start]="smokeDetailForm.get('startSeconds').value" [end]="smokeDetailForm.get('endSeconds').value" [vid]="''" [width]="'100%'"></youtube-player>
+        <youtube-player [class.invisible]="!smokeDetailForm.controls.videoId.valid" #youtubePlayer [start]="smokeDetailForm.get('startSeconds').value" [end]="smokeDetailForm.get('endSeconds').value" [vid]="''" [width]="'100%'"></youtube-player>
       </form>
     </div>
     <div *ngIf="spotHeadForm.get('strategy').value === 'spot' || spotHeadForm.get('strategy').value === 'awp'" style="padding-top:20px;">
@@ -122,7 +121,9 @@
         <ion-title style="padding-top:20px;">Pictures (use up to 3)</ion-title>
         <ion-item no-lines>
           <ion-label required stacked>Imgur URL #1</ion-label>
-          <ion-input type="text" formControlName="picture_1"
+          <ion-input 
+            type="text" 
+            formControlName="picture_1"
             [class.invalid]="!spotDetailForm.controls.picture_1.valid && (spotDetailForm.controls.picture_1.dirty || submitAttempt)"
             [class.valid]="spotDetailForm.controls.picture_1.valid">
           </ion-input>

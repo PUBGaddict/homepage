@@ -77,6 +77,15 @@ export class SubmitPage {
         picture_3: ['', AdditionalPictureValidator.isValid]
     });
   }
+
+  onVideoIdChanged(event) {
+    if (event.value.startsWith("https://www.youtube.com/watch?v=")) {
+      this.smokeDetailForm.get('videoId').setValue(event.value.substr(32, 11));
+    }
+    if (this.smokeDetailForm.get('videoId').valid) {
+      this.refresh();
+    }
+  }
  
   refresh() {
     this.youtubePlayer.play({
