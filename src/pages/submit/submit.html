@@ -9,24 +9,27 @@
 
 
 <ion-content padding>
-  <ion-label danger>Please be aware that we check every spot personally before making it public. This will take some minutes.</ion-label>
+  <ion-label>Please be aware that we check every spot personally before making it public. This will take some minutes.</ion-label>
   
   <form [formGroup]="spotHeadForm">
-    <ion-item>
-      <ion-label required class="moreWidth" fixed>Spot title</ion-label>
-      <ion-input type="text" formControlName="title"></ion-input>
+    <ion-item no-lines>
+      <ion-label stacked required>Spot title</ion-label>
+      <ion-input type="text" formControlName="title" [class.invalid]="!spotHeadForm.controls.title.valid && (spotHeadForm.controls.title.dirty || submitAttempt)"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="!spotHeadForm.controls.title.valid  && (spotHeadForm.controls.title.dirty || submitAttempt)">
+      <p>Please enter a valid name.</p>
     </ion-item>
 
-    <ion-item>
-      <ion-label>Map</ion-label>
+    <ion-item no-lines>
+      <ion-label stacked required>Map</ion-label>
       <ion-select formControlName="map" (ionChange)="mapChanged()">
         <ion-option *ngFor="let map of de_maps" value="{{map.mapname}}">{{map.mapname}}</ion-option>
         <ion-option *ngFor="let map of cs_maps" value="{{map.mapname}}">{{map.mapname}}</ion-option>
       </ion-select>
     </ion-item>
 
-    <ion-item>
-      <ion-label>Category</ion-label>
+    <ion-item no-lines>
+      <ion-label stacked required>Category</ion-label>
       <ion-select formControlName="strategy" (ionChange)="strategyChanged()">
         <ion-option value="spot">Spot</ion-option>
         <ion-option value="smoke">Smoke</ion-option>
@@ -41,20 +44,21 @@
       <form [formGroup]="smokeDetailForm">
 
         <ion-title>Youtube settings</ion-title>
-        <ion-item>
-          <ion-label class="moreWidth" fixed>YouTube Video ID</ion-label>
+        <ion-item no-lines>
+          <ion-label required stacked class="moreWidth" >YouTube Video ID</ion-label>
           <ion-input type="text" formControlName="videoId"></ion-input>
         </ion-item>
 
-        <ion-item>
-          <ion-label class="moreWidth" fixed>YouTube Video Start Time</ion-label>
+        <ion-item no-lines>
+          <ion-label required stacked class="moreWidth" >YouTube Video Start Time</ion-label>
           <ion-input type="text" formControlName="startSeconds"></ion-input>
         </ion-item>
 
-        <ion-item>
-          <ion-label class="moreWidth" fixed>YouTube Video End Time</ion-label>
+        <ion-item no-lines>
+          <ion-label required stacked class="moreWidth" >YouTube Video End Time</ion-label>
           <ion-input type="text" formControlName="endSeconds"></ion-input>
         </ion-item>
+        
         <div style="padding-top:20px;">
           <ion-title>Video Live Preview</ion-title>
           <button ion-button icon-only (click)="refresh()">
@@ -69,28 +73,27 @@
 
       <form [formGroup]="spotDetailForm">
 
-        <ion-item>
-          <ion-label>{{angle}}</ion-label>
-          <ion-range (ionChange)="onRangeChange()" min="0" max="360" formControlName="angle" color="secondary">
-            <ion-label range-left>0</ion-label>
-            <ion-label range-right>360</ion-label>
+        <ion-item no-lines>
+          <ion-range pin="true" (ionChange)="onRangeChange()" min="0" max="360" formControlName="angle" color="secondary">
+            <ion-label range-left>0°</ion-label>
+            <ion-label range-right>360°</ion-label>
           </ion-range>  
         </ion-item>
 
         <ion-title style="padding-top:20px;">Pictures (use up to 3)</ion-title>
         
-        <ion-item>
-          <ion-label fixed>Imgur URL #1</ion-label>
+        <ion-item no-lines>
+          <ion-label required stacked>Imgur URL #1</ion-label>
           <ion-input type="text" formControlName="picture_1"></ion-input>
         </ion-item>
 
-        <ion-item>
-          <ion-label fixed>Imgur URL #2</ion-label>
+        <ion-item no-lines>
+          <ion-label stacked>Imgur URL #2</ion-label>
           <ion-input type="text" formControlName="picture_2"></ion-input>
         </ion-item>
 
-        <ion-item>
-          <ion-label fixed>Imgur URL #3</ion-label>
+        <ion-item no-lines>
+          <ion-label stacked>Imgur URL #3</ion-label>
           <ion-input type="text" formControlName="picture_3"></ion-input>
         </ion-item>
       </form>

@@ -36,6 +36,7 @@ export class SubmitPage {
   secondPress: any = null;
 
   private isFirstPress : boolean = true;
+  private submitAttempt: boolean = false;
 
   public saveButtonDisabled : boolean = false;
   public start :any = {};
@@ -145,6 +146,7 @@ export class SubmitPage {
   savePressed () {
     if (!this.spotHeadForm.valid) {
       this.presentToast('Please fill out all the mandatory fields so we can process your great spot!')
+      this.submitAttempt = true;
       return;
     }
     let map = this.spotHeadForm.get('map').value,
@@ -181,9 +183,10 @@ export class SubmitPage {
       oSpot.picture_2 = this.spotDetailForm.get('picture_2').value;
       oSpot.picture_3 = this.spotDetailForm.get('picture_3').value;
     }
-    this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
-      this.presentToast('Spot successfully created. Lean back while we verify your great spot!');
-    })
+    console.log(oSpot);
+    // this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
+    //   this.presentToast('Spot successfully created. Lean back while we verify your great spot!');
+    // })
   }
 
   mapChanged () {

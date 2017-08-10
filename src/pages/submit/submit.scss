@@ -1,4 +1,30 @@
 page-submit {
+    .invalid {
+        border: 1px solid #ea6153;
+    }
+
+    p {
+        font-size: 0.8em;
+        color: #d2d2d2;
+    }
+
+    ion-label, .select-text {
+        margin-left: 10px;
+        padding-bottom: 5px;
+    }
+
+    ion-label[required]::after {
+        content: " *";
+        color: red;
+    }
+ 
+    ion-input, ion-select, ion-textarea {
+        background-color: #f2f2f2;
+        padding: 5px 10px;
+    }
+
+
+
     .invisible {
         visibility: hidden;
     }
