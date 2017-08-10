@@ -139,7 +139,7 @@
             type="text" 
             formControlName="picture_2"
             [class.invalid]="!spotDetailForm.controls.picture_2.valid && (spotDetailForm.controls.picture_2.dirty || submitAttempt)"
-            [class.valid]="spotDetailForm.controls.picture_2.valid">
+            [class.valid]="spotDetailForm.controls.picture_2.valid  && spotDetailForm.controls.picture_2.dirty">
           </ion-input>
         </ion-item>
         <ion-item 
@@ -154,7 +154,7 @@
             type="text" 
             formControlName="picture_3"
             [class.invalid]="!spotDetailForm.controls.picture_3.valid && (spotDetailForm.controls.picture_3.dirty || submitAttempt)"
-            [class.valid]="spotDetailForm.controls.picture_3.valid">
+            [class.valid]="spotDetailForm.controls.picture_3.valid && spotDetailForm.controls.picture_3.dirty">
           </ion-input>
         </ion-item>
         <ion-item 

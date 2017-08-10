@@ -12,6 +12,7 @@ import { MapOverviewComponent } from '../../app/map-overview.component';
 import { EndSecondsValidator } from  '../../validators/endSeconds';
 import { StartSecondsValidator } from  '../../validators/startSeconds';
 import { PictureValidator } from  '../../validators/picture';
+import { AdditionalPictureValidator } from  '../../validators/additionalPicture';
 
 /*
   Generated class for the Submit page.
@@ -72,8 +73,8 @@ export class SubmitPage {
     this.spotDetailForm = formBuilder.group({
         angle: ['', Validators.compose([Validators.required, Validators.max(360), Validators.min(0)])],
         picture_1: ['', Validators.compose([Validators.required, PictureValidator.isValid])],
-        picture_2: ['', PictureValidator.isValid],
-        picture_3: ['', PictureValidator.isValid]
+        picture_2: ['', AdditionalPictureValidator.isValid],
+        picture_3: ['', AdditionalPictureValidator.isValid]
     });
   }
  
