@@ -154,6 +154,31 @@ export class SubmitPage {
         strategy = this.spotHeadForm.get('strategy').value,
         title = this.spotHeadForm.get('title').value;
 
+    // advanced validation for cases:
+    // if start is not defined
+    if (!this.start) {
+      this.presentToast('Please click on the map where your spot takes place');
+      return;
+    }
+
+    // if the user has selected smoke or decoy, the smokeDetailForm needs to be valid
+    if ((strategy === 'smoke' || strategy === 'decoy') && !this.smokeDetailForm.valid) {
+      this.presentToast('Please fill out all the mandatory fields so we can process your great spot!');
+      return;
+    }
+    // if the user has selected smoke or decoy, but only provided 1 spot on the map..
+    if ((strategy === 'smoke' || strategy === 'decoy') && !this.end) {
+      this.presentToast('Please add more than one spot on the map to complete your spot!');
+      return;
+    }
+
+    // if the user has selected spot or awp, the spotDetailForm needs to be valid
+    if ((strategy === 'spot' || strategy === 'awp') && !this.spotDetailForm.valid) {
+      this.presentToast('Please fill out all the mandatory fields so we can process your great spot!');
+      return;
+    }
+
+
     this.saveButtonDisabled = true;
     var oSpot = {
         title : title,
