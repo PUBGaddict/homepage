@@ -106,6 +106,7 @@ export class SubmitPage {
 
     if (this.isFirstPress) {
       this.start = event;
+      this.end = undefined;
       this.mapOverview.appendDataSpots([{
         angle : this.spotDetailForm.get('angle').value || 0,
         start : {
@@ -146,7 +147,7 @@ export class SubmitPage {
 
   savePressed () {
     if (!this.spotHeadForm.valid) {
-      this.presentToast('Please fill out all the mandatory fields so we can process your great spot!')
+      this.presentToast('Please fill out all the mandatory fields so we can process your great spot!');
       this.submitAttempt = true;
       return;
     }
