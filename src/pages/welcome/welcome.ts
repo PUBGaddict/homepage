@@ -14,12 +14,29 @@ import { SubmitPage } from '../submit/submit';
   templateUrl: 'welcome.html'
 })
 export class WelcomePage {
-  public patchNotes;
+  public patchNotes = [];
+  public patchNotesRepo = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public patchnoteData : PatchnoteData) {
     this.patchnoteData.getPatchnotes().subscribe(patchNotes => {
-      this.patchNotes = patchNotes;
+      this.patchNotesRepo = patchNotes.reverse();
+      this.patchNotes.push(patchNotes.pop());
     });
+  }
+
+  doInfinite(infiniteScroll) {
+    console.log('Begin async operation');
+
+    if (this.patchNotesRepo.length === 0) {
+      infiniteScroll.complete();
+      return;
+    }
+    setTimeout(() => {
+      this.patchNotes.push(this.patchNotesRepo.pop());
+
+      console.log('Async operation has ended');
+      infiniteScroll.complete();
+    }, 200);
   }
 
   ionViewDidLoad() {
