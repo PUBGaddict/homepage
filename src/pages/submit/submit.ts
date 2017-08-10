@@ -90,12 +90,14 @@ export class SubmitPage {
       }
       this.smokeDetailForm.get('videoId').setValue(videoId);
     }
-    if (this.smokeDetailForm.get('videoId').valid) {
-      this.refresh();
-    }
+    this.refresh();
   }
  
   refresh() {
+    if (!this.smokeDetailForm.valid) {
+      return;
+    }
+
     this.youtubePlayer.play({
       videoId : this.smokeDetailForm.get('videoId').value,
       startSeconds: this.smokeDetailForm.get('startSeconds').value,
