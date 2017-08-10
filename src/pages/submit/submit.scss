@@ -1,8 +1,14 @@
 page-submit {
+    .item-md.item-block .item-inner {
+        padding-right : 0;
+    }
+
     .invalid {
         border: 1px solid #ea6153;
     }
-
+    .valid {
+        border: 1px solid #32db64;
+    }
     p {
         font-size: 0.8em;
         color: #d2d2d2;
