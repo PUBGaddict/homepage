@@ -66,7 +66,7 @@ export class SubmitPage {
     this.smokeDetailForm = formBuilder.group({
         startSeconds: ['', Validators.compose([Validators.required, Validators.min(0), Validators.pattern('[0-9]*')])],
         endSeconds: ['', Validators.compose([Validators.required, Validators.min(0), Validators.pattern('[0-9]*')])],
-        videoId: ['', Validators.compose([Validators.required, Validators.maxLength(7), Validators.minLength(7), Validators.pattern('[0-9a-zA-Z_-]*')])]
+        videoId: ['', Validators.compose([Validators.required, Validators.maxLength(11), Validators.minLength(11), Validators.pattern('[0-9a-zA-Z_-]*')])]
     });
 
     this.spotDetailForm = formBuilder.group({
