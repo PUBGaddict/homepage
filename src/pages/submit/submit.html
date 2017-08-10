@@ -73,15 +73,30 @@
           <p>Please enter a valid YouTube Video ID. It contains of 11 characters.</p>
         </ion-item>
 
-
         <ion-item no-lines>
           <ion-label required stacked class="moreWidth" >YouTube Video Start Time</ion-label>
-          <ion-input type="text" formControlName="startSeconds"></ion-input>
+          <ion-input type="text" formControlName="startSeconds"            
+            [class.invalid]="!smokeDetailForm.controls.startSeconds.valid && (smokeDetailForm.controls.startSeconds.dirty || submitAttempt)"
+            [class.valid]="smokeDetailForm.controls.startSeconds.valid">
+          </ion-input>
+        </ion-item>
+        <ion-item 
+          no-lines 
+          *ngIf="!smokeDetailForm.controls.startSeconds.valid  && (smokeDetailForm.controls.startSeconds.dirty || submitAttempt)">
+          <p>Please enter the second at which your YouTube video should start.</p>
         </ion-item>
 
         <ion-item no-lines>
           <ion-label required stacked class="moreWidth" >YouTube Video End Time</ion-label>
-          <ion-input type="text" formControlName="endSeconds"></ion-input>
+          <ion-input type="text" formControlName="endSeconds"
+            [class.invalid]="!smokeDetailForm.controls.endSeconds.valid && (smokeDetailForm.controls.endSeconds.dirty || submitAttempt)"
+            [class.valid]="smokeDetailForm.controls.endSeconds.valid">
+          </ion-input>
+        </ion-item>
+        <ion-item 
+          no-lines 
+          *ngIf="!smokeDetailForm.controls.endSeconds.valid  && (smokeDetailForm.controls.endSeconds.dirty || submitAttempt)">
+          <p>Please enter the second at which your YouTube video should end. Must be greater than startSeconds.</p>
         </ion-item>
         
         <div style="padding-top:20px;">
