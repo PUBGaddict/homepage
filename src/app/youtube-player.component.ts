@@ -3,7 +3,7 @@ import { Component, Input, AfterViewInit } from '@angular/core';
 @Component({
   selector: 'youtube-player',
   template: `
-      <div [id]="playerId"></div>
+      <div style="padding: 16px;" [id]="playerId"></div>
   `
 })
 export class YoutubePlayerComponent implements AfterViewInit {
