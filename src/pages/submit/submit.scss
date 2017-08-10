@@ -2,6 +2,9 @@ page-submit {
     .item-md.item-block .item-inner {
         padding-right : 0;
     }
+    .item-label-stacked .morePaddingTop.select-md {
+        padding-top: 13px;
+    }
 
     .invalid {
         border: 1px solid #ea6153;
