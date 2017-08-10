@@ -70,8 +70,8 @@ export class SubmitPage {
     });
 
     this.spotDetailForm = formBuilder.group({
-        angle: ['', Validators.compose([Validators.max(360), Validators.min(0), Validators.required])],
-        picture_1: ['', PictureValidator.isValid],
+        angle: ['', Validators.compose([Validators.required, Validators.max(360), Validators.min(0)])],
+        picture_1: ['', Validators.compose([Validators.required, PictureValidator.isValid])],
         picture_2: ['', PictureValidator.isValid],
         picture_3: ['', PictureValidator.isValid]
     });
