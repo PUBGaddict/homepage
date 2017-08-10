@@ -173,6 +173,11 @@ export class SubmitPage {
       this.presentToast('Please add more than one spot on the map to complete your spot!');
       return;
     }
+    // if the user has selected smoke or decoy, and endSeconds < startSeconds 
+    if ((strategy === 'smoke' || strategy === 'decoy') && parseInt(this.smokeDetailForm.get('endSeconds').value, 10) < parseInt(this.smokeDetailForm.get('startSeconds').value, 10)) {
+      this.presentToast('The starting seconds need to be earlier than the end seconds.');
+      return;
+    }
 
     // if the user has selected spot or awp, the spotDetailForm needs to be valid
     if ((strategy === 'spot' || strategy === 'awp') && !this.spotDetailForm.valid) {
@@ -202,8 +207,8 @@ export class SubmitPage {
     };
     if (strategy === "smoke" || strategy === "decoy") {
       oSpot.videoId = this.smokeDetailForm.get('videoId').value;
-      oSpot.startSeconds = this.smokeDetailForm.get('startSeconds').value;
-      oSpot.endSeconds = this.smokeDetailForm.get('endSeconds').value;
+      oSpot.startSeconds = parseInt(this.smokeDetailForm.get('startSeconds').value, 10);
+      oSpot.endSeconds = parseInt(this.smokeDetailForm.get('endSeconds').value, 10);
       oSpot.end = this.end;
     } else {
       oSpot.angle = this.spotDetailForm.get('angle').value;
