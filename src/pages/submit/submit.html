@@ -13,7 +13,7 @@
   
   <form [formGroup]="spotHeadForm">
     <ion-item no-lines>
-      <ion-label stacked required>Spot title</ion-label>
+      <ion-label stacked required>Title</ion-label>
       <ion-input 
         type="text" 
         formControlName="title" 
@@ -29,15 +29,22 @@
 
     <ion-item no-lines>
       <ion-label stacked required>Map</ion-label>
-      <ion-select formControlName="map" (ionChange)="mapChanged()">
+      <ion-select class="morePaddingTop"
+        formControlName="map" 
+        (ionChange)="mapChanged()"
+        [class.valid]="spotHeadForm.controls.map.valid">
         <ion-option *ngFor="let map of de_maps" value="{{map.mapname}}">{{map.mapname}}</ion-option>
         <ion-option *ngFor="let map of cs_maps" value="{{map.mapname}}">{{map.mapname}}</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item no-lines>
-      <ion-label stacked required>Category</ion-label>
-      <ion-select formControlName="strategy" (ionChange)="strategyChanged()">
+      <ion-label stacked required>What do you want to create?</ion-label>
+      <ion-select
+        class="morePaddingTop"
+        formControlName="strategy" 
+        (ionChange)="strategyChanged()"
+        [class.valid]="spotHeadForm.controls.strategy.valid">
         <ion-option value="spot">Spot</ion-option>
         <ion-option value="smoke">Smoke</ion-option>
         <ion-option value="awp">AWP Spot</ion-option>
@@ -48,13 +55,24 @@
 
   <div #spotDetails class="invisible">
     <div *ngIf="spotHeadForm.get('strategy').value === 'smoke' || spotHeadForm.get('strategy').value === 'decoy'" style="padding-top:20px;">
+      
       <form [formGroup]="smokeDetailForm">
-
         <ion-title>Youtube settings</ion-title>
         <ion-item no-lines>
-          <ion-label required stacked class="moreWidth" >YouTube Video ID</ion-label>
-          <ion-input type="text" formControlName="videoId"></ion-input>
+          <ion-label required stacked class="moreWidth">YouTube Video ID</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="videoId"
+            [class.invalid]="!smokeDetailForm.controls.videoId.valid && (smokeDetailForm.controls.videoId.dirty || submitAttempt)"
+            [class.valid]="smokeDetailForm.controls.videoId.valid">
+          </ion-input>
         </ion-item>
+        <ion-item 
+          no-lines 
+          *ngIf="!smokeDetailForm.controls.videoId.valid  && (smokeDetailForm.controls.videoId.dirty || submitAttempt)">
+          <p>Please enter a valid YouTube Video ID. It contains of 11 characters.</p>
+        </ion-item>
+
 
         <ion-item no-lines>
           <ion-label required stacked class="moreWidth" >YouTube Video Start Time</ion-label>
