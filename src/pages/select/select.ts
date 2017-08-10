@@ -29,6 +29,9 @@ export class SelectPage {
     spot : {
       value : 0 
     },
+    awp : {
+      value : 0
+    },
     smoke : {
       value : 0 
     },

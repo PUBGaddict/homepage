@@ -29,6 +29,22 @@
         </ion-col>
       </ion-row>
     </div>
+      <div *ngIf="getRowVisibility('awp')">
+      <ion-title class="list-title" *ngIf="getRowVisibility('awp')">
+        awps
+      </ion-title>
+      <ion-row align-items-stretch *ngIf="getRowVisibility('awp')">
+        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.awp?.value === 0">
+          <ion-card class="card" (click)="openMapOverview('awp')">
+            <div class="card-content">
+              <img class="picture" src="/assets/img/de_dust2/ct_awp_spot.png" />
+              <div class="card-title">awp</div>
+              <div class="card-subtitle">{{mapStatistics.awp.value}} Listings</div>
+            </div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </div>
     <div *ngIf="getRowVisibility('smoke')">
       <ion-title class="list-title" *ngIf="getRowVisibility('smoke')">
         Smokes
