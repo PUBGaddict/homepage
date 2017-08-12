@@ -28,7 +28,7 @@
     <div class="desktop toplist">
       <ion-card class="card" *ngFor="let item of votings | async" (click)="openPage(item)" (mouseenter)='onMouseEnterCard(item)' (mouseleave)='onMouseLeaveCard(item)'>
         <div class="card-content">
-          <img class="picture" src="/assets/img/csgo_smoke.png"/>
+          <img class="picture" src="/assets/img/csgo_smoke_small.png"/>
           <div class="card-title">{{item.value}}</div>
           <ion-icon [color]="'secondary'" class="card-subtitle" name='thumbs-up'></ion-icon>
         </div>
