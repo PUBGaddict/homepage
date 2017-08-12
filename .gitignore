@@ -34,3 +34,5 @@ src/assets/img/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+
+cors.json
