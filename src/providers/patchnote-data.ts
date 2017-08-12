@@ -5,14 +5,76 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/toPromise';
 
+import { FirebaseApp } from 'angularfire2';
+import 'firebase/storage';
 
 @Injectable()
 export class PatchnoteData {
   dataPatchnotes: any;
-  constructor(public http: Http) { }
+  patchNotes : Array<any> = [];
+  newestPatchNoteFile : number = 0;
+  nextPatchNoteFile : number = 0;
 
-  private loadPatchnotes(): any {
+  constructor(public http: Http, public firebaseApp : FirebaseApp) { }
+
+  private loadNewestPatchNoteFile () : Promise<any>{
+    return this.http.get('https://csgospots-1f294.firebaseio.com/news.json')
+      .map((data) => {
+        return data.json();
+      })
+      .toPromise();
+  }
+  
+  private downloadUrlContent (url) {
+    return this.http.get(url)
+      .map((data) => {
+        return data.json();
+      })
+      .toPromise();
+  }
+
+  getInitialPatchNotes () : Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.loadNewestPatchNoteFile().then((news) => {
+        this.newestPatchNoteFile = news.newestPatchNoteFile;
+        this.nextPatchNoteFile = this.newestPatchNoteFile - 2;
+        this.firebaseApp.storage()
+          .ref('n/p/' + this.newestPatchNoteFile + '.json')
+          .getDownloadURL()
+          .then(url => {
+            return this.downloadUrlContent(url);
+          }).then(content => {
+            this.patchNotes.push(content);
+          }).then(() => {
+            return this.firebaseApp.storage().
+              ref('n/p/' + (this.newestPatchNoteFile - 1) + '.json')
+                .getDownloadURL();
+          }).then(url => {
+            return this.downloadUrlContent(url);          
+          }).then(content => {
+            this.patchNotes.push(content);
+            resolve(this.patchNotes);
+          })
+      });
+    });
+  }
+
+  getPatchNoteByNumber (number : number) : Promise<any>  {
+    return new Promise((resolve, reject) => {
+      this.firebaseApp.storage()
+        .ref('n/p/' + number + '.json')
+        .getDownloadURL()
+        .then(url => {
+          return this.downloadUrlContent(url);
+        }).then(content => {
+          resolve(content);
+        })
+    });
+  }
+
+  private loadPatchnotes(): Observable<any> {
     if (this.dataPatchnotes) {
       return Observable.of(this.dataPatchnotes);
     } else {
@@ -21,10 +83,8 @@ export class PatchnoteData {
     }
   }
 
-  getPatchnotes() {
-    return this.loadPatchnotes().map((data: any) => {
-      return data;
-    });
+  getPatchnotes() : Observable<any> {
+    return this.loadPatchnotes();
   }
 
   processPatchnotes (data: any) {
