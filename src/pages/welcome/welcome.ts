@@ -18,11 +18,15 @@ export class WelcomePage {
   public patchNotesRepo = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public patchnoteData : PatchnoteData) {
-    this.patchnoteData.getPatchnotes().subscribe(patchNotes => {
-      this.patchNotesRepo = patchNotes.reverse();
-      this.patchNotes.push(patchNotes.pop());
-      this.patchNotes.push(patchNotes.pop());
-    });
+    // this.patchnoteData.getPatchnotes().subscribe(patchNotes => {
+    //   this.patchNotesRepo = patchNotes.reverse();
+    //   this.patchNotes.push(patchNotes.pop());
+    //   this.patchNotes.push(patchNotes.pop());
+    // });
+
+    this.patchnoteData.getInitialPatchNotes().then((initialPatchNotes) => {
+      this.patchNotes = initialPatchNotes;
+    })
   }
 
   doInfinite(infiniteScroll) {
