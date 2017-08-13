@@ -10,6 +10,7 @@ import 'rxjs/add/operator/toPromise';
 import { FirebaseApp } from 'angularfire2';
 import 'firebase/storage';
 
+
 @Injectable()
 export class PatchnoteData {
   dataPatchnotes: any;
@@ -40,38 +41,24 @@ export class PatchnoteData {
       this.loadNewestPatchNoteFile().then((news) => {
         this.newestPatchNoteFile = news.newestPatchNoteFile;
         this.nextPatchNoteFile = this.newestPatchNoteFile - 2;
-        this.firebaseApp.storage()
-          .ref('n/p/' + this.newestPatchNoteFile + '.json')
-          .getDownloadURL()
-          .then(url => {
-            return this.downloadUrlContent(url);
-          }).then(content => {
-            this.patchNotes.push(content);
-          }).then(() => {
-            return this.firebaseApp.storage().
-              ref('n/p/' + (this.newestPatchNoteFile - 1) + '.json')
-                .getDownloadURL();
-          }).then(url => {
-            return this.downloadUrlContent(url);          
-          }).then(content => {
-            this.patchNotes.push(content);
-            resolve(this.patchNotes);
-          })
+        return this.getPatchNoteByNumber(this.newestPatchNoteFile)
+      }).then((content) => {
+        this.patchNotes.push(content);
+        return this.getPatchNoteByNumber(this.newestPatchNoteFile - 1)
+      }).then((content) => {
+        this.patchNotes.push(content);
+        resolve(this.patchNotes);        
       });
     });
   }
 
-  getPatchNoteByNumber (number : number) : Promise<any>  {
-    return new Promise((resolve, reject) => {
-      this.firebaseApp.storage()
-        .ref('n/p/' + number + '.json')
-        .getDownloadURL()
-        .then(url => {
-          return this.downloadUrlContent(url);
-        }).then(content => {
-          resolve(content);
-        })
-    });
+  getPatchNoteByNumber (number : number) {
+    return this.firebaseApp.storage()
+      .ref('n/p/' + number + '.json')
+      .getDownloadURL()
+      .then(url => {
+        return this.downloadUrlContent(url);
+      })
   }
 
   private loadPatchnotes(): Observable<any> {
