@@ -28,7 +28,7 @@ export class PatchnoteData {
       .toPromise();
   }
   
-  private downloadUrlContent (url) {
+  private downloadUrlContent (url) : Promise<any>{
     return this.http.get(url)
       .map((data) => {
         return data.json();
