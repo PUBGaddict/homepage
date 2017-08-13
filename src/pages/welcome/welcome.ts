@@ -39,7 +39,7 @@ export class WelcomePage {
       console.log('Async operation has ended');
     }).catch(reason => {
       infiniteScroll.complete();
-      console.log("No more patchnotes found");      
+      console.log("No more patchnotes found");
     })
   }
 
