@@ -32,16 +32,15 @@ export class WelcomePage {
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
 
-    if (this.patchNotesRepo.length === 0) {
+    this.patchnoteData.getNextPatchNotes()
+    .then(patchNote => {
+      this.patchNotes.push(patchNote);
       infiniteScroll.complete();
-      return;
-    }
-    setTimeout(() => {
-      this.patchNotes.push(this.patchNotesRepo.pop());
-
       console.log('Async operation has ended');
+    }).catch(reason => {
       infiniteScroll.complete();
-    }, 200);
+      console.log("No more patchnotes found");      
+    })
   }
 
   ionViewDidLoad() {
