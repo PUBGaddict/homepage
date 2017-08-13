@@ -30,13 +30,21 @@ export class PatchnoteData {
   
   private downloadUrlContent (url) : Promise<any>{
     return this.http.get(url)
-      .map((data) => {
-        return data.json();
-      })
-      .toPromise();
+    .map((data) => {
+      return data.json();
+    })
+    .toPromise();
   }
 
-  getInitialPatchNotes () : Promise<any> {
+  public getNextPatchNotes () {
+    let number = this.nextPatchNoteFile;
+    if (this.nextPatchNoteFile > 0) {
+      this.nextPatchNoteFile--;
+    }
+    return this.getPatchNoteByNumber(number);
+  }
+
+  public getInitialPatchNotes () : Promise<any> {
     return new Promise((resolve, reject) => {
       this.loadNewestPatchNoteFile().then((news) => {
         this.newestPatchNoteFile = news.newestPatchNoteFile;
@@ -53,12 +61,18 @@ export class PatchnoteData {
   }
 
   getPatchNoteByNumber (number : number) {
-    return this.firebaseApp.storage()
-      .ref('n/p/' + number + '.json')
-      .getDownloadURL()
-      .then(url => {
-        return this.downloadUrlContent(url);
-      })
+    return new Promise((resolve, reject) => {
+      if (!number || number < 0) {
+        reject("no older patchnotes found");
+      }
+  
+      this.firebaseApp.storage()
+        .ref('n/p/' + number + '.json')
+        .getDownloadURL()
+        .then(url => {
+          resolve(this.downloadUrlContent(url));
+        })
+    })
   }
 
   private loadPatchnotes(): Observable<any> {
