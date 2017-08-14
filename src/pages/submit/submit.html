@@ -132,6 +132,11 @@
         </ion-item>
         <ion-item 
           no-lines 
+          *ngIf="spotDetailForm.controls.picture_1.valid">
+          <img width="50%" class="screenshot" src="{{spotDetailForm.controls.picture_1.value}}" />
+        </ion-item>
+        <ion-item 
+          no-lines 
           *ngIf="!spotDetailForm.controls.picture_1.valid  && (spotDetailForm.controls.picture_1.dirty || submitAttempt)">
           <p>Please enter the URL of a screenshot hosted at imgur.com</p>
         </ion-item>
@@ -147,6 +152,11 @@
         </ion-item>
         <ion-item 
           no-lines 
+          *ngIf="spotDetailForm.controls.picture_2.valid && spotDetailForm.controls.picture_2.value !== ''">
+          <img width="50%" class="screenshot" src="{{spotDetailForm.controls.picture_2.value}}" />
+        </ion-item>
+        <ion-item 
+          no-lines 
           *ngIf="!spotDetailForm.controls.picture_2.valid  && (spotDetailForm.controls.picture_2.dirty || submitAttempt)">
           <p>Please enter the URL of a screenshot hosted at imgur.com</p>
         </ion-item>
@@ -159,6 +169,11 @@
             [class.invalid]="!spotDetailForm.controls.picture_3.valid && (spotDetailForm.controls.picture_3.dirty || submitAttempt)"
             [class.valid]="spotDetailForm.controls.picture_3.valid && spotDetailForm.controls.picture_3.dirty">
           </ion-input>
+        </ion-item>
+        <ion-item 
+          no-lines 
+          *ngIf="spotDetailForm.controls.picture_3.valid  && spotDetailForm.controls.picture_3.value !== ''">
+          <img width="50%" class="screenshot" src="{{spotDetailForm.controls.picture_3.value}}" />
         </ion-item>
         <ion-item 
           no-lines 
