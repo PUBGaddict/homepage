@@ -14,22 +14,25 @@ export class HostageData {
   constructor(public http: Http) { }
 
   private loadHostageMaps(): any {
-    if (this.dataHostage) {
-      return Observable.of(this.dataHostage);
-    } else {
-      return this.http.get('assets/data/maps_cs.json')
-        .map(this.processHostageMaps);
-    }
-  }
-
-  getHostageMaps() {
-    return this.loadHostageMaps().map((data: any) => {
-      return data;
+    return this.http.get('https://csgospots-1f294.firebaseio.com/statistics.json')
+    .map(data => {
+      let jsonData = data.json(),
+          csMaps = [];
+      for (let sKey in jsonData) {
+        if(jsonData.hasOwnProperty(sKey)) {
+          if (sKey.startsWith("cs_")) {
+            csMaps.push({mapname : sKey});
+          }
+        }
+      }
+      if (csMaps.length === 0) {
+        csMaps.push({mapname : "coming soon :)"})
+      }
+      return csMaps;
     });
   }
 
-  processHostageMaps (data: any) {
-    this.dataHostage = data;
-    return this.dataHostage.json();
+  getHostageMaps() {
+    return this.loadHostageMaps();
   }
 }

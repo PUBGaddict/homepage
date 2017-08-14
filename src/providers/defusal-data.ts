@@ -9,27 +9,26 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class DefusalData {
-  dataDefusal: any;
 
   constructor(public http: Http) { }
 
   private loadDefusalMaps(): any {
-    if (this.dataDefusal) {
-      return Observable.of(this.dataDefusal);
-    } else {
-      return this.http.get('assets/data/maps_de.json')
-        .map(this.processDefusalMaps);
-    }
+      return this.http.get('https://csgospots-1f294.firebaseio.com/statistics.json')
+        .map(data => {
+          let jsonData = data.json(),
+              deMaps = [];
+          for (let sKey in jsonData) {
+            if(jsonData.hasOwnProperty(sKey)) {
+              if (sKey.startsWith("de_")) {
+                deMaps.push({mapname : sKey});
+              }
+            }
+          }
+          return deMaps;
+        });
   }
 
   getDefusalMaps() {
-    return this.loadDefusalMaps().map((data: any) => {
-      return data;
-    });
-  }
-
-  processDefusalMaps (data: any) {
-    this.dataDefusal = data;
-    return this.dataDefusal.json();
+    return this.loadDefusalMaps();
   }
 }
