@@ -19,7 +19,7 @@
   <ion-list no-lines>
     <ion-item *ngFor="let patchnote of patchNotes">
       <ion-item>
-        <h1>{{patchnote.title}}</h1>
+        <h1 class="wordWrap">{{patchnote.title}}</h1>
         <ion-note item-end>
           {{patchnote.date}}
         </ion-note>
@@ -28,7 +28,8 @@
         </ion-avatar>
       </ion-item>
       <div *ngFor="let article of patchnote.articles" class="paddingLeft">
-        <h2>{{article.heading}}</h2>
+        <h2 class="wordWrap">{{article.heading}}</h2>
+        <h3 *ngIf="article.subtitle" class="wordWrap">{{article.subtitle}}</h3>            
         <ion-list no-lines>
           <ul> 
             <li class="paddingBottomSmall" *ngFor="let paragraph of article.paragraphs">
