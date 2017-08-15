@@ -25,9 +25,6 @@ export class HostageData {
           }
         }
       }
-      if (csMaps.length === 0) {
-        csMaps.push({mapname : "coming soon :)"})
-      }
       return csMaps;
     });
   }
