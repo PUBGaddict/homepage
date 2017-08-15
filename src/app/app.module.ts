@@ -14,6 +14,8 @@ import { SubmitPage } from '../pages/submit/submit';
 import { ReleaseListPage } from '../pages/release-list/release-list';
 import { ReleasePage } from '../pages/release/release';
 import { ImpressumPage } from '../pages/impressum/impressum';
+import { LoginPage } from '../pages/login/login';
+import { SignupPage } from '../pages/signup/signup';
 
 import { MapData } from '../providers/map-data';
 import { DefusalData } from '../providers/defusal-data';
@@ -29,6 +31,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { YoutubePlayerComponent } from './youtube-player.component';
 import { MapOverviewComponent } from './map-overview.component';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
 // Must export the config
 export const firebaseConfig = {
@@ -53,6 +56,8 @@ export const firebaseConfig = {
     ReleaseListPage,
     ReleasePage,
     ImpressumPage,
+    LoginPage,
+    SignupPage
   ],
   imports: [
     BrowserModule,
@@ -65,7 +70,9 @@ export const firebaseConfig = {
        { component: SubmitPage, name: 'SubmitPage', segment: 'submit' },
        { component: ReleaseListPage, name: 'ReleaseListPage', segment: 'releaselist' },
        { component: ReleasePage, name: 'ReleasePage', segment: 'releaselist/:spotId' },
-       { component: ImpressumPage, name: 'ImpressumPage', segment: 'impressum' }
+       { component: ImpressumPage, name: 'ImpressumPage', segment: 'impressum' },
+       { component: LoginPage, name: 'LoginPage', segment: 'login' },
+       { component: SignupPage, name: 'SignupPage', segment: 'signup' }
      ]
     }),
     AngularFireModule.initializeApp(firebaseConfig),
@@ -82,7 +89,9 @@ export const firebaseConfig = {
     StrategyDetailPage,
     ReleaseListPage,
     ReleasePage,
-    ImpressumPage
+    ImpressumPage,
+    LoginPage,
+    SignupPage
   ],
   providers: [
     StatusBar,
@@ -95,6 +104,7 @@ export const firebaseConfig = {
     SpotIdData,
     ReleaseData,
     StatisticsData,
-    MapnameData]
+    MapnameData,
+    AuthServiceProvider]
 })
 export class AppModule {}
