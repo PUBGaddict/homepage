@@ -21,6 +21,7 @@ export class SelectPage {
   public map = {
     spot : [],
     smoke: [],
+    brand: [],
     flash: [],
     eco: [],
     teamtactics: []
@@ -34,6 +35,9 @@ export class SelectPage {
     },
     smoke : {
       value : 0 
+    },
+    brand : {
+      value : 0
     },
     flash : {
       value : 0 

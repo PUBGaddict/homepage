@@ -49,12 +49,13 @@
         <ion-option value="smoke">Smoke</ion-option>
         <ion-option value="awp">AWP Spot</ion-option>
         <ion-option value="decoy">Decoy</ion-option>
+        <ion-option value="brand">Brand</ion-option>
       </ion-select>
     </ion-item>
   </form>
 
   <div #spotDetails [class.invisible]="detailsInvisible">
-    <div *ngIf="spotHeadForm.get('strategy').value === 'smoke' || spotHeadForm.get('strategy').value === 'decoy'" style="padding-top:20px;">
+    <div *ngIf="isGrenade()" style="padding-top:20px;">
       
       <form [formGroup]="smokeDetailForm">
         <ion-title>Youtube settings</ion-title>
@@ -109,7 +110,7 @@
         <youtube-player [class.displayNone]="!smokeDetailForm.valid" #youtubePlayer [start]="smokeDetailForm.get('startSeconds').value" [end]="smokeDetailForm.get('endSeconds').value" [vid]="''" [width]="'100%'"></youtube-player>
       </form>
     </div>
-    <div *ngIf="spotHeadForm.get('strategy').value === 'spot' || spotHeadForm.get('strategy').value === 'awp'" style="padding-top:20px;">
+    <div *ngIf="isSpot()" style="padding-top:20px;">
       <ion-title style="padding-top:20px;">Viewport Angle (0-360 degrees)</ion-title>
 
       <form [formGroup]="spotDetailForm">

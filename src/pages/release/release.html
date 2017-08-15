@@ -30,7 +30,7 @@
     <ion-input type="text" [(ngModel)]="releaseCandidate.strategy"></ion-input>
   </ion-item>
 
-  <div *ngIf="releaseCandidate.strategy === 'smoke' || releaseCandidate.strategy === 'decoy'">
+  <div *ngIf="releaseCandidate.strategy === 'smoke' || releaseCandidate.strategy === 'decoy' || releaseCandidate.strategy === 'brand'">
     <ion-title style="padding-top:20px;">Video Settings</ion-title>
     <ion-item>
       <ion-label class="moreWidth" fixed>YouTube Video ID</ion-label>

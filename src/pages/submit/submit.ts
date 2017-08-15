@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { DefusalData } from '../../providers/defusal-data';
 import { HostageData } from '../../providers/hostage-data';
+import { MapnameData } from '../../providers/mapname-data';
 import { SpotIdData } from '../../providers/spotid-data';
 import { Http } from '@angular/http';
 import { YoutubePlayerComponent } from '../../app/youtube-player.component';
@@ -50,12 +51,18 @@ export class SubmitPage {
   public hasMap : boolean = false;
   public hasStrategy : boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public defusalData: DefusalData, public hostageData: HostageData, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder) {
-    this.defusalData.getDefusalMaps().subscribe((de_maps: any[]) => {
-      this.de_maps = de_maps;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public mapnameData : MapnameData, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder) {
+    this.mapnameData.getDefusalNames().subscribe((de_maps: any[]) => {
+      for (let key in de_maps) {
+        this.de_maps.push({ mapname : key} )
+      }
+      this.de_maps;
     });
-    this.hostageData.getHostageMaps().subscribe((cs_maps: any[]) => {
-      this.cs_maps = cs_maps;
+    this.mapnameData.getHostageNames().subscribe((cs_maps: any[]) => {
+      for (let key in cs_maps) {
+        this.cs_maps.push({ mapname : key} )
+      }
+      this.cs_maps;
     });
 
     // validators
@@ -77,6 +84,14 @@ export class SubmitPage {
         picture_2: ['', AdditionalPictureValidator.isValid],
         picture_3: ['', AdditionalPictureValidator.isValid]
     });
+  }
+
+  isGrenade () {
+    return this.spotHeadForm.get('strategy').value === 'smoke' || this.spotHeadForm.get('strategy').value === 'decoy' || this.spotHeadForm.get('strategy').value === 'brand';
+  }
+
+  isSpot () {
+    return this.spotHeadForm.get('strategy').value === 'spot' || this.spotHeadForm.get('strategy').value === 'awp';
   }
 
   onVideoIdChanged(event) {
@@ -138,7 +153,7 @@ export class SubmitPage {
       }]);
       this.isFirstPress = false;
       
-      if (strategy !== 'smoke' && strategy !== 'decoy') {
+      if (strategy !== 'smoke' && strategy !== 'decoy' && strategy !== 'brand') {
         this.isFirstPress = true;  
       }
     } else {
@@ -184,17 +199,17 @@ export class SubmitPage {
     }
 
     // if the user has selected smoke or decoy, the smokeDetailForm needs to be valid
-    if ((strategy === 'smoke' || strategy === 'decoy') && !this.smokeDetailForm.valid) {
+    if ((strategy === 'smoke' || strategy === 'decoy' || strategy === 'brand') && !this.smokeDetailForm.valid) {
       this.presentToast('Please fill out all the mandatory fields so we can process your great spot!');
       return;
     }
     // if the user has selected smoke or decoy, but only provided 1 spot on the map..
-    if ((strategy === 'smoke' || strategy === 'decoy') && !this.end) {
+    if ((strategy === 'smoke' || strategy === 'decoy' || strategy === 'brand') && !this.end) {
       this.presentToast('Please add more than one spot on the map to complete your spot!');
       return;
     }
     // if the user has selected smoke or decoy, and endSeconds < startSeconds 
-    if ((strategy === 'smoke' || strategy === 'decoy') && parseInt(this.smokeDetailForm.get('endSeconds').value, 10) < parseInt(this.smokeDetailForm.get('startSeconds').value, 10)) {
+    if ((strategy === 'smoke' || strategy === 'decoy' || strategy === 'brand') && parseInt(this.smokeDetailForm.get('endSeconds').value, 10) < parseInt(this.smokeDetailForm.get('startSeconds').value, 10)) {
       this.presentToast('The starting seconds need to be earlier than the end seconds.');
       return;
     }
@@ -225,7 +240,7 @@ export class SubmitPage {
         picture_2 : undefined,
         picture_3 : undefined
     };
-    if (strategy === "smoke" || strategy === "decoy") {
+    if (strategy === "smoke" || strategy === "decoy" || strategy === 'brand') {
       oSpot.videoId = this.smokeDetailForm.get('videoId').value;
       oSpot.startSeconds = parseInt(this.smokeDetailForm.get('startSeconds').value, 10);
       oSpot.endSeconds = parseInt(this.smokeDetailForm.get('endSeconds').value, 10);

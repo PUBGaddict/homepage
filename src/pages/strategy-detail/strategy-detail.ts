@@ -80,6 +80,14 @@ export class StrategyDetailPage {
     })
   }
 
+  isGrenade () {
+    return this.spot.strategy === 'smoke' || this.spot.strategy === 'decoy' || this.spot.strategy === 'brand';
+  }
+
+  isSpot () {
+    return this.spot.strategy === 'awp' || this.spot.strategy === 'spot';
+  }
+
   getVoteObject() {
     if (typeof(Storage) !== "undefined") {
       if (!localStorage.getItem("votes")) {

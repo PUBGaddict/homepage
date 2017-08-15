@@ -113,6 +113,10 @@ export class ReleasePage {
 
   logPress(event) {}
 
+  isGrenade() {
+    return this.releaseCandidate.strategy === "smoke" || this.releaseCandidate.strategy === "decoy" || this.releaseCandidate.strategy === "brand";
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReleasePage');
     this.mapOverview.clearDataSpots();
@@ -126,10 +130,10 @@ export class ReleasePage {
         },
         end : undefined
       };
-      if (this.releaseCandidate.strategy === "smoke" || this.releaseCandidate.strategy === "decoy" ) {
+      if ( this.isGrenade() ) {
         spot.end = {
-          x : this.releaseCandidate.strategy === "smoke" || this.releaseCandidate.strategy === "decoy" ? this.releaseCandidate.end.x : 0,
-          y : this.releaseCandidate.strategy === "smoke" || this.releaseCandidate.strategy === "decoy" ? this.releaseCandidate.end.y : 0
+          x : this.isGrenade() ? this.releaseCandidate.end.x : 0,
+          y : this.isGrenade() ? this.releaseCandidate.end.y : 0
         }
       }
       this.mapOverview.appendDataSpots([spot])

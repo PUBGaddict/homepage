@@ -26,13 +26,13 @@
         </button>
       </div>
     </div>
-    <div *ngIf="spot.strategy === 'spot' || spot.strategy === 'awp'">
+    <div *ngIf="isSpot()">
       <ion-label color="primary">Screenshots</ion-label>
       <img width="100%" class="screenshot" src="{{spot.picture_1}}" />
       <img width="100%" class="screenshot" src="{{spot.picture_2}}" />
       <img width="100%" class="screenshot" src="{{spot.picture_3}}" />
     </div>
-   <div *ngIf="spot.strategy === 'smoke' || spot.strategy === 'decoy'">
+   <div *ngIf="isGrenade()">
       <ion-label color="primary">Video</ion-label>
       <youtube-player [start]="spot.startSeconds" [end]="spot.endSeconds" [vid]="spot.videoId" [width]="'100%'"></youtube-player>
    </div>
