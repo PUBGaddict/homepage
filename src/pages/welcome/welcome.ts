@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { PatchnoteData } from '../../providers/patchnote-data';
 import { SubmitPage } from '../submit/submit';
+import { AngularFireAuth } from 'angularfire2/auth';
+
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import * as firebase from 'firebase/app';
 
 /*
   Generated class for the Welcome page.
@@ -16,17 +20,25 @@ import { SubmitPage } from '../submit/submit';
 export class WelcomePage {
   public patchNotes = [];
   public patchNotesRepo = [];
+  public userName : string = "" ;
+  public loggedInUser : string = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public patchnoteData : PatchnoteData) {
-    // this.patchnoteData.getPatchnotes().subscribe(patchNotes => {
-    //   this.patchNotesRepo = patchNotes.reverse();
-    //   this.patchNotes.push(patchNotes.pop());
-    //   this.patchNotes.push(patchNotes.pop());
-    // });
-
+  constructor(public navCtrl: NavController, public navParams: NavParams, public patchnoteData : PatchnoteData, public authServiceProvider : AuthServiceProvider, public afAuth: AngularFireAuth) {
     this.patchnoteData.getInitialPatchNotes().then((initialPatchNotes) => {
       this.patchNotes = initialPatchNotes;
     })
+    afAuth.authState.subscribe((user: firebase.User) => {
+      this.loggedInUser = user.email;
+    });
+  }
+
+  signInWithFacebook(): void {
+    this.authServiceProvider.signInWithFacebook()
+      .then(() => this.onSignInSuccess());
+  }
+
+  private onSignInSuccess(): void {
+    console.log("Facebook display name ",this.authServiceProvider.displayName());
   }
 
   doInfinite(infiniteScroll) {

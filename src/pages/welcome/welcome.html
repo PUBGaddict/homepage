@@ -6,13 +6,16 @@
     </button>
     <div class="item row">
       <ion-title align="left" class="col col-50">Latest News</ion-title>
-      <a align="right" class="col col-50" href="/#/impressum" style="cursor:pointer;text-decoration: none;color: #757575;padding-top:9px;padding-right:20px;">Impressum</a>
+      <ion-label align="right">{{loggedInUser}}</ion-label>
+      <!-- <a align="right" class="col col-50" href="/#/impressum" style="cursor:pointer;text-decoration: none;color: #757575;padding-top:9px;padding-right:20px;">Impressum</a> -->
     </div>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
+  <button ion-button outline (click)="signInWithFacebook()">Facebook</button>
+    
   <ion-fab bottom right>
     <button ion-fab (click)="openSubmitPage()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
