@@ -17,10 +17,16 @@ export class DefusalData {
         .map(data => {
           let jsonData = data.json(),
               deMaps = [];
-          for (let sKey in jsonData) {
-            if(jsonData.hasOwnProperty(sKey)) {
-              if (sKey.startsWith("de_")) {
-                deMaps.push({mapname : sKey});
+          for (let key in jsonData) {
+            if(jsonData.hasOwnProperty(key)) {
+              if (key.startsWith("de_")) {
+                let amount = 0;
+                for (let child in jsonData[key]) {
+                  if (jsonData[key].hasOwnProperty(child)) {
+                    amount += jsonData[key][child].value;
+                  }
+                }
+                deMaps.push({mapname : key, amount : amount});
               }
             }
           }

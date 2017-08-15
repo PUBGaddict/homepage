@@ -18,10 +18,16 @@ export class HostageData {
     .map(data => {
       let jsonData = data.json(),
           csMaps = [];
-      for (let sKey in jsonData) {
-        if(jsonData.hasOwnProperty(sKey)) {
-          if (sKey.startsWith("cs_")) {
-            csMaps.push({mapname : sKey});
+      for (let key in jsonData) {
+        if(jsonData.hasOwnProperty(key)) {
+          if (key.startsWith("cs_")) {
+            let amount = 0;
+            for (let child in jsonData[key]) {
+              if (jsonData[key].hasOwnProperty(child)) {
+                amount += jsonData[key][child].value;
+              }
+            }
+            csMaps.push({mapname : key, amount : amount});
           }
         }
       }
