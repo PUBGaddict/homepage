@@ -28,9 +28,15 @@ export class MyApp {
     });
 
     this.defusalData.getDefusalMaps().subscribe((de_maps: any[]) => {
+      if (de_maps.length === 0) {
+        de_maps.push({mapname : "coming soon :)"})
+      }
       this.de_maps = de_maps;
     });
     this.hostageData.getHostageMaps().subscribe((cs_maps: any[]) => {
+      if (cs_maps.length === 0) {
+        cs_maps.push({mapname : "coming soon :)"})
+      }
       this.cs_maps = cs_maps;
     });
   }
