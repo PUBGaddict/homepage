@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { PatchnoteData } from '../../providers/patchnote-data';
 import { SubmitPage } from '../submit/submit';
+import { LoginPage } from '../login/login';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
@@ -21,17 +22,26 @@ export class WelcomePage {
   public patchNotes = [];
   public patchNotesRepo = [];
   public userName : string = "" ;
-  public loggedInUser : string = "";
+  public currentUser : firebase.User;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public patchnoteData : PatchnoteData, public authServiceProvider : AuthServiceProvider, public afAuth: AngularFireAuth) {
     this.patchnoteData.getInitialPatchNotes().then((initialPatchNotes) => {
       this.patchNotes = initialPatchNotes;
     })
     afAuth.authState.subscribe((user: firebase.User) => {
-      this.loggedInUser = user.email;
+      this.currentUser = user;
+      this.userName = user.email;
     });
   }
 
+  logout () {
+    this.authServiceProvider.logoutUser();
+  }
+
+  login () {
+    this.navCtrl.push(LoginPage);
+  }
+/* 
   signInWithFacebook(): void {
     this.authServiceProvider.signInWithFacebook()
       .then(() => this.onSignInSuccess());
@@ -39,7 +49,7 @@ export class WelcomePage {
 
   private onSignInSuccess(): void {
     console.log("Facebook display name ",this.authServiceProvider.displayName());
-  }
+  } */
 
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
