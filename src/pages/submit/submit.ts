@@ -56,13 +56,11 @@ export class SubmitPage {
       for (let key in de_maps) {
         this.de_maps.push({ mapname : key} )
       }
-      this.de_maps;
     });
     this.mapnameData.getHostageNames().subscribe((cs_maps: any[]) => {
       for (let key in cs_maps) {
         this.cs_maps.push({ mapname : key} )
       }
-      this.cs_maps;
     });
 
     // validators
