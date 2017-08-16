@@ -192,7 +192,7 @@
     <ion-label>Select position of your Spot on the map below</ion-label>
     <map-overview #mapOverview [mapName]="" [strategyId]="" [intentionName]="" (press)="logPress($event)"></map-overview>
 
-    <button ion-button (click)="savePressed()" [disabled]="saveButtonDisabled">
+    <button class="margin-top" block ion-button (click)="savePressed()" [disabled]="saveButtonDisabled">
       Upload
     </button>
   </div>
