@@ -17,7 +17,7 @@
   <form [formGroup]="signupForm" (submit)="signupUser()" novalidate>
 
     <ion-item no-lines>
-      <ion-label stacked>Username</ion-label>
+      <ion-label required stacked>Username</ion-label>
       <ion-input formControlName="username" type="text" placeholder="Your username"
         [class.invalid]="!signupForm.controls.username.valid && signupForm.controls.username.dirty"></ion-input>
     </ion-item>
@@ -26,7 +26,7 @@
     </ion-item>
 
     <ion-item no-lines>
-      <ion-label stacked>Email</ion-label>
+      <ion-label required stacked>Email</ion-label>
       <ion-input formControlName="email" type="email" placeholder="Your email address"
         [class.invalid]="!signupForm.controls.email.valid && signupForm.controls.email.dirty"></ion-input>
     </ion-item>
@@ -35,7 +35,7 @@
     </ion-item>
 
     <ion-item no-lines>
-      <ion-label stacked>Password</ion-label>
+      <ion-label required stacked>Password</ion-label>
       <ion-input formControlName="password" type="password"  placeholder="Your password"
         [class.invalid]="!signupForm.controls.password.valid && signupForm.controls.password.dirty"></ion-input>
     </ion-item>
@@ -43,7 +43,7 @@
       <p>Your password needs more than 6 characters.</p>
     </ion-item>
 
-    <button ion-button block type="submit">
+    <button class="margin-top" ion-button block type="submit">
       Create an Account
     </button>
 

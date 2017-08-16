@@ -1,3 +1,32 @@
 page-signup {
 
+    .margin-top {
+        margin-top: 20px;
+    }
+
+    .invalid {
+        border: 1px solid #ea6153;
+    }
+    .valid {
+        border: 1px solid #32db64;
+    }
+    p {
+        font-size: 0.8em;
+        color: #d2d2d2;
+    }
+
+    ion-label[required]::after {
+        content: " *";
+        color: red;
+    }
+
+    .item-md.item-block .item-inner {
+        padding-right : 0;
+    }
+
+    ion-input, ion-textarea {
+        background-color: #f2f2f2;
+        padding: 5px 10px;
+    }
+
 }
