@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { WelcomePage } from '../welcome/welcome';
 import { EmailValidator } from '../../validators/email';
+import { UsernameValidator } from '../../validators/username';
 
 @IonicPage()
 @Component({
@@ -26,6 +27,7 @@ export class SignupPage {
     public alertCtrl: AlertController) {
 
     this.signupForm = formBuilder.group({
+      username: ['', Validators.compose([Validators.required, UsernameValidator.isValid])],
       email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
@@ -49,12 +51,10 @@ export class SignupPage {
           var errorMessage: string = error.message;
             let alert = this.alertCtrl.create({
               message: errorMessage,
-              buttons: [
-                {
+              buttons: [{
                   text: "Ok",
                   role: 'cancel'
-                }
-              ]
+                }]
             });
           alert.present();
         });
