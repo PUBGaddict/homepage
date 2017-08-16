@@ -1,4 +1,11 @@
 import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+
+import { LoginPage } from '../../pages/login/login';
+import { AngularFireAuth } from 'angularfire2/auth';
+
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import * as firebase from 'firebase/app';
 
 /**
  * Generated class for the AuthComponent component.
@@ -11,12 +18,21 @@ import { Component } from '@angular/core';
   templateUrl: 'auth.html'
 })
 export class AuthComponent {
+  public userName : string = "" ;
+  public currentUser : firebase.User;
 
-  text: string;
-
-  constructor() {
-    console.log('Hello AuthComponent Component');
-    this.text = 'Hello World';
+  constructor(public navCtrl: NavController, public authServiceProvider : AuthServiceProvider, public afAuth: AngularFireAuth) {
+    afAuth.authState.subscribe((user: firebase.User) => {
+      this.currentUser = user;
+      this.userName = user && user.email ? user.email : "";
+    });
   }
 
+  logout () {
+    this.authServiceProvider.logoutUser();
+  }
+
+  login () {
+    this.navCtrl.setRoot(LoginPage);
+  }
 }
