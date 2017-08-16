@@ -33,6 +33,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { YoutubePlayerComponent } from './youtube-player.component';
 import { MapOverviewComponent } from './map-overview.component';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { AuthComponent } from '../components/auth/auth';
 
 // Must export the config
 export const firebaseConfig = {
@@ -59,7 +60,8 @@ export const firebaseConfig = {
     ImpressumPage,
     LoginPage,
     SignupPage,
-    ResetPasswordPage
+    ResetPasswordPage,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
