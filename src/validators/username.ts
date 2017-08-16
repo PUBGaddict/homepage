@@ -11,11 +11,10 @@ export class UsernameValidator {
 
     if (value.replace(new RegExp(' ', 'g'), '').length < 3) {
 			return { "username is too short" : true };
-    }
+		}
+		
+		// check if username already existing
     
-    return {
-      "invalidEmail": true
-    };
-    
+    return null;
   }
 }
