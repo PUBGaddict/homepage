@@ -16,6 +16,7 @@ import { ReleasePage } from '../pages/release/release';
 import { ImpressumPage } from '../pages/impressum/impressum';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
+import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 
 import { MapData } from '../providers/map-data';
 import { DefusalData } from '../providers/defusal-data';
@@ -57,7 +58,8 @@ export const firebaseConfig = {
     ReleasePage,
     ImpressumPage,
     LoginPage,
-    SignupPage
+    SignupPage,
+    ResetPasswordPage
   ],
   imports: [
     BrowserModule,
@@ -72,7 +74,8 @@ export const firebaseConfig = {
        { component: ReleasePage, name: 'ReleasePage', segment: 'releaselist/:spotId' },
        { component: ImpressumPage, name: 'ImpressumPage', segment: 'impressum' },
        { component: LoginPage, name: 'LoginPage', segment: 'login' },
-       { component: SignupPage, name: 'SignupPage', segment: 'signup' }
+       { component: SignupPage, name: 'SignupPage', segment: 'signup' },
+       { component: ResetPasswordPage, name: 'ResetPasswordPage', segment: 'reset-password' }
      ]
     }),
     AngularFireModule.initializeApp(firebaseConfig),
@@ -91,7 +94,8 @@ export const firebaseConfig = {
     ReleasePage,
     ImpressumPage,
     LoginPage,
-    SignupPage
+    SignupPage,
+    ResetPasswordPage
   ],
   providers: [
     StatusBar,
