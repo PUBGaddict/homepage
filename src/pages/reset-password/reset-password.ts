@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { EmailValidator } from '../../validators/email';
 
+import { WelcomePage } from '../welcome/welcome';
+
 @IonicPage()
 @Component({
   selector: 'page-reset-password',
@@ -39,7 +41,7 @@ export class ResetPasswordPage {
               text: "Ok",
               role: 'cancel',
               handler: () => {
-                this.nav.pop();
+                this.nav.setRoot(WelcomePage);
               }
             }
           ]
