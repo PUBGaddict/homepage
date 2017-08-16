@@ -30,7 +30,7 @@ export class WelcomePage {
     })
     afAuth.authState.subscribe((user: firebase.User) => {
       this.currentUser = user;
-      this.userName = user.email;
+      this.userName = user && user.email ? user.email : "";
     });
   }
 
