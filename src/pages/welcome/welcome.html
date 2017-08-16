@@ -6,13 +6,7 @@
     </button>
     <div class="item row">
       <ion-title align="left" class="col col-50">Latest News</ion-title>
-      <div *ngIf="authServiceProvider.authenticated" align="right">
-        <ion-label style="float: left;overflow: hidden;">{{userName}}</ion-label>
-        <button style="float: left;overflow: hidden;" ion-button outline (click)="logout()">Logout</button>
-      </div>
-      <div *ngIf="!authServiceProvider.authenticated" align="right">
-        <button ion-button outline (click)="login()" >Login</button>
-      </div>
+      <auth></auth>
     </div>
   </ion-navbar>
 </ion-header>
