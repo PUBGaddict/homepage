@@ -34,6 +34,7 @@ import { YoutubePlayerComponent } from './youtube-player.component';
 import { MapOverviewComponent } from './map-overview.component';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { AuthComponent } from '../components/auth/auth';
+import { UserProvider } from '../providers/user/user';
 
 // Must export the config
 export const firebaseConfig = {
@@ -111,6 +112,7 @@ export const firebaseConfig = {
     ReleaseData,
     StatisticsData,
     MapnameData,
-    AuthServiceProvider]
+    AuthServiceProvider,
+    UserProvider]
 })
 export class AppModule {}
