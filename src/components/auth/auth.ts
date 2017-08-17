@@ -19,12 +19,10 @@ import * as firebase from 'firebase/app';
 })
 export class AuthComponent {
   public userName : string = "" ;
-  public currentUser : firebase.User;
 
   constructor(public navCtrl: NavController, public authServiceProvider : AuthServiceProvider, public afAuth: AngularFireAuth) {
     afAuth.authState.subscribe((user: firebase.User) => {
-      this.currentUser = user;
-      this.userName = user && user.email ? user.email : "";
+      this.userName = user && user.displayName ? user.displayName : "";
     });
   }
 
