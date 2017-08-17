@@ -7,6 +7,7 @@ import {
   AlertController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { UserProvider } from '../../providers/user/user';
 import { WelcomePage } from '../welcome/welcome';
 import { EmailValidator } from '../../validators/email';
 import { UsernameValidator } from '../../validators/username';
@@ -24,7 +25,8 @@ export class SignupPage {
     public authProvider: AuthServiceProvider, 
     public formBuilder: FormBuilder, 
     public loadingCtrl: LoadingController, 
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController,
+    public userProvider : UserProvider) {
 
     this.signupForm = formBuilder.group({
       username: ['', Validators.compose([Validators.required, UsernameValidator.isValid])],
@@ -44,7 +46,17 @@ export class SignupPage {
       console.log(this.signupForm.value);
     } else {
       this.authProvider.signupUser(this.signupForm.value.email, this.signupForm.value.password)
-      .then(() => {
+      .then((user) => {
+        return this.userProvider.createUser({
+          displayName : this.signupForm.value.username,
+          uid : user.uid,
+          email : user.email
+        });
+      })
+      .then((pushId) => {
+        return this.authProvider.addDisplayName(this.signupForm.value.username);
+      })
+      .then(() => {      
         this.nav.setRoot(WelcomePage);
       }, (error) => {
         this.loading.dismiss().then( () => {

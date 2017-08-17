@@ -15,8 +15,10 @@ export class AuthServiceProvider {
 
   private loggedInUser: firebase.User;
   
-  constructor(public afAuth: AngularFireAuth) {
-    afAuth.authState.subscribe((user: firebase.User) => this.loggedInUser = user);
+  constructor(private afAuth: AngularFireAuth) {
+    afAuth.authState.subscribe((user: firebase.User) => {
+      this.loggedInUser = user
+    });
   }
 
   get authenticated(): boolean {
@@ -25,6 +27,16 @@ export class AuthServiceProvider {
 
   get currentUser(): firebase.User {
     return this.loggedInUser;
+  }
+
+  addDisplayName (displayName : string) {
+    let obs = this.afAuth.authState.subscribe((user : firebase.User) => {
+      obs.unsubscribe();
+      return user.updateProfile({
+        displayName: displayName,
+        photoURL: ""
+      });
+    });
   }
 
   // email password
