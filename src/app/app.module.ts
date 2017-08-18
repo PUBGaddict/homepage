@@ -11,8 +11,6 @@ import { MapOverviewPage } from '../pages/map-overview/map-overview';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { StrategyDetailPage } from '../pages/strategy-detail/strategy-detail';
 import { SubmitPage } from '../pages/submit/submit';
-import { ReleaseListPage } from '../pages/release-list/release-list';
-import { ReleasePage } from '../pages/release/release';
 import { ImpressumPage } from '../pages/impressum/impressum';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
@@ -23,7 +21,6 @@ import { DefusalData } from '../providers/defusal-data';
 import { HostageData } from '../providers/hostage-data';
 import { SpotIdData } from '../providers/spotid-data';
 import { PatchnoteData } from '../providers/patchnote-data';
-import { ReleaseData } from '../providers/release-data';
 import { StatisticsData } from '../providers/statistics-data';
 import { MapnameData } from '../providers/mapname-data';
 
@@ -56,8 +53,6 @@ export const firebaseConfig = {
     SubmitPage,
     YoutubePlayerComponent,
     MapOverviewComponent,
-    ReleaseListPage,
-    ReleasePage,
     ImpressumPage,
     LoginPage,
     SignupPage,
@@ -73,8 +68,6 @@ export const firebaseConfig = {
        { component: MapOverviewPage, name: 'MapOverview', segment: 'maps/:mapName/:strategyId' },
        { component: StrategyDetailPage, name: 'StrategyDetail', segment: 's/:spotId' },
        { component: SubmitPage, name: 'SubmitPage', segment: 'submit' },
-       { component: ReleaseListPage, name: 'ReleaseListPage', segment: 'releaselist' },
-       { component: ReleasePage, name: 'ReleasePage', segment: 'releaselist/:spotId' },
        { component: ImpressumPage, name: 'ImpressumPage', segment: 'impressum' },
        { component: LoginPage, name: 'LoginPage', segment: 'login' },
        { component: SignupPage, name: 'SignupPage', segment: 'signup' },
@@ -93,8 +86,6 @@ export const firebaseConfig = {
     WelcomePage,
     SubmitPage,
     StrategyDetailPage,
-    ReleaseListPage,
-    ReleasePage,
     ImpressumPage,
     LoginPage,
     SignupPage,
@@ -109,7 +100,6 @@ export const firebaseConfig = {
     DefusalData,
     HostageData,
     SpotIdData,
-    ReleaseData,
     StatisticsData,
     MapnameData,
     AuthServiceProvider,
