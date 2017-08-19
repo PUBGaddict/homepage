@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
+import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
 
 /**
  * Generated class for the UserPage page.
@@ -19,7 +20,9 @@ export class UserPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public userProvider : UserProvider) {
     this.displayName = navParams.get("displayName");   
     this.userProvider.getUserSpots(this.displayName).then(spots => {
-      this.spots = spots;
+      for (var key in spots) {
+        this.spots.push(Object.assign({}, {spotId : key}, spots[key]));
+      }
     })
   }
 
@@ -27,4 +30,11 @@ export class UserPage {
     console.log('ionViewDidLoad UserPage');
   }
 
+  spotSelected (spot) {
+    this.navCtrl.push(StrategyDetailPage, {
+      mapName: spot.mapname,
+      strategy: spot.strategy,
+      spotId : spot.spotId
+    });
+  }
 }

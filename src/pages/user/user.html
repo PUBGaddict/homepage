@@ -15,6 +15,12 @@
 
 <ion-content padding>
   <ion-list no-lines>
+    <ion-list-header no-lines>
+      Created content:
+    </ion-list-header>
+    <button ion-item *ngFor="let spot of spots" (click)="spotSelected(spot)">
+      {{spot.title}}
+    </button> 
   </ion-list>
 
 </ion-content>
