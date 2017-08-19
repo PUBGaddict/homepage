@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 import { SubmitPage } from '../submit/submit';
+import { UserPage } from '../user/user';
 
 /*
   Generated class for the StrategyDetail page.
@@ -128,6 +129,12 @@ export class StrategyDetailPage {
       this.item.set({ value: this.upvotes + delta });
       this.saveVote();
     }
+  }
+
+  userPressed (spot) {
+    this.navCtrl.push(UserPage, {
+      displayName: spot.displayName
+    });
   }
 
   ionViewDidLoad() {
