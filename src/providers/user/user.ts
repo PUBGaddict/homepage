@@ -27,4 +27,25 @@ export class UserProvider {
     return this.submitUser(user).toPromise();
   }
 
+  private loadUid (displayName : string) : Promise<any>{
+   return this.http.get(`https://csgospots-1f294.firebaseio.com/displayNames/${displayName}.json`)
+    .map(data => {
+      return data.json()
+    }).toPromise(); 
+  }
+
+  private loadSpots (uid : string) : Promise<any> {
+    return this.http.get(`https://csgospots-1f294.firebaseio.com/userSpot/${uid}/spots.json`)
+    .map(data => {
+      return data.json()
+    }).toPromise(); 
+  }
+
+  getUserSpots(displayName : string) : Promise<any>{
+    return this.loadUid(displayName).then((user : any) => {
+      return this.loadSpots(user.uid);
+    }).then((spots : any) => {
+      return spots;
+    })
+  }
 }
