@@ -26,14 +26,20 @@ export class SignupPage {
     public formBuilder: FormBuilder, 
     public loadingCtrl: LoadingController, 
     public alertCtrl: AlertController,
-    public userProvider : UserProvider) {
+    public userProvider : UserProvider,
+    public usernameValidator: UsernameValidator) {
 
     this.signupForm = formBuilder.group({
-      username: ['', Validators.compose([Validators.required, UsernameValidator.isValid])],
+      username: ['', Validators.compose([Validators.required]),this.usernameValidator.isValid.bind(this.usernameValidator)],
       email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
   }
+
+  // property getter for username, email and pw
+  get username() { return this.signupForm.get('username'); }  
+  get email() { return this.signupForm.get('email'); }  
+  get password() { return this.signupForm.get('password'); }  
 
   /**
    * If the form is valid it will call the authProvider service to sign the user up password displaying a loading

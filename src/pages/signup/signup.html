@@ -22,13 +22,24 @@
         formControlName="username" 
         type="text" 
         placeholder="Your username"
-        [class.invalid]="!signupForm.controls.username.valid && signupForm.controls.username.dirty"
-        [class.valid]="signupForm.controls.username.valid">
+        [class.invalid]="!username.valid && username.dirty"
+        [class.valid]="username.valid">
       </ion-input>
     </ion-item>
-    <ion-item no-lines class="error-message" *ngIf="!signupForm.controls.username.valid  && signupForm.controls.username.dirty">
+    <ion-item no-lines class="error-message" *ngIf="!username.valid && username.dirty">
       <p>Please enter a valid username.</p>
     </ion-item>
+    <!-- <div *ngIf="!username.valid && username.dirty"
+    class="alert alert-danger">
+
+      <div *ngIf="username.errors.required">
+        Name is required.
+      </div>
+      <div *ngIf="username.errors.minlength">
+        Name must be at least 2 characters long.
+      </div>
+
+    </div> -->
 
     <ion-item no-lines>
       <ion-label required stacked>Email</ion-label>
@@ -43,6 +54,17 @@
     <ion-item no-lines class="error-message" *ngIf="!signupForm.controls.email.valid  && signupForm.controls.email.dirty">
       <p>Please enter a valid email.</p>
     </ion-item>
+    <div *ngIf="!email.valid && email.dirty"
+      class="alert alert-danger">
+
+      <div *ngIf="email.errors.required">
+        Name is required.
+      </div>
+      <div *ngIf="email.errors.minlength">
+        Name must be at least 2 characters long.
+      </div>
+
+    </div>
 
     <ion-item no-lines>
       <ion-label required stacked>Password</ion-label>

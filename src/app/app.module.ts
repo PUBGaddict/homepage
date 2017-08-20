@@ -34,6 +34,8 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { AuthComponent } from '../components/auth/auth';
 import { UserProvider } from '../providers/user/user';
 
+import { UsernameValidator } from '../validators/username';
+
 // Must export the config
 export const firebaseConfig = {
   apiKey: "AIzaSyDIaR2jO4z66WRv_cA_8bzJw3QnoIqxkvA",
@@ -107,6 +109,7 @@ export const firebaseConfig = {
     StatisticsData,
     MapnameData,
     AuthServiceProvider,
-    UserProvider]
+    UserProvider,
+    UsernameValidator]
 })
 export class AppModule {}

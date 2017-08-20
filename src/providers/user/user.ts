@@ -41,11 +41,23 @@ export class UserProvider {
     }).toPromise(); 
   }
 
+  private checkDisplayNameAlreadyExisting (displayName : string) : Promise<boolean> {
+    return this.http.get(`https://csgospots-1f294.firebaseio.com/displayNames/${displayName}`)
+    .map(data => {
+      debugger; 
+      return data.json()
+    }).toPromise(); 
+  }
+
   getUserSpots(displayName : string) : Promise<any>{
     return this.loadUid(displayName).then((user : any) => {
       return this.loadSpots(user.uid);
     }).then((spots : any) => {
       return spots;
     })
+  }
+
+  getUserAlreadyExisting(displayName : string) : Promise<boolean> {
+    return this.checkDisplayNameAlreadyExisting(displayName);
   }
 }
