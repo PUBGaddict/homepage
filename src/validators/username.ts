@@ -13,16 +13,12 @@ export class UsernameValidator {
       return Promise.resolve({ "username is empty" : true });;
     }
 
-    if (value.replace(new RegExp(' ', 'g'), '').length < 3) {
-			return Promise.resolve({ "username is too short" : true });
-		}
-
 		return this.http.get(`https://csgospots-1f294.firebaseio.com/displayNames/${value}.json`)
 			.map(data => {
 				return data.json()
 			}).toPromise().then((data) => {
 				if (data) {
-					return { "username already taken" : true };
+					return { "usernameAlreadyTaken" : true };
 				} else {
 					return null; // positive case
 				}

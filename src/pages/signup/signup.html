@@ -27,19 +27,10 @@
       </ion-input>
     </ion-item>
     <ion-item no-lines class="error-message" *ngIf="!username.valid && username.dirty">
-      <p>Please enter a valid username.</p>
+      <p *ngIf="username.errors?.required">Please enter a username.</p>
+      <p *ngIf="username.errors?.minlength">Username must be at least 2 characters long.</p>
+      <p *ngIf="username.errors?.usernameAlreadyTaken">Username already taken.</p>
     </ion-item>
-    <!-- <div *ngIf="!username.valid && username.dirty"
-    class="alert alert-danger">
-
-      <div *ngIf="username.errors.required">
-        Name is required.
-      </div>
-      <div *ngIf="username.errors.minlength">
-        Name must be at least 2 characters long.
-      </div>
-
-    </div> -->
 
     <ion-item no-lines>
       <ion-label required stacked>Email</ion-label>
@@ -52,19 +43,8 @@
       </ion-input>
     </ion-item>
     <ion-item no-lines class="error-message" *ngIf="!signupForm.controls.email.valid  && signupForm.controls.email.dirty">
-      <p>Please enter a valid email.</p>
+      <p *ngIf="email.errors?.invalidEmail">Please enter a valid email.</p>
     </ion-item>
-    <div *ngIf="!email.valid && email.dirty"
-      class="alert alert-danger">
-
-      <div *ngIf="email.errors.required">
-        Name is required.
-      </div>
-      <div *ngIf="email.errors.minlength">
-        Name must be at least 2 characters long.
-      </div>
-
-    </div>
 
     <ion-item no-lines>
       <ion-label required stacked>Password</ion-label>
