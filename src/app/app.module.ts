@@ -16,6 +16,8 @@ import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { UserPage } from '../pages/user/user';
+import { ResultPage } from '../pages/result/result';
+
 
 import { MapData } from '../providers/map-data';
 import { DefusalData } from '../providers/defusal-data';
@@ -35,6 +37,7 @@ import { AuthComponent } from '../components/auth/auth';
 import { UserProvider } from '../providers/user/user';
 
 import { UsernameValidator } from '../validators/username';
+import { SearchProvider } from '../providers/search/search';
 
 // Must export the config
 export const firebaseConfig = {
@@ -61,7 +64,8 @@ export const firebaseConfig = {
     SignupPage,
     ResetPasswordPage,
     AuthComponent,
-    UserPage
+    UserPage,
+    ResultPage
   ],
   imports: [
     BrowserModule,
@@ -78,7 +82,9 @@ export const firebaseConfig = {
        { component: LoginPage, name: 'LoginPage', segment: 'login' },
        { component: SignupPage, name: 'SignupPage', segment: 'signup' },
        { component: ResetPasswordPage, name: 'ResetPasswordPage', segment: 'reset-password' },
-       { component: UserPage, name: 'UserPage', segment: 'user/:displayName' }
+       { component: UserPage, name: 'UserPage', segment: 'user/:displayName' },
+       { component: ResultPage, name: 'ResultPage', segment: 'result' }
+
       ]
     }),
     AngularFireModule.initializeApp(firebaseConfig),
@@ -97,7 +103,8 @@ export const firebaseConfig = {
     LoginPage,
     SignupPage,
     ResetPasswordPage,
-    UserPage
+    UserPage,
+    ResultPage
   ],
   providers: [
     StatusBar,
@@ -112,6 +119,7 @@ export const firebaseConfig = {
     MapnameData,
     AuthServiceProvider,
     UserProvider,
-    UsernameValidator]
+    UsernameValidator,
+    SearchProvider]
 })
 export class AppModule {}

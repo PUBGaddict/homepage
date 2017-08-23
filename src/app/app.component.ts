@@ -10,6 +10,8 @@ import { HostageData } from '../providers/hostage-data';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { SelectPage } from '../pages/select/select';
 
+import { ResultPage } from '../pages/result/result';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -50,5 +52,15 @@ export class MyApp {
     /*this.nav.setRoot(SelectPage, {
       mapName: basicmap.mapname
     });*/
+  }
+
+  search (event) {
+    let val = event.target.value;
+
+    if (val && val.trim() != '' && val.length > 1) {
+      // if not yet displaying result page in details section, display it and switch to the other searchinput
+      this.nav.setRoot(ResultPage);
+      // request search result from service
+    }
   }
 }
