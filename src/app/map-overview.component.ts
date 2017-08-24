@@ -18,6 +18,7 @@ export class MapOverviewComponent implements AfterViewInit {
   @Input() intentionName: string = "";
   @Input() maxWidth: number = 1024;
   @Input() maxHeight: number = 1024;
+  @Input() page: string = "";
 
   @Output() spotPress: EventEmitter<any> = new EventEmitter<any>();
   @Output() press: EventEmitter<any> = new EventEmitter<any>();
@@ -58,22 +59,21 @@ export class MapOverviewComponent implements AfterViewInit {
   }
 
   calculateCurrentResolution () {
-    let height = window.innerHeight - 100,
+    let offset = this.page === 'submit' ? 300 : 400,
+        height = window.innerHeight - 100,
         width = window.innerWidth - 400;
-        console.log("height: " + height);
-        console.log("width: " + width);
-
-        if (width > height) { 
-          // more width than height --> large
-          // this means we go for the height and take it.
-          this.maxHeight = height;
-          this.maxWidth = height;
-        } else {
-          // more height than width --> thin
-          // this means we go for the width and take it 
-          this.maxHeight = width;
-          this.maxWidth = width;
-        }
+        
+    if (width > height) { 
+      // more width than height --> large
+      // this means we go for the height and take it.
+      this.maxHeight = height;
+      this.maxWidth = height;
+    } else {
+      // more height than width --> thin
+      // this means we go for the width and take it 
+      this.maxHeight = width;
+      this.maxWidth = width;
+    }
   }
 
   onResize (event) {
