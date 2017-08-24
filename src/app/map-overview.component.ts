@@ -29,6 +29,7 @@ export class MapOverviewComponent implements AfterViewInit {
   private selSpotsEnter: any;
   private selSpots: any;
   private selSmoke: any;
+  private selSvg: any;
   private selHoverSmoke: any;
   private selSpotOuter: any;
   private d3sel: any;
@@ -47,13 +48,32 @@ export class MapOverviewComponent implements AfterViewInit {
     }
     var alld3sels = this.d3.selectAll(".d3");
     this.d3sel = d3.select(alld3sels.nodes()[alld3sels.size() - 1]); //workaround to fix ionic backstack behavior
-    this.maxHeight = this.d3sel.node().parentNode.offsetHeight;
 
-    let selSvg = this.d3sel.append("svg")
+    this.calculateCurrentResolution();
+    this.selSvg = this.d3sel.append("svg")
       .attr("width", this.maxWidth)
-      .attr("height", this.maxHeight > 1024 ? this.maxHeight : 1024);
-    this.selMap = selSvg.append("g")
+      .attr("height", this.maxHeight);
+    this.selMap = this.selSvg.append("g")
       .classed("map", true);
+  }
+
+  calculateCurrentResolution () {
+    let height = window.innerHeight - 100,
+        width = window.innerWidth - 400;
+        console.log("height: " + height);
+        console.log("width: " + width);
+
+        if (width > height) { 
+          // more width than height --> large
+          // this means we go for the height and take it.
+          this.maxHeight = height;
+          this.maxWidth = height;
+        } else {
+          // more height than width --> thin
+          // this means we go for the width and take it 
+          this.maxHeight = width;
+          this.maxWidth = width;
+        }
   }
 
   onResize (event) {
@@ -216,10 +236,8 @@ export class MapOverviewComponent implements AfterViewInit {
   }
 
   public render() {
-    let newWidth = this.d3sel.node().parentNode.parentNode.offsetWidth,
-      width = newWidth > this.maxWidth ? this.maxWidth : newWidth;
-
-    this.selMap.attr("transform", "scale(" + (width - 100) / this.maxWidth + ")");
+    this.calculateCurrentResolution();
+    this.selMap.attr("transform", "scale(" + this.maxHeight / 1024 + ")");
   }
 
   highlight(enable, item) {
