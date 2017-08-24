@@ -31,19 +31,22 @@ export class ResultPage {
 
   setSearchbarValue (value) {
     this.searchBar.value = value;
+    this.search();
     setTimeout(() => {
       this.searchBar.setFocus();
     },150);
   }
 
-  search (event) {
-    let val = event.target.value;
+  search () {
+    let val = this.searchBar.value;
 
     if (val && val.trim() != '' && val.length > 1) {
       // request search result from service
       this.searchProvider.search(val).then(results => {
         this.results = results;
       })
+    } else {
+      this.results = [];
     }
   }
 

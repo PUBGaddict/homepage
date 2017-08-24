@@ -15,12 +15,12 @@
 
 <ion-content padding>
 
-    <ion-searchbar #searchBar (ionInput)="search($event)"></ion-searchbar>
+    <ion-searchbar #searchBar (ionInput)="search()"></ion-searchbar>
 
     
     <ion-list no-border>   
         <button ion-item *ngFor="let result of results" (click)="resultSelected(result)">
-            {{ result }}
+            {{ result.d }}
           </button> 
     </ion-list>
 

@@ -16,8 +16,15 @@ export class SearchProvider {
   }
 
   search(query) : Promise<any> {
-    return this.http.get('https://us-central1-csgospots-dev-5747d.cloudfunctions.net/search').map(data => {
-      return data.json()
+    return this.http.get('https://us-central1-csgospots-dev-5747d.cloudfunctions.net/search?s=' + query).map(data => {
+      let results = [];
+      let o = data.json();
+      for (var i in o) {
+        let d = o[i];
+        d.id = i;
+        results.push(d);
+      }
+      return results;
     }).toPromise();
   }
 
