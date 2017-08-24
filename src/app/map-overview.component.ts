@@ -9,7 +9,7 @@ import 'firebase/storage';
 @Component({
   selector: 'map-overview',
   template: `
-      <div class="d3"></div>
+      <div (window:resize)="onResize($event)" class="d3"></div>
     `
 })
 export class MapOverviewComponent implements AfterViewInit {
@@ -54,6 +54,10 @@ export class MapOverviewComponent implements AfterViewInit {
       .attr("height", this.maxHeight > 1024 ? this.maxHeight : 1024);
     this.selMap = selSvg.append("g")
       .classed("map", true);
+  }
+
+  onResize (event) {
+    this.render();
   }
 
   appendBackgroundImage() {
