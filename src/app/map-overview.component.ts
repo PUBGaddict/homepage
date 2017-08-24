@@ -61,8 +61,8 @@ export class MapOverviewComponent implements AfterViewInit {
   calculateCurrentResolution () {
     let offset = this.page === 'submit' ? 300 : 400,
         height = window.innerHeight - 100,
-        width = window.innerWidth - 400;
-        
+        width = window.innerWidth < offset ? window.innerWidth : window.innerWidth - offset;
+
     if (width > height) { 
       // more width than height --> large
       // this means we go for the height and take it.
