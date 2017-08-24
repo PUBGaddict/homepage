@@ -44,7 +44,6 @@ export class UserProvider {
   private checkDisplayNameAlreadyExisting (displayName : string) : Promise<boolean> {
     return this.http.get(`https://csgospots-1f294.firebaseio.com/displayNames/${displayName}`)
     .map(data => {
-      debugger; 
       return data.json()
     }).toPromise(); 
   }
