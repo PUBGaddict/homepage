@@ -19,6 +19,7 @@ import { ResultPage } from '../pages/result/result';
 export class MyApp {
   rootPage = WelcomePage;
   @ViewChild(Nav) nav: Nav;
+  @ViewChild('searchBar') searchBar: any;
 
   de_maps: any[] = [];
   cs_maps: any[] = [];
@@ -56,11 +57,11 @@ export class MyApp {
 
   search (event) {
     let val = event.target.value;
-
+    var that = this;
     if (val && val.trim() != '' && val.length > 1) {
       // if not yet displaying result page in details section, display it and switch to the other searchinput
-      this.nav.setRoot(ResultPage);
-      // request search result from service
+      this.searchBar.value = "";
+      this.nav.setRoot(ResultPage, { query: val });
     }
   }
 }

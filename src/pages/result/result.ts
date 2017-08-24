@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { SearchProvider } from '../../providers/search/search';
 
@@ -15,13 +15,25 @@ import { SearchProvider } from '../../providers/search/search';
 })
 export class ResultPage {
 
+  @ViewChild('searchBar') searchBar: any;
+
   results : Array<any> = [];
+  query : string = "";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public searchProvider : SearchProvider) {
+    this.query = navParams.get("query");
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ResultPage');
+    this.setSearchbarValue(this.query);
+  }
+
+  setSearchbarValue (value) {
+    this.searchBar.value = value;
+    setTimeout(() => {
+      this.searchBar.setFocus();
+    },150);
   }
 
   search (event) {
