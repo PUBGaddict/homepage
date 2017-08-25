@@ -2,8 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { MapData } from '../../providers/map-data';
 import { DomSanitizer } from '@angular/platform-browser';
-
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
+
 import { SubmitPage } from '../submit/submit';
 import { UserPage } from '../user/user';
 
@@ -26,7 +26,6 @@ export class StrategyDetailPage {
   private spotId: string;
   private upvotes: number;
   public color;
-  private item: FirebaseObjectObservable<any>;
      
   public safeVidUrl : any;
   private location;
@@ -41,41 +40,17 @@ export class StrategyDetailPage {
     videoId : "",
     picture_1 : "",
     picture_2 : "",
-    picture_3 : ""
+    picture_3 : "",
+    rating: 0
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer, private angularFireDatabase: AngularFireDatabase) {
-    this.angularFireDatabase = angularFireDatabase;
-    this.mapName = navParams.get("mapName");
-    this.strategy = navParams.get("strategy");
-    this.location = navParams.get("location");
+  constructor(private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer) {
     this.spotId = navParams.get("spotId");
-    let bDirectAccess = (!this.strategy || !this.mapName);
-
-    if (bDirectAccess) {
-      this.mapData.getSpot(this.spotId).subscribe(data => {
-        this.strategy = data.strategy;
-        this.mapName = data.mapName;
-
-        this.displaySpot();
-      })
-    } else {
-      this.displaySpot();
-    }
+    this.displaySpot();
   }
 
-  displaySpot() {
-    this.item = this.angularFireDatabase.object('/ratings/' + 
-            this.mapName + "/" + 
-            this.strategy  + "/" + 
-            this.spotId);
-    this.item.subscribe((snapshot) => {
-      if (snapshot.value === undefined) {
-        this.item.set({ value: 0 });
-      }
-      this.upvotes = snapshot.value;
-    })
 
+  displaySpot() { 
     this.mapData.getSpot(this.spotId).subscribe(spot => {
       this.spot = spot;
     })
@@ -126,7 +101,10 @@ export class StrategyDetailPage {
   vote(direction: boolean) {
     let delta = direction ? 1 : -1;    
     if (this.mayVote()) {
-      this.item.set({ value: this.upvotes + delta });
+      this.spot.rating += delta;
+
+      this.angularFireDatabase.object('/fspots/' + this.spotId).set({ rating: this.spot.rating });
+
       this.saveVote();
     }
   }

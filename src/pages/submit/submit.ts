@@ -50,17 +50,17 @@ export class SubmitPage {
   public hasMap : boolean = false;
   public hasStrategy : boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder) {
-   /*  this.mapnameData.getDefusalNames().subscribe((de_maps: any[]) => {
-      for (let key in de_maps) {
-        this.de_maps.push({ mapname : key} )
+  constructor(public navCtrl: NavController, public defusalData : DefusalData,  public hostageData : HostageData, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder) {
+    this.defusalData.getDefusalMaps().subscribe((de_maps: any[]) => {
+      for (let i in de_maps) {
+        this.de_maps.push({ mapname : de_maps[i].mapname} )
       }
     });
-    this.mapnameData.getHostageNames().subscribe((cs_maps: any[]) => {
-      for (let key in cs_maps) {
-        this.cs_maps.push({ mapname : key} )
+    this.hostageData.getHostageMaps().subscribe((cs_maps: any[]) => {
+      for (let i in cs_maps) {
+        this.cs_maps.push({ mapname : cs_maps[i].mapname} )
       } 
-    });*/
+    });
 
     // validators
     this.spotHeadForm = formBuilder.group({

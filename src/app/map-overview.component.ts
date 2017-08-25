@@ -23,7 +23,6 @@ export class MapOverviewComponent implements AfterViewInit {
   @Output() press: EventEmitter<any> = new EventEmitter<any>();
 
   private map: any;
-  private locations: any;
   private selBackgroundImage: any;
   private selMap: any;
   private selSpotsEnter: any;
@@ -36,6 +35,7 @@ export class MapOverviewComponent implements AfterViewInit {
   private yScale: any;
   private d3: any;
   private divTooltip: any;
+  public locations: any[];
 
   constructor(public mapData: MapData, public firebaseApp: FirebaseApp, private domCtrl : DomController) {
     this.d3 = d3;
@@ -220,7 +220,7 @@ export class MapOverviewComponent implements AfterViewInit {
 
   highlight(enable, item) {
     this.d3.selectAll("g.outerspot")
-      .filter(function (d) { return d.spotId === item.$key; })
+      .filter(function (d) { return d.spotId === item.spotId; })
       .classed("hover", enable);
   }
 
@@ -228,6 +228,7 @@ export class MapOverviewComponent implements AfterViewInit {
     if (!mapName) {
       return;
     }
+
     this.domCtrl.write(() => {
       this.mapName = mapName;
       this.createSVG();
@@ -248,6 +249,17 @@ export class MapOverviewComponent implements AfterViewInit {
           resolve();
         }
       });
+    });
+  }
+
+  getLocations() {
+    return new Promise((res,rej) => {
+      let interval = setInterval(() => {
+        if (!!this.locations) {
+          clearInterval(interval);
+          res(this.locations);
+        }
+      }, 150);      
     });
   }
 

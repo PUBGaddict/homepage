@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { SearchProvider } from '../../providers/search/search';
+import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
 
 /**
  * Generated class for the ResultPage page.
@@ -48,6 +49,14 @@ export class ResultPage {
     } else {
       this.results = [];
     }
+  }
+
+  resultSelected (result) {
+    this.navCtrl.push(StrategyDetailPage, {
+      mapName: result.mapName,
+      strategy: result.strategy,
+      spotId : result.id
+    });
   }
 
 }
