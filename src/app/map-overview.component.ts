@@ -60,8 +60,14 @@ export class MapOverviewComponent implements AfterViewInit {
 
   calculateCurrentResolution () {
     let offset = this.page === 'submit' ? 300 : 400,
-        height = window.innerHeight - 100,
-        width = window.innerWidth < offset ? window.innerWidth : window.innerWidth - offset;
+      bIsSmartphone = window.innerWidth < 768,
+      height = window.innerHeight - 100,
+      width = window.innerWidth < offset ? window.innerWidth : window.innerWidth - offset;
+
+    if (bIsSmartphone) {
+      height *= 5;
+      width *= 5;
+    }
 
     if (width > height) { 
       // more width than height --> large
@@ -77,7 +83,9 @@ export class MapOverviewComponent implements AfterViewInit {
   }
 
   onResize (event) {
-    this.render();
+    this.domCtrl.write(() => {
+      this.render();
+    });
   }
 
   appendBackgroundImage() {
