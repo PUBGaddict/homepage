@@ -9,7 +9,7 @@ export class StatisticsData {
   constructor(public http: Http) { }
 
   private loadStatistics(mapName) : Observable<Response> {
-    return this.http.get('https://csgospots-1f294.firebaseio.com/statistics/' + mapName + '.json')
+    return this.http.get('https://csgospots-dev-5747d.firebaseio.com/menu/' + mapName + '.json')
         .map(data => {return data.json()})
   }
 

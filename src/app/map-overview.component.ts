@@ -188,7 +188,7 @@ export class MapOverviewComponent implements AfterViewInit {
 
     let pageX = this.d3.event.pageX,
       pageY = this.d3.event.pageY;
-    this.mapData.getSpot(this.mapName, this.strategyId, d.spotId).subscribe(data => {
+    this.mapData.getSpot(d.spotId).subscribe(data => {
       let sText = data.title;
       this.divTooltip.transition()
         .duration(200)
@@ -237,7 +237,7 @@ export class MapOverviewComponent implements AfterViewInit {
       
       return new Promise((resolve, reject) => {
         if (drawSpots) {
-          this.mapData.getLocations(this.mapName, this.strategyId).subscribe(locations => {
+          this.mapData.getSpots(this.mapName, this.strategyId).subscribe(locations => {
             this.locations = locations;
   
             this.appendDataSpots(this.locations);

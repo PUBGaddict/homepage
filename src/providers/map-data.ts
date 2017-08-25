@@ -14,11 +14,11 @@ export class MapData {
 
   constructor(public http: Http) { }
 
-  private loadSpot(mapName : string, strategy : string, spotId : string): Observable<any> {
+  private loadSpot(spotId : string): Observable<any> {
     if (this.spotCache[spotId]) {
       return Observable.of(this.spotCache[spotId]);
     } else {
-      return this.http.get('https://csgospots-1f294.firebaseio.com/fspots/'
+      return this.http.get('https://csgospots-dev-5747d.firebaseio.com/fspots/'
          + spotId + '.json')
         .map((data) => {
           let spot = data.json();
@@ -28,26 +28,12 @@ export class MapData {
     }
   }
 
-  public getSpot(mapName : string, strategy : string, spotId : string) {
-    return this.loadSpot(mapName, strategy, spotId);
-  }
-
-
-  // OBSOLETE?
-  private loadSpotInformation(spotId : string): Observable<any> {
-    return this.http.get('https://csgospots-1f294.firebaseio.com/fspots/'
-        + spotId + '.json')
-      .map((data) => {
-        return data.json();
-      });
-  }
-
-  public getSpotInformation(spotId : string) {
-    return this.loadSpotInformation(spotId);
+  public getSpot(spotId : string) {
+    return this.loadSpot(spotId);
   }
 
   private loadSpots(mapName : string, strategy : string): Observable<any> {
-    return this.http.get('https://csgospots-1f294.firebaseio.com/spots.json?orderBy="path"&equalTo="'
+    return this.http.get('https://csgospots-dev-5747d.firebaseio.com/fspots.json?orderBy="path"&equalTo="'
         + mapName + '/' + strategy + '"')
       .map((data) => {
         return data.json();
@@ -56,19 +42,5 @@ export class MapData {
 
   public getSpots(mapName : string, strategy : string) {
     return this.loadSpots(mapName, strategy);
-  }
-
-
-  // USE MENU STRUCTURE ENTITY
-  private loadLocations(mapName : string, strategy : string): Observable<any> {
-    return this.http.get('https://csgospots-1f294.firebaseio.com/locations/'
-        + mapName + '/' + strategy + '.json')
-      .map((data) => {
-        return data.json();
-      });
-  }
-
-  public getLocations(mapName : string, strategy : string) {
-    return this.loadLocations(mapName, strategy);
   }
 }

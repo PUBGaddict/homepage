@@ -14,7 +14,7 @@ export class HostageData {
   constructor(public http: Http) { }
 
   private loadHostageMaps(): any {
-    return this.http.get('https://csgospots-1f294.firebaseio.com/statistics.json')
+    return this.http.get('https://csgospots-dev-5747d.firebaseio.com/menu.json')
     .map(data => {
       let jsonData = data.json(),
           csMaps = [];
@@ -22,10 +22,8 @@ export class HostageData {
         if(jsonData.hasOwnProperty(key)) {
           if (key.startsWith("cs_")) {
             let amount = 0;
-            for (let child in jsonData[key]) {
-              if (jsonData[key].hasOwnProperty(child)) {
-                amount += jsonData[key][child].value;
-              }
+            for (let child in jsonData[key]) {                  
+                amount += jsonData[key][child];                  
             }
             csMaps.push({mapname : key, amount : amount});
           }

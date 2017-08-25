@@ -13,7 +13,7 @@ export class UsernameValidator {
       return Promise.resolve({ "username is empty" : true });;
     }
 
-		return this.http.get(`https://csgospots-1f294.firebaseio.com/displayNames/${value}.json`)
+		return this.http.get(`https://csgospots-dev-5747d.firebaseio.com/displayNames/${value}.json`)
 			.map(data => {
 				return data.json()
 			}).toPromise().then((data) => {

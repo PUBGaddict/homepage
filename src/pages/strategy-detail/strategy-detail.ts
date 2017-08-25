@@ -53,7 +53,7 @@ export class StrategyDetailPage {
     let bDirectAccess = (!this.strategy || !this.mapName);
 
     if (bDirectAccess) {
-      this.mapData.getSpotInformation(this.spotId).subscribe(data => {
+      this.mapData.getSpot(this.spotId).subscribe(data => {
         this.strategy = data.strategy;
         this.mapName = data.mapName;
 
@@ -76,7 +76,7 @@ export class StrategyDetailPage {
       this.upvotes = snapshot.value;
     })
 
-    this.mapData.getSpot(this.mapName, this.strategy, this.spotId).subscribe(spot => {
+    this.mapData.getSpot(this.spotId).subscribe(spot => {
       this.spot = spot;
     })
   }
