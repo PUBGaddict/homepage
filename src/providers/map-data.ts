@@ -18,8 +18,8 @@ export class MapData {
     if (this.spotCache[spotId]) {
       return Observable.of(this.spotCache[spotId]);
     } else {
-      return this.http.get('https://csgospots-1f294.firebaseio.com/spots/'
-         + mapName + '/' + strategy + '/' + spotId + '.json')
+      return this.http.get('https://csgospots-1f294.firebaseio.com/fspots/'
+         + spotId + '.json')
         .map((data) => {
           let spot = data.json();
           this.spotCache[spotId] = spot;
@@ -32,8 +32,10 @@ export class MapData {
     return this.loadSpot(mapName, strategy, spotId);
   }
 
+
+  // OBSOLETE?
   private loadSpotInformation(spotId : string): Observable<any> {
-    return this.http.get('https://csgospots-1f294.firebaseio.com/spotids/'
+    return this.http.get('https://csgospots-1f294.firebaseio.com/fspots/'
         + spotId + '.json')
       .map((data) => {
         return data.json();
@@ -45,8 +47,8 @@ export class MapData {
   }
 
   private loadSpots(mapName : string, strategy : string): Observable<any> {
-    return this.http.get('https://csgospots-1f294.firebaseio.com/spots/'
-        + mapName + '/' + strategy + '.json')
+    return this.http.get('https://csgospots-1f294.firebaseio.com/spots.json?orderBy="path"&equalTo="'
+        + mapName + '/' + strategy + '"')
       .map((data) => {
         return data.json();
       });
@@ -56,6 +58,8 @@ export class MapData {
     return this.loadSpots(mapName, strategy);
   }
 
+
+  // USE MENU STRUCTURE ENTITY
   private loadLocations(mapName : string, strategy : string): Observable<any> {
     return this.http.get('https://csgospots-1f294.firebaseio.com/locations/'
         + mapName + '/' + strategy + '.json')
