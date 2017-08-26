@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Http } from '@angular/http';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { MapData } from '../../providers/map-data';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
@@ -42,13 +43,12 @@ export class StrategyDetailPage {
 
   public afRatingRef: FirebaseObjectObservable<any>;
 
-  constructor(private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer) {
+  constructor(public http: Http, public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer) {
     this.angularFireDatabase = angularFireDatabase;
     this.spotId = navParams.get("spotId");
     this.afRatingRef = this.angularFireDatabase.object('/fspots/' + this.spotId + '/rating');
     this.displaySpot();
   }
-
 
   displaySpot() {     
     this.afRatingRef.subscribe();
@@ -56,6 +56,22 @@ export class StrategyDetailPage {
       this.spot = spot;
     });
   }
+
+  acceptSpot(spotId) {
+    this.http.get('https://us-central1-csgospots-dev-5747d.cloudfunctions.net/publish?id=' + spotId).map(data => {
+
+      // todo: make response readable
+      this.presentToast(data);
+    }).subscribe();
+ }
+
+ presentToast(message) {
+  let toast = this.toastCtrl.create({
+    message: message,
+    duration: 7000
+  });
+  toast.present();
+}
 
   isUnpublished () {
     return !this.spot.published;

@@ -18,7 +18,7 @@
   <ion-fab bottom right>
     <button *ngIf="!isUnpublished()" ion-fab (click)="openSubmitPage()"><ion-icon name="add"></ion-icon></button>
     <button *ngIf="isUnpublished()" ion-fab (click)="rejectSpot()"><ion-icon name="close"></ion-icon></button>
-    <button *ngIf="isUnpublished()" ion-fab (click)="acceptSpot()"><ion-icon name="checkmark"></ion-icon></button>
+    <button *ngIf="isUnpublished()" ion-fab (click)="acceptSpot(spot.id)"><ion-icon name="checkmark"></ion-icon></button>
   </ion-fab>
   <ion-list no-lines>
     <ion-label color="primary">Created By</ion-label>

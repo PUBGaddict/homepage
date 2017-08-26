@@ -181,13 +181,13 @@ export class MapOverviewComponent {
   }
 
   displayTooltip(d) {
-    if (!this.mapName || !this.strategyId || !d.spotId) {
+    if (!this.mapName || !this.strategyId || !d.id) {
       return;
     }
 
     let pageX = this.d3.event.pageX,
       pageY = this.d3.event.pageY;
-    this.mapData.getSpot(d.spotId).subscribe(data => {
+    this.mapData.getSpot(d.id).subscribe(data => {
       let sText = data.title;
       this.divTooltip.transition()
         .duration(200)
