@@ -10,19 +10,21 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class MapData {
   private mapCache: any = {};
-  private spotCache: any = {};
+  private spotCacheSingle: any = {};
+  private spotCacheQuery: any = {};
 
   constructor(public http: Http) { }
 
   private loadSpot(spotId : string): Observable<any> {
-    if (this.spotCache[spotId]) {
-      return Observable.of(this.spotCache[spotId]);
+    if (spotId in this.spotCacheSingle) {
+      console.log("loading single from cache");
+      return Observable.of(this.spotCacheSingle[spotId]);
     } else {
       return this.http.get('https://csgospots-dev-5747d.firebaseio.com/fspots/'
          + spotId + '.json')
         .map((data) => {
           let spot = data.json();
-          this.spotCache[spotId] = spot;
+          this.spotCacheSingle[spotId] = spot;
           return spot || { };
         });
     }
@@ -33,11 +35,19 @@ export class MapData {
   }
 
   private loadSpots(path: string): Observable<any> {
-    return this.http.get('https://csgospots-dev-5747d.firebaseio.com/fspots.json?orderBy="path"&equalTo="'
-        + path + '"')
-      .map((data) => {
-        return data.json();
-      });
+    if (path in this.spotCacheQuery) {
+      console.log("loading query from cache");
+      return Observable.of(this.spotCacheQuery[path]);
+    } else {
+      return this.http.get('https://csgospots-dev-5747d.firebaseio.com/fspots.json?orderBy="path"&equalTo="'
+          + path + '"')
+        .map((data) => {
+          let spots = data.json();
+          this.spotCacheQuery[path] = spots;
+          Object.assign(this.spotCacheSingle, spots);
+          return spots;
+        });
+    }
   }
 
   public getSpots(mapName : string, strategy : string) {
