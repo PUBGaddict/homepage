@@ -10,61 +10,51 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class MapData {
   private mapCache: any = {};
-  private spotCache: any = {};
+  private spotCacheSingle: any = {};
+  private spotCacheQuery: any = {};
 
   constructor(public http: Http) { }
 
-  private loadSpot(mapName : string, strategy : string, spotId : string): Observable<any> {
-    if (this.spotCache[spotId]) {
-      return Observable.of(this.spotCache[spotId]);
+  private loadSpot(spotId : string): Observable<any> {
+    if (spotId in this.spotCacheSingle) {
+      console.log("loading single from cache");
+      return Observable.of(this.spotCacheSingle[spotId]);
     } else {
-      return this.http.get('https://csgospots-1f294.firebaseio.com/spots/'
-         + mapName + '/' + strategy + '/' + spotId + '.json')
+      return this.http.get('https://csgospots-1f294.firebaseio.com/fspots/'
+         + spotId + '.json')
         .map((data) => {
           let spot = data.json();
-          this.spotCache[spotId] = spot;
+          this.spotCacheSingle[spotId] = spot;
           return spot || { };
         });
     }
   }
 
-  public getSpot(mapName : string, strategy : string, spotId : string) {
-    return this.loadSpot(mapName, strategy, spotId);
+  public getSpot(spotId : string) {
+    return this.loadSpot(spotId);
   }
 
-  private loadSpotInformation(spotId : string): Observable<any> {
-    return this.http.get('https://csgospots-1f294.firebaseio.com/spotids/'
-        + spotId + '.json')
-      .map((data) => {
-        return data.json();
-      });
-  }
-
-  public getSpotInformation(spotId : string) {
-    return this.loadSpotInformation(spotId);
-  }
-
-  private loadSpots(mapName : string, strategy : string): Observable<any> {
-    return this.http.get('https://csgospots-1f294.firebaseio.com/spots/'
-        + mapName + '/' + strategy + '.json')
-      .map((data) => {
-        return data.json();
-      });
+  private loadSpots(path: string): Observable<any> {
+    if (path in this.spotCacheQuery) {
+      console.log("loading query from cache");
+      return Observable.of(this.spotCacheQuery[path]);
+    } else {
+      return this.http.get('https://csgospots-1f294.firebaseio.com/fspots.json?orderBy="path"&equalTo="'
+          + path + '"')
+        .map((data) => {
+          let spots = data.json();
+          this.spotCacheQuery[path] = spots;
+          Object.assign(this.spotCacheSingle, spots);
+          return spots;
+        });
+    }
   }
 
   public getSpots(mapName : string, strategy : string) {
-    return this.loadSpots(mapName, strategy);
+    return this.loadSpots(mapName + '/' + strategy);
   }
 
-  private loadLocations(mapName : string, strategy : string): Observable<any> {
-    return this.http.get('https://csgospots-1f294.firebaseio.com/locations/'
-        + mapName + '/' + strategy + '.json')
-      .map((data) => {
-        return data.json();
-      });
-  }
-
-  public getLocations(mapName : string, strategy : string) {
-    return this.loadLocations(mapName, strategy);
+  public getUnpublishedSpots() {
+    return this.loadSpots("unpublished");
   }
 }

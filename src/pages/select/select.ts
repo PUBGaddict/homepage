@@ -26,37 +26,12 @@ export class SelectPage {
     eco: [],
     teamtactics: []
   };
-  public mapStatistics = {
-    spot : {
-      value : 0 
-    },
-    awp : {
-      value : 0
-    },
-    smoke : {
-      value : 0 
-    },
-    brand : {
-      value : 0
-    },
-    flash : {
-      value : 0 
-    },
-    decoy : {
-      value : 0
-    },
-    eco : {
-      value : 0 
-    },
-    teamtactics : {
-      value : 0 
-    }
-  }
+  public mapStatistics = {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, public statisticsData : StatisticsData) {
     this.mapName = navParams.get("mapName");
     this.statisticsData.getStatistics(this.mapName).subscribe(statistics => {
-      this.mapStatistics = Object.assign(this.mapStatistics, statistics);
+      this.mapStatistics = statistics;
     });
   }
 
@@ -79,8 +54,8 @@ export class SelectPage {
   }
 
   getRowVisibility(strategyName) {
-    if (this.mapStatistics[strategyName]) {
-      return !!this.mapStatistics[strategyName].value;
+    if (strategyName in this.mapStatistics) {
+      return this.mapStatistics[strategyName] > 0;
     } else {
       return false;
     }

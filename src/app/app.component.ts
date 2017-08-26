@@ -10,6 +10,8 @@ import { HostageData } from '../providers/hostage-data';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { SelectPage } from '../pages/select/select';
 
+import { ResultPage } from '../pages/result/result';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -17,6 +19,7 @@ import { SelectPage } from '../pages/select/select';
 export class MyApp {
   rootPage = WelcomePage;
   @ViewChild(Nav) nav: Nav;
+  @ViewChild('searchBar') searchBar: any;
 
   de_maps: any[] = [];
   cs_maps: any[] = [];
@@ -50,5 +53,15 @@ export class MyApp {
     /*this.nav.setRoot(SelectPage, {
       mapName: basicmap.mapname
     });*/
+  }
+
+  search (event) {
+    let val = event.target.value;
+    var that = this;
+    if (val && val.trim() != '' && val.length > 1) {
+      // if not yet displaying result page in details section, display it and switch to the other searchinput
+      this.searchBar.value = "";
+      this.nav.setRoot(ResultPage, { query: val });
+    }
   }
 }

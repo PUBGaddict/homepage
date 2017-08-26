@@ -11,8 +11,14 @@
 </ion-header>
 
 <ion-content padding #container>
+  <div>
+      <map-overview #mapOverview *ngIf="isUnpublished()" [mapName]="spot.mapName" [strategyId]="spot.strategy" [spotId]="spot.id"></map-overview>      
+  </div>
+
   <ion-fab bottom right>
-    <button ion-fab (click)="openSubmitPage()"><ion-icon name="add"></ion-icon></button>
+    <button *ngIf="!isUnpublished()" ion-fab (click)="openSubmitPage()"><ion-icon name="add"></ion-icon></button>
+    <button *ngIf="isUnpublished()" ion-fab (click)="rejectSpot()"><ion-icon name="close"></ion-icon></button>
+    <button *ngIf="isUnpublished()" ion-fab (click)="acceptSpot(spot.id)"><ion-icon name="checkmark"></ion-icon></button>
   </ion-fab>
   <ion-list no-lines>
     <ion-label color="primary">Created By</ion-label>
@@ -20,7 +26,7 @@
     <ion-label color="primary">Useful?</ion-label>
     <div>
       <div class="floatLeft">
-        <h4>{{ (item | async)?.value }}</h4>
+        <h4>{{ (afRatingRef | async)?.$value }}</h4>
       </div>
       <div class="paddingLeft">
         <button ion-button [color]="'secondary'" icon-only (click)="vote(true)">

@@ -3,7 +3,6 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
 import { SubmitPage } from '../submit/submit'
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { MapData } from '../../providers/map-data';
 import { MapOverviewComponent } from '../../app/map-overview.component';
 
@@ -25,31 +24,17 @@ export class MapOverviewPage {
   public strategyId: string;
   public intentionName: any;
   public mapName: string;
-  public votings: FirebaseListObservable<any[]>;
+  public votings: any[];
 
-  public strategy = {
-    id: "",
-    name : "",
-    spots: []
-  };
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, private angularfire: AngularFireDatabase, public mapData: MapData) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
 
     this.mapName = navParams.get("mapName");
     this.strategyId = navParams.get("strategyId");
-    this.loadToplist();
-  }
-
-  ionViewWillEnter () {
-    this.loadToplist();
   }
 
   openPage (location) {
     this.navCtrl.push(StrategyDetailPage, {
-      mapName: this.mapName,
-      strategy: this.strategyId,
-      spotId : location.spotId ? location.spotId : location.$key,
-      location // its location.spotId when clicking on the d3-svg on the map, and location.$key when coming from the toplist 
+      spotId : location.id
     });
   }
 
@@ -58,14 +43,21 @@ export class MapOverviewPage {
   }
 
   loadToplist () {
-    this.votings = this.angularfire.list('/ratings/' + 
-            this.mapName + "/" + 
-            this.strategyId  + "/", {
-              query: { 
-              orderByChild: 'value',
-              limitToLast: 8
-            } 
-    }).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
+    this.mapOverview.getLocations().then(spots => {
+      let votings = [];
+
+      for (var k in spots) {
+        votings.push({
+          id: k,
+          value: spots[k].rating
+        });
+      }
+      
+      votings.sort( (a,b) => {
+        return a.value > b.value ? 1 : -1;
+      });
+      this.votings = votings;
+    });
   }
 
   onMouseEnterCard (item) {
@@ -86,6 +78,9 @@ export class MapOverviewPage {
     ga('send', 'event', "page", "visit", "map-overview");
     ga('send', 'event', "strategy", "selected", this.strategyId);
     ga('send', 'event', "intention", "selected", this.intentionName);
+
+    
+      this.loadToplist();
   }
 
 }

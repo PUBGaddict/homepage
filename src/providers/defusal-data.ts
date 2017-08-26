@@ -13,7 +13,7 @@ export class DefusalData {
   constructor(public http: Http) { }
 
   private loadDefusalMaps(): any {
-      return this.http.get('https://csgospots-1f294.firebaseio.com/statistics.json')
+      return this.http.get('https://csgospots-1f294.firebaseio.com/menu.json')
         .map(data => {
           let jsonData = data.json(),
               deMaps = [];
@@ -21,10 +21,8 @@ export class DefusalData {
             if(jsonData.hasOwnProperty(key)) {
               if (key.startsWith("de_")) {
                 let amount = 0;
-                for (let child in jsonData[key]) {
-                  if (jsonData[key].hasOwnProperty(child)) {
-                    amount += jsonData[key][child].value;
-                  }
+                for (let child in jsonData[key]) {                  
+                    amount += jsonData[key][child];                  
                 }
                 deMaps.push({mapname : key, amount : amount});
               }

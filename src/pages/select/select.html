@@ -21,12 +21,12 @@
         Spots
       </ion-title>
       <ion-row align-items-stretch  *ngIf="getRowVisibility('spot')">
-        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.spot?.value === 0">
+        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.spot === 0">
           <ion-card class="card" (click)="openMapOverview('spot')">
             <div class="card-content">
               <img class="picture" src="/assets/img/de_dust2/smoke_a.png"/>
               <div class="card-title">Spots</div>
-              <div class="card-subtitle">{{mapStatistics.spot.value}} Listings</div>
+              <div class="card-subtitle">{{mapStatistics.spot}} Listings</div>
             </div>
           </ion-card>
         </ion-col>
@@ -37,12 +37,12 @@
         AWP Spots
       </ion-title>
       <ion-row align-items-stretch *ngIf="getRowVisibility('awp')">
-        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.awp?.value === 0">
+        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.awp === 0">
           <ion-card class="card" (click)="openMapOverview('awp')">
             <div class="card-content">
               <img class="picture" src="/assets/img/de_dust2/ct_awp_spot.png" />
               <div class="card-title">awp</div>
-              <div class="card-subtitle">{{mapStatistics.awp.value}} Listings</div>
+              <div class="card-subtitle">{{mapStatistics.awp}} Listings</div>
             </div>
           </ion-card>
         </ion-col>
@@ -53,12 +53,12 @@
         Smokes
       </ion-title>
       <ion-row align-items-stretch *ngIf="getRowVisibility('smoke')">
-        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.smoke?.value === 0">
+        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.smoke === 0">
           <ion-card class="card" (click)="openMapOverview('smoke')">
             <div class="card-content">
               <img class="picture" src="/assets/img/de_dust2/smoke_a.png" />
               <div class="card-title">Smoke</div>
-              <div class="card-subtitle">{{mapStatistics.smoke.value}} Listings</div>
+              <div class="card-subtitle">{{mapStatistics.smoke}} Listings</div>
             </div>
           </ion-card>
         </ion-col>
@@ -69,12 +69,12 @@
         Brands
       </ion-title>
       <ion-row align-items-stretch *ngIf="getRowVisibility('brand')">
-        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.brand?.value === 0">
+        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.brand === 0">
           <ion-card class="card" (click)="openMapOverview('brand')">
             <div class="card-content">
               <img class="picture" src="/assets/img/csgo_brand.png" />
               <div class="card-title">brand</div>
-              <div class="card-subtitle">{{mapStatistics.brand.value}} Listings</div>
+              <div class="card-subtitle">{{mapStatistics.brand}} Listings</div>
             </div>
           </ion-card>
         </ion-col>
@@ -85,12 +85,12 @@
         Decoys
       </ion-title>
       <ion-row align-items-stretch *ngIf="getRowVisibility('decoy')">
-        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.decoy?.value === 0">
+        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.decoy === 0">
           <ion-card class="card" (click)="openMapOverview('decoy')">
             <div class="card-content">
               <img class="picture" src="/assets/img/de_dust2/smoke_a.png" />
               <div class="card-title">Decoy</div>
-              <div class="card-subtitle">{{mapStatistics.decoy.value}} Listings</div>
+              <div class="card-subtitle">{{mapStatistics.decoy}} Listings</div>
             </div>
           </ion-card>
         </ion-col>

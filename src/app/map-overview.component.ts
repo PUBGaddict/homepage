@@ -12,7 +12,8 @@ import 'firebase/storage';
       <div (window:resize)="onResize($event)" class="d3"></div>
     `
 })
-export class MapOverviewComponent implements AfterViewInit {
+export class MapOverviewComponent {
+  @Input() spotId: string = "";
   @Input() mapName: string = "";
   @Input() strategyId: string = "";
   @Input() intentionName: string = "";
@@ -24,7 +25,6 @@ export class MapOverviewComponent implements AfterViewInit {
   @Output() press: EventEmitter<any> = new EventEmitter<any>();
 
   private map: any;
-  private locations: any;
   private selBackgroundImage: any;
   private selMap: any;
   private selSpotsEnter: any;
@@ -38,6 +38,7 @@ export class MapOverviewComponent implements AfterViewInit {
   private yScale: any;
   private d3: any;
   private divTooltip: any;
+  public locations: any[];
 
   constructor(public mapData: MapData, public firebaseApp: FirebaseApp, private domCtrl : DomController) {
     this.d3 = d3;
@@ -125,9 +126,7 @@ export class MapOverviewComponent implements AfterViewInit {
     }
 
     var that = this,
-      aLocations = Object.keys(locations).map((k) => {
-        return Object.assign(locations[k], { spotId: k });
-      });
+      aLocations = Object.keys(locations).map(key=>locations[key]);
 
     if (this.selSpotsEnter) {
       this.selSpotsEnter.remove();
@@ -214,13 +213,13 @@ export class MapOverviewComponent implements AfterViewInit {
   }
 
   displayTooltip(d) {
-    if (!this.mapName || !this.strategyId || !d.spotId) {
+    if (!this.mapName || !this.strategyId || !d.id) {
       return;
     }
 
     let pageX = this.d3.event.pageX,
       pageY = this.d3.event.pageY;
-    this.mapData.getSpot(this.mapName, this.strategyId, d.spotId).subscribe(data => {
+    this.mapData.getSpot(d.id).subscribe(data => {
       let sText = data.title;
       this.divTooltip.transition()
         .duration(200)
@@ -250,7 +249,7 @@ export class MapOverviewComponent implements AfterViewInit {
 
   highlight(enable, item) {
     this.d3.selectAll("g.outerspot")
-      .filter(function (d) { return d.spotId === item.$key; })
+      .filter(function (d) { return d.id === item.id; })
       .classed("hover", enable);
   }
 
@@ -258,6 +257,7 @@ export class MapOverviewComponent implements AfterViewInit {
     if (!mapName) {
       return;
     }
+
     this.domCtrl.write(() => {
       this.mapName = mapName;
       this.createSVG();
@@ -267,13 +267,23 @@ export class MapOverviewComponent implements AfterViewInit {
       
       return new Promise((resolve, reject) => {
         if (drawSpots) {
-          this.mapData.getLocations(this.mapName, this.strategyId).subscribe(locations => {
-            this.locations = locations;
-  
-            this.appendDataSpots(this.locations);
-            this.render();
-            resolve();
-          })
+          if (this.spotId) {
+            this.mapData.getSpot(this.spotId).subscribe(spot => {
+              this.locations = [spot];
+    
+              this.appendDataSpots(this.locations);
+              this.render();
+              resolve();
+            });
+          } else {            
+            this.mapData.getSpots(this.mapName, this.strategyId).subscribe(locations => {
+              this.locations = locations;
+    
+              this.appendDataSpots(this.locations);
+              this.render();
+              resolve();
+            });
+          }
         } else {
           resolve();
         }
@@ -281,7 +291,18 @@ export class MapOverviewComponent implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  getLocations() {
+    return new Promise((res,rej) => {
+      let interval = setInterval(() => {
+        if (!!this.locations) {
+          clearInterval(interval);
+          res(this.locations);
+        }
+      }, 150);      
+    });
+  }
+
+  ngOnChanges() {
     this.displayMap(this.mapName, true);
   }
 }
