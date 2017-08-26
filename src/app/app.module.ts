@@ -17,6 +17,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { UserPage } from '../pages/user/user';
 import { ResultPage } from '../pages/result/result';
+import { UnpublishedPage } from '../pages/unpublished/unpublished';
 
 
 import { MapData } from '../providers/map-data';
@@ -64,7 +65,8 @@ export const firebaseConfig = {
     ResetPasswordPage,
     AuthComponent,
     UserPage,
-    ResultPage
+    ResultPage,
+    UnpublishedPage
   ],
   imports: [
     BrowserModule,
@@ -82,7 +84,8 @@ export const firebaseConfig = {
        { component: SignupPage, name: 'SignupPage', segment: 'signup' },
        { component: ResetPasswordPage, name: 'ResetPasswordPage', segment: 'reset-password' },
        { component: UserPage, name: 'UserPage', segment: 'user/:displayName' },
-       { component: ResultPage, name: 'ResultPage', segment: 'result' }
+       { component: ResultPage, name: 'ResultPage', segment: 'result' },
+       { component: UnpublishedPage, name: 'UnpublishedPage', segment: 'unpublished' }
 
       ]
     }),
@@ -103,7 +106,8 @@ export const firebaseConfig = {
     SignupPage,
     ResetPasswordPage,
     UserPage,
-    ResultPage
+    ResultPage,
+    UnpublishedPage
   ],
   providers: [
     StatusBar,

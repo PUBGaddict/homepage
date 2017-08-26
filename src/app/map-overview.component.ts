@@ -93,9 +93,7 @@ export class MapOverviewComponent implements AfterViewInit {
     }
 
     var that = this,
-      aLocations = Object.keys(locations).map((k) => {
-        return Object.assign(locations[k], { spotId: k });
-      });
+      aLocations = Object.keys(locations).map(key=>locations[key]);
 
     if (this.selSpotsEnter) {
       this.selSpotsEnter.remove();
@@ -220,7 +218,7 @@ export class MapOverviewComponent implements AfterViewInit {
 
   highlight(enable, item) {
     this.d3.selectAll("g.outerspot")
-      .filter(function (d) { return d.spotId === item.spotId; })
+      .filter(function (d) { return d.id === item.spotId; })
       .classed("hover", enable);
   }
 

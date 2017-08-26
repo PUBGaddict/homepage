@@ -32,15 +32,19 @@ export class MapData {
     return this.loadSpot(spotId);
   }
 
-  private loadSpots(mapName : string, strategy : string): Observable<any> {
+  private loadSpots(path: string): Observable<any> {
     return this.http.get('https://csgospots-dev-5747d.firebaseio.com/fspots.json?orderBy="path"&equalTo="'
-        + mapName + '/' + strategy + '"')
+        + path + '"')
       .map((data) => {
         return data.json();
       });
   }
 
   public getSpots(mapName : string, strategy : string) {
-    return this.loadSpots(mapName, strategy);
+    return this.loadSpots(mapName + '/' + strategy);
+  }
+
+  public getUnpublishedSpots() {
+    return this.loadSpots("unpublished");
   }
 }
