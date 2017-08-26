@@ -23,9 +23,10 @@
 
 
 <ion-content padding>
-  <ion-list no-border>   
+  <ion-list no-border>  
     <button ion-item *ngFor="let spot of spots" (click)="spotSelected(spot)">
-        {{ spot.title }} {{ spot.mapName }} {{ spot.strategy }}
+        {{ spot.id }} {{ spot.title }} {{ spot.mapName }} {{ spot.strategy }}
     </button> 
+
   </ion-list>
 </ion-content>

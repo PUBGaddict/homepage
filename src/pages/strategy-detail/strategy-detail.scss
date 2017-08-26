@@ -18,4 +18,47 @@ page-strategy-detail {
     .paddingLeft {
         padding-left: 4rem;
     }
+
+
+
+    
+
+
+    
+    // general styling goes here
+    .outerspot {        
+        .player {
+            fill: blue;
+        } 
+
+        .smokebox {
+            fill:gray;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .smokeline {
+            stroke-dasharray: 2;
+            stroke-width: 2;
+            stroke: white;
+        }
+
+        .nodisplay {
+            display: none;
+        }
+    }
+    // specific stylings for spots
+    .spot, .awp {
+        .player-view {
+            opacity: .2;
+            fill: lightblue;
+            pointer-events: none;
+        }
+    }
+    // specific stylings for smokes
+    .smoke, .decoy, .brand {
+        .player-view {
+            display: none;
+        }
+    }
 }

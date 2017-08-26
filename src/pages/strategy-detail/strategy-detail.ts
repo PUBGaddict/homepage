@@ -26,7 +26,7 @@ export class StrategyDetailPage {
   public safeVidUrl : any;
 
   public spot = {
-    spotId : "",
+    id : "",
     title : "",
     strategy : "",
     mapName : "",
@@ -36,7 +36,8 @@ export class StrategyDetailPage {
     picture_1 : "",
     picture_2 : "",
     picture_3 : "",
-    rating: 0
+    rating: 0,
+    published: true
   }
 
   public afRatingRef: FirebaseObjectObservable<any>;
@@ -54,6 +55,10 @@ export class StrategyDetailPage {
     this.mapData.getSpot(this.spotId).subscribe(spot => {
       this.spot = spot;
     });
+  }
+
+  isUnpublished () {
+    return !this.spot.published;
   }
 
   isGrenade () {

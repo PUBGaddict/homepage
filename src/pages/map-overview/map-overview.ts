@@ -40,7 +40,7 @@ export class MapOverviewPage {
 
   openPage (location) {
     this.navCtrl.push(StrategyDetailPage, {
-      spotId : location.spotId
+      spotId : location.id
     });
   }
 

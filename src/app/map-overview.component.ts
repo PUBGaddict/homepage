@@ -12,7 +12,8 @@ import 'firebase/storage';
       <div class="d3"></div>
     `
 })
-export class MapOverviewComponent implements AfterViewInit {
+export class MapOverviewComponent {
+  @Input() spotId: string = "";
   @Input() mapName: string = "";
   @Input() strategyId: string = "";
   @Input() intentionName: string = "";
@@ -236,13 +237,23 @@ export class MapOverviewComponent implements AfterViewInit {
       
       return new Promise((resolve, reject) => {
         if (drawSpots) {
-          this.mapData.getSpots(this.mapName, this.strategyId).subscribe(locations => {
-            this.locations = locations;
-  
-            this.appendDataSpots(this.locations);
-            this.render();
-            resolve();
-          })
+          if (this.spotId) {
+            this.mapData.getSpot(this.spotId).subscribe(spot => {
+              this.locations = [spot];
+    
+              this.appendDataSpots(this.locations);
+              this.render();
+              resolve();
+            });
+          } else {            
+            this.mapData.getSpots(this.mapName, this.strategyId).subscribe(locations => {
+              this.locations = locations;
+    
+              this.appendDataSpots(this.locations);
+              this.render();
+              resolve();
+            });
+          }
         } else {
           resolve();
         }
@@ -261,7 +272,7 @@ export class MapOverviewComponent implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  ngOnChanges() {
     this.displayMap(this.mapName, true);
   }
 }
