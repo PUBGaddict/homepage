@@ -20,15 +20,10 @@ import { UserPage } from '../user/user';
 export class StrategyDetailPage {
   @ViewChild('container') container;
   public height: any;
-  private mapName: string;
-  private strategy: string;
-  private intentionName: string;
   private spotId: string;
-  private upvotes: number;
   public color;
      
   public safeVidUrl : any;
-  private location;
 
   public spot = {
     spotId : "",
@@ -44,16 +39,21 @@ export class StrategyDetailPage {
     rating: 0
   }
 
+  public afRatingRef: FirebaseObjectObservable<any>;
+
   constructor(private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer) {
+    this.angularFireDatabase = angularFireDatabase;
     this.spotId = navParams.get("spotId");
+    this.afRatingRef = this.angularFireDatabase.object('/fspots/' + this.spotId + '/rating');
     this.displaySpot();
   }
 
 
-  displaySpot() { 
+  displaySpot() {     
+    this.afRatingRef.subscribe();
     this.mapData.getSpot(this.spotId).subscribe(spot => {
       this.spot = spot;
-    })
+    });
   }
 
   isGrenade () {
@@ -103,8 +103,7 @@ export class StrategyDetailPage {
     if (this.mayVote()) {
       this.spot.rating += delta;
 
-      this.angularFireDatabase.object('/fspots/' + this.spotId).set({ rating: this.spot.rating });
-
+      this.afRatingRef.set(this.spot.rating);
       this.saveVote();
     }
   }
