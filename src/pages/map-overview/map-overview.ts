@@ -26,12 +26,6 @@ export class MapOverviewPage {
   public mapName: string;
   public votings: any[];
 
-  public strategy = {
-    id: "",
-    name : "",
-    spots: []
-  };
-
   constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData) {
 
     this.mapName = navParams.get("mapName");
@@ -54,7 +48,7 @@ export class MapOverviewPage {
 
       for (var k in spots) {
         votings.push({
-          spotId: k,
+          id: k,
           value: spots[k].rating
         });
       }

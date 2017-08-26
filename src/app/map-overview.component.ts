@@ -219,7 +219,7 @@ export class MapOverviewComponent {
 
   highlight(enable, item) {
     this.d3.selectAll("g.outerspot")
-      .filter(function (d) { return d.id === item.spotId; })
+      .filter(function (d) { return d.id === item.id; })
       .classed("hover", enable);
   }
 
