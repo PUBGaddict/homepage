@@ -17,7 +17,7 @@ export class UserProvider {
   constructor(public http: Http, public authService : AuthServiceProvider) { }
   
   private submitUser(user : any): Observable<any> {
-    return this.http.post('https://csgospots-dev-5747d.firebaseio.com/tempuser.json', user)
+    return this.http.post('https://csgospots-1f294.firebaseio.com/tempuser.json', user)
       .map(data => {
         return data.json()
       });
@@ -28,21 +28,21 @@ export class UserProvider {
   }
 
   private loadUid (displayName : string) : Promise<any>{
-   return this.http.get(`https://csgospots-dev-5747d.firebaseio.com/displayNames/${displayName}.json`)
+   return this.http.get(`https://csgospots-1f294.firebaseio.com/displayNames/${displayName}.json`)
     .map(data => {
       return data.json()
     }).toPromise(); 
   }
 
   private loadSpots (uid : string) : Promise<any> {
-    return this.http.get(`https://csgospots-dev-5747d.firebaseio.com/userSpot/${uid}/spots.json`)
+    return this.http.get(`https://csgospots-1f294.firebaseio.com/userSpot/${uid}/spots.json`)
     .map(data => {
       return data.json()
     }).toPromise(); 
   }
 
   private checkDisplayNameAlreadyExisting (displayName : string) : Promise<boolean> {
-    return this.http.get(`https://csgospots-dev-5747d.firebaseio.com/displayNames/${displayName}`)
+    return this.http.get(`https://csgospots-1f294.firebaseio.com/displayNames/${displayName}`)
     .map(data => {
       debugger; 
       return data.json()

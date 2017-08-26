@@ -40,13 +40,22 @@ import { UsernameValidator } from '../validators/username';
 import { SearchProvider } from '../providers/search/search';
 
 // Must export the config
-export const firebaseConfig = {
+/* export const firebaseConfig = {
   apiKey: "AIzaSyBVzysZR5fhP-AP6Xy4mjPvaZuH-2iQVJU",
-  authDomain: "csgospots-dev-5747d.firebaseapp.com",
-  databaseURL: "https://csgospots-dev-5747d.firebaseio.com",
-  storageBucket: "csgospots-dev-5747d.appspot.com",
+  authDomain: "csgospots-1f294.firebaseapp.com",
+  databaseURL: "https://csgospots-1f294.firebaseio.com",
+  storageBucket: "csgospots-1f294.appspot.com",
   messagingSenderId: "112028484606",
-  projectId: "csgospots-dev-5747d",
+  projectId: "csgospots-1f294",
+}; */
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyDIaR2jO4z66WRv_cA_8bzJw3QnoIqxkvA",
+  authDomain: "csgospots-1f294.firebaseapp.com",
+  databaseURL: "https://csgospots-1f294.firebaseio.com",
+  storageBucket: "csgospots-1f294.appspot.com",
+  messagingSenderId: "743445555111",
+  projectId: "csgospots-1f294",
 };
 
 @NgModule({

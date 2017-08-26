@@ -16,7 +16,7 @@ export class SearchProvider {
   }
 
   search(query) : Promise<any> {
-    return this.http.get('https://us-central1-csgospots-dev-5747d.cloudfunctions.net/search?s=' + query).map(data => {
+    return this.http.get('https://us-central1-csgospots-1f294.cloudfunctions.net/search?s=' + query).map(data => {
       let results = [];
       let o = data.json();
       for (var i in o) {
