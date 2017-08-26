@@ -13,14 +13,15 @@ export class UsernameValidator {
       return Promise.resolve({ "username is empty" : true });;
     }
 
-		return this.http.get(`https://csgospots-1f294.firebaseio.com/displayNames/${value}.json`)
+		return this.http.get(`https://csgospots-1f294.firebaseio.com/uids.json?orderBy="displayName"&equalTo="${value}"`)
 			.map(data => {
 				return data.json()
 			}).toPromise().then((data) => {
-				if (data) {
-					return { "usernameAlreadyTaken" : true };
+				debugger;
+				if (Object.keys(data).length <= 0) {
+					return null;
 				} else {
-					return null; // positive case
+					return { "usernameAlreadyTaken" : true };
 				}
 			});
   }

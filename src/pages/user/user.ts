@@ -21,7 +21,7 @@ export class UserPage {
     this.displayName = navParams.get("displayName");   
     this.userProvider.getUserSpots(this.displayName).then(spots => {
       for (var key in spots) {
-        this.spots.push(Object.assign({}, {spotId : key}, spots[key]));
+        this.spots.push(spots[key]);
       }
     })
   }
@@ -34,7 +34,7 @@ export class UserPage {
     this.navCtrl.push(StrategyDetailPage, {
       mapName: spot.mapname,
       strategy: spot.strategy,
-      spotId : spot.spotId
+      spotId : spot.id
     });
   }
 }

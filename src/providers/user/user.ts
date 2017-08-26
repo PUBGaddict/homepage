@@ -27,36 +27,34 @@ export class UserProvider {
     return this.submitUser(user).toPromise();
   }
 
-  private loadUid (displayName : string) : Promise<any>{
+/*   private loadUid (displayName : string) : Promise<any>{
    return this.http.get(`https://csgospots-1f294.firebaseio.com/displayNames/${displayName}.json`)
     .map(data => {
       return data.json()
     }).toPromise(); 
-  }
+  } */
 
-  private loadSpots (uid : string) : Promise<any> {
-    return this.http.get(`https://csgospots-1f294.firebaseio.com/userSpot/${uid}/spots.json`)
+  private loadSpots (displayName : string) : Promise<any> {
+    return this.http.get(`https://csgospots-1f294.firebaseio.com/fspots.json?orderBy="displayName"&equalTo="${displayName}"`)
     .map(data => {
       return data.json()
     }).toPromise(); 
   }
 
-  private checkDisplayNameAlreadyExisting (displayName : string) : Promise<boolean> {
-    return this.http.get(`https://csgospots-1f294.firebaseio.com/displayNames/${displayName}`)
+/*   private checkDisplayNameAlreadyExisting (displayName : string) : Promise<boolean> {
+    return this.http.get(`https://csgospots-1f294.firebaseio.com/uids.json?orderBy="displayName"&equalTo=${displayName}"`)
     .map(data => {
       return data.json()
     }).toPromise(); 
-  }
+  } */
 
   getUserSpots(displayName : string) : Promise<any>{
-    return this.loadUid(displayName).then((user : any) => {
-      return this.loadSpots(user.uid);
-    }).then((spots : any) => {
-      return spots;
+    return this.loadSpots(displayName).then((spots : any) => {
+        return spots;
     })
   }
 
-  getUserAlreadyExisting(displayName : string) : Promise<boolean> {
+/*   getUserAlreadyExisting(displayName : string) : Promise<boolean> {
     return this.checkDisplayNameAlreadyExisting(displayName);
-  }
+  } */
 }
