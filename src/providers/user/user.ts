@@ -18,7 +18,7 @@ export class UserProvider {
   constructor(public http: Http, public authService : AuthServiceProvider) { }
   
   private submitUser(user : any): Observable<any> {
-    return this.http.post('https://pubgaddicts-b4ff7.firebaseio.com/tempuser.json', user)
+    return this.http.post(firebaseConfig.databaseURL + '/tempuser.json', user)
       .map(data => {
         return data.json()
       });

@@ -14,7 +14,7 @@ export class DefusalData {
   constructor(public http: Http) { }
 
   private loadDefusalMaps(): any {
-      return this.http.get('https://pubgaddicts-b4ff7.firebaseio.com/menu.json')
+      return this.http.get(firebaseConfig.databaseURL + '/menu.json')
         .map(data => {
           let jsonData = data.json(),
               deMaps = [];
