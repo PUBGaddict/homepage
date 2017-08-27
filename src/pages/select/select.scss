@@ -43,13 +43,9 @@ page-select {
             @media screen and (max-width: 950px) {
                 font-size: 1.5em;
             }
-/*
-            @media screen and (max-width: 500px) {
-                font-size: 0.6em;
-            }*/
             pointer-events: none;
             position: absolute;
-            top: 30%;
+            top: 60%;
             font-size: 1.8em;
             width: 100%;
             font-weight: bold;
@@ -59,14 +55,10 @@ page-select {
 
             
         .card-subtitle {
-         /*   @media screen and (max-width: 800px) {
-                visibility: hidden;
-            }*/
-
             pointer-events: none;
             font-size: 1.0em;
             position: absolute;
-            top: 75%;
+            top: 80%;
             width: 100%;
             color: #fff;
             text-shadow: 2px 1px 21px rgba(0, 0, 0, 1);
