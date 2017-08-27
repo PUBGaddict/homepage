@@ -9,14 +9,12 @@ import { Observable } from 'rxjs/Observable';
 export class StatisticsData {
   constructor(public http: Http) { }
 
-  private loadStatistics(mapName) : Observable<Response> {
-    return this.http.get(firebaseConfig.databaseURL + '/menu/' + mapName + '.json')
+  private loadStatistics(category) : Observable<Response> {
+    return this.http.get(firebaseConfig.databaseURL + '/menu/' + category + '.json')
         .map(data => {return data.json()})
   }
 
-  getStatistics(mapName): Observable<Response> {
-    return this.loadStatistics(mapName).map((data: any) => {
-      return data;
-    });;
+  getStatistics(category): Observable<Response> {
+    return this.loadStatistics(category);
   } 
 }
