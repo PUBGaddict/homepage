@@ -51,6 +51,22 @@ export class StrategyDetailPage {
     this.displaySpot();
   }
 
+  nextSpot() {
+    this.mapData.getNextSpot(this.spot.mapName, this.spot.strategy, this.spot.id).then(nextSpot => {
+      this.navCtrl.push(StrategyDetailPage, {
+        spotId : nextSpot.id
+      });
+    });
+  }
+
+  previousSpot() {
+    this.mapData.getPreviousSpot(this.spot.mapName, this.spot.strategy, this.spot.id).then(nextSpot => {
+      this.navCtrl.push(StrategyDetailPage, {
+        spotId : nextSpot.id
+      });
+    });
+  }
+
   displaySpot() {     
     this.afRatingRef.subscribe();
     this.mapData.getSpot(this.spotId).subscribe(spot => {
