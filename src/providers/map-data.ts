@@ -20,7 +20,7 @@ export class MapData {
       console.log("loading single from cache");
       return Observable.of(this.spotCacheSingle[spotId]);
     } else {
-      return this.http.get('https://csgospots-1f294.firebaseio.com/fspots/'
+      return this.http.get('https://pubgaddicts-b4ff7.firebaseio.com/fluffs/'
          + spotId + '.json')
         .map((data) => {
           let spot = data.json();
@@ -39,7 +39,7 @@ export class MapData {
       console.log("loading query from cache");
       return Observable.of(this.spotCacheQuery[path]);
     } else {
-      return this.http.get('https://csgospots-1f294.firebaseio.com/fspots.json?orderBy="path"&equalTo="'
+      return this.http.get('https://pubgaddicts-b4ff7.firebaseio.com/fluffs.json?orderBy="path"&equalTo="'
           + path + '"')
         .map((data) => {
           let spots = data.json();

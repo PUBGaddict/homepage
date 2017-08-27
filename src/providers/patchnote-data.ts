@@ -21,7 +21,7 @@ export class PatchnoteData {
   constructor(public http: Http, public firebaseApp : FirebaseApp) { }
 
   private loadNewestPatchNoteFile () : Promise<any>{
-    return this.http.get('https://csgospots-1f294.firebaseio.com/news.json')
+    return this.http.get('https://pubgaddicts-b4ff7.firebaseio.com/news.json')
       .map((data) => {
         return data.json();
       })

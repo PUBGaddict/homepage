@@ -13,7 +13,7 @@ export class DefusalData {
   constructor(public http: Http) { }
 
   private loadDefusalMaps(): any {
-      return this.http.get('https://csgospots-1f294.firebaseio.com/menu.json')
+      return this.http.get('https://pubgaddicts-b4ff7.firebaseio.com/menu.json')
         .map(data => {
           let jsonData = data.json(),
               deMaps = [];

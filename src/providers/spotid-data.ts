@@ -14,7 +14,7 @@ export class SpotIdData {
   constructor(public http: Http, public authService : AuthServiceProvider) { }
 
   private submitPost(data : any): Observable<any> {
-      return this.http.post('https://csgospots-1f294.firebaseio.com/temp.json', data)
+      return this.http.post('https://pubgaddicts-b4ff7.firebaseio.com/temp.json', data)
         .map(this.processMapIdData);
   }
 
