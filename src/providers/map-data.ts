@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { firebaseConfig } from '../app/app.module';
 
 import { Http } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
+
 
 
 @Injectable()
@@ -20,7 +22,11 @@ export class MapData {
       console.log("loading single from cache");
       return Observable.of(this.spotCacheSingle[spotId]);
     } else {
+<<<<<<< HEAD
       return this.http.get('https://pubgaddicts-b4ff7.firebaseio.com/fluffs/'
+=======
+      return this.http.get(firebaseConfig.databaseURL + '/fspots/'
+>>>>>>> 3ac2f4a360462757b770f6577895961bde3541c1
          + spotId + '.json')
         .map((data) => {
           let spot = data.json();
@@ -39,7 +45,11 @@ export class MapData {
       console.log("loading query from cache");
       return Observable.of(this.spotCacheQuery[path]);
     } else {
+<<<<<<< HEAD
       return this.http.get('https://pubgaddicts-b4ff7.firebaseio.com/fluffs.json?orderBy="path"&equalTo="'
+=======
+      return this.http.get(firebaseConfig.databaseURL + '/fspots.json?orderBy="path"&equalTo="'
+>>>>>>> 3ac2f4a360462757b770f6577895961bde3541c1
           + path + '"')
         .map((data) => {
           let spots = data.json();

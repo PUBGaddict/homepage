@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { firebaseConfig } from '../../app/app.module';
 import { Http } from '@angular/http';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { MapData } from '../../providers/map-data';
@@ -58,7 +59,7 @@ export class StrategyDetailPage {
   }
 
   acceptSpot(spotId) {
-    this.http.get('https://us-central1-csgospots-1f294.cloudfunctions.net/publish?id=' + spotId).map(data => {
+    this.http.get(firebaseConfig.functionsURL + '/publish?id=' + spotId).map(data => {
 
       // todo: make response readable
       this.presentToast(data);
