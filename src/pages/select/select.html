@@ -64,6 +64,22 @@
         </ion-col>
       </ion-row>
     </div>
+    <div *ngIf="getRowVisibility('fluff')">
+      <ion-title class="list-title" *ngIf="getRowVisibility('fluff')">
+        fluffs
+      </ion-title>
+      <ion-row align-items-stretch *ngIf="getRowVisibility('fluff')">
+        <ion-col col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center [class.isEmptyCol]="mapStatistics.fluff === 0">
+          <ion-card class="card" (click)="openMapOverview('fluff')">
+            <div class="card-content">
+              <img class="picture" src="/assets/img/de_dust2/fluff_a.png" />
+              <div class="card-title">fluff</div>
+              <div class="card-subtitle">{{mapStatistics.fluff}} Listings</div>
+            </div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </div>
     <div *ngIf="getRowVisibility('brand')">
       <ion-title class="list-title" *ngIf="getRowVisibility('brand')">
         Brands
