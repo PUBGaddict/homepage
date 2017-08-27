@@ -48,11 +48,8 @@ export class PatchnoteData {
     return new Promise((resolve, reject) => {
       this.loadNewestPatchNoteFile().then((news) => {
         this.newestPatchNoteFile = news.newestPatchNoteFile;
-        this.nextPatchNoteFile = this.newestPatchNoteFile - 2;
+        this.nextPatchNoteFile = this.newestPatchNoteFile - 1;
         return this.getPatchNoteByNumber(this.newestPatchNoteFile)
-      }).then((content) => {
-        this.patchNotes.push(content);
-        return this.getPatchNoteByNumber(this.newestPatchNoteFile - 1)
       }).then((content) => {
         this.patchNotes.push(content);
         resolve(this.patchNotes);        
