@@ -22,7 +22,6 @@ import { UnpublishedPage } from '../pages/unpublished/unpublished';
 
 import { MapData } from '../providers/map-data';
 import { DefusalData } from '../providers/defusal-data';
-import { HostageData } from '../providers/hostage-data';
 import { SpotIdData } from '../providers/spotid-data';
 import { PatchnoteData } from '../providers/patchnote-data';
 import { StatisticsData } from '../providers/statistics-data';
@@ -115,7 +114,6 @@ export const firebaseConfig = {
     MapData,
     PatchnoteData,
     DefusalData,
-    HostageData,
     SpotIdData,
     StatisticsData,
     AuthServiceProvider,

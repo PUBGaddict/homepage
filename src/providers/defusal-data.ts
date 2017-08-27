@@ -19,13 +19,11 @@ export class DefusalData {
               deMaps = [];
           for (let key in jsonData) {
             if(jsonData.hasOwnProperty(key)) {
-              if (key.startsWith("de_")) {
-                let amount = 0;
-                for (let child in jsonData[key]) {                  
-                    amount += jsonData[key][child];                  
-                }
-                deMaps.push({mapname : key, amount : amount});
+              let amount = 0;
+              for (let child in jsonData[key]) {                  
+                  amount += jsonData[key][child];                  
               }
+              deMaps.push({mapname : key, amount : amount});
             }
           }
           return deMaps;

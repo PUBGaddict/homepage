@@ -3,7 +3,6 @@ import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { DefusalData } from '../../providers/defusal-data';
-import { HostageData } from '../../providers/hostage-data';
 import { SpotIdData } from '../../providers/spotid-data';
 import { Http } from '@angular/http';
 import { YoutubePlayerComponent } from '../../app/youtube-player.component';
@@ -50,16 +49,11 @@ export class SubmitPage {
   public hasMap : boolean = false;
   public hasStrategy : boolean = false;
 
-  constructor(public navCtrl: NavController, public defusalData : DefusalData,  public hostageData : HostageData, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public defusalData : DefusalData, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder) {
     this.defusalData.getDefusalMaps().subscribe((de_maps: any[]) => {
       for (let i in de_maps) {
         this.de_maps.push({ mapname : de_maps[i].mapname} )
       }
-    });
-    this.hostageData.getHostageMaps().subscribe((cs_maps: any[]) => {
-      for (let i in cs_maps) {
-        this.cs_maps.push({ mapname : cs_maps[i].mapname} )
-      } 
     });
 
     // validators
