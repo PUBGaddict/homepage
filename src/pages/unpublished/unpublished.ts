@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { MapData } from '../../providers/map-data';
+import { SpotData } from '../../providers/spot-data';
 import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
 
 /**
@@ -18,8 +18,8 @@ export class UnpublishedPage {
 
   spots : Array<any> = [];
 
-  constructor(public mapData: MapData, public navCtrl: NavController, public navParams: NavParams) {
-    this.mapData.getUnpublishedSpots().subscribe(spots => {
+  constructor(public spotData: SpotData, public navCtrl: NavController, public navParams: NavParams) {
+    this.spotData.getUnpublishedSpots().subscribe(spots => {
       let aspots = Object.keys(spots).map(key=>spots[key]);      
       this.spots = aspots;
     });
