@@ -9,29 +9,25 @@ import 'rxjs/add/observable/of';
 
 
 @Injectable()
-export class DefusalData {
+export class CategoryData {
 
   constructor(public http: Http) { }
 
-  private loadDefusalMaps(): any {
+  private loadCategories(): any {
       return this.http.get(firebaseConfig.databaseURL + '/menu.json')
         .map(data => {
           let jsonData = data.json(),
-              deMaps = [];
+              categories = [];
           for (let key in jsonData) {
             if(jsonData.hasOwnProperty(key)) {
-              let amount = 0;
-              for (let child in jsonData[key]) {                  
-                  amount += jsonData[key][child];                  
-              }
-              deMaps.push({mapname : key, amount : amount});
+              categories.push({category : key, amount : jsonData[key]});
             }
           }
-          return deMaps;
+          return categories;
         });
   }
 
-  getDefusalMaps() {
-    return this.loadDefusalMaps();
+  getCategories() {
+    return this.loadCategories();
   }
 }
