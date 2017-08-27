@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { firebaseConfig } from '../../app/app.module';
 import { Http } from '@angular/http';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
-import { MapData } from '../../providers/map-data';
+import { SpotData } from '../../providers/spot-data';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 
@@ -44,7 +44,7 @@ export class StrategyDetailPage {
 
   public afRatingRef: FirebaseObjectObservable<any>;
 
-  constructor(public http: Http, public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer) {
+  constructor(public http: Http, public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, private sanitizer: DomSanitizer) {
     this.angularFireDatabase = angularFireDatabase;
     this.spotId = navParams.get("spotId");
     this.afRatingRef = this.angularFireDatabase.object('/fspots/' + this.spotId + '/rating');
@@ -52,7 +52,7 @@ export class StrategyDetailPage {
   }
 
   nextSpot() {
-    this.mapData.getNextSpot(this.spot.mapName, this.spot.strategy, this.spot.id).then(nextSpot => {
+    this.spotData.getNextSpot(this.spot.mapName, this.spot.strategy, this.spot.id).then(nextSpot => {
       this.navCtrl.push(StrategyDetailPage, {
         spotId : nextSpot.id
       });
@@ -60,7 +60,7 @@ export class StrategyDetailPage {
   }
 
   previousSpot() {
-    this.mapData.getPreviousSpot(this.spot.mapName, this.spot.strategy, this.spot.id).then(nextSpot => {
+    this.spotData.getPreviousSpot(this.spot.mapName, this.spot.strategy, this.spot.id).then(nextSpot => {
       this.navCtrl.push(StrategyDetailPage, {
         spotId : nextSpot.id
       });
@@ -69,8 +69,9 @@ export class StrategyDetailPage {
 
   displaySpot() {     
     this.afRatingRef.subscribe();
-    this.mapData.getSpot(this.spotId).subscribe(spot => {
+    this.spotData.getSpot(this.spotId).subscribe(spot => {
       this.spot = spot;
+      this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.gfycat.com/ifr/" + spot.videoId);
     });
   }
 
@@ -80,15 +81,19 @@ export class StrategyDetailPage {
       // todo: make response readable
       this.presentToast(data);
     }).subscribe();
- }
+  }
 
- presentToast(message) {
-  let toast = this.toastCtrl.create({
-    message: message,
-    duration: 7000
-  });
-  toast.present();
-}
+  presentToast(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 7000
+    });
+    toast.present();
+  } 
+
+  isGfycat() {
+    return this.spot.strategy === 'gfycat';
+  }
 
   isUnpublished () {
     return !this.spot.published;
