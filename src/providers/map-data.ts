@@ -63,7 +63,7 @@ export class MapData {
   public getNextSpot(mapName : string, strategy : string, spotId : string) {
     return this.loadSpots(mapName + '/' + strategy).toPromise().then( (spots) => {
       let keys = Object.keys(spots);
-      let currIndex = keys.findIndex(k => { return k === spotId });
+      let currIndex = keys.findIndex(k => { return k === spotId; });
       if (currIndex+1 < keys.length) {
         return spots[keys[currIndex+1]];
       } else {
@@ -75,7 +75,7 @@ export class MapData {
   public getPreviousSpot(mapName : string, strategy : string, spotId : string) {
     return this.loadSpots(mapName + '/' + strategy).toPromise().then( (spots) => {
       let keys = Object.keys(spots);
-      let currIndex = keys.findIndex(k => { return k === spotId });
+      let currIndex = keys.findIndex(k => { return k === spotId; });
       if (currIndex-1 >= 0) {
         return spots[keys[currIndex-1]];
       } else {

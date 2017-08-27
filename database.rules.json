@@ -1,0 +1,15 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": true,    
+    "fspots" : {      
+      ".indexOn" : ["path", "displayName", "published"]
+    },
+    "menu" : {      
+      ".indexOn" : ["type"]     
+    },
+    "uids" : {      
+      ".indexOn" : ["displayName"]
+    }
+  }
+}
