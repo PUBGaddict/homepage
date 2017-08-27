@@ -10,7 +10,7 @@ import 'rxjs/add/observable/of';
 
 
 @Injectable()
-export class MapData {
+export class SpotData {
   private mapCache: any = {};
   private spotCacheSingle: any = {};
   private spotCacheQuery: any = {};
@@ -43,8 +43,25 @@ export class MapData {
     } else {
       return this.http.get(firebaseConfig.databaseURL + '/fspots.json?orderBy="path"&equalTo="'
           + path + '"')
-        .map((data) => {
-          let spots = data.json();
+        .map((rawData) => {
+          let data = rawData.json(),
+            spots = [];
+          for (let key in data) {
+            if (data.hasOwnProperty(key)) {
+              spots.push(data[key]);
+              spots.push(data[key]);
+              spots.push(data[key]);
+              spots.push(data[key]);
+              spots.push(data[key]);
+              spots.push(data[key]);
+              spots.push(data[key]);
+              spots.push(data[key]);
+              spots.push(data[key]);
+              spots.push(data[key]);
+              spots.push(data[key]);
+              spots.push(data[key]);
+            } 
+          }
           this.spotCacheQuery[path] = spots;
           Object.assign(this.spotCacheSingle, spots);
           return spots;
@@ -52,8 +69,8 @@ export class MapData {
     }
   }
 
-  public getSpots(mapName : string, strategy : string) {
-    return this.loadSpots(mapName + '/' + strategy);
+  public getSpots(category) {
+    return this.loadSpots(category);
   }
 
   public getUnpublishedSpots() {
