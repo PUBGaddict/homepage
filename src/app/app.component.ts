@@ -3,8 +3,7 @@ import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { MapData } from '../providers/map-data';
-import { DefusalData } from '../providers/defusal-data';
+import { CategoryData } from '../providers/category-data';
 
 import { WelcomePage } from '../pages/welcome/welcome';
 import { SelectPage } from '../pages/select/select';
@@ -20,32 +19,19 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   @ViewChild('searchBar') searchBar: any;
 
-  de_maps: any[] = [];
-  cs_maps: any[] = [];
+  categories: any[] = [];
 
-  constructor(platform: Platform, public defusalData : DefusalData ,public mapData : MapData) {
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-    });
-
-    this.defusalData.getDefusalMaps().subscribe((de_maps: any[]) => {
-      if (de_maps.length === 0) {
-        de_maps.push({mapname : "coming soon :)"})
-      }
-      this.de_maps = de_maps;
+  constructor(platform: Platform, public categoryData : CategoryData) {
+    this.categoryData.getCategories().subscribe((categories: any[]) => {
+      this.categories = categories;
     });
   }
 
-  openPage (basicmap) {
+  openPage (category) {
      // the nav component was found using @ViewChild(Nav)
     // reset the nav to remove previous pages and only have this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(SelectPage, { mapName: basicmap.mapname });
-
-    /*this.nav.setRoot(SelectPage, {
-      mapName: basicmap.mapname
-    });*/
+    this.nav.setRoot(SelectPage, { category: category });
   }
 
   search (event) {
