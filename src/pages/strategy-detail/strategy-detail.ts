@@ -46,7 +46,7 @@ export class StrategyDetailPage {
   constructor(public http: Http, public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, private sanitizer: DomSanitizer) {
     this.angularFireDatabase = angularFireDatabase;
     this.spotId = navParams.get("spotId");
-    this.afRatingRef = this.angularFireDatabase.object('/fspots/' + this.spotId + '/rating');
+    this.afRatingRef = this.angularFireDatabase.object('/fluffs/' + this.spotId + '/rating');
     this.displaySpot();
   }
 
