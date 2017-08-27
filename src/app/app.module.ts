@@ -45,7 +45,7 @@ export const firebaseConfig = {
   projectId: "pubgaddicts-b4ff7",
   storageBucket: "pubgaddicts-b4ff7.appspot.com",
   messagingSenderId: "355134315397",
-  functionsURL: ""
+  functionsURL: "https://us-central1-pubgaddicts-b4ff7.cloudfunctions.net"
 };
 
 @NgModule({
