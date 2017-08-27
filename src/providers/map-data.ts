@@ -22,7 +22,7 @@ export class MapData {
       console.log("loading single from cache");
       return Observable.of(this.spotCacheSingle[spotId]);
     } else {
-      return this.http.get(firebaseConfig.databaseURL + '/fluffs/'
+      return this.http.get(firebaseConfig.databaseURL + '/fspots/'
          + spotId + '.json')
         .map((data) => {
           let spot = data.json();
@@ -41,7 +41,7 @@ export class MapData {
       console.log("loading query from cache");
       return Observable.of(this.spotCacheQuery[path]);
     } else {
-      return this.http.get(firebaseConfig.databaseURL + '/fluffs.json?orderBy="path"&equalTo="'
+      return this.http.get(firebaseConfig.databaseURL + '/fspots.json?orderBy="path"&equalTo="'
           + path + '"')
         .map((data) => {
           let spots = data.json();
