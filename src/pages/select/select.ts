@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { MapData } from '../../providers/map-data';
+import { SpotData } from '../../providers/spot-data';
 import { StatisticsData } from '../../providers/statistics-data';
 
+import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
 import { SubmitPage } from '../submit/submit'
 
 /*
@@ -16,7 +17,8 @@ import { SubmitPage } from '../submit/submit'
   templateUrl: 'select.html'
 })
 export class SelectPage {
-  public mapName: string = "";
+  public category: string = "";
+  public spots: Array<any> = [];
   public map = {
     spot : [],
     smoke: [],
@@ -27,10 +29,10 @@ export class SelectPage {
   };
   public mapStatistics = {};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public mapData: MapData, public statisticsData : StatisticsData) {
-    this.mapName = navParams.get("mapName");
-    this.statisticsData.getStatistics(this.mapName).subscribe(statistics => {
-      this.mapStatistics = statistics;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public statisticsData : StatisticsData) {
+    this.category = navParams.get("category");
+    this.spotData.getSpots(this.category).subscribe((spots: any[]) => {
+      this.spots = spots;
     });
   }
 
@@ -38,22 +40,19 @@ export class SelectPage {
     console.log('ionViewDidLoad SelectPage');
     ga('set', 'page', '/select');
     ga('send', 'event', "page", "visit", "select");
-    ga('send', 'event', "map", "selected", this.mapName);
   }
 
-  openMapOverview(strategyId) {
-   
+  openSpot(spotId) {
+   this.navCtrl.push(StrategyDetailPage, {spotId})
+  }
+
+  getThumbnail(spot) {
+    if (spot.strategy === 'gfycat') {
+      return "https://thumbs.gfycat.com/" + spot.videoId + "-thumb100.jpg";
+    }  
   }
 
   openSubmitPage() {
     this.navCtrl.push(SubmitPage);
-  }
-
-  getRowVisibility(strategyName) {
-    if (strategyName in this.mapStatistics) {
-      return this.mapStatistics[strategyName] > 0;
-    } else {
-      return false;
-    }
-  }
+  } 
 }
