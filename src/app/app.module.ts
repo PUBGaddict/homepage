@@ -19,8 +19,8 @@ import { ResultPage } from '../pages/result/result';
 import { UnpublishedPage } from '../pages/unpublished/unpublished';
 
 
-import { MapData } from '../providers/map-data';
-import { DefusalData } from '../providers/defusal-data';
+import { SpotData } from '../providers/spot-data';
+import { CategoryData } from '../providers/category-data';
 import { SpotIdData } from '../providers/spotid-data';
 import { PatchnoteData } from '../providers/patchnote-data';
 import { StatisticsData } from '../providers/statistics-data';
@@ -70,7 +70,7 @@ export const firebaseConfig = {
       preloadModules: true
     }, {
      links: [
-       { component: SelectPage, name: 'Select', segment: 'maps/:mapName' },
+       { component: SelectPage, name: 'Select', segment: 'cat/:category' },
        { component: StrategyDetailPage, name: 'StrategyDetail', segment: 's/:spotId' },
        { component: SubmitPage, name: 'SubmitPage', segment: 'submit' },
        { component: ImpressumPage, name: 'ImpressumPage', segment: 'impressum' },
@@ -106,9 +106,9 @@ export const firebaseConfig = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}, 
-    MapData,
+    SpotData,
     PatchnoteData,
-    DefusalData,
+    CategoryData,
     SpotIdData,
     StatisticsData,
     AuthServiceProvider,
