@@ -46,7 +46,7 @@ import { SearchProvider } from '../providers/search/search';
   databaseURL: "https://csgospots-1f294.firebaseio.com",
   storageBucket: "csgospots-1f294.appspot.com",
   messagingSenderId: "112028484606",
-  projectId: "csgospots-1f294",
+  projectId: "csgospots-1f294"
 }; */
 
 export const firebaseConfig = {
@@ -56,6 +56,7 @@ export const firebaseConfig = {
   storageBucket: "csgospots-1f294.appspot.com",
   messagingSenderId: "743445555111",
   projectId: "csgospots-1f294",
+  functionsURL: "https://us-central1-csgospots-1f294.cloudfunctions.net"
 };
 
 @NgModule({

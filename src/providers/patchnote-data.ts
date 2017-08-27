@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { firebaseConfig } from '../app/app.module';
 
 import { Http } from '@angular/http';
 
@@ -21,7 +22,7 @@ export class PatchnoteData {
   constructor(public http: Http, public firebaseApp : FirebaseApp) { }
 
   private loadNewestPatchNoteFile () : Promise<any>{
-    return this.http.get('https://csgospots-1f294.firebaseio.com/news.json')
+    return this.http.get(firebaseConfig.databaseURL + '/news.json')
       .map((data) => {
         return data.json();
       })

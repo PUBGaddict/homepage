@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { firebaseConfig } from '../../app/app.module';
 import { Http } from '@angular/http';
 import { AuthServiceProvider } from '../auth-service/auth-service'
 
@@ -17,7 +18,7 @@ export class UserProvider {
   constructor(public http: Http, public authService : AuthServiceProvider) { }
   
   private submitUser(user : any): Observable<any> {
-    return this.http.post('https://csgospots-1f294.firebaseio.com/tempuser.json', user)
+    return this.http.post(firebaseConfig.databaseURL + '/tempuser.json', user)
       .map(data => {
         return data.json()
       });

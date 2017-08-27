@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { firebaseConfig } from '../../app/app.module';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -16,7 +17,7 @@ export class SearchProvider {
   }
 
   search(query) : Promise<any> {
-    return this.http.get('https://us-central1-csgospots-1f294.cloudfunctions.net/search?s=' + query).map(data => {
+    return this.http.get(firebaseConfig.functionsURL + '/search?s=' + query).map(data => {
       let results = [];
       let o = data.json();
       for (var i in o) {

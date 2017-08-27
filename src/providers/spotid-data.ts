@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { firebaseConfig } from '../app/app.module';
 
 import { Http } from '@angular/http';
 import { AuthServiceProvider } from './auth-service/auth-service'
@@ -14,7 +15,7 @@ export class SpotIdData {
   constructor(public http: Http, public authService : AuthServiceProvider) { }
 
   private submitPost(data : any): Observable<any> {
-      return this.http.post('https://csgospots-1f294.firebaseio.com/temp.json', data)
+      return this.http.post(firebaseConfig.databaseURL + '/temp.json', data)
         .map(this.processMapIdData);
   }
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { firebaseConfig } from '../app/app.module';
 
 import { Http } from '@angular/http';
 
@@ -9,7 +10,7 @@ export class StatisticsData {
   constructor(public http: Http) { }
 
   private loadStatistics(mapName) : Observable<Response> {
-    return this.http.get('https://csgospots-1f294.firebaseio.com/menu/' + mapName + '.json')
+    return this.http.get(firebaseConfig.databaseURL + '/menu/' + mapName + '.json')
         .map(data => {return data.json()})
   }
 
