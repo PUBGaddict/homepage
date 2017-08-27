@@ -6,7 +6,6 @@ import { DefusalData } from '../../providers/defusal-data';
 import { SpotIdData } from '../../providers/spotid-data';
 import { Http } from '@angular/http';
 import { YoutubePlayerComponent } from '../../app/youtube-player.component';
-import { MapOverviewComponent } from '../../app/map-overview.component';
 
 import { EndSecondsValidator } from  '../../validators/endSeconds';
 import { StartSecondsValidator } from  '../../validators/startSeconds';
@@ -25,7 +24,6 @@ import { AdditionalPictureValidator } from  '../../validators/additionalPicture'
 })
 export class SubmitPage {
   @ViewChild('youtubePlayer') youtubePlayer: YoutubePlayerComponent;
-  @ViewChild('mapOverview') mapOverview: MapOverviewComponent;
   @ViewChild('progress') progress;
   @ViewChild('spotDetails') spotDetails;
 
@@ -116,53 +114,11 @@ export class SubmitPage {
     if (!this.start.x && !this.start.y) {
       return;
     }
-
-    this.mapOverview.appendDataSpots([{
-        angle : this.spotDetailForm.get('angle').value,
-        start : {
-          x : this.start.x,
-          y : this.start.y
-        },
-        strategy : this.spotHeadForm.get('strategy').value
-    }]);  
   }
 
   logPress(event) {
     console.log(event);
     let strategy = this.spotHeadForm.get('strategy').value;
-
-    if (this.isFirstPress) {
-      this.start = event;
-      this.end = undefined;
-      this.mapOverview.appendDataSpots([{
-        angle : this.spotDetailForm.get('angle').value || 0,
-        start : {
-          x : event.x,
-          y : event.y
-        },
-        strategy : strategy
-      }]);
-      this.isFirstPress = false;
-      
-      if (strategy !== 'smoke' && strategy !== 'decoy' && strategy !== 'brand') {
-        this.isFirstPress = true;  
-      }
-    } else {
-      this.mapOverview.appendDataSpots([{
-        angle : 0,
-        start : {
-          x : this.start.x,
-          y : this.start.y
-        },
-        end : {
-          x : event.x,
-          y : event.y
-        },
-        strategy : strategy
-      }]);
-      this.end = event;
-      this.isFirstPress = true;
-    }
   }
 
   ionViewDidLoad() {
@@ -250,8 +206,6 @@ export class SubmitPage {
   mapChanged () {
     this.hasMap = true;
     this.isFirstPress = true;
-    this.mapOverview.clearDataSpots();
-    this.mapOverview.displayMap(this.spotHeadForm.get("map").value, false);
     this.displayDetails();
   }
 
@@ -265,7 +219,6 @@ export class SubmitPage {
   strategyChanged () {
     this.hasStrategy = true;
     this.isFirstPress = true;
-    this.mapOverview.clearDataSpots();
     this.displayDetails();
   }
 

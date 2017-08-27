@@ -3,7 +3,6 @@ import { NavController, NavParams } from 'ionic-angular';
 import { MapData } from '../../providers/map-data';
 import { StatisticsData } from '../../providers/statistics-data';
 
-import { MapOverviewPage } from '../map-overview/map-overview'
 import { SubmitPage } from '../submit/submit'
 
 /*
@@ -43,10 +42,7 @@ export class SelectPage {
   }
 
   openMapOverview(strategyId) {
-    this.navCtrl.push(MapOverviewPage, {
-      mapName: this.mapName,
-      strategyId
-    });
+   
   }
 
   openSubmitPage() {

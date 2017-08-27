@@ -7,7 +7,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { SelectPage } from '../pages/select/select';
-import { MapOverviewPage } from '../pages/map-overview/map-overview';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { StrategyDetailPage } from '../pages/strategy-detail/strategy-detail';
 import { SubmitPage } from '../pages/submit/submit';
@@ -30,7 +29,6 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { YoutubePlayerComponent } from './youtube-player.component';
-import { MapOverviewComponent } from './map-overview.component';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { AuthComponent } from '../components/auth/auth';
 import { UserProvider } from '../providers/user/user';
@@ -52,12 +50,10 @@ export const firebaseConfig = {
   declarations: [
     MyApp,
     SelectPage,
-    MapOverviewPage,
     WelcomePage,
     StrategyDetailPage,
     SubmitPage,
     YoutubePlayerComponent,
-    MapOverviewComponent,
     ImpressumPage,
     LoginPage,
     SignupPage,
@@ -75,7 +71,6 @@ export const firebaseConfig = {
     }, {
      links: [
        { component: SelectPage, name: 'Select', segment: 'maps/:mapName' },
-       { component: MapOverviewPage, name: 'MapOverview', segment: 'maps/:mapName/:strategyId' },
        { component: StrategyDetailPage, name: 'StrategyDetail', segment: 's/:spotId' },
        { component: SubmitPage, name: 'SubmitPage', segment: 'submit' },
        { component: ImpressumPage, name: 'ImpressumPage', segment: 'impressum' },
@@ -96,7 +91,6 @@ export const firebaseConfig = {
   entryComponents: [
     MyApp,
     SelectPage,
-    MapOverviewPage,
     WelcomePage,
     SubmitPage,
     StrategyDetailPage,

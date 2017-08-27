@@ -189,9 +189,6 @@
       <input #upload type="file" value="upload" id="fileButton" (change)="onFileUpload($event)"/>   -->
     </div>
 
-    <ion-label>Select position of your Spot on the map below</ion-label>
-    <map-overview page="submit" #mapOverview [mapName]="" [strategyId]="" [intentionName]="" (press)="logPress($event)"></map-overview>
-
     <button class="margin-top" block ion-button (click)="savePressed()" [disabled]="saveButtonDisabled">
       Upload
     </button>
