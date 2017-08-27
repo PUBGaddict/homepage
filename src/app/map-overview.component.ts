@@ -95,9 +95,9 @@ export class MapOverviewComponent {
       this.selBackgroundImage.remove();
     }
 
-    this.firebaseApp.storage().ref('i/o/' + this.mapName + '.png').getDownloadURL().then((url) => {
+    // this.firebaseApp.storage().ref('i/o/' + this.mapName + '.png').getDownloadURL().then((url) => {
       this.selBackgroundImage = this.selMap.insert("svg:image", ":first-child")
-        .attr("xlink:href", url)
+        .attr("xlink:href", "assets/img/pubgmap.jpg")
         .attr("width", 1024)
         .attr("height", 1024)
         .classed(this.mapName, true)
@@ -105,7 +105,7 @@ export class MapOverviewComponent {
           let mouse = that.d3.mouse(that.d3.event.currentTarget);
           that.press.emit({ x: parseInt(mouse[0]) - 25, y: parseInt(mouse[1]) - 25 })
         });
-    });
+    // });
 
   }
 
