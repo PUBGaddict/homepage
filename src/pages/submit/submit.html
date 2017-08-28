@@ -35,7 +35,7 @@
       <ion-select
         class="morePaddingTop"
         formControlName="strategy" 
-        (ionChange)="strategyChanged()"
+        (ionChange)="displayDetails()"
         [class.valid]="spotHeadForm.controls.strategy.valid">
         <ion-option value="youtube">YouTube</ion-option>
         <ion-option value="gfycat">GfyCat</ion-option>
@@ -47,7 +47,7 @@
   </form>
 
   <div #spotDetails [class.invisible]="detailsInvisible">
-    <div *ngIf="isGrenade()" style="padding-top:20px;">
+    <div *ngIf="isYoutube()" style="padding-top:20px;">
       
       <form [formGroup]="youtubeDetailForm">
         <ion-title>Youtube settings</ion-title>
@@ -102,7 +102,7 @@
         <youtube-player [class.displayNone]="!youtubeDetailForm.valid" #youtubePlayer [start]="youtubeDetailForm.get('startSeconds').value" [end]="youtubeDetailForm.get('endSeconds').value" [vid]="''" [width]="'100%'"></youtube-player>
       </form>
     </div>
-    <div *ngIf="isSpot()" style="padding-top:20px;">
+    <div *ngIf="isGfycat()" style="padding-top:20px;">
       <ion-title style="padding-top:20px;">Viewport Angle (0-360 degrees)</ion-title>
 
       <form [formGroup]="gfycatDetailForm">

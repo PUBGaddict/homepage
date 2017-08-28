@@ -27,39 +27,21 @@ export class SubmitPage {
   @ViewChild('progress') progress;
   @ViewChild('spotDetails') spotDetails;
 
-  de_maps: any[] = [];
-  cs_maps: any[] = [];
-
   tags = ['Ionic', 'Angular', 'TypeScript'];  
 
-  firstPress: any = null; 
-  secondPress: any = null;
-
-  private isFirstPress : boolean = true;
   private submitAttempt: boolean = false;
   public detailsInvisible: boolean = true;
 
   public saveButtonDisabled : boolean = false;
-  public start :any = {};
-  public end : any = {};
 
   public spotHeadForm : any;
   public youtubeDetailForm : any;
   public gfycatDetailForm : any;
-  public hasMap : boolean = false;
-  public hasStrategy : boolean = false;
 
   constructor(public navCtrl: NavController, public categoryData : CategoryData, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder) {
-    this.categoryData.getCategories().subscribe((de_maps: any[]) => {
-      for (let i in de_maps) {
-        this.de_maps.push({ mapname : de_maps[i].mapname} )
-      }
-    });
-
     // validators
     this.spotHeadForm = formBuilder.group({
         title: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.minLength(10), Validators.pattern('[a-zA-Z,. ]*')])],
-        map: ['', Validators.compose([Validators.required])],
         strategy: ['', Validators.compose([Validators.required])],
         tags: [[]]
     });
@@ -82,12 +64,12 @@ export class SubmitPage {
     console.log(this.spotHeadForm.get('tags').value)
   }
 
-  isGrenade () {
-    return this.spotHeadForm.get('strategy').value === 'smoke' || this.spotHeadForm.get('strategy').value === 'decoy' || this.spotHeadForm.get('strategy').value === 'brand';
+  isYoutube () {
+    return this.spotHeadForm.get('strategy').value === 'youtube';
   }
 
-  isSpot () {
-    return this.spotHeadForm.get('strategy').value === 'spot' || this.spotHeadForm.get('strategy').value === 'awp';
+  isGfycat () {
+    return this.spotHeadForm.get('strategy').value === 'gfycat';
   }
 
   onVideoIdChanged(event) {
@@ -117,12 +99,6 @@ export class SubmitPage {
     });
   }
 
-  onRangeChange(angle) {
-    if (!this.start.x && !this.start.y) {
-      return;
-    }
-  }
-
   logPress(event) {
     console.log(event);
     let strategy = this.spotHeadForm.get('strategy').value;
@@ -141,52 +117,33 @@ export class SubmitPage {
       this.submitAttempt = true;
       return;
     }
-    let map = this.spotHeadForm.get('map').value,
-        strategy = this.spotHeadForm.get('strategy').value,
-        title = this.spotHeadForm.get('title').value;
+    let strategy = this.spotHeadForm.get('strategy').value,
+        title = this.spotHeadForm.get('title').value,
+        tags = this.spotHeadForm.get('tags').value;
 
-    // advanced validation for cases:
-    // if start is not defined
-    if (!this.start) {
-      this.presentToast('Please click on the map where your spot takes place');
-      return;
-    }
-
-    // if the user has selected smoke or decoy, the youtubeDetailForm needs to be valid
-    if ((strategy === 'smoke' || strategy === 'decoy' || strategy === 'brand') && !this.youtubeDetailForm.valid) {
+    // if the user has selected youtube or gfycat, the youtubeDetailForm needs to be valid
+    if ((strategy === 'youtube' || strategy === 'gfycat') && !this.youtubeDetailForm.valid) {
       this.presentToast('Please fill out all the mandatory fields so we can process your great spot!');
       return;
     }
-    // if the user has selected smoke or decoy, but only provided 1 spot on the map..
-    if ((strategy === 'smoke' || strategy === 'decoy' || strategy === 'brand') && !this.end) {
-      this.presentToast('Please add more than one spot on the map to complete your spot!');
-      return;
-    }
-    // if the user has selected smoke or decoy, and endSeconds < startSeconds 
-    if ((strategy === 'smoke' || strategy === 'decoy' || strategy === 'brand') && parseInt(this.youtubeDetailForm.get('endSeconds').value, 10) < parseInt(this.youtubeDetailForm.get('startSeconds').value, 10)) {
+    // if the user has selected youtube, and endSeconds < startSeconds 
+    if ((strategy === 'youtube') && parseInt(this.youtubeDetailForm.get('endSeconds').value, 10) < parseInt(this.youtubeDetailForm.get('startSeconds').value, 10)) {
       this.presentToast('The starting seconds need to be earlier than the end seconds.');
       return;
     }
-
-    // if the user has selected spot or awp, the gfycatDetailForm needs to be valid
-    if ((strategy === 'spot' || strategy === 'awp') && !this.gfycatDetailForm.valid) {
-      this.presentToast('Please fill out all the mandatory fields so we can process your great spot!');
-      return;
-    }
-
 
     this.saveButtonDisabled = true;
     var oSpot = {
         title : title,
         strategy : strategy,
-        mapname : map,
-        start : this.start,
+        tags : tags,
 
         // optional properties for youtube
         videoId : undefined,
         startSeconds : undefined,
         endSeconds : undefined,
         end : undefined,
+
 
         // optional properties for 
         angle : undefined,
@@ -198,7 +155,6 @@ export class SubmitPage {
       oSpot.videoId = this.youtubeDetailForm.get('videoId').value;
       oSpot.startSeconds = parseInt(this.youtubeDetailForm.get('startSeconds').value, 10);
       oSpot.endSeconds = parseInt(this.youtubeDetailForm.get('endSeconds').value, 10);
-      oSpot.end = this.end;
     } else {
       oSpot.angle = this.gfycatDetailForm.get('angle').value;
       oSpot.picture_1 = this.gfycatDetailForm.get('picture_1').value;
@@ -210,23 +166,8 @@ export class SubmitPage {
     })
   }
 
-  mapChanged () {
-    this.hasMap = true;
-    this.isFirstPress = true;
-    this.displayDetails();
-  }
-
   displayDetails() {
-    if (!this.hasMap || !this.hasStrategy) {
-      return;
-    }
     this.detailsInvisible = false;
-  }
-
-  strategyChanged () {
-    this.hasStrategy = true;
-    this.isFirstPress = true;
-    this.displayDetails();
   }
 
   presentToast(message) {
