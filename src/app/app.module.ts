@@ -36,6 +36,8 @@ import { UserProvider } from '../providers/user/user';
 import { UsernameValidator } from '../validators/username';
 import { SearchProvider } from '../providers/search/search';
 
+import { IonTagsInputModule } from "ionic-tags-input";
+
 export const firebaseConfig = {
   apiKey: "AIzaSyBj7uFGKWDuKFDx_6nQOhMSRC0cx3vJpCI",
   authDomain: "pubgaddicts-b4ff7.firebaseapp.com",
@@ -85,7 +87,8 @@ export const firebaseConfig = {
     }),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    IonTagsInputModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
