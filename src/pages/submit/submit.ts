@@ -30,6 +30,8 @@ export class SubmitPage {
   de_maps: any[] = [];
   cs_maps: any[] = [];
 
+  tags = ['Ionic', 'Angular', 'TypeScript'];  
+
   firstPress: any = null; 
   secondPress: any = null;
 
@@ -42,8 +44,8 @@ export class SubmitPage {
   public end : any = {};
 
   public spotHeadForm : any;
-  public smokeDetailForm : any;
-  public spotDetailForm : any;
+  public youtubeDetailForm : any;
+  public gfycatDetailForm : any;
   public hasMap : boolean = false;
   public hasStrategy : boolean = false;
 
@@ -58,21 +60,26 @@ export class SubmitPage {
     this.spotHeadForm = formBuilder.group({
         title: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.minLength(10), Validators.pattern('[a-zA-Z,. ]*')])],
         map: ['', Validators.compose([Validators.required])],
-        strategy: ['', Validators.compose([Validators.required])]
+        strategy: ['', Validators.compose([Validators.required])],
+        tags: [[]]
     });
 
-    this.smokeDetailForm = formBuilder.group({
+    this.youtubeDetailForm = formBuilder.group({
         startSeconds: ['', Validators.compose([Validators.required, Validators.min(0), Validators.pattern('[0-9]*')])],
         endSeconds: ['', Validators.compose([Validators.required, Validators.min(0), Validators.pattern('[0-9]*')])],
         videoId: ['', Validators.compose([Validators.required, Validators.maxLength(11), Validators.minLength(11), Validators.pattern('[0-9a-zA-Z_-]*')])]
     });
 
-    this.spotDetailForm = formBuilder.group({
+    this.gfycatDetailForm = formBuilder.group({
         angle: ['', Validators.compose([Validators.required, Validators.max(360), Validators.min(0)])],
         picture_1: ['', Validators.compose([Validators.required, PictureValidator.isValid])],
         picture_2: ['', AdditionalPictureValidator.isValid],
         picture_3: ['', AdditionalPictureValidator.isValid]
     });
+  }
+
+  onChangeTag(val){
+    console.log(this.spotHeadForm.get('tags').value)
   }
 
   isGrenade () {
@@ -93,20 +100,20 @@ export class SubmitPage {
       if (url.includes("&v=")) {
         videoId = url.substr(url.indexOf("&v=") + 3, 11);
       }
-      this.smokeDetailForm.get('videoId').setValue(videoId);
+      this.youtubeDetailForm.get('videoId').setValue(videoId);
     }
     this.refresh();
   }
  
   refresh() {
-    if (!this.smokeDetailForm.valid) {
+    if (!this.youtubeDetailForm.valid) {
       return;
     }
 
     this.youtubePlayer.play({
-      videoId : this.smokeDetailForm.get('videoId').value,
-      startSeconds: this.smokeDetailForm.get('startSeconds').value,
-      endSeconds: this.smokeDetailForm.get('endSeconds').value,
+      videoId : this.youtubeDetailForm.get('videoId').value,
+      startSeconds: this.youtubeDetailForm.get('startSeconds').value,
+      endSeconds: this.youtubeDetailForm.get('endSeconds').value,
     });
   }
 
@@ -145,8 +152,8 @@ export class SubmitPage {
       return;
     }
 
-    // if the user has selected smoke or decoy, the smokeDetailForm needs to be valid
-    if ((strategy === 'smoke' || strategy === 'decoy' || strategy === 'brand') && !this.smokeDetailForm.valid) {
+    // if the user has selected smoke or decoy, the youtubeDetailForm needs to be valid
+    if ((strategy === 'smoke' || strategy === 'decoy' || strategy === 'brand') && !this.youtubeDetailForm.valid) {
       this.presentToast('Please fill out all the mandatory fields so we can process your great spot!');
       return;
     }
@@ -156,13 +163,13 @@ export class SubmitPage {
       return;
     }
     // if the user has selected smoke or decoy, and endSeconds < startSeconds 
-    if ((strategy === 'smoke' || strategy === 'decoy' || strategy === 'brand') && parseInt(this.smokeDetailForm.get('endSeconds').value, 10) < parseInt(this.smokeDetailForm.get('startSeconds').value, 10)) {
+    if ((strategy === 'smoke' || strategy === 'decoy' || strategy === 'brand') && parseInt(this.youtubeDetailForm.get('endSeconds').value, 10) < parseInt(this.youtubeDetailForm.get('startSeconds').value, 10)) {
       this.presentToast('The starting seconds need to be earlier than the end seconds.');
       return;
     }
 
-    // if the user has selected spot or awp, the spotDetailForm needs to be valid
-    if ((strategy === 'spot' || strategy === 'awp') && !this.spotDetailForm.valid) {
+    // if the user has selected spot or awp, the gfycatDetailForm needs to be valid
+    if ((strategy === 'spot' || strategy === 'awp') && !this.gfycatDetailForm.valid) {
       this.presentToast('Please fill out all the mandatory fields so we can process your great spot!');
       return;
     }
@@ -188,15 +195,15 @@ export class SubmitPage {
         picture_3 : undefined
     };
     if (strategy === "smoke" || strategy === "decoy" || strategy === 'brand') {
-      oSpot.videoId = this.smokeDetailForm.get('videoId').value;
-      oSpot.startSeconds = parseInt(this.smokeDetailForm.get('startSeconds').value, 10);
-      oSpot.endSeconds = parseInt(this.smokeDetailForm.get('endSeconds').value, 10);
+      oSpot.videoId = this.youtubeDetailForm.get('videoId').value;
+      oSpot.startSeconds = parseInt(this.youtubeDetailForm.get('startSeconds').value, 10);
+      oSpot.endSeconds = parseInt(this.youtubeDetailForm.get('endSeconds').value, 10);
       oSpot.end = this.end;
     } else {
-      oSpot.angle = this.spotDetailForm.get('angle').value;
-      oSpot.picture_1 = this.spotDetailForm.get('picture_1').value;
-      oSpot.picture_2 = this.spotDetailForm.get('picture_2').value;
-      oSpot.picture_3 = this.spotDetailForm.get('picture_3').value;
+      oSpot.angle = this.gfycatDetailForm.get('angle').value;
+      oSpot.picture_1 = this.gfycatDetailForm.get('picture_1').value;
+      oSpot.picture_2 = this.gfycatDetailForm.get('picture_2').value;
+      oSpot.picture_3 = this.gfycatDetailForm.get('picture_3').value;
     }
     this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
       this.presentToast('Spot successfully created. Lean back while we verify your great spot!');

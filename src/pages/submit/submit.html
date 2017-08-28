@@ -31,36 +31,25 @@
     </ion-item>
 
     <ion-item no-lines>
-      <ion-label stacked required>Map</ion-label>
-      <ion-select class="morePaddingTop"
-        formControlName="map" 
-        (ionChange)="mapChanged()"
-        [class.valid]="spotHeadForm.controls.map.valid">
-        <ion-option *ngFor="let map of de_maps" value="{{map.mapname}}">{{map.mapname}}</ion-option>
-        <ion-option *ngFor="let map of cs_maps" value="{{map.mapname}}">{{map.mapname}}</ion-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-item no-lines>
-      <ion-label stacked required>What do you want to create?</ion-label>
+      <ion-label stacked required>Where is your stuff hosted?</ion-label>
       <ion-select
         class="morePaddingTop"
         formControlName="strategy" 
         (ionChange)="strategyChanged()"
         [class.valid]="spotHeadForm.controls.strategy.valid">
-        <ion-option value="spot">Spot</ion-option>
-        <ion-option value="smoke">Smoke</ion-option>
-        <ion-option value="awp">AWP Spot</ion-option>
-        <ion-option value="decoy">Decoy</ion-option>
-        <ion-option value="brand">Brand</ion-option>
+        <ion-option value="youtube">YouTube</ion-option>
+        <ion-option value="gfycat">GfyCat</ion-option>
       </ion-select>
     </ion-item>
+
+    <ion-tags-input formControlName="tags" (onChange)="onChangeTag($event)"></ion-tags-input>
+    
   </form>
 
   <div #spotDetails [class.invisible]="detailsInvisible">
     <div *ngIf="isGrenade()" style="padding-top:20px;">
       
-      <form [formGroup]="smokeDetailForm">
+      <form [formGroup]="youtubeDetailForm">
         <ion-title>Youtube settings</ion-title>
         <ion-item no-lines>
           <ion-label required stacked class="moreWidth">YouTube URL / YouTube Video ID</ion-label>
@@ -68,13 +57,13 @@
             type="text" 
             formControlName="videoId"
             (ionChange)="onVideoIdChanged($event)"
-            [class.invalid]="!smokeDetailForm.controls.videoId.valid && (smokeDetailForm.controls.videoId.dirty || submitAttempt)"
-            [class.valid]="smokeDetailForm.controls.videoId.valid">
+            [class.invalid]="!youtubeDetailForm.controls.videoId.valid && (youtubeDetailForm.controls.videoId.dirty || submitAttempt)"
+            [class.valid]="youtubeDetailForm.controls.videoId.valid">
           </ion-input>
         </ion-item>
         <ion-item 
           no-lines 
-          *ngIf="!smokeDetailForm.controls.videoId.valid  && (smokeDetailForm.controls.videoId.dirty || submitAttempt)">
+          *ngIf="!youtubeDetailForm.controls.videoId.valid  && (youtubeDetailForm.controls.videoId.dirty || submitAttempt)">
           <p>Please enter a valid YouTube Video ID or the URL of your YouTube video</p>
         </ion-item>
 
@@ -84,13 +73,13 @@
             type="text" 
             formControlName="startSeconds"  
             (ionChange)="refresh()"          
-            [class.invalid]="!smokeDetailForm.controls.startSeconds.valid && (smokeDetailForm.controls.startSeconds.dirty || submitAttempt)"
-            [class.valid]="smokeDetailForm.controls.startSeconds.valid">
+            [class.invalid]="!youtubeDetailForm.controls.startSeconds.valid && (youtubeDetailForm.controls.startSeconds.dirty || submitAttempt)"
+            [class.valid]="youtubeDetailForm.controls.startSeconds.valid">
           </ion-input>
         </ion-item>
         <ion-item 
           no-lines 
-          *ngIf="!smokeDetailForm.controls.startSeconds.valid  && (smokeDetailForm.controls.startSeconds.dirty || submitAttempt)">
+          *ngIf="!youtubeDetailForm.controls.startSeconds.valid  && (youtubeDetailForm.controls.startSeconds.dirty || submitAttempt)">
           <p>Please enter the second at which your YouTube video should start.</p>
         </ion-item>
 
@@ -100,23 +89,23 @@
             type="text" 
             formControlName="endSeconds"
             (ionChange)="refresh()"
-            [class.invalid]="!smokeDetailForm.controls.endSeconds.valid && (smokeDetailForm.controls.endSeconds.dirty || submitAttempt)"
-            [class.valid]="smokeDetailForm.controls.endSeconds.valid">
+            [class.invalid]="!youtubeDetailForm.controls.endSeconds.valid && (youtubeDetailForm.controls.endSeconds.dirty || submitAttempt)"
+            [class.valid]="youtubeDetailForm.controls.endSeconds.valid">
           </ion-input>
         </ion-item>
         <ion-item 
           no-lines 
-          *ngIf="!smokeDetailForm.controls.endSeconds.valid  && (smokeDetailForm.controls.endSeconds.dirty || submitAttempt)">
+          *ngIf="!youtubeDetailForm.controls.endSeconds.valid  && (youtubeDetailForm.controls.endSeconds.dirty || submitAttempt)">
           <p>Please enter the second at which your YouTube video should end. Must be greater than startSeconds.</p>
         </ion-item>
         
-        <youtube-player [class.displayNone]="!smokeDetailForm.valid" #youtubePlayer [start]="smokeDetailForm.get('startSeconds').value" [end]="smokeDetailForm.get('endSeconds').value" [vid]="''" [width]="'100%'"></youtube-player>
+        <youtube-player [class.displayNone]="!youtubeDetailForm.valid" #youtubePlayer [start]="youtubeDetailForm.get('startSeconds').value" [end]="youtubeDetailForm.get('endSeconds').value" [vid]="''" [width]="'100%'"></youtube-player>
       </form>
     </div>
     <div *ngIf="isSpot()" style="padding-top:20px;">
       <ion-title style="padding-top:20px;">Viewport Angle (0-360 degrees)</ion-title>
 
-      <form [formGroup]="spotDetailForm">
+      <form [formGroup]="gfycatDetailForm">
         <ion-item no-lines>
           <ion-range pin="true" (ionChange)="onRangeChange()" min="0" max="360" formControlName="angle" color="secondary">
             <ion-label range-left>0°</ion-label>
@@ -130,18 +119,18 @@
           <ion-input 
             type="text" 
             formControlName="picture_1"
-            [class.invalid]="!spotDetailForm.controls.picture_1.valid && (spotDetailForm.controls.picture_1.dirty || submitAttempt)"
-            [class.valid]="spotDetailForm.controls.picture_1.valid">
+            [class.invalid]="!gfycatDetailForm.controls.picture_1.valid && (gfycatDetailForm.controls.picture_1.dirty || submitAttempt)"
+            [class.valid]="gfycatDetailForm.controls.picture_1.valid">
           </ion-input>
         </ion-item>
         <ion-item 
           no-lines 
-          *ngIf="spotDetailForm.controls.picture_1.valid">
-          <img width="50%" class="screenshot" src="{{spotDetailForm.controls.picture_1.value}}" />
+          *ngIf="gfycatDetailForm.controls.picture_1.valid">
+          <img width="50%" class="screenshot" src="{{gfycatDetailForm.controls.picture_1.value}}" />
         </ion-item>
         <ion-item 
           no-lines 
-          *ngIf="!spotDetailForm.controls.picture_1.valid  && (spotDetailForm.controls.picture_1.dirty || submitAttempt)">
+          *ngIf="!gfycatDetailForm.controls.picture_1.valid  && (gfycatDetailForm.controls.picture_1.dirty || submitAttempt)">
           <p>Please enter the URL of a screenshot hosted at imgur.com</p>
         </ion-item>
 
@@ -150,18 +139,18 @@
           <ion-input 
             type="text" 
             formControlName="picture_2"
-            [class.invalid]="!spotDetailForm.controls.picture_2.valid && (spotDetailForm.controls.picture_2.dirty || submitAttempt)"
-            [class.valid]="spotDetailForm.controls.picture_2.valid  && spotDetailForm.controls.picture_2.dirty">
+            [class.invalid]="!gfycatDetailForm.controls.picture_2.valid && (gfycatDetailForm.controls.picture_2.dirty || submitAttempt)"
+            [class.valid]="gfycatDetailForm.controls.picture_2.valid  && gfycatDetailForm.controls.picture_2.dirty">
           </ion-input>
         </ion-item>
         <ion-item 
           no-lines 
-          *ngIf="spotDetailForm.controls.picture_2.valid && spotDetailForm.controls.picture_2.value !== ''">
-          <img width="50%" class="screenshot" src="{{spotDetailForm.controls.picture_2.value}}" />
+          *ngIf="gfycatDetailForm.controls.picture_2.valid && gfycatDetailForm.controls.picture_2.value !== ''">
+          <img width="50%" class="screenshot" src="{{gfycatDetailForm.controls.picture_2.value}}" />
         </ion-item>
         <ion-item 
           no-lines 
-          *ngIf="!spotDetailForm.controls.picture_2.valid  && (spotDetailForm.controls.picture_2.dirty || submitAttempt)">
+          *ngIf="!gfycatDetailForm.controls.picture_2.valid  && (gfycatDetailForm.controls.picture_2.dirty || submitAttempt)">
           <p>Please enter the URL of a screenshot hosted at imgur.com</p>
         </ion-item>
 
@@ -170,23 +159,21 @@
           <ion-input 
             type="text" 
             formControlName="picture_3"
-            [class.invalid]="!spotDetailForm.controls.picture_3.valid && (spotDetailForm.controls.picture_3.dirty || submitAttempt)"
-            [class.valid]="spotDetailForm.controls.picture_3.valid && spotDetailForm.controls.picture_3.dirty">
+            [class.invalid]="!gfycatDetailForm.controls.picture_3.valid && (gfycatDetailForm.controls.picture_3.dirty || submitAttempt)"
+            [class.valid]="gfycatDetailForm.controls.picture_3.valid && gfycatDetailForm.controls.picture_3.dirty">
           </ion-input>
         </ion-item>
         <ion-item 
           no-lines 
-          *ngIf="spotDetailForm.controls.picture_3.valid  && spotDetailForm.controls.picture_3.value !== ''">
-          <img width="50%" class="screenshot" src="{{spotDetailForm.controls.picture_3.value}}" />
+          *ngIf="gfycatDetailForm.controls.picture_3.valid  && gfycatDetailForm.controls.picture_3.value !== ''">
+          <img width="50%" class="screenshot" src="{{gfycatDetailForm.controls.picture_3.value}}" />
         </ion-item>
         <ion-item 
           no-lines 
-          *ngIf="!spotDetailForm.controls.picture_3.valid  && (spotDetailForm.controls.picture_3.dirty || submitAttempt)">
+          *ngIf="!gfycatDetailForm.controls.picture_3.valid  && (gfycatDetailForm.controls.picture_3.dirty || submitAttempt)">
           <p>Please enter the URL of a screenshot hosted at imgur.com</p>
         </ion-item>
       </form>
-    <!-- <progress #progress value="0" max="100" id="uploader">0%</progress>
-      <input #upload type="file" value="upload" id="fileButton" (change)="onFileUpload($event)"/>   -->
     </div>
 
     <button class="margin-top" block ion-button (click)="savePressed()" [disabled]="saveButtonDisabled">
