@@ -31,7 +31,7 @@ export class SelectPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public statisticsData : StatisticsData) {
     this.category = navParams.get("category");
-    this.spotData.getSpots(this.category).subscribe((spots: any[]) => {
+    this.spotData.getSpotsForTag(this.category).then((spots: any[]) => {
       this.spots = spots;
     });
   }
