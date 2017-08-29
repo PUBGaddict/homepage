@@ -76,11 +76,11 @@ export class StrategyDetailPage {
   }
 
   acceptSpot(spotId) {
-    this.http.get(firebaseConfig.functionsURL + '/publish?id=' + spotId).map(data => {
-
-      // todo: make response readable
-      this.presentToast(data);
-    }).subscribe();
+    this.http.get(firebaseConfig.functionsURL + '/publish?id=' + spotId).subscribe(data => {
+      if (data.status === 200) {
+        this.presentToast("published successfully");
+      }
+    });
   }
 
   presentToast(message) {
