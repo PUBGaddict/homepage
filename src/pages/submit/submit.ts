@@ -6,6 +6,7 @@ import { CategoryData } from '../../providers/category-data';
 import { SpotIdData } from '../../providers/spotid-data';
 import { Http } from '@angular/http';
 import { YoutubePlayerComponent } from '../../app/youtube-player.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { EndSecondsValidator } from  '../../validators/endSeconds';
 import { StartSecondsValidator } from  '../../validators/startSeconds';
@@ -27,40 +28,41 @@ export class SubmitPage {
   @ViewChild('progress') progress;
   @ViewChild('spotDetails') spotDetails;
 
-  tags = ['Ionic', 'Angular', 'TypeScript'];  
-
   private submitAttempt: boolean = false;
   public detailsInvisible: boolean = true;
 
   public saveButtonDisabled : boolean = false;
+  public safeVidUrl : any;
 
   public spotHeadForm : any;
   public youtubeDetailForm : any;
   public gfycatDetailForm : any;
 
-  constructor(public navCtrl: NavController, public categoryData : CategoryData, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public categoryData : CategoryData, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder, private sanitizer: DomSanitizer) {
     // validators
     this.spotHeadForm = formBuilder.group({
-        title: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.minLength(10), Validators.pattern('[a-zA-Z,. ]*')])],
-        strategy: ['', Validators.compose([Validators.required])],
-        tags: [[]]
+      title: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.minLength(10), Validators.pattern('[a-zA-Z,. ]*')])],
+      strategy: ['', Validators.compose([Validators.required])],
+      tags: [[], Validators.compose([Validators.minLength(1), Validators.maxLength(3)])] 
     });
 
     this.youtubeDetailForm = formBuilder.group({
-        startSeconds: ['', Validators.compose([Validators.required, Validators.min(0), Validators.pattern('[0-9]*')])],
-        endSeconds: ['', Validators.compose([Validators.required, Validators.min(0), Validators.pattern('[0-9]*')])],
-        videoId: ['', Validators.compose([Validators.required, Validators.maxLength(11), Validators.minLength(11), Validators.pattern('[0-9a-zA-Z_-]*')])]
+      startSeconds: ['', Validators.compose([Validators.required, Validators.min(0), Validators.pattern('[0-9]*')])],
+      endSeconds: ['', Validators.compose([Validators.required, Validators.min(0), Validators.pattern('[0-9]*')])],
+      videoId: ['', Validators.compose([Validators.required, Validators.maxLength(11), Validators.minLength(11), Validators.pattern('[0-9a-zA-Z_-]*')])]
     });
 
     this.gfycatDetailForm = formBuilder.group({
-        angle: ['', Validators.compose([Validators.required, Validators.max(360), Validators.min(0)])],
-        picture_1: ['', Validators.compose([Validators.required, PictureValidator.isValid])],
-        picture_2: ['', AdditionalPictureValidator.isValid],
-        picture_3: ['', AdditionalPictureValidator.isValid]
+      videoId: ['', Validators.compose([Validators.required, Validators.pattern('[0-9a-zA-Z]*')])]
     });
   }
 
   onChangeTag(val){
+    let tags = this.spotHeadForm.get('tags').value;
+    if ( tags.length > 2 ) {
+      tags.splice(3);
+      this.spotHeadForm.get('tags').setValue(tags);
+    }
     console.log(this.spotHeadForm.get('tags').value)
   }
 
@@ -72,21 +74,39 @@ export class SubmitPage {
     return this.spotHeadForm.get('strategy').value === 'gfycat';
   }
 
-  onVideoIdChanged(event) {
+  onVideoUrlChanged(event) {
     let url :string = event.value;
     let videoId :string = "";
-    if (url.startsWith("https://www.youtube.com/watch")) {
-      if (url.includes("?v=")) {
-        videoId = url.substr(url.indexOf("?v=") + 3, 11);
+    if (this.isYoutube()) {
+      if (url.startsWith("https://www.youtube.com/watch")) {
+        if (url.includes("?v=")) {
+          videoId = url.substr(url.indexOf("?v=") + 3, 11);
+        }
+        if (url.includes("&v=")) {
+          videoId = url.substr(url.indexOf("&v=") + 3, 11);
+        }
+        this.youtubeDetailForm.get('videoId').setValue(videoId);
       }
-      if (url.includes("&v=")) {
-        videoId = url.substr(url.indexOf("&v=") + 3, 11);
+      this.refresh();
+      return;
+    } 
+
+    if (this.isGfycat()) {
+      if (url.startsWith("https://gfycat.com")) {
+        videoId = url.substr(19);
+        if (url.startsWith("https://gfycat.com/ifr/")) {
+          videoId = url.substr(23);
+        }
+      } else {
+        videoId = url;
       }
-      this.youtubeDetailForm.get('videoId').setValue(videoId);
+      this.gfycatDetailForm.get('videoId').setValue(videoId);
+      this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.gfycat.com/ifr/" + videoId);
+      console.log(this.safeVidUrl);
+      return;
     }
-    this.refresh();
   }
- 
+
   refresh() {
     if (!this.youtubeDetailForm.valid) {
       return;
@@ -97,11 +117,6 @@ export class SubmitPage {
       startSeconds: this.youtubeDetailForm.get('startSeconds').value,
       endSeconds: this.youtubeDetailForm.get('endSeconds').value,
     });
-  }
-
-  logPress(event) {
-    console.log(event);
-    let strategy = this.spotHeadForm.get('strategy').value;
   }
 
   ionViewDidLoad() {
@@ -117,13 +132,24 @@ export class SubmitPage {
       this.submitAttempt = true;
       return;
     }
+    debugger;
     let strategy = this.spotHeadForm.get('strategy').value,
         title = this.spotHeadForm.get('title').value,
         tags = this.spotHeadForm.get('tags').value;
 
-    // if the user has selected youtube or gfycat, the youtubeDetailForm needs to be valid
-    if ((strategy === 'youtube' || strategy === 'gfycat') && !this.youtubeDetailForm.valid) {
-      this.presentToast('Please fill out all the mandatory fields so we can process your great spot!');
+    if (tags.length < 1) {
+      this.presentToast('Please add some tags');
+      return;
+    }
+
+    if (tags.length > 3) {
+      this.presentToast('Please remove some tags');
+      return;
+    }
+      
+    // if the user has selected youtube, the youtubeDetailForm needs to be valid
+    if ((strategy === 'youtube') && !this.youtubeDetailForm.valid) {
+      this.presentToast('Please fill out all the mandatory fields so we can process your great youtube video!');
       return;
     }
     // if the user has selected youtube, and endSeconds < startSeconds 
@@ -131,36 +157,32 @@ export class SubmitPage {
       this.presentToast('The starting seconds need to be earlier than the end seconds.');
       return;
     }
+    // if the user has selected gfycat, the gfycatDetailForm needs to be valid
+    if ((strategy === 'gfycat') && !this.gfycatDetailForm.valid) {
+      this.presentToast('Please fill out all the mandatory fields so we can process your great gfycat video!');
+      return;
+    }
 
     this.saveButtonDisabled = true;
     var oSpot = {
-        title : title,
-        strategy : strategy,
-        tags : tags,
+      title : title,
+      strategy : strategy,
+      tags : tags,
+      videoId : undefined,
 
-        // optional properties for youtube
-        videoId : undefined,
-        startSeconds : undefined,
-        endSeconds : undefined,
-        end : undefined,
-
-
-        // optional properties for 
-        angle : undefined,
-        picture_1 : undefined,
-        picture_2 : undefined,
-        picture_3 : undefined
+      // optional properties for youtube
+      startSeconds : undefined,
+      endSeconds : undefined
     };
-    if (strategy === "smoke" || strategy === "decoy" || strategy === 'brand') {
+    if (strategy === "youtube") {
       oSpot.videoId = this.youtubeDetailForm.get('videoId').value;
       oSpot.startSeconds = parseInt(this.youtubeDetailForm.get('startSeconds').value, 10);
       oSpot.endSeconds = parseInt(this.youtubeDetailForm.get('endSeconds').value, 10);
-    } else {
-      oSpot.angle = this.gfycatDetailForm.get('angle').value;
-      oSpot.picture_1 = this.gfycatDetailForm.get('picture_1').value;
-      oSpot.picture_2 = this.gfycatDetailForm.get('picture_2').value;
-      oSpot.picture_3 = this.gfycatDetailForm.get('picture_3').value;
+    } 
+    if (strategy === "gfycat") {
+      oSpot.videoId = this.gfycatDetailForm.get('videoId').value;
     }
+
     this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
       this.presentToast('Spot successfully created. Lean back while we verify your great spot!');
     })

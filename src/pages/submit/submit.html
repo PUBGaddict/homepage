@@ -29,10 +29,10 @@
       *ngIf="!spotHeadForm.controls.title.valid  && (spotHeadForm.controls.title.dirty || submitAttempt)">
       <p>Please enter a valid name with more than 10 characters</p>
     </ion-item>
-
-    <ion-item no-lines>
+    
+    <ion-item no-lines>    
       <ion-label stacked required>Where is your stuff hosted?</ion-label>
-      <ion-select
+        <ion-select
         class="morePaddingTop"
         formControlName="strategy" 
         (ionChange)="displayDetails()"
@@ -42,8 +42,11 @@
       </ion-select>
     </ion-item>
 
-    <ion-tags-input formControlName="tags" (onChange)="onChangeTag($event)"></ion-tags-input>
-    
+    <ion-item no-lines>
+      <ion-label style="color:#999;" stacked required>Tags (at least 1, up to 3)</ion-label>
+    </ion-item>
+    <ion-tags-input class="tags-input" formControlName="tags" (onChange)="onChangeTag($event)" [separatorStr]="' '"></ion-tags-input>
+
   </form>
 
   <div #spotDetails [class.invisible]="detailsInvisible">
@@ -56,7 +59,7 @@
           <ion-input 
             type="text" 
             formControlName="videoId"
-            (ionChange)="onVideoIdChanged($event)"
+            (ionChange)="onVideoUrlChanged($event)"
             [class.invalid]="!youtubeDetailForm.controls.videoId.valid && (youtubeDetailForm.controls.videoId.dirty || submitAttempt)"
             [class.valid]="youtubeDetailForm.controls.videoId.valid">
           </ion-input>
@@ -103,76 +106,26 @@
       </form>
     </div>
     <div *ngIf="isGfycat()" style="padding-top:20px;">
-      <ion-title style="padding-top:20px;">Viewport Angle (0-360 degrees)</ion-title>
-
       <form [formGroup]="gfycatDetailForm">
         <ion-item no-lines>
-          <ion-range pin="true" (ionChange)="onRangeChange()" min="0" max="360" formControlName="angle" color="secondary">
-            <ion-label range-left>0°</ion-label>
-            <ion-label range-right>360°</ion-label>
-          </ion-range>  
-        </ion-item>
-
-        <ion-title style="padding-top:20px;">Pictures (use up to 3)</ion-title>
-        <ion-item no-lines>
-          <ion-label required stacked>Imgur URL #1</ion-label>
+          <ion-label required stacked class="moreWidth">gfycat URL / gfycat ID</ion-label>
           <ion-input 
             type="text" 
-            formControlName="picture_1"
-            [class.invalid]="!gfycatDetailForm.controls.picture_1.valid && (gfycatDetailForm.controls.picture_1.dirty || submitAttempt)"
-            [class.valid]="gfycatDetailForm.controls.picture_1.valid">
+            formControlName="videoId"
+            (ionChange)="onVideoUrlChanged($event)"
+            [class.invalid]="!gfycatDetailForm.controls.videoId.valid && (gfycatDetailForm.controls.videoId.dirty || submitAttempt)"
+            [class.valid]="gfycatDetailForm.controls.videoId.valid">
           </ion-input>
         </ion-item>
         <ion-item 
           no-lines 
-          *ngIf="gfycatDetailForm.controls.picture_1.valid">
-          <img width="50%" class="screenshot" src="{{gfycatDetailForm.controls.picture_1.value}}" />
-        </ion-item>
-        <ion-item 
-          no-lines 
-          *ngIf="!gfycatDetailForm.controls.picture_1.valid  && (gfycatDetailForm.controls.picture_1.dirty || submitAttempt)">
-          <p>Please enter the URL of a screenshot hosted at imgur.com</p>
+          *ngIf="!gfycatDetailForm.controls.videoId.valid  && (gfycatDetailForm.controls.videoId.dirty || submitAttempt)">
+          <p>Please enter a valid gfycat Video ID or the URL of your gfycat video</p>
         </ion-item>
 
-        <ion-item no-lines>
-          <ion-label stacked>Imgur URL #2</ion-label>
-          <ion-input 
-            type="text" 
-            formControlName="picture_2"
-            [class.invalid]="!gfycatDetailForm.controls.picture_2.valid && (gfycatDetailForm.controls.picture_2.dirty || submitAttempt)"
-            [class.valid]="gfycatDetailForm.controls.picture_2.valid  && gfycatDetailForm.controls.picture_2.dirty">
-          </ion-input>
-        </ion-item>
-        <ion-item 
-          no-lines 
-          *ngIf="gfycatDetailForm.controls.picture_2.valid && gfycatDetailForm.controls.picture_2.value !== ''">
-          <img width="50%" class="screenshot" src="{{gfycatDetailForm.controls.picture_2.value}}" />
-        </ion-item>
-        <ion-item 
-          no-lines 
-          *ngIf="!gfycatDetailForm.controls.picture_2.valid  && (gfycatDetailForm.controls.picture_2.dirty || submitAttempt)">
-          <p>Please enter the URL of a screenshot hosted at imgur.com</p>
-        </ion-item>
-
-        <ion-item no-lines>
-          <ion-label stacked>Imgur URL #3</ion-label>
-          <ion-input 
-            type="text" 
-            formControlName="picture_3"
-            [class.invalid]="!gfycatDetailForm.controls.picture_3.valid && (gfycatDetailForm.controls.picture_3.dirty || submitAttempt)"
-            [class.valid]="gfycatDetailForm.controls.picture_3.valid && gfycatDetailForm.controls.picture_3.dirty">
-          </ion-input>
-        </ion-item>
-        <ion-item 
-          no-lines 
-          *ngIf="gfycatDetailForm.controls.picture_3.valid  && gfycatDetailForm.controls.picture_3.value !== ''">
-          <img width="50%" class="screenshot" src="{{gfycatDetailForm.controls.picture_3.value}}" />
-        </ion-item>
-        <ion-item 
-          no-lines 
-          *ngIf="!gfycatDetailForm.controls.picture_3.valid  && (gfycatDetailForm.controls.picture_3.dirty || submitAttempt)">
-          <p>Please enter the URL of a screenshot hosted at imgur.com</p>
-        </ion-item>
+        <div class="margin-left margin-top" [class.displayNone]="!gfycatDetailForm.valid" style='position:relative;padding-bottom:calc(100% / 1.85)'>
+          <iframe [src]='safeVidUrl' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen></iframe>
+        </div>
       </form>
     </div>
 
