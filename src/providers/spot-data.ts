@@ -49,17 +49,6 @@ export class SpotData {
           for (let key in data) {
             if (data.hasOwnProperty(key)) {
               spots.push(data[key]);
-              spots.push(data[key]);
-              spots.push(data[key]);
-              spots.push(data[key]);
-              spots.push(data[key]);
-              spots.push(data[key]);
-              spots.push(data[key]);
-              spots.push(data[key]);
-              spots.push(data[key]);
-              spots.push(data[key]);
-              spots.push(data[key]);
-              spots.push(data[key]);
             } 
           }
           this.spotCacheQuery[path] = spots;
