@@ -17,7 +17,6 @@ export class UsernameValidator {
 			.map(data => {
 				return data.json()
 			}).toPromise().then((data) => {
-				debugger;
 				if (Object.keys(data).length <= 0) {
 					return null;
 				} else {

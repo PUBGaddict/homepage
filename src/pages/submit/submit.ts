@@ -132,7 +132,6 @@ export class SubmitPage {
       this.submitAttempt = true;
       return;
     }
-    debugger;
     let strategy = this.spotHeadForm.get('strategy').value,
         title = this.spotHeadForm.get('title').value,
         tags = this.spotHeadForm.get('tags').value;
