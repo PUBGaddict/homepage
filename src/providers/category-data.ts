@@ -20,7 +20,7 @@ export class CategoryData {
               categories = [];
           for (let key in jsonData) {
             if(jsonData.hasOwnProperty(key)) {
-              categories.push({category : key, amount : jsonData[key]});
+              categories.push({category : key, amount : jsonData[key].value});
             }
           }
           return categories;
