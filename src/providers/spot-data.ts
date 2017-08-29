@@ -7,6 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
+import { CategoryData } from '../providers/category-data';
+
 
 
 @Injectable()
@@ -15,24 +17,24 @@ export class SpotData {
   private spotCacheSingle: any = {};
   private spotCacheQuery: any = {};
 
-  constructor(public http: Http) { }
+  constructor(public http: Http, public categoryData: CategoryData) { }
 
-  private loadSpot(spotId : string): Observable<any> {
+  private loadSpot(spotId: string): Observable<any> {
     if (spotId in this.spotCacheSingle) {
       console.log("loading single from cache");
       return Observable.of(this.spotCacheSingle[spotId]);
     } else {
       return this.http.get(firebaseConfig.databaseURL + '/fspots/'
-         + spotId + '.json')
+        + spotId + '.json')
         .map((data) => {
           let spot = data.json();
           this.spotCacheSingle[spotId] = spot;
-          return spot || { };
+          return spot || {};
         });
     }
   }
 
-  public getSpot(spotId : string) {
+  public getSpot(spotId: string) {
     return this.loadSpot(spotId);
   }
 
@@ -42,14 +44,14 @@ export class SpotData {
       return Observable.of(this.spotCacheQuery[path]);
     } else {
       return this.http.get(firebaseConfig.databaseURL + '/fspots.json?orderBy="path"&equalTo="'
-          + path + '"')
+        + path + '"')
         .map((rawData) => {
           let data = rawData.json(),
             spots = [];
           for (let key in data) {
             if (data.hasOwnProperty(key)) {
               spots.push(data[key]);
-            } 
+            }
           }
           this.spotCacheQuery[path] = spots;
           Object.assign(this.spotCacheSingle, spots);
@@ -66,36 +68,36 @@ export class SpotData {
     return this.loadSpots("unpublished");
   }
 
-  public getNextSpot(mapName : string, strategy : string, spotId : string) {
-    return this.loadSpots(mapName + '/' + strategy).toPromise().then( (spots) => {
+  public getNextSpot(mapName: string, strategy: string, spotId: string) {
+    return this.loadSpots(mapName + '/' + strategy).toPromise().then((spots) => {
       let keys = Object.keys(spots);
       let currIndex = keys.findIndex(k => { return k === spotId; });
-      if (currIndex+1 < keys.length) {
-        return spots[keys[currIndex+1]];
+      if (currIndex + 1 < keys.length) {
+        return spots[keys[currIndex + 1]];
       } else {
         return spots[keys[0]];
       }
     });
   }
 
-  public getPreviousSpot(mapName : string, strategy : string, spotId : string) {
-    return this.loadSpots(mapName + '/' + strategy).toPromise().then( (spots) => {
+  public getPreviousSpot(mapName: string, strategy: string, spotId: string) {
+    return this.loadSpots(mapName + '/' + strategy).toPromise().then((spots) => {
       let keys = Object.keys(spots);
       let currIndex = keys.findIndex(k => { return k === spotId; });
-      if (currIndex-1 >= 0) {
-        return spots[keys[currIndex-1]];
+      if (currIndex - 1 >= 0) {
+        return spots[keys[currIndex - 1]];
       } else {
-        return spots[keys[keys.length-1]];
+        return spots[keys[keys.length - 1]];
       }
     });
   }
 
-  getSpotsForTag(category : string) : Promise<any> {
+  getSpotsForTag(category: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.http.get(`${firebaseConfig.databaseURL}/tags/${category}.json`).toPromise()
         .then((rawData) => {
           let data = rawData.json(),
-            promises = [];
+            promises =  [];
 
           if (Object.keys(data).length === 0 && data.constructor === Object) {
             reject("category is empty");
@@ -105,10 +107,25 @@ export class SpotData {
             promises.push(this.loadSpot(key).toPromise())
           }
           Promise.all(promises).then((params) => {
-            let resArr = params.map((d) => {return d.json()});
+            let resArr = params.map((d) => { return d.json() });
             resolve(resArr);
           });
         });
-    }) 
+    })
+  }
+
+  public getRandomSpot(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.get(firebaseConfig.databaseURL + '/fspots.json?shallow=true')
+        .map(data => {
+          let keys = Object.keys(data.json());
+          let randomIndex = Math.floor(Math.random() * keys.length);
+          return keys[randomIndex];
+        }).toPromise().then(key => {
+          this.loadSpot(key).toPromise().then(spot => {
+            resolve(spot);
+          });
+        });
+    });
   }
 }

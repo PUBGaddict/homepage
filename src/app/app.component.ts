@@ -4,11 +4,13 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { CategoryData } from '../providers/category-data';
+import { SpotData } from '../providers/spot-data';
 
 import { WelcomePage } from '../pages/welcome/welcome';
 import { SelectPage } from '../pages/select/select';
 
 import { ResultPage } from '../pages/result/result';
+import { StrategyDetailPage } from '../pages/strategy-detail/strategy-detail'
 
 
 @Component({
@@ -21,7 +23,7 @@ export class MyApp {
 
   categories: any[] = [];
 
-  constructor(platform: Platform, public categoryData : CategoryData) {
+  constructor(platform: Platform, public categoryData : CategoryData, public spotData : SpotData) {
     this.categoryData.getCategories().subscribe((categories: any[]) => {
       this.categories = categories;
     });
@@ -32,6 +34,12 @@ export class MyApp {
     // reset the nav to remove previous pages and only have this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(SelectPage, { category: category });
+  }
+
+  randomSpot() {
+    this.spotData.getRandomSpot().then(spot => {
+      this.nav.setRoot(StrategyDetailPage, { spotId : spot.id });
+    });
   }
 
   search (event) {
