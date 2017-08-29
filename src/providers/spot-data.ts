@@ -95,14 +95,14 @@ export class SpotData {
       this.http.get(`${firebaseConfig.databaseURL}/tags/${category}.json`).toPromise()
         .then((rawData) => {
           let data = rawData.json(),
-            promises = []
+            promises = [];
 
           if (Object.keys(data).length === 0 && data.constructor === Object) {
             reject("category is empty");
           }
 
           for (let key in data) {
-            promises.push(this.http.get(`${firebaseConfig.databaseURL}/fspots/${key}.json`).toPromise())
+            promises.push(this.loadSpot(key).toPromise())
           }
           Promise.all(promises).then((params) => {
             let resArr = params.map((d) => {return d.json()});
