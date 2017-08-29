@@ -15,12 +15,12 @@ exports.search = functions.https.onRequest((req, res) => {
 
 	let relevantAttributes = [
 		"title",
-		"mapName",
 		"strategy",
-		"displayName"
+		"displayName",
+		"tags"
 	];
 
-	cors((req, res) => {
+	cors(req, res, () => {
 		var words = req.query["s"].split(" ");
 
 		var ref = admin.database().ref("/fspots");
@@ -34,10 +34,13 @@ exports.search = functions.https.onRequest((req, res) => {
 				for (var i in candidates) {
 					let hit = false;
 					for (var r in relevantAttributes) {
-						if (candidates[i][relevantAttributes[r]].indexOf(words[i_word]) >= 0) {
-							hit = true;
-							break;
+						let attributeName = relevantAttributes[r];
+						if (attributeName === "tags") {
+							Object.keys(candidates[i][attributeName]).forEach(t => { hit = hit || t.indexOf(words[i_word]) >= 0; });
+						} else {
+							hit = hit || candidates[i][attributeName].indexOf(words[i_word]) >= 0;
 						}
+						if (hit) break;
 					}
 					if (!hit) {
 						delete candidates[i];
