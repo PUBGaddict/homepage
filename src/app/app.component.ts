@@ -10,6 +10,7 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { SelectPage } from '../pages/select/select';
 
 import { ResultPage } from '../pages/result/result';
+import { StrategyDetailPage } from '../pages/strategy-detail/strategy-detail'
 
 
 @Component({
@@ -34,6 +35,14 @@ export class MyApp {
         de_maps.push({mapname : "coming soon :)"})
       }
       this.de_maps = de_maps;
+    });
+  }
+
+  randomSpot() {
+    this.mapData.getRandomSpot().then((spot) => {
+      this.nav.push(StrategyDetailPage, {
+        spotId : spot.id
+      });
     });
   }
 
