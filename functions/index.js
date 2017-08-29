@@ -20,7 +20,7 @@ exports.search = functions.https.onRequest((req, res) => {
 		"displayName"
 	];
 
-	cors(req, res, () => {
+	cors((req, res) => {
 		var words = req.query["s"].split(" ");
 
 		var ref = admin.database().ref("/fspots");
@@ -72,25 +72,30 @@ exports.publish = functions.https.onRequest((req, res) => {
 			}
 
 			let spot = snap.val();
-			spot.path = spot.mapName + "/" + spot.strategy;
+			spot.path = spot.strategy;
 			spot.published = true;
 			spotRef.update(spot).then(() => {
 				debug_msgs.push("updated spot");
 			});
-
-			let menuRef = admin.database().ref("/menu/" + spot.mapName);
-			menuRef.once('value').then(snap => {
-				let m = snap.val();
-				if (spot.strategy in m) {
-					m[spot.strategy]++;
-				} else {
-					m[spot.strategy] = 1;
-				}
-				menuRef.update(m).then(() => {
-					debug_msgs.push("updated menu");
-					res.status(200).send("Publish done with messages: "+ debug_msgs.join(","));
+			var promises = [];
+			for (let tag in spot.tags) {
+				let menuRef = admin.database().ref("/menu/" + tag);
+				menuRef.once('value').then(snap => {
+					let m = snap.val() || {};
+					if (m.value) {
+						m.value++;
+					} else {
+						m.value = 1;
+					}
+					promises.push(menuRef.update(m).then(() => {
+						debug_msgs.push("updated menu");
+					}));
 				});
-			});
+			}
+
+			Promise.all(promises).then(() => {
+				res.status(200).send("Publish done with messages: "+ debug_msgs.join(","));
+			});		
 		});		
 	});
 })
@@ -117,7 +122,7 @@ exports.processNewUser = functions.database.ref('/tempuser/{pushId}')
 			return admin.database().ref('uids/').update(o);
 		}
 
-	})
+})
 
 exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 	.onCreate(event => {
@@ -145,47 +150,55 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 
 		function processSpot() {
 			// validation
-			if (!post.strategy || !post.title || !post.mapname) {
-				console.log("no strategy/title/map provided");
+			if (!post.strategy || !post.title || !post.videoId) {
+				console.log("no strategy/title/videoId provided");
 				return;
 			} else {
-				if (post.strategy === "smoke" || post.strategy === "decoy" || post.strategy === 'brand') {
-					processVideoSpot();
+				if (post.strategy === "youtube") {
+					processYoutubeVideo();
 				}
-				if (post.strategy === "spot" || post.strategy === "awp") {
-					processPictureSpot();
+				if (post.strategy === "gfycat") {
+					processGfycatVideo();
 				}
 			}
 		}
 
 		// persist to spot data
 		function createSpot() {
+			let tags = {};
+			for (var i = 0; i < 3; i++) {
+				if ( !!post.tags[i] ) {
+					tags[post.tags[i]] = true;
+				}
+			}
+
 			let spot = {
 				id: sKey,
 				date: admin.database.ServerValue.TIMESTAMP,
 				title: post.title,
-				mapName: post.mapname,
 				strategy: post.strategy,
-				videoId: post.videoId || null,
+				videoId: post.videoId,
 				startSeconds: post.startSeconds || null,
 				endSeconds: post.endSeconds || null,
-				picture_1: post.picture_1 || null,
-				picture_2: post.picture_2 || null,
-				picture_3: post.picture_3 || null,
 				displayName: post.displayName || null,
+				tags : tags,
 				path: "unpublished",
 				published: false,
-				rating : 0,
-				start : post.start,
-				end: post.end,
-				angle: (post.strategy === 'spot' || post.strategy === 'awp') ? post.angle : null
+				rating : 0
 			}			
 
 			return admin.database().ref('/fspots/' + sKey)
 				.set(spot);
 		}		
 
-		function processVideoSpot() {
+		function createTag (tag) {
+			let tagRef = admin.database().ref("/tags/" + tag),
+				m = {};
+				m[sKey] =	true;
+			return tagRef.update(m);
+		}
+
+		function processYoutubeVideo() {
 			if (!post.videoId || !post.endSeconds) {
 				console.log("no videoId or valid endtime provided for smoke/decoy")
 				return;
@@ -194,6 +207,11 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 
 			let aPromises = [];
 			aPromises.push(createSpot());
+			for (var i = 0; i < 3; i++) {
+				if ( !!post.tags[i] ) {
+					aPromises.push(createTag(post.tags[i]));
+				}
+			}
 
 			// cleanup tmp folder
 			Promise.all(aPromises).then((a) => {
@@ -202,31 +220,20 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 			})
 		}
 
-		function processPictureSpot() {
-			if (post.angle < 0 || post.angle > 360) {
-				console.log("wrong angle provider for awp/spot")
-				return;
-			}
-			if (post.picture_1 === "" && post.picture_2 === "" && post.picture_3 === "") {
-				console.log("no picture path provided")
-				return;
-			}
-			if (post.picture_1 !== "" && !post.picture_1.startsWith("http://i.imgur.com/")) {
-				console.log("picture 1 not hosted at imgur");
-				return;
-			}
-			if (post.picture_2 !== "" && !post.picture_2.startsWith("http://i.imgur.com/")) {
-				console.log("picture 2 not hosted at imgur");
-				return;
-			}
-			if (post.picture_3 !== "" && !post.picture_3.startsWith("http://i.imgur.com/")) {
-				console.log("picture 3 not hosted at imgur");
+		function processGfycatVideo() {
+			if (!post.videoId) {
+				console.log("no video id provided for gfycat")
 				return;
 			}
 			console.log("data seems fine, going in!");
 
 			let aPromises = [];
 			aPromises.push(createSpot());
+			for (var i = 0; i < 3; i++) {
+				if ( !!post.tags[i] ) {
+					aPromises.push(createTag(post.tags[i]));
+				}
+			}
 
 			// cleanup tmp folder
 			Promise.all(aPromises).then((a) => {
