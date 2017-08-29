@@ -1,6 +1,18 @@
 page-submit {
+    ion-tags-input.tags-input .ion-tags-input{
+        margin-left: 15px;
+    }
+
     .margin-top {
         margin-top: 20px;
+    }
+
+    .margin-left {
+        margin-left: 15px;
+    }
+
+    .padding-left {
+        padding-left: 15px;
     }
 
     .item-md.item-block .item-inner {
@@ -31,7 +43,7 @@ page-submit {
         color: red;
     }
  
-    ion-input, ion-select, ion-textarea {
+    ion-input, ion-select, ion-textarea, .ion-tags-input {
         background-color: #f2f2f2;
         padding: 5px 10px;
     }
