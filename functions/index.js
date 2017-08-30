@@ -84,13 +84,10 @@ exports.publish = functions.https.onRequest((req, res) => {
 			for (let tag in spot.tags) {
 				let menuRef = admin.database().ref("/menu/" + tag);
 				menuRef.once('value').then(snap => {
-					let m = snap.val() || {};
-					if (m.value) {
-						m.value++;
-					} else {
-						m.value = 1;
-					}
-					promises.push(menuRef.update(m).then(() => {
+					let value = snap.val() || 0,
+						node = {};
+					node[tag] = ++value;
+					promises.push(admin.database().ref("/menu/").update(node).then(() => {
 						debug_msgs.push("updated menu");
 					}));
 				});
