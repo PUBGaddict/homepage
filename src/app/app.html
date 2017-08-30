@@ -24,6 +24,9 @@
               <ion-badge item-end>{{category.amount}}</ion-badge>
             </button>
         </ion-list>
+        <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
         <ion-footer>
             <ion-toolbar>
                 <a href="/#/impressum" style="cursor:pointer;text-decoration: none;color: #757575;padding-top:9px;padding-left:20px;">Impressum</a>

@@ -24,7 +24,7 @@ export class MyApp {
   categories: any[] = [];
 
   constructor(platform: Platform, public categoryData : CategoryData, public spotData : SpotData) {
-    this.categoryData.getCategories().subscribe((categories: any[]) => {
+    this.categoryData.getInitialCategories().then((categories: any[]) => {
       this.categories = categories;
     });
   }
@@ -34,6 +34,20 @@ export class MyApp {
     // reset the nav to remove previous pages and only have this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(SelectPage, { category: category });
+  }
+
+  doInfinite(infiniteScroll) {
+    console.log('Begin async operation');
+
+    // this.categoryData.getNextCategories()
+    //   .then(patchNote => {
+    //     this.categories.push(patchNote);
+    //     infiniteScroll.complete();
+    //     console.log('Async operation has ended');
+    //   }).catch(reason => {
+    //     infiniteScroll.complete();
+    //     console.log("No more patchnotes found");
+    //   })
   }
 
   randomSpot() {

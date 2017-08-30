@@ -107,8 +107,7 @@ export class SpotData {
             promises.push(this.loadSpot(key).toPromise())
           }
           Promise.all(promises).then((params) => {
-            let resArr = params.map((d) => { return d.json() });
-            resolve(resArr);
+            resolve(params);
           });
         });
     })
