@@ -35,14 +35,28 @@ export class CategoryData {
     return this.loadCategories();
   }
 
-  loadMenuItems(startAt: number) : Promise<any> {
-    return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="$value"&startAt=${startAt}&limitToLast=10`)
+  loadNextItems() : Promise<any> {
+    return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="$value"&startAt=${this.currentLowestValue}&limitToFirst=20`)
     .map(items => {
-      return items.json();
+      let categorySet = items.json();
+      let arr = [];
+      for (let key in categorySet) {
+        if (this.currentLowestValue === 0) {
+          this.currentLowestValue = categorySet[key];
+        }
+        if (categorySet[key] < this.currentLowestValue) {
+          this.currentLowestValue = categorySet[key];          
+        }
+        arr.push({category : key, amount : categorySet[key]})
+      }
+      arr.sort((a,b) => {
+        return b.amount - a.amount;
+      });
+      return arr;
     }).toPromise();
   }
 
-  private sortAndFindLowest(categorySet) {
+  /* private sortAndFindLowest(categorySet) {
     let arr = [];
     for (let key in categorySet) {
       if (this.currentLowestValue === 0) {
@@ -57,16 +71,16 @@ export class CategoryData {
       return a.amount < b.amount;
     });
     return arr;
-  }
+  } */
 
   getInitialCategories() : Promise<any> {
-    return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="$value"&limitToLast=50`)
+    return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="$value"&limitToLast=10`)
     .map(rawItems => {
       let categorySet = rawItems.json();
       let arr = [];
       for (let key in categorySet) {
         if (this.currentLowestValue === 0) {
-          this.currentLowestValue = this.categorySet[key];
+          this.currentLowestValue = categorySet[key];
         }
         if (categorySet[key] < this.currentLowestValue) {
           this.currentLowestValue = categorySet[key];          
@@ -76,10 +90,14 @@ export class CategoryData {
       arr.sort((a,b) => {
         return b.amount - a.amount;
       });
-      debugger;
       return arr;
     }).toPromise();
   }
+
+  getNextCategories() : Promise<any> {
+    return this.loadNextItems();
+  }
+
   getCategoriesWithLessSpotsThan (number : number) {
     // return new Promise((resolve, reject) => {
     //   if (!number || number < 0) {

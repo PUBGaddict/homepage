@@ -39,15 +39,15 @@ export class MyApp {
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
 
-    // this.categoryData.getNextCategories()
-    //   .then(patchNote => {
-    //     this.categories.push(patchNote);
-    //     infiniteScroll.complete();
-    //     console.log('Async operation has ended');
-    //   }).catch(reason => {
-    //     infiniteScroll.complete();
-    //     console.log("No more patchnotes found");
-    //   })
+    this.categoryData.getNextCategories()
+      .then(categories => {
+        this.categories.push(categories);
+        infiniteScroll.complete();
+        console.log('Async operation has ended');
+      }).catch(reason => {
+        infiniteScroll.complete();
+        console.log("No more categories found");
+      })
   }
 
   randomSpot() {
