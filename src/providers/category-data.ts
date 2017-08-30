@@ -12,7 +12,7 @@ import 'rxjs/add/observable/of';
 export class CategoryData {
 
   currentLowestValue : number = 0;
-  categorySet : {};
+  categorySet = {};
   allCategories : Array<any> = [];
 
   constructor(public http: Http) { }
@@ -42,43 +42,44 @@ export class CategoryData {
     }).toPromise();
   }
 
-  private addFreshCategories (categorySet) {
-    Object.assign(this.categorySet, categorySet);
-
-    debugger;
+  private sortAndFindLowest(categorySet) {
     let arr = [];
     for (let key in categorySet) {
       if (this.currentLowestValue === 0) {
         this.currentLowestValue = this.categorySet[key];
       }
-      if (this.categorySet[key] < this.currentLowestValue) {
-        this.currentLowestValue = this.categorySet[key];          
+      if (categorySet[key] < this.currentLowestValue) {
+        this.currentLowestValue = categorySet[key];          
       }
       arr.push({category : key, amount : categorySet[key]})
     }
     arr.sort((a,b) : any => {
       return a.amount < b.amount;
     });
-    this.allCategories = [...this.allCategories, ...arr];
+    return arr;
   }
 
   getInitialCategories() : Promise<any> {
-    return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="$value"&limitToLast=10`)
+    return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="$value"&limitToLast=50`)
     .map(rawItems => {
-      this.addFreshCategories(rawItems.json());      
+      let categorySet = rawItems.json();
+      let arr = [];
+      for (let key in categorySet) {
+        if (this.currentLowestValue === 0) {
+          this.currentLowestValue = this.categorySet[key];
+        }
+        if (categorySet[key] < this.currentLowestValue) {
+          this.currentLowestValue = categorySet[key];          
+        }
+        arr.push({category : key, amount : categorySet[key]})
+      }
+      arr.sort((a,b) : any => {
+        return a.amount < b.amount;
+      });
       debugger;
-      return this.allCategories;
+      return arr;
     }).toPromise();
   }
-
-  // getInitialCategories() : Promise<any> {
-  //   return new Promise((resolve, reject) => {
-  //     this.loadHighestCategories().then(highestCat => {
-  //       debugger;
-  //     })
-  //   })
-  // } 
-
   getCategoriesWithLessSpotsThan (number : number) {
     // return new Promise((resolve, reject) => {
     //   if (!number || number < 0) {
