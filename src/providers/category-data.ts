@@ -73,8 +73,8 @@ export class CategoryData {
         }
         arr.push({category : key, amount : categorySet[key]})
       }
-      arr.sort((a,b) : any => {
-        return a.amount < b.amount;
+      arr.sort((a,b) => {
+        return b.amount - a.amount;
       });
       debugger;
       return arr;
