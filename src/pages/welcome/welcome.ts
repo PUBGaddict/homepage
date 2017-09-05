@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { PatchnoteData } from '../../providers/patchnote-data';
 import { SubmitPage } from '../submit/submit';
+import { Http } from '@angular/http';
+import { firebaseConfig } from '../../app/app.module';
+
+import * as firebase from 'firebase/app';
 
 /*
   Generated class for the Welcome page.
@@ -17,7 +21,7 @@ export class WelcomePage {
   public patchNotes = [];
   public patchNotesRepo = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public patchnoteData : PatchnoteData) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public patchnoteData : PatchnoteData, private http: Http) {
     this.patchnoteData.getInitialPatchNotes().then((initialPatchNotes) => {
       this.patchNotes = initialPatchNotes;
     })
@@ -45,6 +49,11 @@ export class WelcomePage {
       infiniteScroll.complete();
       console.log("No more patchnotes found");
     })
+  }
+
+  addThing () {
+    let ref = firebase.database().ref("test").push().key;
+    //return this.http.post(firebaseConfig.databaseURL + '/lal.json', {test: 5}).subscribe();
   }
 
   ionViewDidLoad() {
