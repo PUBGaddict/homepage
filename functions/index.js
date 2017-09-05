@@ -84,9 +84,15 @@ exports.publish = functions.https.onRequest((req, res) => {
 			for (let tag in spot.tags) {
 				let menuRef = admin.database().ref("/menu/" + tag);
 				menuRef.once('value').then(snap => {
-					let value = snap.val() || 0,
+					let bExists = !!snap.val(),
+						val = bExists ? snap.val() : {key : admin.database().ref().push().key, amount : 1 },
 						node = {};
-					node[tag] = ++value;
+					
+					if ( bExists ) {
+						val.amount++;
+					}
+
+					node[tag] = val;
 					promises.push(admin.database().ref("/menu/").update(node).then(() => {
 						debug_msgs.push("updated menu");
 					}));
@@ -94,6 +100,7 @@ exports.publish = functions.https.onRequest((req, res) => {
 			}
 
 			Promise.all(promises).then(() => {
+				console.log("Published tag: " + tag);				
 				res.status(200).send("Publish done with messages: "+ debug_msgs.join(","));
 			});		
 		});		
