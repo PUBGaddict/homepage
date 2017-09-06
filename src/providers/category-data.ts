@@ -74,7 +74,7 @@ export class CategoryData {
   } */
 
   getInitialCategories() : Promise<any> {
-    return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="$value"&limitToLast=10`)
+    return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="amount"&limitToLast=10`)
     .map(rawItems => {
       let categorySet = rawItems.json();
       let arr = [];
@@ -85,7 +85,7 @@ export class CategoryData {
         if (categorySet[key] < this.currentLowestValue) {
           this.currentLowestValue = categorySet[key];          
         }
-        arr.push({category : key, amount : categorySet[key]})
+        arr.push({category : key, amount : categorySet[key].amount})
       }
       arr.sort((a,b) => {
         return b.amount - a.amount;
