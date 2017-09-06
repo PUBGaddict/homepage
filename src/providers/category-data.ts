@@ -14,102 +14,49 @@ export class CategoryData {
   currentLowestValue : number = 0;
   categorySet = {};
   allCategories : Array<any> = [];
+  lastId : string = "";
 
   constructor(public http: Http) { }
 
-  private loadCategories(): any {
-      return this.http.get(firebaseConfig.databaseURL + '/menu.json')
-        .map(data => {
-          let jsonData = data.json(),
-              categories = [];
-          for (let key in jsonData) {
-            if(jsonData.hasOwnProperty(key)) {
-              categories.push({category : key, amount : jsonData[key]});
-            }
-          }
-          return categories;
-        });
+  private processCategories (items) {
+
   }
 
-  getCategories() {
-    return this.loadCategories();
-  }
-
-  loadNextItems() : Promise<any> {
-    return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="$value"&startAt=${this.currentLowestValue}&limitToFirst=20`)
+  getNextCategories() : Promise<any> {
+    return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="key"&endAt="${this.lastId}"&limitToLast=10`)
     .map(items => {
       let categorySet = items.json();
       let arr = [];
       for (let key in categorySet) {
-        if (this.currentLowestValue === 0) {
-          this.currentLowestValue = categorySet[key];
-        }
-        if (categorySet[key] < this.currentLowestValue) {
-          this.currentLowestValue = categorySet[key];          
-        }
-        arr.push({category : key, amount : categorySet[key]})
+        arr.push({category : key, amount : categorySet[key].amount, key : categorySet[key].key})
       }
-      arr.sort((a,b) => {
-        return b.amount - a.amount;
-      });
+      arr.sort((b,a) => {
+        if(a.key < b.key) return -1;
+        if(a.key > b.key) return 1;
+        return 0;
+      })
+      this.lastId = arr[arr.length-1].key;  
+      arr.splice(0,1);
       return arr;
     }).toPromise();
   }
 
-  /* private sortAndFindLowest(categorySet) {
-    let arr = [];
-    for (let key in categorySet) {
-      if (this.currentLowestValue === 0) {
-        this.currentLowestValue = this.categorySet[key];
-      }
-      if (categorySet[key] < this.currentLowestValue) {
-        this.currentLowestValue = categorySet[key];          
-      }
-      arr.push({category : key, amount : categorySet[key]})
-    }
-    arr.sort((a,b) : any => {
-      return a.amount < b.amount;
-    });
-    return arr;
-  } */
-
   getInitialCategories() : Promise<any> {
-    return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="amount"&limitToLast=10`)
+    return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="key"&limitToLast=20`)
     .map(rawItems => {
       let categorySet = rawItems.json();
       let arr = [];
       for (let key in categorySet) {
-        if (this.currentLowestValue === 0) {
-          this.currentLowestValue = categorySet[key];
-        }
-        if (categorySet[key] < this.currentLowestValue) {
-          this.currentLowestValue = categorySet[key];          
-        }
-        arr.push({category : key, amount : categorySet[key].amount})
+        arr.push({category : key, amount : categorySet[key].amount, key : categorySet[key].key})
       }
-      arr.sort((a,b) => {
-        return b.amount - a.amount;
-      });
+      arr.sort((b,a) => {
+        if(a.key < b.key) return -1;
+        if(a.key > b.key) return 1;
+        return 0;
+      })
+      this.lastId = arr[arr.length-1].key;
+      console.log("last id: " + this.lastId)
       return arr;
     }).toPromise();
-  }
-
-  getNextCategories() : Promise<any> {
-    return this.loadNextItems();
-  }
-
-  getCategoriesWithLessSpotsThan (number : number) {
-    // return new Promise((resolve, reject) => {
-    //   if (!number || number < 0) {
-    //     reject("no older patchnotes found");
-    //   }
-  
-      // return this.http.get(firebaseConfig.databaseURL + '/menu.json')
-      //   .ref('n/p/' + number + '.json')
-      //   .getDownloadURL()
-      //   .then(url => {
-      //     resolve(this.downloadUrlContent(url));
-      //   })
-    // })
   }
 }

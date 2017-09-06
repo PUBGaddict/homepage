@@ -41,7 +41,7 @@ export class MyApp {
 
     this.categoryData.getNextCategories()
       .then(categories => {
-        this.categories.push(categories);
+        this.categories.push(...categories);
         infiniteScroll.complete();
         console.log('Async operation has ended');
       }).catch(reason => {
