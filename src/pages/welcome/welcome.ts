@@ -51,21 +51,6 @@ export class WelcomePage {
     })
   }
 
-  i = 31;
-  addThing () {
-    let key = firebase.database().ref("/menu").push().key,
-      amount = 1,
-      o = {},
-      tag = "test" + this.i++;
-      o[tag] = {
-        key : key,
-        amount : amount
-      }
-      console.log(key + "/" +  amount);
-    firebase.database().ref("/menu").update(o);
-    //return this.http.post(firebaseConfig.databaseURL + '/lal.json', {test: 5}).subscribe();
-  }
-
   ionViewDidLoad() {
     ga('set', 'page', '/welcome');
     ga('send', 'event', "page", "visit", "welcome");
