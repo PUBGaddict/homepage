@@ -9,7 +9,6 @@ import { SpotData } from '../providers/spot-data';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { SelectPage } from '../pages/select/select';
 
-import { ResultPage } from '../pages/result/result';
 import { StrategyDetailPage } from '../pages/strategy-detail/strategy-detail'
 
 
@@ -19,7 +18,6 @@ import { StrategyDetailPage } from '../pages/strategy-detail/strategy-detail'
 export class MyApp {
   rootPage = WelcomePage;
   @ViewChild(Nav) nav: Nav;
-  @ViewChild('searchBar') searchBar: any;
 
   categories: any[] = [];
 
@@ -54,15 +52,5 @@ export class MyApp {
     this.spotData.getRandomSpot().then(spot => {
       this.nav.setRoot(StrategyDetailPage, { spotId : spot.id });
     });
-  }
-
-  search (event) {
-    let val = event.target.value;
-    var that = this;
-    if (val && val.trim() != '' && val.length > 1) {
-      // if not yet displaying result page in details section, display it and switch to the other searchinput
-      this.searchBar.value = "";
-      this.nav.setRoot(ResultPage, { query: val });
-    }
   }
 }
