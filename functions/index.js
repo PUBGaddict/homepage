@@ -85,12 +85,20 @@ exports.publish = functions.https.onRequest((req, res) => {
 				let menuRef = admin.database().ref("/menu/" + tag);
 				menuRef.once('value').then(snap => {
 					let bExists = !!snap.val(),
-						val = bExists ? snap.val() : {key : admin.database().ref().push().key, amount : 1 },
+						val = bExists ? snap.val() : { amount : 0, },
 						node = {};
 					
-					if ( bExists ) {
-						val.amount++;
+					val.amount++;
+
+					let amountLength = val.amount.toString().length,
+						restLength = 6 - amountLength,
+						leadingZeroString = "" + val.amount;
+					for ( let i = 0; i < restLength; i++) {
+						leadingZeroString = "0" + leadingZeroString;
 					}
+					val.key = leadingZeroString + "/" + admin.database().ref().push().key;
+
+					console.log("key: " + val.key);
 
 					node[tag] = val;
 					promises.push(admin.database().ref("/menu/").update(node).then(() => {
@@ -99,8 +107,7 @@ exports.publish = functions.https.onRequest((req, res) => {
 				});
 			}
 
-			Promise.all(promises).then(() => {
-				console.log("Published tag: " + tag);				
+			Promise.all(promises).then(() => {	
 				res.status(200).send("Publish done with messages: "+ debug_msgs.join(","));
 			});		
 		});		
