@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { PatchnoteData } from '../../providers/patchnote-data';
 import { SubmitPage } from '../submit/submit';
 import { Http } from '@angular/http';
 import { firebaseConfig } from '../../app/app.module';
+import { ResultPage } from '../result/result';
 
 import * as firebase from 'firebase/app';
 
@@ -60,5 +61,16 @@ export class WelcomePage {
 
   openSubmitPage() {
     this.navCtrl.push(SubmitPage);
+  }
+  @ViewChild('searchBar') searchBar: any;
+  search (event) {
+    let val = event.target.value;
+    var that = this;
+    if (val && val.trim() != '' && val.length > 1) {
+      // if not yet displaying result page in details section, display it and switch to the other searchinput
+      this.searchBar.value = "";
+      this.navCtrl.push(ResultPage, { query: val });
+      // this.nav.setRoot(ResultPage, { query: val });
+    }
   }
 }

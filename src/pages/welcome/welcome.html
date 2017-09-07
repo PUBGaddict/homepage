@@ -6,13 +6,16 @@
     </button>
     <div class="item row">
       <ion-title align="left" class="col col-50">Latest News</ion-title>
+
+      <ion-searchbar placeholder="" class="searchBar" #searchBar (ionInput)="search($event)"></ion-searchbar>
+      
       <auth></auth>
     </div>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding>    
   <ion-fab bottom right>
     <button ion-fab (click)="openSubmitPage()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
