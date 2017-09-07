@@ -38,7 +38,7 @@ export class CategoryData {
     if (this.lastId !== "") {
       arr.splice(0,1);
     }
-    this.lastId = arr[arr.length-1].key;  
+    this.lastId = arr.length > 0 ? arr[arr.length-1].key : "";  
     return arr;
   }
 
