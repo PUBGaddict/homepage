@@ -2,10 +2,6 @@ page-welcome {
     .paddingLeft {
         padding-left: 20px;
     }
-    .searchbar-md .searchbar-search-icon {
-        right: 1px;
-        left: auto;
-    }
     .searchbar-clear-icon.button.button-md.button-clear.button-clear-md {
         left: 16px;
         right: auto;
@@ -14,15 +10,26 @@ page-welcome {
         margin-right: 15px;
         width: 250px;
         float: right;
-    }
-    .toolbar .searchbar-md {
-        padding: 0 12px 0px 0;
-        border-bottom: 1px solid lightgray;
-    }
-    .searchBar .searchbar-input {
-        background:#f8f8f8;
-        box-shadow: none;
-        -webkit-box-shadow: none;
+
+        .searchbar-search-icon {
+            right: 1px;
+            left: auto;
+        }
+        @media screen and (max-width: 950px) {
+            width : 150px;
+            margin-top: 4px;
+        }
+        .searchbar-input {
+            background:#f8f8f8;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+        }
+
+        //android & pwa styling
+        &.searchbar-md {
+            padding: 0 12px 0px 0;
+            border-bottom: 1px solid lightgray;
+        }
     }
     
     auth {
