@@ -11,12 +11,6 @@
 </ion-header>
 
 <ion-content padding #container>
-
-  <ion-fab bottom right>
-   <!--  <button *ngIf="!isUnpublished()" ion-fab (click)="openSubmitPage()"><ion-icon name="add"></ion-icon></button> -->
-    <button *ngIf="isUnpublished()" ion-fab (click)="rejectSpot()"><ion-icon name="close"></ion-icon></button>
-    <button *ngIf="isUnpublished()" ion-fab (click)="acceptSpot(spot.id)"><ion-icon name="checkmark"></ion-icon></button>
-  </ion-fab>
   <ion-list no-lines>
     <ion-label color="primary">Created By</ion-label>
     <button ion-button color="dark" clear (click)="userPressed(spot)">{{spot.displayName}}</button>
@@ -48,7 +42,16 @@
       <iframe [src]='safeVidUrl' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen></iframe>
     </div>
   </ion-list>
-  <ion-footer no-border>    
+  
+  <!--  <button *ngIf="!isUnpublished()" ion-fab (click)="openSubmitPage()"><ion-icon name="add"></ion-icon></button> -->
+  <button style="float:right;" ion-button *ngIf="isUnpublished()" (click)="rejectSpot()">
+    <ion-icon name="close"></ion-icon>
+  </button>
+  <button style="float:right;" ion-button *ngIf="isUnpublished()" (click)="acceptSpot(spot.id)">
+    <ion-icon name="checkmark"></ion-icon>
+  </button>
+
+  <ion-footer *ngIf="!isUnpublished()" no-border>    
     <ion-toolbar no-border>
         <ion-buttons start>
           <button ion-button icon-only (click)="previousSpot()">
