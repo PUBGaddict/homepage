@@ -3,15 +3,14 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <div class="item row">
-        <ion-title>Submit new Spot</ion-title>
-        <auth></auth>    
-      </div>     
+    <auth float-right></auth>        
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
+  <ion-title>Submit new Spot</ion-title>    
+
   <ion-label>Please be aware that we check every spot personally before making it public. This will take some minutes.</ion-label>
   
   <form [formGroup]="spotHeadForm">
