@@ -9,18 +9,18 @@ page-welcome {
     .searchBar {
         margin-right: 15px;
         width: 250px;
-        float: right;
 
         .searchbar-search-icon {
             right: 1px;
-            left: auto;
+            left: auto;            
         }
 
         //mobile only
         @media screen and (max-width: 950px) {
             width : 150px;
             margin-top: 4px;
-
+            border-bottom: 1px solid lightgray;
+            
             .searchbar-clear-icon.button-clear {
                 left: 1px;
                 right: auto;
