@@ -23,7 +23,9 @@
   background-color: $background-dark;
 }
 
-
+ion-content .scroll-content{
+  overflow: hidden;
+}
 
 // iOS
 .content-ios.outer-content {
