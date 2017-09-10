@@ -7,13 +7,15 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Login</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+  <ion-title margin-bottom>Login</ion-title>
+    
   <form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
       
     <ion-item no-lines>

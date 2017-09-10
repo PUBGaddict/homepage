@@ -7,13 +7,15 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Create Account</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+  <ion-title margin-bottom>Create Account</ion-title>
+    
   <form [formGroup]="signupForm" (submit)="signupUser()" novalidate>
 
     <ion-item no-lines>
