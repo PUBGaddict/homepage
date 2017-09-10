@@ -14,9 +14,16 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+// android & windows
 .item.item-block {
   background-color: $background-dark;
 }
 .content-md {
+  background-color: $background-dark;
+}
+
+// iOS
+.content-ios.outer-content {
   background-color: $background-dark;
 }

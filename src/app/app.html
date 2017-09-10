@@ -16,11 +16,11 @@
                   Random Spot
                 </button>
               </div>
-              <h2 style="margin-top:25px;">Categories</h2>
+              <ion-title style="margin-top:25px;">Categories</ion-title>
             </ion-list-header>
             <button ion-item *ngFor="let category of categories" (click)="openPage(category.category)">
             {{category.category}}
-              <ion-badge item-end>{{category.amount}}</ion-badge>
+              <ion-badge item-end color="secondary">{{category.amount}}</ion-badge>
             </button>
         </ion-list>
         <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
