@@ -1,8 +1,8 @@
 <!-- Generated template for the AuthComponent component -->
 <div *ngIf="authServiceProvider.authenticated" align="right">
-  <ion-label color="primary" class="displayName" style="float: left;overflow: hidden;">{{userName}}</ion-label>
-  <button style="float: left;overflow: hidden;" ion-button outline (click)="logout()">Logout</button>
+  <ion-label color="secondary" class="displayName" style="float: left;overflow: hidden;">{{userName}}</ion-label>
+  <button color="secondary" style="float: left;overflow: hidden;" ion-button outline (click)="logout()">Logout</button>
 </div>
 <div *ngIf="!authServiceProvider.authenticated" align="right">
-  <button ion-button outline (click)="login()" >Login</button>
+  <button color="secondary" ion-button outline (click)="login()" >Login</button>
 </div>

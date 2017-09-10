@@ -33,7 +33,7 @@ page-welcome {
             background: $background-superdark;
             box-shadow: none;
             -webkit-box-shadow: none;
-            color: map-get($colors, primary);
+            color: map-get($colors, secondary);
         }
 
         //android & pwa styling
