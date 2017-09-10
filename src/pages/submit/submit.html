@@ -16,7 +16,7 @@
   
   <form [formGroup]="spotHeadForm">
     <ion-item no-lines>
-      <ion-label stacked required>Title</ion-label>
+      <ion-label stacked padding-top required>Title</ion-label>
       <ion-input 
         type="text" 
         formControlName="title" 
@@ -31,9 +31,9 @@
     </ion-item>
     
     <ion-item no-lines>    
-      <ion-label stacked required>Where is your stuff hosted?</ion-label>
+      <ion-label stacked padding-top required>Where is your stuff hosted?</ion-label>
         <ion-select
-        class="morePaddingTop"
+        padding-top
         formControlName="strategy" 
         (ionChange)="displayDetails()"
         [class.valid]="spotHeadForm.controls.strategy.valid">
@@ -43,19 +43,19 @@
     </ion-item>
 
     <ion-item no-lines>
-      <ion-label style="color:#999;" stacked required>Tags (at least 1, up to 3)</ion-label>
+      <ion-label style="color:#999;" stacked padding-top required>Tags (at least 1, up to 3)</ion-label>
     </ion-item>
-    <ion-tags-input class="tags-input" formControlName="tags" (onChange)="onChangeTag($event)" [separatorStr]="' '"></ion-tags-input>
+    <ion-tags-input [color]="'primary'" class="tags-input" color="primary" formControlName="tags" (onChange)="onChangeTag($event)" [separatorStr]="' '"></ion-tags-input>
 
   </form>
 
   <div #spotDetails [class.invisible]="detailsInvisible">
-    <div *ngIf="isYoutube()" style="padding-top:20px;">
+    <div *ngIf="isYoutube()" padding-top>
       
       <form [formGroup]="youtubeDetailForm">
-        <ion-title>Youtube settings</ion-title>
+        <ion-title padding-top>Youtube settings</ion-title>
         <ion-item no-lines>
-          <ion-label required stacked class="moreWidth">YouTube URL / YouTube Video ID</ion-label>
+          <ion-label padding-top required stacked class="moreWidth">YouTube URL / YouTube Video ID</ion-label>
           <ion-input 
             type="text" 
             formControlName="videoId"
@@ -71,7 +71,7 @@
         </ion-item>
 
         <ion-item no-lines>
-          <ion-label required stacked class="moreWidth" >YouTube Video Start Time in Seconds</ion-label>
+          <ion-label padding-top required stacked class="moreWidth" >YouTube Video Start Time in Seconds</ion-label>
           <ion-input 
             type="text" 
             formControlName="startSeconds"  
@@ -87,7 +87,7 @@
         </ion-item>
 
         <ion-item no-lines>
-          <ion-label required stacked class="moreWidth" >YouTube Video End Time in Seconds</ion-label>
+          <ion-label padding-top required stacked class="moreWidth" >YouTube Video End Time in Seconds</ion-label>
           <ion-input 
             type="text" 
             formControlName="endSeconds"
@@ -105,7 +105,7 @@
         <youtube-player [class.displayNone]="!youtubeDetailForm.valid" #youtubePlayer [start]="youtubeDetailForm.get('startSeconds').value" [end]="youtubeDetailForm.get('endSeconds').value" [vid]="''" [width]="'100%'"></youtube-player>
       </form>
     </div>
-    <div *ngIf="isGfycat()" style="padding-top:20px;">
+    <div *ngIf="isGfycat()" padding-top>
       <form [formGroup]="gfycatDetailForm">
         <ion-item no-lines>
           <ion-label required stacked class="moreWidth">gfycat URL / gfycat ID</ion-label>
@@ -123,13 +123,13 @@
           <p>Please enter a valid gfycat Video ID or the URL of your gfycat video</p>
         </ion-item>
 
-        <div class="margin-left margin-top" [class.displayNone]="!gfycatDetailForm.valid" style='position:relative;padding-bottom:calc(100% / 1.85)'>
+        <div margin-top [class.displayNone]="!gfycatDetailForm.valid" style='position:relative;padding-bottom:calc(100% / 1.85)'>
           <iframe [src]='safeVidUrl' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen></iframe>
         </div>
       </form>
     </div>
 
-    <button class="margin-top" block ion-button (click)="savePressed()" [disabled]="saveButtonDisabled">
+    <button margin-top block ion-button (click)="savePressed()" [disabled]="saveButtonDisabled">
       Upload
     </button>
   </div>

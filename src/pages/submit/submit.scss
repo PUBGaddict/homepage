@@ -2,18 +2,13 @@ page-submit {
     ion-tags-input.tags-input .ion-tags-input{
         margin-left: 15px;
     }
-
-    .margin-top {
-        margin-top: 20px;
+    ion-tags-input .ion-tags-input .iti-tag-color {
+        background-color: map-get($colors, primary);        
     }
-
-    .margin-left {
-        margin-left: 15px;
+    ion-tags-input .ion-tags-input.active.tit-border-color {
+        border-bottom-color: map-get($colors, primary); 
     }
-
-    .padding-left {
-        padding-left: 15px;
-    }
+        
 
     .item-md.item-block .item-inner {
         padding-right : 0;
