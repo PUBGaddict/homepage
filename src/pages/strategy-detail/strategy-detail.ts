@@ -71,7 +71,9 @@ export class StrategyDetailPage {
     this.afRatingRef.subscribe();
     this.spotData.getSpot(this.spotId).subscribe(spot => {
       this.spot = spot;
-      this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.gfycat.com/ifr/" + spot.videoId);
+      if (this.isGfycat()) {
+        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.gfycat.com/ifr/" + spot.videoId);
+      }
     });
   }
 
