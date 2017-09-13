@@ -172,7 +172,10 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 					processYoutubeVideo();
 				}
 				if (post.strategy === "gfycat") {
-					processGfycatVideo();
+					processSlugVideo();
+				}
+				if (post.strategy === "twitch") {
+					processSlugVideo();
 				}
 			}
 		}
@@ -234,9 +237,9 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 			})
 		}
 
-		function processGfycatVideo() {
+		function processSlugVideo() {
 			if (!post.videoId) {
-				console.log("no video id provided for gfycat")
+				console.log("no video id provided for gfycat or twitch")
 				return;
 			}
 			console.log("data seems fine, going in!");

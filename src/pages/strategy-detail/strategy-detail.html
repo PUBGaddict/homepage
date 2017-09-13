@@ -28,18 +28,23 @@
         </button>
       </div>
     </div>
-    <div *ngIf="isSpot()">
-      <ion-label color="primary">Screenshots</ion-label>
-      <img width="100%" class="screenshot" src="{{spot.picture_1}}" />
-      <img width="100%" class="screenshot" src="{{spot.picture_2}}" />
-      <img width="100%" class="screenshot" src="{{spot.picture_3}}" />
-    </div>
-   <div *ngIf="isGrenade()">
+   <div *ngIf="isYouTube()">
       <ion-label color="primary">Video</ion-label>
-      <youtube-player [start]="spot.startSeconds" [end]="spot.endSeconds" [vid]="spot.videoId" [width]="'100%'"></youtube-player>
+      <youtube-player #youtubePlayer [start]="spot.startSeconds" [end]="spot.endSeconds" [vid]="spot.videoId" [width]="'100%'"></youtube-player>
    </div>
-    <div *ngIf="isGfycat()" style='position:relative;padding-bottom:calc(100% / 1.85)'>
-      <iframe [src]='safeVidUrl' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen></iframe>
+   <div *ngIf="isGfycat()" style='position:relative;padding-bottom:calc(100% / 1.85)'>
+     <iframe [src]='safeVidUrl' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen></iframe>
+   </div>
+    <div *ngIf="isTwitch()" style='position:relative;padding-bottom:calc(100% / 1.85)'>
+      <iframe
+          style='position:absolute;top:0;left:0;'
+          src="https://clips.twitch.tv/embed?clip=IncredulousAbstemiousFennelImGlitch"
+          width="100%"
+          height="100%"
+          frameborder="0"
+          scrolling="no"
+          allowfullscreen="false">
+      </iframe>
     </div>
   </ion-list>
   

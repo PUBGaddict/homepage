@@ -37,6 +37,7 @@ export class SubmitPage {
   public spotHeadForm : any;
   public youtubeDetailForm : any;
   public gfycatDetailForm : any;
+  public twitchDetailForm : any;
 
   constructor(public navCtrl: NavController, public categoryData : CategoryData, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder, private sanitizer: DomSanitizer) {
     // validators
@@ -53,6 +54,10 @@ export class SubmitPage {
     });
 
     this.gfycatDetailForm = formBuilder.group({
+      videoId: ['', Validators.compose([Validators.required, Validators.pattern('[0-9a-zA-Z]*')])]
+    });
+
+    this.twitchDetailForm = formBuilder.group({
       videoId: ['', Validators.compose([Validators.required, Validators.pattern('[0-9a-zA-Z]*')])]
     });
   }
@@ -72,6 +77,10 @@ export class SubmitPage {
 
   isGfycat () {
     return this.spotHeadForm.get('strategy').value === 'gfycat';
+  }
+
+  isTwitch () {
+    return this.twitchDetailForm.get('strategy').value === 'twitch';
   }
 
   onVideoUrlChanged(event) {
@@ -95,6 +104,21 @@ export class SubmitPage {
       if (url.startsWith("https://gfycat.com")) {
         videoId = url.substr(19);
         if (url.startsWith("https://gfycat.com/ifr/")) {
+          videoId = url.substr(23);
+        }
+      } else {
+        videoId = url;
+      }
+      this.gfycatDetailForm.get('videoId').setValue(videoId);
+      this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.gfycat.com/ifr/" + videoId);
+      console.log(this.safeVidUrl);
+      return;
+    }
+
+    if (this.isGfycat()) {
+      if (url.startsWith("https://twitch.com")) {
+        videoId = url.substr(19);
+        if (url.startsWith("https://twitch.com/ifr/")) {
           videoId = url.substr(23);
         }
       } else {

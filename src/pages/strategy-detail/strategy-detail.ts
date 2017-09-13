@@ -21,6 +21,7 @@ import { UserPage } from '../user/user';
 })
 export class StrategyDetailPage {
   @ViewChild('container') container;
+  
   public height: any;
   private spotId: string;
   public color;
@@ -97,16 +98,16 @@ export class StrategyDetailPage {
     return this.spot.strategy === 'gfycat';
   }
 
+  isTwitch() {
+    return this.spot.strategy === 'twitch';
+  }
+
+  isYouTube() {
+    return this.spot.strategy === 'youtube';
+  }
+
   isUnpublished () {
     return !this.spot.published;
-  }
-
-  isGrenade () {
-    return this.spot.strategy === 'smoke' || this.spot.strategy === 'decoy' || this.spot.strategy === 'brand';
-  }
-
-  isSpot () {
-    return this.spot.strategy === 'awp' || this.spot.strategy === 'spot';
   }
 
   getVoteObject() {
