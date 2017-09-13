@@ -25,7 +25,7 @@
     </ion-item>
     <ion-item 
       no-lines 
-      *ngIf="!spotHeadForm.controls.title.valid  && (spotHeadForm.controls.title.dirty || submitAttempt)">
+      *ngIf="!spotHeadForm.controls.title.valid && (spotHeadForm.controls.title.dirty || submitAttempt)">
       <p>Please enter a valid name with more than 10 characters</p>
     </ion-item>
     
@@ -38,6 +38,7 @@
         [class.valid]="spotHeadForm.controls.strategy.valid">
         <ion-option value="youtube">YouTube</ion-option>
         <ion-option value="gfycat">GfyCat</ion-option>
+        <ion-option value="twitch">Twitch</ion-option>
       </ion-select>
     </ion-item>
 
@@ -127,6 +128,31 @@
         </div>
       </form>
     </div>
+
+    <div *ngIf="isTwitch()" padding-top>
+      <form [formGroup]="twitchDetailForm">
+        <ion-item no-lines>
+          <ion-label required stacked class="moreWidth">gfycat URL / gfycat ID</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="videoId"
+            (ionChange)="onVideoUrlChanged($event)"
+            [class.invalid]="!twitchDetailForm.controls.videoId.valid && (twitchDetailForm.controls.videoId.dirty || submitAttempt)"
+            [class.valid]="twitchDetailForm.controls.videoId.valid">
+          </ion-input>
+        </ion-item>
+        <ion-item 
+          no-lines 
+          *ngIf="!twitchDetailForm.controls.videoId.valid  && (twitchDetailForm.controls.videoId.dirty || submitAttempt)">
+          <p>Please enter a valid Twitch Video ID or the URL of your Twitch video</p>
+        </ion-item>
+
+        <div margin-top [class.displayNone]="!twitchDetailForm.valid" style='position:relative;padding-bottom:calc(100% / 1.85)'>
+          <iframe [src]='safeVidUrl' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen></iframe>
+        </div>
+      </form>
+    </div>
+
 
     <button margin-top block ion-button (click)="savePressed()" [disabled]="saveButtonDisabled">
       Upload

@@ -75,6 +75,9 @@ export class StrategyDetailPage {
       if (this.isGfycat()) {
         this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.gfycat.com/ifr/" + spot.videoId);
       }
+      if (this.isTwitch()) {
+        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://clips.twitch.tv/embed?clip=" + spot.videoId);
+      }
     });
   }
 
