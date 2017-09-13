@@ -23,8 +23,14 @@
   background-color: $background-dark;
 }
 
-ion-content .scroll-content{
-  overflow: hidden;
+ion-content .scroll-content::-webkit-scrollbar {
+  width: 5px;
+}
+ion-content .scroll-content::-webkit-scrollbar-track {
+  background: #ddd;
+}
+ion-content .scroll-content::-webkit-scrollbar-thumb {
+  background: #666; 
 }
 
 // iOS
