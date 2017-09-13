@@ -80,7 +80,7 @@ export class SubmitPage {
   }
 
   isTwitch () {
-    return this.twitchDetailForm.get('strategy').value === 'twitch';
+    return this.spotHeadForm.get('strategy').value === 'twitch';
   }
 
   onVideoUrlChanged(event) {
@@ -115,17 +115,14 @@ export class SubmitPage {
       return;
     }
 
-    if (this.isGfycat()) {
-      if (url.startsWith("https://twitch.com")) {
-        videoId = url.substr(19);
-        if (url.startsWith("https://twitch.com/ifr/")) {
-          videoId = url.substr(23);
-        }
+    if (this.isTwitch()) {
+      if (url.startsWith("https://clips.twitch.tv/")) {
+        videoId = url.substr(24);
       } else {
         videoId = url;
       }
-      this.gfycatDetailForm.get('videoId').setValue(videoId);
-      this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.gfycat.com/ifr/" + videoId);
+      this.twitchDetailForm.get('videoId').setValue(videoId);
+      this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://clips.twitch.tv/embed?clip=" + videoId);
       console.log(this.safeVidUrl);
       return;
     }
@@ -185,6 +182,11 @@ export class SubmitPage {
       this.presentToast('Please fill out all the mandatory fields so we can process your great gfycat video!');
       return;
     }
+    // if the user has selected twitch, the twitchDetailForm needs to be valid
+    if ((strategy === 'twitch') && !this.twitchDetailForm.valid) {
+      this.presentToast('Please fill out all the mandatory fields so we can process your great twitch video!');
+      return;
+    }
 
     this.saveButtonDisabled = true;
     var oSpot = {
@@ -204,6 +206,9 @@ export class SubmitPage {
     } 
     if (strategy === "gfycat") {
       oSpot.videoId = this.gfycatDetailForm.get('videoId').value;
+    }
+    if (strategy === "twitch") {
+      oSpot.videoId = this.twitchDetailForm.get('videoId').value;
     }
 
     this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
