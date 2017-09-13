@@ -171,10 +171,7 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 				if (post.strategy === "youtube") {
 					processYoutubeVideo();
 				}
-				if (post.strategy === "gfycat") {
-					processSlugVideo();
-				}
-				if (post.strategy === "twitch") {
+				if (post.strategy === "gfycat" || post.strategy === "twitch") {
 					processSlugVideo();
 				}
 			}
