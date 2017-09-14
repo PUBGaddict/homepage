@@ -171,7 +171,7 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 				if (post.strategy === "youtube") {
 					processYoutubeVideo();
 				}
-				if (post.strategy === "gfycat" || post.strategy === "twitch" || post.strategy === 'streamable') {
+				if (post.strategy === "gfycat" || post.strategy === "twitch" || post.strategy === 'streamable' || post.strategy === 'vimeo') {
 					processSlugVideo();
 				}
 			}
