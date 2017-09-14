@@ -38,6 +38,7 @@ export class SubmitPage {
   public youtubeDetailForm : any;
   public gfycatDetailForm : any;
   public twitchDetailForm : any;
+  public streamableDetailForm : any;
 
   constructor(public navCtrl: NavController, public categoryData : CategoryData, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder, private sanitizer: DomSanitizer) {
     // validators
@@ -58,6 +59,10 @@ export class SubmitPage {
     });
 
     this.twitchDetailForm = formBuilder.group({
+      videoId: ['', Validators.compose([Validators.required, Validators.pattern('[0-9a-zA-Z]*')])]
+    });
+
+    this.streamableDetailForm = formBuilder.group({
       videoId: ['', Validators.compose([Validators.required, Validators.pattern('[0-9a-zA-Z]*')])]
     });
   }
@@ -81,6 +86,10 @@ export class SubmitPage {
 
   isTwitch () {
     return this.spotHeadForm.get('strategy').value === 'twitch';
+  }
+
+  isStreamable () {
+    return this.spotHeadForm.get('strategy').value === 'streamable';
   }
 
   onVideoUrlChanged(event) {
@@ -123,6 +132,21 @@ export class SubmitPage {
       }
       this.twitchDetailForm.get('videoId').setValue(videoId);
       this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://clips.twitch.tv/embed?clip=" + videoId);
+      console.log(this.safeVidUrl);
+      return;
+    }
+
+    if (this.isStreamable()) {
+      if (url.startsWith("https://streamable.com/")) {
+        videoId = url.substr(23);
+        if (url.startsWith("https://streamable.com/e/")) {
+          videoId = url.substr(25);
+        }
+      } else {
+        videoId = url;
+      }
+      this.streamableDetailForm.get('videoId').setValue(videoId);
+      this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://streamable.com/e/" + videoId);
       console.log(this.safeVidUrl);
       return;
     }
@@ -187,6 +211,11 @@ export class SubmitPage {
       this.presentToast('Please fill out all the mandatory fields so we can process your great twitch video!');
       return;
     }
+    // if the user has selected streamable, the streamableDetailForm needs to be valid
+    if ((strategy === 'streamable') && !this.streamableDetailForm.valid) {
+      this.presentToast('Please fill out all the mandatory fields so we can process your great streamable video!');
+      return;
+    }
 
     this.saveButtonDisabled = true;
     var oSpot = {
@@ -209,6 +238,9 @@ export class SubmitPage {
     }
     if (strategy === "twitch") {
       oSpot.videoId = this.twitchDetailForm.get('videoId').value;
+    }
+    if (strategy === "streamable") {
+      oSpot.videoId = this.streamableDetailForm.get('videoId').value;
     }
 
     this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {

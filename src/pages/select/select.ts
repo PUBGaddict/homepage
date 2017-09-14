@@ -19,14 +19,6 @@ import { SubmitPage } from '../submit/submit'
 export class SelectPage {
   public category: string = "";
   public spots: Array<any> = [];
-  public map = {
-    spot : [],
-    smoke: [],
-    brand: [],
-    flash: [],
-    eco: [],
-    teamtactics: []
-  };
   public mapStatistics = {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public statisticsData : StatisticsData) {
