@@ -81,6 +81,9 @@ export class StrategyDetailPage {
       if (this.isStreamable()) {
         this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://streamable.com/e/" + spot.videoId);
       }
+      if (this.isVimeo()) {
+        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://player.vimeo.com/video/" + spot.videoId)
+      }
     });
   }
 
@@ -114,6 +117,10 @@ export class StrategyDetailPage {
 
   isStreamable() {
     return this.spot.strategy === 'streamable';
+  }
+
+  isVimeo() {
+    return this.spot.strategy === 'vimeo';
   }
 
   isUnpublished () {
