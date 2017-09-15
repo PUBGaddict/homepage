@@ -41,6 +41,11 @@ export class SignupPage {
   get email() { return this.signupForm.get('email'); }  
   get password() { return this.signupForm.get('password'); }  
 
+  ionViewDidLoad() {
+    ga('set', 'page', '/signup');
+    ga('send', 'event', "page", "visit", "signup");
+  }
+
   /**
    * If the form is valid it will call the authProvider service to sign the user up password displaying a loading
    *  component while the user waits.

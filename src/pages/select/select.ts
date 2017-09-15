@@ -19,15 +19,6 @@ import { SubmitPage } from '../submit/submit'
 export class SelectPage {
   public category: string = "";
   public spots: Array<any> = [];
-  public map = {
-    spot : [],
-    smoke: [],
-    brand: [],
-    flash: [],
-    eco: [],
-    teamtactics: []
-  };
-  public mapStatistics = {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public statisticsData : StatisticsData) {
     this.category = navParams.get("category");
@@ -40,6 +31,8 @@ export class SelectPage {
     console.log('ionViewDidLoad SelectPage');
     ga('set', 'page', '/select');
     ga('send', 'event', "page", "visit", "select");
+    ga('send', 'event', "spot", "selected", this.category);
+    
   }
 
   openSpot(spotId) {
