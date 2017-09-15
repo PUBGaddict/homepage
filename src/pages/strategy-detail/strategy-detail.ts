@@ -78,6 +78,12 @@ export class StrategyDetailPage {
       if (this.isTwitch()) {
         this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://clips.twitch.tv/embed?clip=" + spot.videoId);
       }
+      if (this.isStreamable()) {
+        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://streamable.com/e/" + spot.videoId);
+      }
+      if (this.isVimeo()) {
+        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://player.vimeo.com/video/" + spot.videoId)
+      }
     });
   }
 
@@ -107,6 +113,14 @@ export class StrategyDetailPage {
 
   isYouTube() {
     return this.spot.strategy === 'youtube';
+  }
+
+  isStreamable() {
+    return this.spot.strategy === 'streamable';
+  }
+
+  isVimeo() {
+    return this.spot.strategy === 'vimeo';
   }
 
   isUnpublished () {

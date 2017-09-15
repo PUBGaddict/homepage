@@ -38,6 +38,8 @@ export class SubmitPage {
   public youtubeDetailForm : any;
   public gfycatDetailForm : any;
   public twitchDetailForm : any;
+  public streamableDetailForm : any;
+  public vimeoDetailForm : any;
 
   constructor(public navCtrl: NavController, public categoryData : CategoryData, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder, private sanitizer: DomSanitizer) {
     // validators
@@ -60,6 +62,14 @@ export class SubmitPage {
     this.twitchDetailForm = formBuilder.group({
       videoId: ['', Validators.compose([Validators.required, Validators.pattern('[0-9a-zA-Z]*')])]
     });
+
+    this.streamableDetailForm = formBuilder.group({
+      videoId: ['', Validators.compose([Validators.required, Validators.pattern('[0-9a-zA-Z]*')])]
+    });
+
+    this.vimeoDetailForm = formBuilder.group({
+      videoId: ['', Validators.compose([Validators.required, Validators.pattern('[0-9a-zA-Z]*')])]
+    });
   }
 
   onChangeTag(val){
@@ -80,7 +90,15 @@ export class SubmitPage {
   }
 
   isTwitch () {
-    return this.twitchDetailForm.get('strategy').value === 'twitch';
+    return this.spotHeadForm.get('strategy').value === 'twitch';
+  }
+
+  isStreamable () {
+    return this.spotHeadForm.get('strategy').value === 'streamable';
+  }
+
+  isVimeo () {
+    return this.spotHeadForm.get('strategy').value === 'vimeo';
   }
 
   onVideoUrlChanged(event) {
@@ -115,17 +133,44 @@ export class SubmitPage {
       return;
     }
 
-    if (this.isGfycat()) {
-      if (url.startsWith("https://twitch.com")) {
-        videoId = url.substr(19);
-        if (url.startsWith("https://twitch.com/ifr/")) {
-          videoId = url.substr(23);
+    if (this.isTwitch()) {
+      if (url.startsWith("https://clips.twitch.tv/")) {
+        videoId = url.substr(24);
+      } else {
+        videoId = url;
+      }
+      this.twitchDetailForm.get('videoId').setValue(videoId);
+      this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://clips.twitch.tv/embed?clip=" + videoId);
+      console.log(this.safeVidUrl);
+      return;
+    }
+
+    if (this.isStreamable()) {
+      if (url.startsWith("https://streamable.com/")) {
+        videoId = url.substr(23);
+        if (url.startsWith("https://streamable.com/e/")) {
+          videoId = url.substr(25);
         }
       } else {
         videoId = url;
       }
-      this.gfycatDetailForm.get('videoId').setValue(videoId);
-      this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.gfycat.com/ifr/" + videoId);
+      this.streamableDetailForm.get('videoId').setValue(videoId);
+      this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://streamable.com/e/" + videoId);
+      console.log(this.safeVidUrl);
+      return;
+    }
+
+    if (this.isVimeo()) {
+      if (url.startsWith("https://vimeo.com/")) {
+        videoId = url.substr(18);
+        if (url.startsWith("https://player.vimeo.com/video/")) {
+          videoId = url.substr(31);
+        }
+      } else {
+        videoId = url;
+      }
+      this.vimeoDetailForm.get('videoId').setValue(videoId);
+      this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://player.vimeo.com/video/" + videoId);
       console.log(this.safeVidUrl);
       return;
     }
@@ -185,6 +230,21 @@ export class SubmitPage {
       this.presentToast('Please fill out all the mandatory fields so we can process your great gfycat video!');
       return;
     }
+    // if the user has selected twitch, the twitchDetailForm needs to be valid
+    if ((strategy === 'twitch') && !this.twitchDetailForm.valid) {
+      this.presentToast('Please fill out all the mandatory fields so we can process your great twitch video!');
+      return;
+    }
+    // if the user has selected streamable, the streamableDetailForm needs to be valid
+    if ((strategy === 'streamable') && !this.streamableDetailForm.valid) {
+      this.presentToast('Please fill out all the mandatory fields so we can process your great streamable video!');
+      return;
+    }
+    // if the user has selected vimeo, the vimeoDetailForm needs to be valid
+    if ((strategy === 'vimeo') && !this.vimeoDetailForm.valid) {
+      this.presentToast('Please fill out all the mandatory fields so we can process your great vimeo video!');
+      return;
+    }
 
     this.saveButtonDisabled = true;
     var oSpot = {
@@ -204,6 +264,15 @@ export class SubmitPage {
     } 
     if (strategy === "gfycat") {
       oSpot.videoId = this.gfycatDetailForm.get('videoId').value;
+    }
+    if (strategy === "twitch") {
+      oSpot.videoId = this.twitchDetailForm.get('videoId').value;
+    }
+    if (strategy === "streamable") {
+      oSpot.videoId = this.streamableDetailForm.get('videoId').value;
+    }
+    if (strategy === "vimeo") {
+      oSpot.videoId = this.vimeoDetailForm.get('videoId').value;
     }
 
     this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {

@@ -19,7 +19,7 @@ import { SubmitPage } from '../submit/submit'
 export class SelectPage {
   public category: string = "";
   public spots: Array<any> = [];
-
+  
   constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public statisticsData : StatisticsData) {
     this.category = navParams.get("category");
     this.spotData.getSpotsForTag(this.category).then((spots: any[]) => {
