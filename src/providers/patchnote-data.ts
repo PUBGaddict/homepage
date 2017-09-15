@@ -52,8 +52,7 @@ export class PatchnoteData {
         this.nextPatchNoteFile = this.newestPatchNoteFile - 1;
         return this.getPatchNoteByNumber(this.newestPatchNoteFile)
       }).then((content) => {
-        this.patchNotes.push(content);
-        resolve(this.patchNotes);        
+        resolve([content]);        
       });
     });
   }

@@ -9,10 +9,10 @@ import { ResultPage } from '../result/result';
 import * as firebase from 'firebase/app';
 
 /*
-  Generated class for the Welcome page.
+Generated class for the Welcome page.
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
+See http://ionicframework.com/docs/v2/components/#navigation for more info on
+Ionic pages and navigation.
 */
 @Component({
   selector: 'page-welcome',
@@ -21,11 +21,14 @@ import * as firebase from 'firebase/app';
 export class WelcomePage {
   public patchNotes = [];
   public patchNotesRepo = [];
+  @ViewChild('searchBar') searchBar: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public patchnoteData : PatchnoteData, private http: Http) {
-    this.patchnoteData.getInitialPatchNotes().then((initialPatchNotes) => {
-      this.patchNotes = initialPatchNotes;
-    })
+    if (this.patchNotes.length === 0) {  
+      this.patchnoteData.getInitialPatchNotes().then((initialPatchNotes) => {
+        this.patchNotes = initialPatchNotes;
+      })
+    }
   }
 
 /* 
@@ -62,7 +65,6 @@ export class WelcomePage {
   openSubmitPage() {
     this.navCtrl.push(SubmitPage);
   }
-  @ViewChild('searchBar') searchBar: any;
   search (event) {
     let val = event.target.value;
     var that = this;
