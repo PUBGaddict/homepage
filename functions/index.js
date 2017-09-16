@@ -118,7 +118,7 @@ exports.publish = functions.https.onRequest((req, res) => {
 
 			for (let id in spot.tags) {
 				if ( spot.tags.hasOwnProperty(id)) {
-					promises.push(createTag(spot, spot.tags[id]));					
+					promises.push(createTag(spot, id));					
 				}
 			}
 
