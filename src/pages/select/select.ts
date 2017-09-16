@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { SpotData } from '../../providers/spot-data';
-import { StatisticsData } from '../../providers/statistics-data';
 
 import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
 import { SubmitPage } from '../submit/submit'
@@ -20,7 +19,7 @@ export class SelectPage {
   public category: string = "";
   public spots: Array<any> = [];
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public statisticsData : StatisticsData) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData) {
     this.category = navParams.get("category");
     this.spotData.getSpotsForTag(this.category).then((spots: any[]) => {
       this.spots = spots;

@@ -23,7 +23,6 @@ import { SpotData } from '../providers/spot-data';
 import { CategoryData } from '../providers/category-data';
 import { SpotIdData } from '../providers/spotid-data';
 import { PatchnoteData } from '../providers/patchnote-data';
-import { StatisticsData } from '../providers/statistics-data';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
