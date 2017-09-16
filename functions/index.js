@@ -70,6 +70,7 @@ exports.publish = functions.https.onRequest((req, res) => {
 
 
 		function createTag (spot, tag) {
+			console.log("spotid: " + spot.id);
 			let tagRef = admin.database().ref("/tags/" + tag),
 				m = {};
 				m[spot.id] = true;
@@ -93,7 +94,7 @@ exports.publish = functions.https.onRequest((req, res) => {
 				let menuRef = admin.database().ref("/menu/" + tag);
 				menuRef.once('value').then(snap => {
 					let bExists = !!snap.val(),
-						val = bExists ? snap.val() : { amount : 0, },
+						val = bExists ? snap.val() : { amount : 0 },
 						node = {};
 					
 					val.amount++;
