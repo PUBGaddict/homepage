@@ -16,25 +16,41 @@ import 'firebase/storage';
 export class PatchnoteData {
   dataPatchnotes: any;
   patchNotes : Array<any> = [];
-  newestPatchNoteFile : number = 0;
   nextPatchNoteFile : number = 0;
+  
+  // caches
+  patchNoteCache : any = {};
+  newestPatchNoteFile : number = 0;
+  urlCache : any = {};
 
   constructor(public http: Http, public firebaseApp : FirebaseApp) { }
 
   private loadNewestPatchNoteFile () : Promise<any>{
-    return this.http.get(firebaseConfig.databaseURL + '/news.json')
-      .map((data) => {
-        return data.json();
-      })
-      .toPromise();
+    if ( this.newestPatchNoteFile ) {
+      return Observable.of(this.newestPatchNoteFile).toPromise();
+    } else {
+      return this.http.get(firebaseConfig.databaseURL + '/news.json')
+        .map((rawData) => {
+          let data = rawData.json();
+          this.newestPatchNoteFile = data.newestPatchNoteFile;          
+          return data;
+        })
+        .toPromise();
+    }
   }
   
-  private downloadUrlContent (url) : Promise<any>{
-    return this.http.get(url)
-    .map((data) => {
-      return data.json();
-    })
-    .toPromise();
+  private downloadUrlContent (url, number) : Promise<any>{
+    if (number in this.patchNoteCache) {
+      return Observable.of(this.patchNoteCache[number]).toPromise();
+    } else {
+      return this.http.get(url)
+        .map((rawData) => {
+          let data = rawData.json();
+          this.patchNoteCache[number] = data;
+          return data;
+        })
+        .toPromise();
+    }
   }
 
   public getNextPatchNotes () {
@@ -48,7 +64,6 @@ export class PatchnoteData {
   public getInitialPatchNotes () : Promise<any> {
     return new Promise((resolve, reject) => {
       this.loadNewestPatchNoteFile().then((news) => {
-        this.newestPatchNoteFile = news.newestPatchNoteFile;
         this.nextPatchNoteFile = this.newestPatchNoteFile - 1;
         return this.getPatchNoteByNumber(this.newestPatchNoteFile)
       }).then((content) => {
@@ -62,32 +77,19 @@ export class PatchnoteData {
       if (!number || number < 0) {
         reject("no older patchnotes found");
       }
-  
-      this.firebaseApp.storage()
-        .ref('n/p/' + number + '.json')
-        .getDownloadURL()
-        .then(url => {
-          resolve(this.downloadUrlContent(url));
-        })
+      
+      let params = 'n/p/' + number + '.json';
+      if ( params in this.urlCache ) {
+        resolve(this.downloadUrlContent(this.urlCache[params], number));
+      } else {
+        this.firebaseApp.storage()
+          .ref(params)
+          .getDownloadURL()
+          .then(url => {
+            this.urlCache[params] = url;
+            resolve(this.downloadUrlContent(url, number));
+          })
+      }
     })
   }
-
-  private loadPatchnotes(): Observable<any> {
-    if (this.dataPatchnotes) {
-      return Observable.of(this.dataPatchnotes);
-    } else {
-      return this.http.get('assets/data/patchnotes.json')
-        .map(this.processPatchnotes);
-    }
-  }
-
-  getPatchnotes() : Observable<any> {
-    return this.loadPatchnotes();
-  }
-
-  processPatchnotes (data: any) {
-    this.dataPatchnotes = data;
-    return this.dataPatchnotes.json();
-  }
-
 }
