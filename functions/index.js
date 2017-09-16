@@ -116,9 +116,9 @@ exports.publish = functions.https.onRequest((req, res) => {
 				});
 			}
 
-			for (var i = 0; i < 3; i++) {
-				if ( !!spot.tags[i] ) {
-					promises.push(createTag(spot, spot.tags[i]));
+			for (let id in spot.tags) {
+				if ( spot.tags.hasOwnProperty(id)) {
+					promises.push(createTag(spot, spot.tags[id]));					
 				}
 			}
 
