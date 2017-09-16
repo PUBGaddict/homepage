@@ -6,7 +6,7 @@
       ".indexOn" : ["path", "displayName", "published"]
     },
     "menu" : {      
-      ".indexOn" : ["type"]     
+      ".indexOn" : [".value","amount","key"]     
     },
     "uids" : {      
       ".indexOn" : ["displayName"]

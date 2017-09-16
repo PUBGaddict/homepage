@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
 import { CategoryData } from '../providers/category-data';
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 
 
 
@@ -16,8 +17,11 @@ export class SpotData {
   private mapCache: any = {};
   private spotCacheSingle: any = {};
   private spotCacheQuery: any = {};
+  private spotCacheShallowKeys: any = [];
 
-  constructor(public http: Http, public categoryData: CategoryData) { }
+  public afRatingRef: FirebaseObjectObservable<any>;
+
+  constructor(public http: Http, public categoryData: CategoryData, public angularFireDatabase: AngularFireDatabase) { }
 
   private loadSpot(spotId: string): Observable<any> {
     if (spotId in this.spotCacheSingle) {
@@ -68,27 +72,31 @@ export class SpotData {
     return this.loadSpots("unpublished");
   }
 
-  public getNextSpot(mapName: string, strategy: string, spotId: string) {
-    return this.loadSpots(mapName + '/' + strategy).toPromise().then((spots) => {
-      let keys = Object.keys(spots);
-      let currIndex = keys.findIndex(k => { return k === spotId; });
-      if (currIndex + 1 < keys.length) {
-        return spots[keys[currIndex + 1]];
-      } else {
-        return spots[keys[0]];
+  public getNextSpot(category: string, spotId: string) {
+    const queryObservable = this.angularFireDatabase.list('/fspots', {
+      query: {
+        orderByChild: 'path',
+        startAt: { value: category, key: spotId },
+        limitToFirst: 2
       }
+    });
+
+    return queryObservable.map(spots => {
+      return spots[1];
     });
   }
 
-  public getPreviousSpot(mapName: string, strategy: string, spotId: string) {
-    return this.loadSpots(mapName + '/' + strategy).toPromise().then((spots) => {
-      let keys = Object.keys(spots);
-      let currIndex = keys.findIndex(k => { return k === spotId; });
-      if (currIndex - 1 >= 0) {
-        return spots[keys[currIndex - 1]];
-      } else {
-        return spots[keys[keys.length - 1]];
+  public getPreviousSpot(category: string, spotId: string) {
+    const queryObservable = this.angularFireDatabase.list('/fspots', {
+      query: {
+        orderByChild: 'path',
+        endAt: { value: category, key: spotId },
+        limitToLast: 2
       }
+    });
+
+    return queryObservable.map(spots => {
+      return spots[0];
     });
   }
 
@@ -97,7 +105,7 @@ export class SpotData {
       this.http.get(`${firebaseConfig.databaseURL}/tags/${category}.json`).toPromise()
         .then((rawData) => {
           let data = rawData.json(),
-            promises =  [];
+            promises = [];
 
           if (Object.keys(data).length === 0 && data.constructor === Object) {
             reject("category is empty");
@@ -115,16 +123,39 @@ export class SpotData {
 
   public getRandomSpot(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.get(firebaseConfig.databaseURL + '/fspots.json?shallow=true')
-        .map(data => {
-          let keys = Object.keys(data.json());
-          let randomIndex = Math.floor(Math.random() * keys.length);
-          return keys[randomIndex];
-        }).toPromise().then(key => {
-          this.loadSpot(key).toPromise().then(spot => {
+
+      // is shallow list cached?
+      if (this.spotCacheShallowKeys.length > 0) {
+        console.log("getting random spot from shallow cache");
+        let randomIndex = Math.floor(Math.random() * this.spotCacheShallowKeys.length);
+        let key = this.spotCacheShallowKeys[randomIndex];
+        this.getSpot(key).toPromise().then(spot => {
+          if (!!spot.published) {
             resolve(spot);
-          });
+          } else {
+            resolve(this.getRandomSpot());
+          }
         });
+
+
+      // no cache
+      } else {
+        this.http.get(firebaseConfig.databaseURL + '/fspots.json?shallow=true')
+          .map(data => {
+            this.spotCacheShallowKeys = Object.keys(data.json());
+            let keys = this.spotCacheShallowKeys;
+            let randomIndex = Math.floor(Math.random() * keys.length);
+            return keys[randomIndex];
+          }).toPromise().then(key => {
+            this.getSpot(key).toPromise().then(spot => {
+              if (!!spot.published) {
+                resolve(spot);
+              } else {
+                resolve(this.getRandomSpot());
+              }
+            });
+          });
+      }
     });
   }
 }

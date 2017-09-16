@@ -40,6 +40,7 @@ export class StrategyDetailPage {
     picture_2 : "",
     picture_3 : "",
     rating: 0,
+    path: "",
     published: true
   }
 
@@ -53,7 +54,7 @@ export class StrategyDetailPage {
   }
 
   nextSpot() {
-    this.spotData.getNextSpot(this.spot.mapName, this.spot.strategy, this.spot.id).then(nextSpot => {
+    this.spotData.getNextSpot(this.spot.path, this.spot.id).subscribe(nextSpot => {
       this.navCtrl.push(StrategyDetailPage, {
         spotId : nextSpot.id
       });
@@ -61,9 +62,9 @@ export class StrategyDetailPage {
   }
 
   previousSpot() {
-    this.spotData.getPreviousSpot(this.spot.mapName, this.spot.strategy, this.spot.id).then(nextSpot => {
+    this.spotData.getPreviousSpot(this.spot.path, this.spot.id).subscribe(prevSpot => {
       this.navCtrl.push(StrategyDetailPage, {
-        spotId : nextSpot.id
+        spotId : prevSpot.id
       });
     });
   }
