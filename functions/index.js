@@ -68,6 +68,14 @@ exports.publish = functions.https.onRequest((req, res) => {
 	cors(req, res, () => {
 		let spotId = req.query["id"];
 
+
+		function createTag (spot, tag) {
+			let tagRef = admin.database().ref("/tags/" + tag),
+				m = {};
+				m[spot.id] = true;
+			return tagRef.update(m);
+		}
+
 		let spotRef = admin.database().ref("/fspots/" + spotId);
 		spotRef.once('value').then(snap => {
 			if (!snap.exists()) {
@@ -77,10 +85,10 @@ exports.publish = functions.https.onRequest((req, res) => {
 			let spot = snap.val();
 			spot.path = spot.strategy;
 			spot.published = true;
-			spotRef.update(spot).then(() => {
-				debug_msgs.push("updated spot");
-			});
 			var promises = [];
+
+			promises.push(spotRef.update(spot));
+
 			for (let tag in spot.tags) {
 				let menuRef = admin.database().ref("/menu/" + tag);
 				menuRef.once('value').then(snap => {
@@ -116,13 +124,6 @@ exports.publish = functions.https.onRequest((req, res) => {
 			Promise.all(promises).then(() => {	
 				res.status(200).send("Publish done with messages: "+ debug_msgs.join(","));
 			});		
-
-			function createTag (spot, tag) {
-				let tagRef = admin.database().ref("/tags/" + tag),
-					m = {};
-					m[spot.id] = true;
-				return tagRef.update(m);
-			}
 		});		
 	});
 })
