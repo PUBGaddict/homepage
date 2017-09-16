@@ -112,7 +112,6 @@ export const firebaseConfig = {
     PatchnoteData,
     CategoryData,
     SpotIdData,
-    StatisticsData,
     AuthServiceProvider,
     UserProvider,
     UsernameValidator,
