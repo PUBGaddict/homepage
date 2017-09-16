@@ -107,9 +107,22 @@ exports.publish = functions.https.onRequest((req, res) => {
 				});
 			}
 
+			for (var i = 0; i < 3; i++) {
+				if ( !!post.tags[i] ) {
+					promises.push(createTag(spot, spot.tags[i]));
+				}
+			}
+
 			Promise.all(promises).then(() => {	
 				res.status(200).send("Publish done with messages: "+ debug_msgs.join(","));
 			});		
+
+			function createTag (spot, tag) {
+				let tagRef = admin.database().ref("/tags/" + tag),
+					m = {};
+					m[spot.id] = true;
+				return tagRef.update(m);
+			}
 		});		
 	});
 })
@@ -205,27 +218,15 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 				.set(spot);
 		}		
 
-		function createTag (tag) {
-			let tagRef = admin.database().ref("/tags/" + tag),
-				m = {};
-				m[sKey] =	true;
-			return tagRef.update(m);
-		}
-
 		function processYoutubeVideo() {
 			if (!post.videoId || !post.endSeconds) {
-				console.log("no videoId or valid endtime provided for smoke/decoy")
+				console.log("no videoId or valid endtime provided for youtube")
 				return;
 			}
 			console.log("data seems fine, going in!");
 
 			let aPromises = [];
 			aPromises.push(createSpot());
-			for (var i = 0; i < 3; i++) {
-				if ( !!post.tags[i] ) {
-					aPromises.push(createTag(post.tags[i]));
-				}
-			}
 
 			// cleanup tmp folder
 			Promise.all(aPromises).then((a) => {
@@ -243,11 +244,6 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 
 			let aPromises = [];
 			aPromises.push(createSpot());
-			for (var i = 0; i < 3; i++) {
-				if ( !!post.tags[i] ) {
-					aPromises.push(createTag(post.tags[i]));
-				}
-			}
 
 			// cleanup tmp folder
 			Promise.all(aPromises).then((a) => {
