@@ -8,6 +8,7 @@ import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/data
 
 import { SubmitPage } from '../submit/submit';
 import { UserPage } from '../user/user';
+import { SelectPage } from '../select/select';
 
 /*
   Generated class for the StrategyDetail page.
@@ -27,6 +28,8 @@ export class StrategyDetailPage {
   public color;
      
   public safeVidUrl : any;
+
+  public categories : any = [];
 
   public spot = {
     id : "",
@@ -73,6 +76,7 @@ export class StrategyDetailPage {
     this.afRatingRef.subscribe();
     this.spotData.getSpot(this.spotId).subscribe(spot => {
       this.spot = spot;
+      this.categories = Object.keys(spot.tags);
       if (this.isGfycat()) {
         this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.gfycat.com/ifr/" + spot.videoId);
       }
@@ -87,6 +91,10 @@ export class StrategyDetailPage {
       }
     });
   }
+
+  openPage (category) {
+   this.navCtrl.push(SelectPage, {category : category})
+ }
 
   presentToast(message) {
     let toast = this.toastCtrl.create({
