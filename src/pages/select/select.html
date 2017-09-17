@@ -11,10 +11,14 @@
 </ion-header>
 
 <ion-content class="card-background-page">
-  <p style="margin-left:10px;">Sorted by: Nothing!</p>
-  <ion-fab bottom right>
-    <button ion-fab (click)="openSubmitPage()"><ion-icon name="add"></ion-icon></button>
-  </ion-fab>
+  <ion-segment padding [(ngModel)]="filter">
+      <ion-segment-button value="newest">
+        Newest
+      </ion-segment-button>
+      <ion-segment-button value="highest">
+        Highest
+      </ion-segment-button>
+    </ion-segment>
   <ion-grid fixed>
     <ion-row align-items-stretch>
       <ion-col *ngFor="let spot of spots" col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center>
@@ -28,4 +32,9 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <!-- FAB -->
+  <ion-fab bottom right>
+    <button ion-fab (click)="openSubmitPage()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>
