@@ -27,10 +27,9 @@ export class CategoryData {
         limitToLast: 10
       }
     });
-    var that = this;
     return queryObservable.map(categories => {
       categories.splice(categories.length-1,1);
-      that.processCategories.bind(that)(categories);
+      this.processCategories(categories);
     });
 
    /*  return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="key"&endAt="${this.lastId}"&limitToLast=10`)
