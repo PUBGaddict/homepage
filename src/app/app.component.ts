@@ -22,7 +22,7 @@ export class MyApp {
   categories: any[] = [];
 
   constructor(platform: Platform, public categoryData : CategoryData, public spotData : SpotData) {
-    this.categoryData.getInitialCategories().then((categories: any[]) => {
+    this.categoryData.getInitialCategories().subscribe((categories: any[]) => {
       this.categories = categories;
     });
   }
@@ -38,11 +38,11 @@ export class MyApp {
     console.log('Begin async operation');
 
     this.categoryData.getNextCategories()
-      .then(categories => {
+      .subscribe(categories => {
         this.categories.push(...categories);
         infiniteScroll.complete();
         console.log('Async operation has ended');
-      }).catch(reason => {
+      }, err => {
         infiniteScroll.complete();
         console.log("No more categories found");
       })
