@@ -20,6 +20,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   categories: any[] = [];
+  noMoreCategories: boolean = false;
 
   constructor(platform: Platform, public categoryData : CategoryData, public spotData : SpotData) {
     this.categoryData.getInitialCategories().subscribe((categories: any[]) => {
@@ -39,11 +40,14 @@ export class MyApp {
 
     this.categoryData.getNextCategories()
       .subscribe(categories => {
+        if (this.categories.length === categories.length) {
+          this.noMoreCategories = true;
+        }
         this.categories = categories;
-        infiniteScroll.complete();
+        infiniteScroll && infiniteScroll.complete();
         console.log('Async operation has ended');
       }, err => {
-        infiniteScroll.complete();
+        infiniteScroll && infiniteScroll.complete();
         console.log("No more categories found");
       })
   }

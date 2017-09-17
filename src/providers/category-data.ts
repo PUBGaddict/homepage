@@ -24,7 +24,7 @@ export class CategoryData {
       query: {
         orderByChild: 'key',
         endAt: this.lastId,
-        limitToLast: 3
+        limitToLast: 5
       }
     });
     return queryObservable.map(categories => {
@@ -62,7 +62,7 @@ export class CategoryData {
     const queryObservable = this.angularFireDatabase.list('/menu', {
       query: {
         orderByChild: 'key',
-        limitToLast: 3
+        limitToLast: 5
       }
     });
 

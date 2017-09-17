@@ -22,6 +22,9 @@
             {{category.category}}
               <ion-badge item-end color="primary">{{category.amount}}</ion-badge>
             </button>
+            <button *ngIf="!noMoreCategories" ion-item (click)="doInfinite()">
+              more...
+            </button>
         </ion-list>
         <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
           <ion-infinite-scroll-content></ion-infinite-scroll-content>
