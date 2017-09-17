@@ -12,9 +12,9 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class CategoryData {
 
-  currentLowestValue : number = 0;
+  //currentLowestValue : number = 0;
   categorySet = {};
-  allCategories : Array<any> = [];
+  //allCategories : Array<any> = [];
   lastId : string = "";
 
   constructor(public http: Http, public angularFireDatabase: AngularFireDatabase) { }
@@ -24,12 +24,12 @@ export class CategoryData {
       query: {
         orderByChild: 'key',
         endAt: this.lastId,
-        limitToLast: 10
+        limitToLast: 3
       }
     });
     return queryObservable.map(categories => {
       categories.splice(categories.length-1,1);
-      this.processCategories(categories);
+      return this.processCategories(categories);
     });
 
    /*  return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="key"&endAt="${this.lastId}"&limitToLast=10`)
@@ -37,11 +37,15 @@ export class CategoryData {
       .toPromise(); */
   }
   
-  processCategories (categorySet) {
-    let arr = this.allCategories;
-    for (let i in categorySet) {
-      arr.push({category : categorySet[i].$key, amount : categorySet[i].amount, key : categorySet[i].key})
+  processCategories (categories) {
+    for (let i in categories) {
+      this.categorySet[categories[i].$key] = {
+        category : categories[i].$key,
+        amount : categories[i].amount,
+        key : categories[i].key
+      }
     }
+    var arr = Object.keys(this.categorySet).map(key => { return this.categorySet[key]});
     arr.sort((b,a) => {
       if(a.key < b.key) return -1;
       if(a.key > b.key) return 1;
@@ -58,7 +62,7 @@ export class CategoryData {
     const queryObservable = this.angularFireDatabase.list('/menu', {
       query: {
         orderByChild: 'key',
-        limitToLast: 10
+        limitToLast: 3
       }
     });
 

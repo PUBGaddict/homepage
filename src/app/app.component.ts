@@ -39,7 +39,7 @@ export class MyApp {
 
     this.categoryData.getNextCategories()
       .subscribe(categories => {
-        this.categories.push(...categories);
+        this.categories = categories;
         infiniteScroll.complete();
         console.log('Async operation has ended');
       }, err => {
