@@ -24,7 +24,7 @@ export class CategoryData {
       query: {
         orderByChild: 'key',
         endAt: this.lastId,
-        limitToLast: 3
+        limitToLast: 10
       }
     });
     var that = this;
@@ -59,7 +59,7 @@ export class CategoryData {
     const queryObservable = this.angularFireDatabase.list('/menu', {
       query: {
         orderByChild: 'key',
-        limitToLast: 3
+        limitToLast: 10
       }
     });
 
