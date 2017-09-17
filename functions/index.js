@@ -68,6 +68,15 @@ exports.publish = functions.https.onRequest((req, res) => {
 	cors(req, res, () => {
 		let spotId = req.query["id"];
 
+
+		function createTag (spot, tag) {
+			console.log("spotid: " + spot.id);
+			let tagRef = admin.database().ref("/tags/" + tag),
+				m = {};
+				m[spot.id] = true;
+			return tagRef.update(m);
+		}
+
 		let spotRef = admin.database().ref("/fspots/" + spotId);
 		spotRef.once('value').then(snap => {
 			if (!snap.exists()) {
@@ -77,15 +86,15 @@ exports.publish = functions.https.onRequest((req, res) => {
 			let spot = snap.val();
 			spot.path = spot.strategy;
 			spot.published = true;
-			spotRef.update(spot).then(() => {
-				debug_msgs.push("updated spot");
-			});
 			var promises = [];
+
+			promises.push(spotRef.update(spot));
+
 			for (let tag in spot.tags) {
 				let menuRef = admin.database().ref("/menu/" + tag);
 				menuRef.once('value').then(snap => {
 					let bExists = !!snap.val(),
-						val = bExists ? snap.val() : { amount : 0, },
+						val = bExists ? snap.val() : { amount : 0 },
 						node = {};
 					
 					val.amount++;
@@ -105,6 +114,12 @@ exports.publish = functions.https.onRequest((req, res) => {
 						debug_msgs.push("updated menu");
 					}));
 				});
+			}
+
+			for (let id in spot.tags) {
+				if ( spot.tags.hasOwnProperty(id)) {
+					promises.push(createTag(spot, id));					
+				}
 			}
 
 			Promise.all(promises).then(() => {	
@@ -205,27 +220,15 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 				.set(spot);
 		}		
 
-		function createTag (tag) {
-			let tagRef = admin.database().ref("/tags/" + tag),
-				m = {};
-				m[sKey] =	true;
-			return tagRef.update(m);
-		}
-
 		function processYoutubeVideo() {
 			if (!post.videoId || !post.endSeconds) {
-				console.log("no videoId or valid endtime provided for smoke/decoy")
+				console.log("no videoId or valid endtime provided for youtube")
 				return;
 			}
 			console.log("data seems fine, going in!");
 
 			let aPromises = [];
 			aPromises.push(createSpot());
-			for (var i = 0; i < 3; i++) {
-				if ( !!post.tags[i] ) {
-					aPromises.push(createTag(post.tags[i]));
-				}
-			}
 
 			// cleanup tmp folder
 			Promise.all(aPromises).then((a) => {
@@ -243,11 +246,6 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 
 			let aPromises = [];
 			aPromises.push(createSpot());
-			for (var i = 0; i < 3; i++) {
-				if ( !!post.tags[i] ) {
-					aPromises.push(createTag(post.tags[i]));
-				}
-			}
 
 			// cleanup tmp folder
 			Promise.all(aPromises).then((a) => {
