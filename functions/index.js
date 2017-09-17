@@ -77,6 +77,12 @@ exports.publish = functions.https.onRequest((req, res) => {
 			return tagRef.update(m);
 		}
 
+		function concatTagsToPath(tags) {
+			let tagNames = Object.keys(tags);
+			tagNames.sort();			
+			return tagNames.join("/");
+		}
+
 		let spotRef = admin.database().ref("/fspots/" + spotId);
 		spotRef.once('value').then(snap => {
 			if (!snap.exists()) {
@@ -84,7 +90,7 @@ exports.publish = functions.https.onRequest((req, res) => {
 			}
 
 			let spot = snap.val();
-			spot.path = spot.strategy;
+			spot.path = concatTagsToPath(spot.tags);
 			spot.published = true;
 			var promises = [];
 

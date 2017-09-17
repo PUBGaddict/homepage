@@ -52,6 +52,11 @@
             <ion-icon name='arrow-dropleft'></ion-icon>
           </button>
       </ion-buttons>
+      <ion-buttons center>
+        <button ion-button *ngFor="let category of categories" (click)="openPage(category)">
+          <ion-badge item-end color="primary">{{category}}</ion-badge>
+        </button>
+      </ion-buttons>
       <ion-buttons end>
         <button ion-button icon-only (click)="nextSpot()">
           <ion-icon name='arrow-dropright'></ion-icon>
