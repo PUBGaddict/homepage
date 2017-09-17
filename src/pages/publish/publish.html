@@ -1,0 +1,55 @@
+<ion-header>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <div class="item row">
+          <ion-title>{{spot.title}}</ion-title>
+          <auth></auth>    
+        </div>     
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding #container>
+    <ion-list no-lines>
+      <ion-label color="primary">Created By</ion-label>
+      <button ion-button color="dark" clear (click)="userPressed(spot)">{{spot.displayName}}</button>
+      <ion-label color="primary">Useful?</ion-label>
+      <div>
+        <div class="floatLeft">
+          <h4>{{ (afRatingRef | async)?.$value }}</h4>
+        </div>
+        <div class="paddingLeft">
+          <button ion-button [color]="'secondary'" icon-only (click)="vote(true)">
+            <ion-icon name='thumbs-up'></ion-icon>
+          </button>
+          <button ion-button [color]="'danger'" icon-only (click)="vote(false)">
+            <ion-icon name='thumbs-down'></ion-icon>
+          </button>
+        </div>
+      </div>
+      <div margin-top *ngIf="isYouTube()">
+          <ion-label color="primary">Video</ion-label>
+          <youtube-player #youtubePlayer [start]="spot.startSeconds" [end]="spot.endSeconds" [vid]="spot.videoId" [width]="'100%'"></youtube-player>
+      </div>
+      <div margin-top *ngIf="isGfycat() || isTwitch() || isStreamable() || isVimeo()" style='position:relative;padding-bottom:calc(100% / 1.85)'>
+        <iframe 
+          [src]='safeVidUrl' 
+          frameborder='0' 
+          scrolling='no' 
+          width='100%' 
+          height='100%' 
+          style='position:absolute;top:0;left:0;' 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </ion-list>
+    
+    <button style="float:right;" ion-button (click)="rejectSpot()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+    <button style="float:right;" (click)="acceptSpot(spot.id)">
+      <ion-icon name="checkmark"></ion-icon>
+    </button>
+
+  </ion-content>

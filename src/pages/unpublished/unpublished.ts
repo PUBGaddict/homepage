@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { SpotData } from '../../providers/spot-data';
-import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
+import { PublishPage } from '../publish/publish'
 
 /**
  * Generated class for the UnpublishedPage page.
@@ -30,9 +30,7 @@ export class UnpublishedPage {
   }
 
   spotSelected (spot) {
-    this.navCtrl.push(StrategyDetailPage, {
-      mapName: spot.mapName,
-      strategy: spot.strategy,
+    this.navCtrl.push(PublishPage, {
       spotId : spot.id
     });
   }

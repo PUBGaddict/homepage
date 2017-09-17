@@ -44,16 +44,8 @@
       </iframe>
     </div>
   </ion-list>
-  
-  <!--  <button *ngIf="!isUnpublished()" ion-fab (click)="openSubmitPage()"><ion-icon name="add"></ion-icon></button> -->
-  <button style="float:right;" ion-button *ngIf="isUnpublished()" (click)="rejectSpot()">
-    <ion-icon name="close"></ion-icon>
-  </button>
-  <button style="float:right;" ion-button *ngIf="isUnpublished()" (click)="acceptSpot(spot.id)">
-    <ion-icon name="checkmark"></ion-icon>
-  </button>
 
-  <ion-footer *ngIf="!isUnpublished()" no-border>    
+  <ion-footer no-border>    
     <ion-toolbar no-border>
         <ion-buttons start>
           <button ion-button icon-only (click)="previousSpot()">

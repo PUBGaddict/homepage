@@ -1,0 +1,21 @@
+page-publish {
+  h4 {
+      padding: 10px 0 10px 0;
+  }
+  .pros-box {
+      width:50%; 
+      display:inline-block;
+      background: lightgreen;
+  }
+  .cons-box {
+      width:50%;
+      display:inline-block;
+      background: lightcoral;
+  }
+  .floatLeft {
+      float: left;
+  }
+  .paddingLeft {
+      padding-left: 4rem;
+  }
+}

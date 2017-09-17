@@ -9,17 +9,11 @@ import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/data
 import { SubmitPage } from '../submit/submit';
 import { UserPage } from '../user/user';
 
-/*
-  Generated class for the StrategyDetail page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
-  selector: 'page-strategy-detail',
-  templateUrl: 'strategy-detail.html'
+  selector: 'page-publish',
+  templateUrl: 'publish.html'
 })
-export class StrategyDetailPage {
+export class PublishPage {
   @ViewChild('container') container;
   
   public height: any;
@@ -52,22 +46,6 @@ export class StrategyDetailPage {
     this.displaySpot();
   }
 
-  nextSpot() {
-    this.spotData.getNextSpot(this.spot.mapName, this.spot.strategy, this.spot.id).then(nextSpot => {
-      this.navCtrl.push(StrategyDetailPage, {
-        spotId : nextSpot.id
-      });
-    });
-  }
-
-  previousSpot() {
-    this.spotData.getPreviousSpot(this.spot.mapName, this.spot.strategy, this.spot.id).then(nextSpot => {
-      this.navCtrl.push(StrategyDetailPage, {
-        spotId : nextSpot.id
-      });
-    });
-  }
-
   displaySpot() {     
     this.afRatingRef.subscribe();
     this.spotData.getSpot(this.spotId).subscribe(spot => {
@@ -83,6 +61,14 @@ export class StrategyDetailPage {
       }
       if (this.isVimeo()) {
         this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://player.vimeo.com/video/" + spot.videoId)
+      }
+    });
+  }
+
+  acceptSpot(spotId) {
+    this.http.get(firebaseConfig.functionsURL + '/publish?id=' + spotId).subscribe(data => {
+      if (data.status === 200) {
+        this.presentToast("published successfully");
       }
     });
   }
@@ -114,7 +100,7 @@ export class StrategyDetailPage {
   isVimeo() {
     return this.spot.strategy === 'vimeo';
   }
-
+  
   getVoteObject() {
     if (typeof(Storage) !== "undefined") {
       if (!localStorage.getItem("votes")) {
@@ -137,10 +123,6 @@ export class StrategyDetailPage {
       return true;  
     }
     return false;
-  }
-
-  openSubmitPage() {
-    this.navCtrl.push(SubmitPage);
   }
 
   saveVote() {
@@ -166,11 +148,11 @@ export class StrategyDetailPage {
   }
 
   ionViewDidLoad() {
-    ga('set', 'page', '/strategy-detail');
-    ga('send', 'event', "page", "visit", "stragety-detail");
-    ga('send', 'event', "spot", "selected", this.spotId);
+    ga('set', 'page', '/publish');
+    ga('send', 'event', "page", "visit", "publish");
+    ga('send', 'event', "spot", "publish", this.spotId);
 
-    console.log('ionViewDidLoad StrategyDetailPage');
+    console.log('ionViewDidLoad PublishDetailPage');
   }
 
 }

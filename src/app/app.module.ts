@@ -17,6 +17,7 @@ import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { UserPage } from '../pages/user/user';
 import { ResultPage } from '../pages/result/result';
 import { UnpublishedPage } from '../pages/unpublished/unpublished';
+import { PublishPage } from '../pages/publish/publish';
 
 
 import { SpotData } from '../providers/spot-data';
@@ -62,7 +63,8 @@ export const firebaseConfig = {
     AuthComponent,
     UserPage,
     ResultPage,
-    UnpublishedPage
+    UnpublishedPage,
+    PublishPage
   ],
   imports: [
     BrowserModule,
@@ -80,8 +82,8 @@ export const firebaseConfig = {
        { component: ResetPasswordPage, name: 'ResetPasswordPage', segment: 'reset-password' },
        { component: UserPage, name: 'UserPage', segment: 'user/:displayName' },
        { component: ResultPage, name: 'ResultPage', segment: 'result' },
-       { component: UnpublishedPage, name: 'UnpublishedPage', segment: 'unpublished' }
-
+       { component: UnpublishedPage, name: 'UnpublishedPage', segment: 'unpublished' },
+       { component: PublishPage, name: 'PublishPage', segment: 'u/:spotId' }
       ]
     }),
     AngularFireModule.initializeApp(firebaseConfig),
@@ -102,7 +104,8 @@ export const firebaseConfig = {
     ResetPasswordPage,
     UserPage,
     ResultPage,
-    UnpublishedPage
+    UnpublishedPage,
+    PublishPage
   ],
   providers: [
     StatusBar,
