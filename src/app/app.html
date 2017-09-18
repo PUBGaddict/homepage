@@ -8,7 +8,7 @@
     </ion-header>
 
     <ion-content class="outer-content" no-border>    
-        <ion-list no-border>   
+        <ion-list no-border no-lines>   
             <ion-list-header>
               <div style="text-align:center;">
                 <button small ion-button icon-left (click)="randomSpot()" color="primary" round>
@@ -22,9 +22,12 @@
             {{category.category}}
               <ion-badge item-end color="primary">{{category.amount}}</ion-badge>
             </button>
-            <button *ngIf="!noMoreCategories" ion-item (click)="doInfinite()">
-              more...
-            </button>
+            <div *ngIf="!noMoreCategories" style="text-align:center;">
+              <button small ion-button icon-left (click)="doInfinite()" color="primary" round outline>
+                <ion-icon name="arrow-down"></ion-icon>
+                Load More
+              </button>
+            </div>
         </ion-list>
         <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
           <ion-infinite-scroll-content></ion-infinite-scroll-content>
