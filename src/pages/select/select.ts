@@ -21,9 +21,12 @@ export class SelectPage {
   
   constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData) {
     this.category = navParams.get("category");
-    this.spotData.getSpotsForTag(this.category).then((spots: any[]) => {
+    this.spotData.getInitialTagsForCategory(this.category).then((spots : any[]) => {
       this.spots = spots;
     });
+    /* this.spotData.getSpotsForTag(this.category).then((spots: any[]) => {
+      this.spots = spots;
+    }); */
   }
 
   ionViewDidLoad() {
@@ -47,4 +50,25 @@ export class SelectPage {
   openSubmitPage() {
     this.navCtrl.push(SubmitPage);
   } 
+
+  doInfinite(infiniteScroll) {
+    console.log('Begin async operation');
+
+    /* this.categoryData.getNextCategories()
+      .subscribe(categories => {
+        if (this.categories.length === categories.length) {
+          this.noMoreCategories = true;
+        }
+        this.categories = categories;
+        if (infiniteScroll) {
+          infiniteScroll.complete()
+        }
+        console.log('Async operation has ended');
+      }, err => {
+        if (infiniteScroll) {
+          infiniteScroll.complete()
+        }
+        console.log("No more categories found");
+      }) */
+  }
 }

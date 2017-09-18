@@ -121,6 +121,27 @@ export class SpotData {
     })
   }
 
+  public getInitialTagsForCategory(category : string) : Promise<any> {
+    return new Promise((resolve, reject) => {
+      let obs = this.angularFireDatabase.list(`/menu/${category}/spots`, {
+        query: {
+          orderByChild: 'key/ratings',
+          limitToFirst: 5
+        }
+      }).subscribe((data : any) => {
+          let  promises = [];
+          
+          for (let key in data) {
+            promises.push(this.loadSpot(data[key].$key).toPromise())
+          }
+          Promise.all(promises).then((params) => {
+            obs.unsubscribe();
+            resolve(params);
+          });
+        })
+      });
+  }
+
   public getRandomSpot(): Promise<any> {
     return new Promise((resolve, reject) => {
 
