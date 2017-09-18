@@ -44,10 +44,14 @@ export class MyApp {
           this.noMoreCategories = true;
         }
         this.categories = categories;
-        infiniteScroll && infiniteScroll.complete();
+        if (infiniteScroll) {
+          infiniteScroll.complete()
+        }
         console.log('Async operation has ended');
       }, err => {
-        infiniteScroll && infiniteScroll.complete();
+        if (infiniteScroll) {
+          infiniteScroll.complete()
+        }
         console.log("No more categories found");
       })
   }

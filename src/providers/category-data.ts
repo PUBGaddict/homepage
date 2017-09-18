@@ -20,21 +20,16 @@ export class CategoryData {
   constructor(public http: Http, public angularFireDatabase: AngularFireDatabase) { }
 
   getNextCategories() : Observable<any> {
-    const queryObservable = this.angularFireDatabase.list('/menu', {
+    return this.angularFireDatabase.list('/menu', {
       query: {
         orderByChild: 'key',
         endAt: this.lastId,
         limitToLast: 5
       }
-    });
-    return queryObservable.map(categories => {
-      categories.splice(categories.length-1,1);
+    }).map(categories => {
+      categories.splice(categories.length - 1, 1);
       return this.processCategories(categories);
     });
-
-   /*  return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="key"&endAt="${this.lastId}"&limitToLast=10`)
-      .map(this.processCategories.bind(this))
-      .toPromise(); */
   }
   
   processCategories (categories) {
@@ -51,25 +46,17 @@ export class CategoryData {
       if(a.key > b.key) return 1;
       return 0;
     })
-   /*  if (this.lastId !== "") {
-      arr.splice(0,1);
-    } */
+
     this.lastId = arr.length > 0 ? arr[arr.length-1].key : "";  
     return arr;
   }
 
   getInitialCategories() : Observable<any> {
-    const queryObservable = this.angularFireDatabase.list('/menu', {
+    return this.angularFireDatabase.list('/menu', {
       query: {
         orderByChild: 'key',
         limitToLast: 5
       }
-    });
-
-    return queryObservable.map(this.processCategories.bind(this));
-
-   /*  return this.http.get(`${firebaseConfig.databaseURL}/menu.json?orderBy="key"&limitToLast=20`)
-    .map(this.processCategories.bind(this))
-    .toPromise(); */
+    }).map(this.processCategories.bind(this));
   }
 }
