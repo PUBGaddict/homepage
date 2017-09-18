@@ -68,15 +68,6 @@ exports.publish = functions.https.onRequest((req, res) => {
 	cors(req, res, () => {
 		let spotId = req.query["id"];
 
-
-		function createTag (spot, tag) {
-			console.log("spotid: " + spot.id);
-			let tagRef = admin.database().ref("/tags/" + tag),
-				m = {};
-				m[spot.id] = true;
-			return tagRef.update(m);
-		}
-
 		function concatTagsToPath(tags) {
 			let tagNames = Object.keys(tags);
 			tagNames.sort();			
@@ -101,6 +92,7 @@ exports.publish = functions.https.onRequest((req, res) => {
 				menuRef.once('value').then(snap => {
 					let bExists = !!snap.val(),
 						val = bExists ? snap.val() : { amount : 0 },
+						spots = bExists ? snap.val().spots : {},
 						node = {};
 					
 					val.amount++;
@@ -113,19 +105,19 @@ exports.publish = functions.https.onRequest((req, res) => {
 					}
 					val.key = leadingZeroString + "/" + admin.database().ref().push().key;
 
-					console.log("key: " + val.key);
+					// spots
+					spots[spot.id] = {
+						date: spot.date,
+						rating : 0
+					}
+					val.spots = spots;
 
+					console.log("key: " + val.key);
 					node[tag] = val;
 					promises.push(admin.database().ref("/menu/").update(node).then(() => {
 						debug_msgs.push("updated menu");
 					}));
 				});
-			}
-
-			for (let id in spot.tags) {
-				if ( spot.tags.hasOwnProperty(id)) {
-					promises.push(createTag(spot, id));					
-				}
 			}
 
 			Promise.all(promises).then(() => {	
