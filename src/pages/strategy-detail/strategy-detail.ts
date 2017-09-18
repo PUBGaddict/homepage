@@ -48,6 +48,7 @@ export class StrategyDetailPage {
   }
 
   public afRatingRef: FirebaseObjectObservable<any>;
+  public tagRefs : Array<FirebaseObjectObservable<any>> = [];
 
   constructor(public http: Http, public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, private sanitizer: DomSanitizer) {
     this.angularFireDatabase = angularFireDatabase;
@@ -75,6 +76,12 @@ export class StrategyDetailPage {
   displaySpot() {     
     this.afRatingRef.subscribe();
     this.spotData.getSpot(this.spotId).subscribe(spot => {
+      for (let tag in spot.tags) {
+        if (spot.tags.hasOwnProperty(tag)) {
+          this.tagRefs.push(this.angularFireDatabase.object('/menu/' + tag + '/spots/' + spot.id + '/rating'))
+        }
+      }
+      
       this.spot = spot;
       this.categories = Object.keys(spot.tags);
       if (this.isGfycat()) {
@@ -164,6 +171,10 @@ export class StrategyDetailPage {
       this.spot.rating += delta;
 
       this.afRatingRef.set(this.spot.rating);
+
+      for (let tagRef in this.tagRefs) {
+        this.tagRefs[tagRef].set(this.spot.rating);        
+      }
       this.saveVote();
     }
   }
