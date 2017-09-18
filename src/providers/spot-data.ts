@@ -102,7 +102,7 @@ export class SpotData {
 
   getSpotsForTag(category: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.get(`${firebaseConfig.databaseURL}/tags/${category}.json`).toPromise()
+      this.http.get(`${firebaseConfig.databaseURL}/menu/${category}/spots.json?shallow=true`).toPromise()
         .then((rawData) => {
           let data = rawData.json(),
             promises = [];
