@@ -125,43 +125,45 @@ export class SpotData {
 
   public getNextTagsForCategory(category: string, orderBy: string): Promise<any> {
     let maxValue = 999999999;
-    var that = this;
+
     let queryObservable = this.angularFireDatabase.list(`/menu/${category}/spots`, {
       query: {
-        orderByChild: 'rating',
-        endAt: !!that.lastKey ? { value: that.lastValue, key: that.lastKey } : maxValue,
+        orderByChild: orderBy,
+        endAt: !!this.lastKey ? { value: this.lastValue, key: this.lastKey } : maxValue,
         limitToLast: 4
       }
-    });
-    return new Promise((resolve, reject) => {
-      queryObservable.map((data: any) => {
-        let sortProperty = 'rating';
-        
-        if (!!that.lastKey) {
-          data = data.slice(0,data.length-1);
-        }
-        that.lastKey = data[0]['$key'];
-        that.lastValue = data[0]['rating'];
+    }).map((data: any) => {
+      if (data.length <= 1) {
+        return [];
+      }
 
-        data.sort((b, a) => {
-          if (a[sortProperty] < b[sortProperty]) return -1;
-          if (a[sortProperty] > b[sortProperty]) return 1;
-          return 0;
-        })
+      let sortProperty = orderBy;
+      if (!!this.lastKey) {
+        data = data.slice(0, data.length - 1);
+      }
+      this.lastKey = data[0]['$key'];
+      this.lastValue = data[0][sortProperty];
 
-        return data;
-        
-      }).subscribe(data => {
-        let promises = [];
-        for (let key in data) {
-          promises.push(this.loadSpot(data[key].$key).toPromise())
-        }
-        Promise.all(promises).then((params) => {
-          //queryObservable.unsubscribe();
-          resolve(params);
-        });
-
+      data.sort((b, a) => {
+        if (a[sortProperty] < b[sortProperty]) return -1;
+        if (a[sortProperty] > b[sortProperty]) return 1;
+        return 0;
       });
+      return data;
+    });
+
+    return new Promise((resolve, reject) => {
+      let subscription = queryObservable
+        .subscribe(data => {
+          let promises = [];
+          for (let key in data) {
+            promises.push(this.loadSpot(data[key].$key).toPromise())
+          }
+          Promise.all(promises).then((params) => {
+            subscription.unsubscribe();
+            resolve(params);
+          });
+        });
     });
   }
 
