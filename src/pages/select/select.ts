@@ -22,7 +22,7 @@ export class SelectPage {
   
   constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData) {
     this.category = navParams.get("category");
-    this.spotData.getInitialTagsForCategory(this.category, "ratings").then((spots : any[]) => {
+    this.spotData.getNextTagsForCategory(this.category, "ratings").then((spots : any[]) => {
       this.spots = spots;
     });
     /* this.spotData.getSpotsForTag(this.category).then((spots: any[]) => {
@@ -57,10 +57,7 @@ export class SelectPage {
 
     this.spotData.getNextTagsForCategory(this.category, "ratings")
       .then((spots : any[]) => {
-        if (this.spots.length === spots.length) {
-          this.noMoreSpots = true;
-        }
-        this.spots = spots;
+        this.spots = this.spots.concat(spots);
         if (infiniteScroll) {
           infiniteScroll.complete()
         }

@@ -123,72 +123,46 @@ export class SpotData {
     })
   }
 
-  public getInitialTagsForCategory(category : string, orderBy: string) : Promise<any> {
+  public getNextTagsForCategory(category: string, orderBy: string): Promise<any> {
+    let maxValue = 999999999;
+    var that = this;
+    let queryObservable = this.angularFireDatabase.list(`/menu/${category}/spots`, {
+      query: {
+        orderByChild: 'rating',
+        endAt: !!that.lastKey ? { value: that.lastValue, key: that.lastKey } : maxValue,
+        limitToLast: 4
+      }
+    });
     return new Promise((resolve, reject) => {
-      let query = {
-        orderByChild: `key/${orderBy}`
-      };
-      query[orderBy === 'ratings' ? 'limitToFirst' : 'limitToLast'] = 5;
+      queryObservable.map((data: any) => {
+        let sortProperty = 'rating';
+        
+        if (!!that.lastKey) {
+          data = data.slice(0,data.length-1);
+        }
+        that.lastKey = data[0]['$key'];
+        that.lastValue = data[0]['rating'];
 
-      let obs = this.angularFireDatabase.list(`/menu/${category}/spots`, {
-        query: query 
-      }).subscribe((data : any) => {
-          let  promises = [],
-            sortProperty = orderBy === 'ratings' ? 'rating' : 'date';
-          
-          data.sort((b,a) => { 
-            if(a[sortProperty] < b[sortProperty]) return -1;
-            if(a[sortProperty] > b[sortProperty]) return 1;
-            return 0;
-          })
-
-          this.lastKey = data[data.length - 1]['$key'];
-          this.lastValue = data[data.length - 1][orderBy === 'ratings' ? 'rating' : 'date']
-
-          for (let key in data) {
-            promises.push(this.loadSpot(data[key].$key).toPromise())
-          }
-          Promise.all(promises).then((params) => {
-            obs.unsubscribe();
-            resolve(params);
-          });
+        data.sort((b, a) => {
+          if (a[sortProperty] < b[sortProperty]) return -1;
+          if (a[sortProperty] > b[sortProperty]) return 1;
+          return 0;
         })
+
+        return data;
+        
+      }).subscribe(data => {
+        let promises = [];
+        for (let key in data) {
+          promises.push(this.loadSpot(data[key].$key).toPromise())
+        }
+        Promise.all(promises).then((params) => {
+          //queryObservable.unsubscribe();
+          resolve(params);
+        });
+
       });
-  }
-
-  public getNextTagsForCategory(category : string, orderBy: string) : Promise<any> {
-    return new Promise((resolve, reject) => {
-      let query = {
-        orderByChild: `key/rating`,
-        endAt: { value : this.lastValue, key: this.lastKey },        
-        limitToLast : 5
-      };
-      //query[orderBy === 'ratings' ? 'limitToFirst' : 'limitToLast'] = 5;
-
-      let obs = this.angularFireDatabase.list(`/menu/${category}/spots`, {
-        query: query 
-      }).subscribe((data : any) => {
-          let  promises = [],
-            sortProperty = orderBy === 'ratings' ? 'rating' : 'date';
-            
-          data.sort((b,a) => { 
-            if(a[sortProperty] < b[sortProperty]) return -1;
-            if(a[sortProperty] > b[sortProperty]) return 1;
-            return 0;
-          })
-          console.log(data);
-          debugger;
-          this.lastKey = data[data.length - 1]['$key'];
-
-          for (let key in data) {
-            promises.push(this.loadSpot(data[key].$key).toPromise())
-          }
-          Promise.all(promises).then((params) => {
-            obs.unsubscribe();
-            resolve(params);
-          });
-        })
-      });
+    });
   }
 
 
@@ -209,7 +183,7 @@ export class SpotData {
         });
 
 
-      // no cache
+        // no cache
       } else {
         this.http.get(firebaseConfig.databaseURL + '/fspots.json?shallow=true')
           .map(data => {
