@@ -159,13 +159,13 @@ export class SpotData {
   public getNextTagsForCategory(category : string, orderBy: string) : Promise<any> {
     return new Promise((resolve, reject) => {
       let query = {
-        orderByChild: 'rating',
+        orderByChild: `key/rating`,
         endAt: { value : this.lastValue, key: this.lastKey },        
         limitToLast : 5
       };
       //query[orderBy === 'ratings' ? 'limitToFirst' : 'limitToLast'] = 5;
 
-      let obs = this.angularFireDatabase.list(`/menu/${category}/spots/$key/`, {
+      let obs = this.angularFireDatabase.list(`/menu/${category}/spots`, {
         query: query 
       }).subscribe((data : any) => {
           let  promises = [],
