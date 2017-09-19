@@ -6,7 +6,12 @@
       ".indexOn" : ["path", "displayName", "published"]
     },
     "menu" : {      
-      ".indexOn" : [".value","amount","key"]     
+      ".indexOn" : [".value","amount","key"],
+      "$category" : {
+        "spots" : {
+          ".indexOn" : ["rating", "date"]
+        }
+      }
     },
     "uids" : {      
       ".indexOn" : ["displayName"]
