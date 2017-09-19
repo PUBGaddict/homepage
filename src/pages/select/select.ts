@@ -22,7 +22,7 @@ export class SelectPage {
   
   constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData) {
     this.category = navParams.get("category");
-    this.spotData.getNextTagsForCategory(this.category, "rating").then((spots : any[]) => {
+    this.spotData.getNextTagsForCategory(this.category, "rating", true).then((spots : any[]) => {
       this.spots = spots;
     });
     /* this.spotData.getSpotsForTag(this.category).then((spots: any[]) => {
@@ -55,7 +55,7 @@ export class SelectPage {
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
 
-    this.spotData.getNextTagsForCategory(this.category, "rating")
+    this.spotData.getNextTagsForCategory(this.category, "rating", false)
       .then((spots : any[]) => {
         if (spots.length <= 0) {
           this.noMoreSpots = true;

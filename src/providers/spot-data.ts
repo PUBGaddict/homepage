@@ -123,12 +123,16 @@ export class SpotData {
     })
   }
 
-  public getNextTagsForCategory(category: string, orderBy: string): Promise<any> {
+  public getNextTagsForCategory(category: string, sortProperty: string, bReset: boolean): Promise<any> {
     let maxValue = 999999999;
+    if (bReset) {
+      this.lastKey = "";
+      this.lastValue = "";
+    }
 
     let queryObservable = this.angularFireDatabase.list(`/menu/${category}/spots`, {
       query: {
-        orderByChild: orderBy,
+        orderByChild: sortProperty,
         endAt: !!this.lastKey ? { value: this.lastValue, key: this.lastKey } : maxValue,
         limitToLast: 4
       }
@@ -137,7 +141,6 @@ export class SpotData {
         return [];
       }
 
-      let sortProperty = orderBy;
       if (!!this.lastKey) {
         data = data.slice(0, data.length - 1);
       }
