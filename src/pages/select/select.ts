@@ -18,10 +18,11 @@ import { SubmitPage } from '../submit/submit'
 export class SelectPage {
   public category: string = "";
   public spots: Array<any> = [];
+  private noMoreSpots: boolean = false;
   
   constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData) {
     this.category = navParams.get("category");
-    this.spotData.getInitialTagsForCategory(this.category).then((spots : any[]) => {
+    this.spotData.getInitialTagsForCategory(this.category, "ratings").then((spots : any[]) => {
       this.spots = spots;
     });
     /* this.spotData.getSpotsForTag(this.category).then((spots: any[]) => {
@@ -54,12 +55,12 @@ export class SelectPage {
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
 
-    /* this.categoryData.getNextCategories()
-      .subscribe(categories => {
-        if (this.categories.length === categories.length) {
-          this.noMoreCategories = true;
+    this.spotData.getNextTagsForCategory(this.category, "ratings")
+      .then((spots : any[]) => {
+        if (this.spots.length === spots.length) {
+          this.noMoreSpots = true;
         }
-        this.categories = categories;
+        this.spots = spots;
         if (infiniteScroll) {
           infiniteScroll.complete()
         }
@@ -69,6 +70,6 @@ export class SelectPage {
           infiniteScroll.complete()
         }
         console.log("No more categories found");
-      }) */
+      })
   }
 }

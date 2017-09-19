@@ -34,6 +34,13 @@
     </ion-row>
   </ion-grid>
 
+  <div *ngIf="!noMoreSpots" style="text-align:center;">
+    <button small ion-button icon-left (click)="doInfinite()" color="primary" round outline>
+      <ion-icon name="arrow-down"></ion-icon>
+      Load More
+    </button>
+  </div>
+
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
