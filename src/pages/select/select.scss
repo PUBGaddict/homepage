@@ -40,13 +40,19 @@ page-select {
         }
 
         .card-title {
+            
             @media screen and (max-width: 950px) {
+                font-size: .9em;
+            }
+
+            @media screen and (max-width: 650px) {
                 font-size: 1.2em;
             }
+
             pointer-events: none;
             position: absolute;
             top: 60%;
-            font-size: 1.1em;
+            font-size: .9em;
             width: 100%;
             font-weight: bold;
             color: #fff;
@@ -56,9 +62,9 @@ page-select {
             
         .card-subtitle {
             pointer-events: none;
-            font-size: 1.0em;
+            font-size: .7em;
             position: absolute;
-            top: 80%;
+            top: 88%;
             width: 100%;
             color: #fff;
             text-shadow: 2px 1px 21px rgba(0, 0, 0, 1);
