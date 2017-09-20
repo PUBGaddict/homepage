@@ -19,10 +19,11 @@ export class SelectPage {
   public category: string = "";
   public spots: Array<any> = [];
   private noMoreSpots: boolean = false;
-  
+  public filter = "date";
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData) {
     this.category = navParams.get("category");
-    this.spotData.getNextTagsForCategory(this.category, "rating", true).then((spots : any[]) => {
+    this.spotData.getNextTagsForCategory(this.category, this.filter, true).then((spots : any[]) => {
       this.spots = spots;
     });
     /* this.spotData.getSpotsForTag(this.category).then((spots: any[]) => {
@@ -36,6 +37,24 @@ export class SelectPage {
     ga('send', 'event', "page", "visit", "select");
     ga('send', 'event', "spot", "selected", this.category);
     
+  }
+
+  newestClicked() {
+    ga('send', 'event', "filter", "newest", "clicked");
+    
+    this.filter = "date";
+  }
+
+  loadSpots() {
+    this.spotData.getNextTagsForCategory(this.category, this.filter, true).then((spots : any[]) => {
+      this.spots = spots;
+    });
+  }
+
+  highestClicked() {
+    ga('send', 'event', "filter", "highest", "clicked");
+    
+    this.filter = "rating";
   }
 
   openSpot(spotId) {
@@ -55,7 +74,7 @@ export class SelectPage {
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
 
-    this.spotData.getNextTagsForCategory(this.category, "rating", false)
+    this.spotData.getNextTagsForCategory(this.category, this.filter, false)
       .then((spots : any[]) => {
         if (spots.length <= 0) {
           this.noMoreSpots = true;

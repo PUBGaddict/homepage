@@ -12,10 +12,10 @@
 
 <ion-content class="card-background-page">
   <ion-segment padding [(ngModel)]="filter">
-    <ion-segment-button value="newest">
+    <ion-segment-button value="date" (click)="newestClicked()">
       Newest
     </ion-segment-button>
-    <ion-segment-button value="highest">
+    <ion-segment-button value="rating" (click)="highestClicked()">
       Highest
     </ion-segment-button>
   </ion-segment>
