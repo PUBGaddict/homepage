@@ -124,7 +124,7 @@ export class SpotData {
   }
 
   public getNextTagsForCategory(category: string, sortProperty: string, bReset: boolean): Promise<any> {
-    let maxValue = 999999999;
+    let maxValue = 99999999999999;
     if (bReset) {
       this.lastKey = "";
       this.lastValue = "";
