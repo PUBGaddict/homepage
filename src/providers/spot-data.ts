@@ -137,7 +137,7 @@ export class SpotData {
         limitToLast: 4
       }
     }).map((data: any) => {
-      if (data.length <= 1) {
+      if (data.length <= 0) {
         return [];
       }
 

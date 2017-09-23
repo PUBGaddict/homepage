@@ -50,8 +50,8 @@
         <ion-label stacked padding-top required>Title</ion-label>
         <ion-input 
           type="text"
-          [value]="title"
-          formControlName="title" 
+          [(ngModel)]="spot.title"
+          formControlName="title"
           [class.invalid]="!spotHeadForm.controls.title.valid && (spotHeadForm.controls.title.dirty || submitAttempt)"
           [class.valid]="spotHeadForm.controls.title.valid">
         </ion-input>

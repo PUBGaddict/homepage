@@ -23,7 +23,6 @@ export class PublishPage {
 
   public spotHeadForm : any;
   public tags : String[];
-  public title : String;
      
   public safeVidUrl : any;
 
@@ -61,7 +60,6 @@ export class PublishPage {
     this.spotData.getSpot(this.spotId).subscribe(spot => {
       this.spot = spot;
       this.tags = Object.keys(spot.tags);
-      this.title = spot.title;
 
       if (this.isGfycat()) {
         this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.gfycat.com/ifr/" + spot.videoId);
@@ -82,7 +80,7 @@ export class PublishPage {
     this.nextSpot();
     this.http.post(firebaseConfig.functionsURL + '/publish?id=' + spotId,
       JSON.stringify({
-        title: this.title,
+        title: this.spot.title,
         tags: this.tags
     })).subscribe(data => {
       if (data.status === 200) {
