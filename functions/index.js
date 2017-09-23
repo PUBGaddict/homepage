@@ -67,6 +67,7 @@ exports.publish = functions.https.onRequest((req, res) => {
 
 	cors(req, res, () => {
 		let spotId = req.query["id"];
+		let spotBody = JSON.parse(req.body);
 
 		function concatTagsToPath(tags) {
 			let tagNames = Object.keys(tags);
@@ -81,6 +82,16 @@ exports.publish = functions.https.onRequest((req, res) => {
 			}
 
 			let spot = snap.val();
+			spot.title = spotBody.title;
+
+			let tags = {};
+			for (var i = 0; i < 3; i++) {
+				if ( !!spotBody.tags[i] ) {
+					tags[spotBody.tags[i]] = true;
+				}
+			}
+
+			spot.tags = tags;
 			spot.path = concatTagsToPath(spot.tags);
 			spot.published = true;
 			var promises = [];
@@ -124,6 +135,23 @@ exports.publish = functions.https.onRequest((req, res) => {
 				res.status(200).send("Publish done with messages: "+ debug_msgs.join(","));
 			});		
 		});		
+	});
+})
+
+
+exports.reject = functions.https.onRequest((req, res) => {
+	
+	// TODO: Authentication check.
+
+	if (req.method === 'PUT') {
+		res.status(403).send('Forbidden!');
+	}
+
+	cors(req, res, () => {
+		let spotId = req.query["id"];
+		let spotRef = admin.database().ref("/fspots/" + spotId);
+		spotRef.remove();
+		res.status(200).send("Rejected the spot");
 	});
 })
 

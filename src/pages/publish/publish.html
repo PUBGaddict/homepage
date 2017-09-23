@@ -44,11 +44,34 @@
         </iframe>
       </div>
     </ion-list>
+
+    <form [formGroup]="spotHeadForm">
+      <ion-item no-lines>
+        <ion-label stacked padding-top required>Title</ion-label>
+        <ion-input 
+          type="text"
+          [value]="title"
+          formControlName="title" 
+          [class.invalid]="!spotHeadForm.controls.title.valid && (spotHeadForm.controls.title.dirty || submitAttempt)"
+          [class.valid]="spotHeadForm.controls.title.valid">
+        </ion-input>
+      </ion-item>
+      <ion-item 
+        no-lines 
+        *ngIf="!spotHeadForm.controls.title.valid && (spotHeadForm.controls.title.dirty || submitAttempt)">
+        <p>Please enter a valid name with more than 10 characters</p>
+      </ion-item>
+  
+      <ion-item no-lines>
+        <ion-label style="color:#999;" stacked padding-top required>Tags (at least 1, up to 3)</ion-label>
+      </ion-item>
+      <ion-tags-input [color]="'primary'" class="tags-input" color="primary" formControlName="tags" [(ngModel)]="tags" [separatorStr]="' '"></ion-tags-input> 
+    </form>
     
-    <button style="float:right;" ion-button (click)="rejectSpot()">
+    <button style="float:right;" ion-button (click)="rejectSpot(spot.id)">
       <ion-icon name="close"></ion-icon>
     </button>
-    <button style="float:right;" ion-button (click)="acceptSpot(spot.id)">
+    <button style="float:right;" ion-button (click)="acceptSpot(spot.id)" [disabled]="!spotHeadForm.controls.title.valid || !spotHeadForm.controls.tags.valid">
       <ion-icon name="checkmark"></ion-icon>
     </button>
 

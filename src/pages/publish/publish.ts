@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { firebaseConfig } from '../../app/app.module';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { SpotData } from '../../providers/spot-data';
@@ -19,6 +20,10 @@ export class PublishPage {
   public height: any;
   private spotId: string;
   public color;
+
+  public spotHeadForm : any;
+  public tags : String[];
+  public title : String;
      
   public safeVidUrl : any;
 
@@ -39,7 +44,12 @@ export class PublishPage {
 
   public afRatingRef: FirebaseObjectObservable<any>;
 
-  constructor(public http: Http, public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, private sanitizer: DomSanitizer) {
+  constructor(public http: Http, public formBuilder: FormBuilder, public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, private sanitizer: DomSanitizer) {
+    this.spotHeadForm = formBuilder.group({
+      title: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.minLength(10), Validators.pattern('[a-zA-Z,. ]*')])],
+      tags: [[], Validators.compose([Validators.minLength(1), Validators.maxLength(3)])] 
+    });
+    
     this.angularFireDatabase = angularFireDatabase;
     this.spotId = navParams.get("spotId");
     this.afRatingRef = this.angularFireDatabase.object('/fspots/' + this.spotId + '/rating');
@@ -50,6 +60,9 @@ export class PublishPage {
     this.afRatingRef.subscribe();
     this.spotData.getSpot(this.spotId).subscribe(spot => {
       this.spot = spot;
+      this.tags = Object.keys(spot.tags);
+      this.title = spot.title;
+
       if (this.isGfycat()) {
         this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.gfycat.com/ifr/" + spot.videoId);
       }
@@ -65,11 +78,35 @@ export class PublishPage {
     });
   }
 
-  acceptSpot(spotId) {
-    this.http.get(firebaseConfig.functionsURL + '/publish?id=' + spotId).subscribe(data => {
+  acceptSpot(spotId) {    
+    this.nextSpot();
+    this.http.post(firebaseConfig.functionsURL + '/publish?id=' + spotId,
+      JSON.stringify({
+        title: this.title,
+        tags: this.tags
+    })).subscribe(data => {
       if (data.status === 200) {
         this.presentToast("published successfully");
       }
+    });
+  }
+
+  rejectSpot(spotId) {
+    this.nextSpot();
+    this.http.get(firebaseConfig.functionsURL + '/reject?id=' + spotId).subscribe(data => {
+      if (data.status === 200) {
+        this.presentToast("declined successfully");
+      }
+    });
+  }
+
+  nextSpot() {
+    let subscription = this.spotData.getNextSpot("unpublished", this.spotId).subscribe(s => {
+      if (!s.published) {
+        this.spotId = s.id;
+        this.displaySpot();
+      }
+      subscription.unsubscribe();
     });
   }
 
