@@ -23,7 +23,7 @@ export class MyApp {
   noMoreCategories: boolean = false;
 
   constructor(platform: Platform, public categoryData : CategoryData, public spotData : SpotData) {
-    this.categoryData.getInitialCategories().subscribe((categories: any[]) => {
+    this.categoryData.getNextCategories().subscribe((categories: any[]) => {
       this.categories = categories;
     });
   }
@@ -40,10 +40,10 @@ export class MyApp {
 
     this.categoryData.getNextCategories()
       .subscribe(categories => {
-        if (this.categories.length === categories.length) {
+        if (categories.length <= 0) {
           this.noMoreCategories = true;
         }
-        this.categories = categories;
+        this.categories = this.categories.concat(categories);
         if (infiniteScroll) {
           infiniteScroll.complete()
         }

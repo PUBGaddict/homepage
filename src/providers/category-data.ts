@@ -15,15 +15,17 @@ export class CategoryData {
   //currentLowestValue : number = 0;
   categorySet = {};
   //allCategories : Array<any> = [];
-  lastId : string = "";
+  lastKey : string = "";
+  lastValue : number;
 
   constructor(public http: Http, public angularFireDatabase: AngularFireDatabase) { }
 
   getNextCategories() : Observable<any> {
+    let maxValue = 99999999999999;
     return this.angularFireDatabase.list('/menu', {
       query: {
-        orderByChild: 'key',
-        endAt: this.lastId,
+        orderByChild: 'amount',
+        endAt: !!this.lastKey ? { value: this.lastValue, key: this.lastKey } : maxValue,
         limitToLast: 5
       }
     }).map(categories => {
@@ -32,31 +34,19 @@ export class CategoryData {
     });
   }
   
-  processCategories (categories) {
-    for (let i in categories) {
-      this.categorySet[categories[i].$key] = {
-        category : categories[i].$key,
-        amount : categories[i].amount,
-        key : categories[i].key
-      }
+  processCategories (data) {
+    if (data.length <= 0) {
+      return [];
     }
-    var arr = Object.keys(this.categorySet).map(key => { return this.categorySet[key]});
-    arr.sort((b,a) => {
-      if(a.key < b.key) return -1;
-      if(a.key > b.key) return 1;
+
+    this.lastKey = data[0]['$key'];
+    this.lastValue = data[0]['amount'];
+
+    data.sort((b, a) => {
+      if (a['amount'] < b['amount']) return -1;
+      if (a['amount'] > b['amount']) return 1;
       return 0;
-    })
-
-    this.lastId = arr.length > 0 ? arr[arr.length-1].key : "";  
-    return arr;
-  }
-
-  getInitialCategories() : Observable<any> {
-    return this.angularFireDatabase.list('/menu', {
-      query: {
-        orderByChild: 'key',
-        limitToLast: 5
-      }
-    }).map(this.processCategories.bind(this));
+    });
+    return data;
   }
 }

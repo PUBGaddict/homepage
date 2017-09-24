@@ -7,6 +7,42 @@ const statistics = {};
 
 admin.initializeApp(functions.config().firebase);
 
+exports.homoTags = functions.https.onRequest((req, res) => {
+	
+		if (req.method === 'PUT') {
+			res.status(403).send('Forbidden!');
+		}
+			
+		cors(req, res, () => {				
+			var menuRef = admin.database().ref("/menu");
+			var spotRef = admin.database().ref("/fspots");
+			
+			menuRef.once('value').then(snap => {
+				// homo menu
+				let menuMap = snap.val();
+				for (let tagName in menuMap) {
+					if (tagName.charAt(0) === tagName.charAt(0).toUpperCase()
+						&& tagName.substring(1) === tagName.substring(1).toLowerCase()) {
+							let tempObject = menuMap[tagName];
+							delete  menuMap[tagName];
+							if (tagName.toLocaleLowerCase in menuMap) {
+								menuMap[tagName.toLocaleLowerCase].amount += tempObject.amount;
+							} else {
+								menuMap[tagName.toLocaleLowerCase] = tempObject;
+							}
+							
+						}
+				}
+			})
+
+			spotRef.once('value').then(snap => {
+				// homo spot tags
+			})
+	
+			res.status(200).send("homologized menu and spot tags successfully");
+		});
+	})
+
 exports.search = functions.https.onRequest((req, res) => {
 
 	if (req.method === 'PUT') {
