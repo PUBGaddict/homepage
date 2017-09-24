@@ -39,6 +39,7 @@ exports.homoTags = functions.https.onRequest((req, res) => {
 									spot.path.replace(tagName, tagName.toLowerCase());
 									delete spot.tags[tagName];
 									spot.tags[tagName.toLowerCase()] = true;
+									spotRef.set(spot);
 								});
 							}
 						}
