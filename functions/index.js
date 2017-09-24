@@ -159,14 +159,6 @@ exports.publish = functions.https.onRequest((req, res) => {
 					
 					val.amount++;
 
-					let amountLength = val.amount.toString().length,
-						restLength = 6 - amountLength,
-						leadingZeroString = "" + val.amount;
-					for ( let i = 0; i < restLength; i++) {
-						leadingZeroString = "0" + leadingZeroString;
-					}
-					val.key = leadingZeroString + "/" + admin.database().ref().push().key;
-
 					// spots
 					spots[spot.id] = {
 						date: spot.date,
@@ -174,7 +166,6 @@ exports.publish = functions.https.onRequest((req, res) => {
 					}
 					val.spots = spots;
 
-					console.log("key: " + val.key);
 					node[tag] = val;
 					promises.push(admin.database().ref("/menu/").update(node).then(() => {
 						debug_msgs.push("updated menu");
