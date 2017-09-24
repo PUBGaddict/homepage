@@ -12,6 +12,8 @@ exports.homoTags = functions.https.onRequest((req, res) => {
 		if (req.method === 'PUT') {
 			res.status(403).send('Forbidden!');
 		}
+
+		var debug_msgs = [];
 			
 		cors(req, res, () => {				
 			var menuRef = admin.database().ref("/menu");
@@ -22,12 +24,17 @@ exports.homoTags = functions.https.onRequest((req, res) => {
 				for (let tagName in menuMap) {
 					if (tagName.charAt(0) === tagName.charAt(0).toUpperCase()
 						&& tagName.substring(1) === tagName.substring(1).toLowerCase()) {
-							let tempObject = menuMap[tagName];
-							delete  menuMap[tagName];
+							console.log("homologizing tag: " + tagName);
+							debug_msgs.push(tagName);
+							var tempObject = menuMap[tagName];
+							delete menuMap[tagName];
 							if (tagName.toLowerCase() in menuMap) {
-								menuMap[tagName.toLowerCase()].amount += tempObject.amount;
-								Object.assign(menuMap[tagName.toLowerCase()].spots, tempObject.spots);
+								console.log("tagName " + tagName + " already exists in lowerCase");
+								menuMap[tagName.toLowerCase()].spots = 
+									Object.assign(menuMap[tagName.toLowerCase()].spots, tempObject.spots);
+								menuMap[tagName.toLowerCase()].amount = Object.keys(menuMap[tagName.toLowerCase()].spots).length;
 							} else {
+								console.log("tagName " + tagName + " does not exist in lowerCase");
 								menuMap[tagName.toLowerCase()] = tempObject;
 							}
 
@@ -36,7 +43,7 @@ exports.homoTags = functions.https.onRequest((req, res) => {
 								let spotRef = admin.database().ref("/fspots/" + spotId);
 								spotRef.once('value').then(snap => {
 									let spot = snap.val();
-									spot.path.replace(tagName, tagName.toLowerCase());
+									spot.path = spot.path.replace(tagName, tagName.toLowerCase());
 									delete spot.tags[tagName];
 									spot.tags[tagName.toLowerCase()] = true;
 									spotRef.set(spot);
@@ -44,10 +51,10 @@ exports.homoTags = functions.https.onRequest((req, res) => {
 							}
 						}
 				}
-				menuRef.update(menuMap);
-			})
-	
-			res.status(200).send("homologized menu and spot tags successfully");
+				console.log("menuMap: " + JSON.stringify(menuMap));
+				menuRef.set(menuMap);
+				res.status(200).send("homologized menu and spot tags successfully for following tags: " + debug_msgs.join(","));
+			})	
 		});
 	})
 

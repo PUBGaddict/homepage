@@ -29,7 +29,6 @@ export class CategoryData {
         limitToLast: 5
       }
     }).map(categories => {
-      categories.splice(categories.length - 1, 1);
       return this.processCategories(categories);
     });
   }
@@ -39,6 +38,9 @@ export class CategoryData {
       return [];
     }
 
+    if (!!this.lastKey) {
+      data = data.slice(0, data.length - 1);
+    }
     this.lastKey = data[0]['$key'];
     this.lastValue = data[0]['amount'];
 
