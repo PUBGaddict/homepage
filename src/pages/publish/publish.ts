@@ -84,18 +84,18 @@ export class PublishPage {
     })).subscribe(data => {
       if (data.status === 200) {
         this.presentToast("published successfully");
-        this.nextSpot();
       }
     });
+    this.nextSpot();
   }
 
   rejectSpot(spotId) {
     this.http.get(firebaseConfig.functionsURL + '/reject?id=' + spotId).subscribe(data => {
       if (data.status === 200) {
         this.presentToast("declined successfully");
-        this.nextSpot();
       }
     });
+    this.nextSpot();
   }
 
   nextSpot() {
