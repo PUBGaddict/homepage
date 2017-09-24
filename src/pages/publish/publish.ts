@@ -77,7 +77,6 @@ export class PublishPage {
   }
 
   acceptSpot(spotId) {    
-    this.nextSpot();
     this.http.post(firebaseConfig.functionsURL + '/publish?id=' + spotId,
       JSON.stringify({
         title: this.spot.title,
@@ -85,15 +84,16 @@ export class PublishPage {
     })).subscribe(data => {
       if (data.status === 200) {
         this.presentToast("published successfully");
+        this.nextSpot();
       }
     });
   }
 
   rejectSpot(spotId) {
-    this.nextSpot();
     this.http.get(firebaseConfig.functionsURL + '/reject?id=' + spotId).subscribe(data => {
       if (data.status === 200) {
         this.presentToast("declined successfully");
+        this.nextSpot();
       }
     });
   }
@@ -101,8 +101,9 @@ export class PublishPage {
   nextSpot() {
     let subscription = this.spotData.getNextSpot("unpublished", this.spotId).subscribe(s => {
       if (!s.published) {
-        this.spotId = s.id;
-        this.displaySpot();
+        this.navCtrl.setPages([{page: PublishPage, params: {
+          spotId : s.id
+        }}]);
       }
       subscription.unsubscribe();
     });
