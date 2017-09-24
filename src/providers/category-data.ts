@@ -34,7 +34,7 @@ export class CategoryData {
   }
   
   processCategories (data) {
-    if (data.length <= 0) {
+    if (!!this.lastKey && data.length <= 1) {
       return [];
     }
 

@@ -23,12 +23,16 @@ export class SelectPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData) {
     this.category = navParams.get("category");
-    this.spotData.getNextTagsForCategory(this.category, this.filter, true).then((spots : any[]) => {
-      this.spots = spots;
-    });
+    this.getInitialTags();
     /* this.spotData.getSpotsForTag(this.category).then((spots: any[]) => {
       this.spots = spots;
     }); */
+  }
+
+  getInitialTags() {
+    this.spotData.getNextTagsForCategory(this.category, this.filter, true).then((spots : any[]) => {
+      this.spots = spots;
+    });
   }
 
   ionViewDidLoad() {
@@ -43,6 +47,7 @@ export class SelectPage {
     ga('send', 'event', "filter", "newest", "clicked");
     
     this.filter = "date";
+    this.getInitialTags();
   }
 
   loadSpots() {
@@ -55,6 +60,7 @@ export class SelectPage {
     ga('send', 'event', "filter", "highest", "clicked");
     
     this.filter = "rating";
+    this.getInitialTags();
   }
 
   openSpot(spotId) {
