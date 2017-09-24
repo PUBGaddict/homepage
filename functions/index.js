@@ -15,7 +15,6 @@ exports.homoTags = functions.https.onRequest((req, res) => {
 			
 		cors(req, res, () => {				
 			var menuRef = admin.database().ref("/menu");
-			var spotRef = admin.database().ref("/fspots");
 			
 			menuRef.once('value').then(snap => {
 				// homo menu
@@ -25,18 +24,26 @@ exports.homoTags = functions.https.onRequest((req, res) => {
 						&& tagName.substring(1) === tagName.substring(1).toLowerCase()) {
 							let tempObject = menuMap[tagName];
 							delete  menuMap[tagName];
-							if (tagName.toLocaleLowerCase in menuMap) {
-								menuMap[tagName.toLocaleLowerCase].amount += tempObject.amount;
+							if (tagName.toLowerCase() in menuMap) {
+								menuMap[tagName.toLowerCase()].amount += tempObject.amount;
+								Object.assign(menuMap[tagName.toLowerCase()].spots, tempObject.spots);
 							} else {
-								menuMap[tagName.toLocaleLowerCase] = tempObject;
+								menuMap[tagName.toLowerCase()] = tempObject;
 							}
-							
+
+							// homo spots
+							for (let spotId in tempObject.spots) {
+								let spotRef = admin.database().ref("/fspots/" + spotId);
+								spotRef.once('value').then(snap => {
+									let spot = snap.val();
+									spot.path.replace(tagName, tagName.toLowerCase());
+									delete spot.tags[tagName];
+									spot.tags[tagName.toLowerCase()] = true;
+								});
+							}
 						}
 				}
-			})
-
-			spotRef.once('value').then(snap => {
-				// homo spot tags
+				menuRef.update(menuMap);
 			})
 	
 			res.status(200).send("homologized menu and spot tags successfully");
