@@ -40,10 +40,10 @@ export class MyApp {
 
     this.categoryData.getNextCategories()
       .subscribe(categories => {
-        if (categories.length <= 0) {
+        if (categories.length === this.categories.length) {
           this.noMoreCategories = true;
         }
-        this.categories = this.categories.concat(categories);
+        this.categories = categories;
         if (infiniteScroll) {
           infiniteScroll.complete()
         }

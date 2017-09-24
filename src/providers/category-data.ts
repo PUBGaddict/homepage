@@ -35,7 +35,7 @@ export class CategoryData {
   
   processCategories (data) {
     if (!!this.lastKey && data.length <= 1) {
-      return [];
+      data = [];
     }
 
     if (!!this.lastKey) {
@@ -44,11 +44,23 @@ export class CategoryData {
     this.lastKey = data[0]['$key'];
     this.lastValue = data[0]['amount'];
 
-    data.sort((b, a) => {
+    for (let i in data) {
+      this.categorySet[data[i].$key] = {
+        $key : data[i].$key,
+        amount : data[i].amount
+      }
+    }
+    var arr = Object.keys(this.categorySet).map(key => { return this.categorySet[key]});
+
+    arr.sort((b, a) => {
       if (a['amount'] < b['amount']) return -1;
       if (a['amount'] > b['amount']) return 1;
-      return 0;
+      if (a['amount'] === b['amount']) {
+        if (a['$key'] < b['$key']) return -1;
+        if (a['$key'] > b['$key']) return 1;
+        return 0;
+      }
     });
-    return data;
+    return arr;
   }
 }
