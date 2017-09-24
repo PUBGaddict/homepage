@@ -45,7 +45,7 @@ export class PublishPage {
 
   constructor(public http: Http, public formBuilder: FormBuilder, public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, private sanitizer: DomSanitizer) {
     this.spotHeadForm = formBuilder.group({
-      title: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.minLength(10), Validators.pattern('[a-zA-Z,. ]*')])],
+      title: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.minLength(10)])],
       tags: [[], Validators.compose([Validators.minLength(1), Validators.maxLength(3)])] 
     });
     
