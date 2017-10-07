@@ -58,24 +58,23 @@
       </iframe>
     </div>
   </ion-list>
-
-  <ion-footer no-border>    
-    <ion-toolbar no-border>
-        <ion-buttons start>
-          <button ion-button icon-only (click)="previousSpot()">
-            <ion-icon name='arrow-dropleft'></ion-icon>
-          </button>
-      </ion-buttons>
-      <ion-buttons center>
-        <button ion-button *ngFor="let category of categories" (click)="openPage(category)">
-          <ion-badge item-end color="primary">{{category}}</ion-badge>
-        </button>
-      </ion-buttons>
-      <ion-buttons end>
-        <button ion-button icon-only (click)="nextSpot()">
-          <ion-icon name='arrow-dropright'></ion-icon>
-        </button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-footer>
 </ion-content>
+<ion-footer no-border>    
+  <ion-toolbar no-border>
+      <ion-buttons start>
+        <button ion-button icon-only (click)="previousSpot()">
+          <ion-icon name='arrow-dropleft'></ion-icon>
+        </button>
+    </ion-buttons>
+    <ion-buttons center>
+      <button ion-button *ngFor="let category of categories" (click)="openPage(category)">
+        <ion-badge item-end color="primary">{{category}}</ion-badge>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="nextSpot()">
+        <ion-icon name='arrow-dropright'></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
