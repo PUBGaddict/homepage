@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { PatchnoteData } from '../../providers/patchnote-data';
 import { SubmitPage } from '../submit/submit';
 import { Http } from '@angular/http';
 import { firebaseConfig } from '../../app/app.module';
 import { ResultPage } from '../result/result';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service'
 
 import * as firebase from 'firebase/app';
 
@@ -23,23 +24,13 @@ export class WelcomePage {
   public patchNotesRepo = [];
   @ViewChild('searchBar') searchBar: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public patchnoteData : PatchnoteData, private http: Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public patchnoteData : PatchnoteData, private http: Http, public authService : AuthServiceProvider, public toastCtrl: ToastController) {
     if (this.patchNotes.length === 0) {  
       this.patchnoteData.getInitialPatchNotes().then((initialPatchNotes) => {
         this.patchNotes = initialPatchNotes;
       })
     }
   }
-
-/* 
-  signInWithFacebook(): void {
-    this.authServiceProvider.signInWithFacebook()
-      .then(() => this.onSignInSuccess());
-  }
-
-  private onSignInSuccess(): void {
-    console.log("Facebook display name ",this.authServiceProvider.displayName());
-  } */
 
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
@@ -63,7 +54,14 @@ export class WelcomePage {
   }
 
   openSubmitPage() {
-    this.navCtrl.push(SubmitPage);
+    if (this.authService.authenticated) {
+      this.navCtrl.push(SubmitPage);
+    } else {
+      this.toastCtrl.create({
+        message: "You need to login before submitting new stuff",
+        duration: 2500
+      }).present();
+    }
   }
   search (event) {
     let val = event.target.value;

@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { SpotData } from '../../providers/spot-data';
 
 import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
 import { SubmitPage } from '../submit/submit'
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service'
+
 
 /*
   Generated class for the Select page.
@@ -21,7 +23,7 @@ export class SelectPage {
   private noMoreSpots: boolean = false;
   public filter = "date";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public authService : AuthServiceProvider, public toastCtrl: ToastController) {
     this.category = navParams.get("category");
     this.getInitialTags();
     /* this.spotData.getSpotsForTag(this.category).then((spots: any[]) => {
@@ -74,7 +76,14 @@ export class SelectPage {
   }
 
   openSubmitPage() {
-    this.navCtrl.push(SubmitPage);
+    if (this.authService.authenticated) {
+      this.navCtrl.push(SubmitPage);
+    } else {
+      this.toastCtrl.create({
+        message: "You need to login before submitting new stuff",
+        duration: 2500
+      }).present();
+    }
   } 
 
   doInfinite(infiniteScroll) {
