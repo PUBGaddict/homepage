@@ -149,6 +149,10 @@ export class StrategyDetailPage {
     }
   }
 
+  getFacebookUrl() {
+    return "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpubgaddicts.com%2F%23%2Fs%2F" + this.spotId + "%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+  }
+
   mayVote() {
     let votes = this.getVoteObject();
     if (!votes.includes(this.spotId)) {
