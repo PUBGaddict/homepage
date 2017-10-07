@@ -59,6 +59,7 @@ export class StrategyDetailPage {
 
   nextSpot() {
     this.spotData.getNextSpot(this.spot.path, this.spot.id).subscribe(nextSpot => {
+      this.navCtrl.pop();
       this.navCtrl.push(StrategyDetailPage, {
         spotId : nextSpot.id
       });
@@ -67,6 +68,7 @@ export class StrategyDetailPage {
 
   previousSpot() {
     this.spotData.getPreviousSpot(this.spot.path, this.spot.id).subscribe(prevSpot => {
+      this.navCtrl.pop();
       this.navCtrl.push(StrategyDetailPage, {
         spotId : prevSpot.id
       });
@@ -100,8 +102,8 @@ export class StrategyDetailPage {
   }
 
   openPage (category) {
-   this.navCtrl.push(SelectPage, {category : category})
- }
+    this.navCtrl.setRoot(SelectPage, {category : category})
+  }
 
   presentToast(message) {
     let toast = this.toastCtrl.create({
@@ -156,6 +158,7 @@ export class StrategyDetailPage {
   }
 
   openSubmitPage() {
+    this.navCtrl.pop();
     this.navCtrl.push(SubmitPage);
   }
 
@@ -180,6 +183,7 @@ export class StrategyDetailPage {
   }
 
   userPressed (spot) {
+    this.navCtrl.pop();
     this.navCtrl.push(UserPage, {
       displayName: spot.displayName
     });
