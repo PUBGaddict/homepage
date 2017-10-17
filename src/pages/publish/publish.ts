@@ -72,6 +72,9 @@ export class PublishPage {
       if (this.isVimeo()) {
         this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://player.vimeo.com/video/" + spot.videoId)
       }
+      if (this.isReddit()) {
+        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.reddit.com/mediaembed/video/" + spot.videoId)
+      }
     });
   }
 
@@ -134,6 +137,10 @@ export class PublishPage {
 
   isVimeo() {
     return this.spot.strategy === 'vimeo';
+  }
+  
+  isReddit() {
+    return this.spot.strategy === 'reddit';
   }
   
   getVoteObject() {

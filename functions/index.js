@@ -254,7 +254,7 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 				if (post.strategy === "youtube") {
 					processYoutubeVideo();
 				}
-				if (post.strategy === "gfycat" || post.strategy === "twitch" || post.strategy === 'streamable' || post.strategy === 'vimeo') {
+				if (post.strategy === "gfycat" || post.strategy === "twitch" || post.strategy === 'streamable' || post.strategy === 'vimeo' || post.strategy === 'reddit') {
 					processSlugVideo();
 				}
 			}
@@ -307,7 +307,7 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 
 		function processSlugVideo() {
 			if (!post.videoId) {
-				console.log("no video id provided for gfycat or twitch or streamable")
+				console.log("no video id provided for gfycat or twitch or streamable or vimeo or reddit")
 				return;
 			}
 			console.log("data seems fine, going in!");

@@ -133,6 +133,10 @@ export class StrategyDetailPage {
     return this.spot.strategy === 'vimeo';
   }
 
+  isReddit() {
+    return this.spot.strategy === 'reddit';
+  }
+
   getVoteObject() {
     if (typeof(Storage) !== "undefined") {
       if (!localStorage.getItem("votes")) {

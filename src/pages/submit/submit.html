@@ -41,6 +41,7 @@
         <ion-option value="twitch">Twitch</ion-option>
         <ion-option value="streamable">Streamable</ion-option>
         <ion-option value="vimeo">Vimeo</ion-option>
+        <ion-option value="reddit">Reddit Video</ion-option>
       </ion-select>
     </ion-item>
 
@@ -198,6 +199,30 @@
         </ion-item>
 
         <div margin-top [class.displayNone]="!vimeoDetailForm.valid" style='position:relative;padding-bottom:calc(100% / 1.85)'>
+          <iframe [src]='safeVidUrl' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen></iframe>
+        </div>
+      </form>
+    </div>
+
+    <div *ngIf="isReddit()" padding-top>
+      <form [formGroup]="redditDetailForm">
+        <ion-item no-lines>
+          <ion-label required stacked class="moreWidth">Reddit URL / Reddit ID</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="videoId"
+            (ionChange)="onVideoUrlChanged($event)"
+            [class.invalid]="!redditDetailForm.controls.videoId.valid && (redditDetailForm.controls.videoId.dirty || submitAttempt)"
+            [class.valid]="redditDetailForm.controls.videoId.valid">
+          </ion-input>
+        </ion-item>
+        <ion-item 
+          no-lines 
+          *ngIf="!redditDetailForm.controls.videoId.valid  && (redditDetailForm.controls.videoId.dirty || submitAttempt)">
+          <p>Please enter a valid Reddit Video ID or the URL of your Reddit video</p>
+        </ion-item>
+
+        <div margin-top [class.displayNone]="!redditDetailForm.valid" style='position:relative;padding-bottom:calc(100% / 1.85)'>
           <iframe [src]='safeVidUrl' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen></iframe>
         </div>
       </form>

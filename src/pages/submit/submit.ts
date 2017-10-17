@@ -40,6 +40,7 @@ export class SubmitPage {
   public twitchDetailForm : any;
   public streamableDetailForm : any;
   public vimeoDetailForm : any;
+  public redditDetailForm : any;
 
   constructor(public navCtrl: NavController, public categoryData : CategoryData, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder, private sanitizer: DomSanitizer) {
     // validators
@@ -69,6 +70,10 @@ export class SubmitPage {
 
     this.vimeoDetailForm = formBuilder.group({
       videoId: ['', Validators.compose([Validators.required, Validators.pattern('[0-9a-zA-Z]*')])]
+    });
+
+    this.redditDetailForm = formBuilder.group({
+      videoId: ['', Validators.compose([Validators.required])]
     });
   }
 
@@ -100,6 +105,11 @@ export class SubmitPage {
   isVimeo () {
     return this.spotHeadForm.get('strategy').value === 'vimeo';
   }
+
+  isReddit () {
+    return this.spotHeadForm.get('strategy').value === 'reddit';
+  }
+
 
   onVideoUrlChanged(event) {
     let url :string = event.value;
@@ -163,14 +173,43 @@ export class SubmitPage {
     if (this.isVimeo()) {
       if (url.startsWith("https://vimeo.com/")) {
         videoId = url.substr(18);
-        if (url.startsWith("https://player.vimeo.com/video/")) {
-          videoId = url.substr(31);
-        }
+      } else if (url.startsWith("https://player.vimeo.com/video/")) {
+        videoId = url.substr(31);
       } else {
         videoId = url;
       }
+
       this.vimeoDetailForm.get('videoId').setValue(videoId);
       this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://player.vimeo.com/video/" + videoId);
+      console.log(this.safeVidUrl);
+      return;
+    }
+
+    if (this.isReddit()) {
+      let bIsReddit = false;
+      if (url.startsWith("https://www.reddit.com/")) {
+        bIsReddit = true;
+        videoId = url.substr(23);
+        let indexOfComments = videoId.indexOf("/comments/"),
+          startOfId = indexOfComments + "/comments/".length,
+          restOfUrl = videoId.substr(startOfId),
+          endOfId = restOfUrl.indexOf("/");
+        videoId = restOfUrl.substr(0, endOfId);
+        this.redditDetailForm.get('videoId').setValue(videoId);
+      } else if (url.startsWith("https://redd.it/")) {
+        bIsReddit = true;        
+        videoId = url.substr(16);
+        this.redditDetailForm.get('videoId').setValue(videoId);
+      } 
+
+      console.log("videoid: "+ videoId);
+      
+      if (bIsReddit) {
+        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.reddit.com/mediaembed/" + videoId);
+      } else {
+        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("");
+        this.redditDetailForm.get('videoId').setValue("");
+      }
       console.log(this.safeVidUrl);
       return;
     }
@@ -245,7 +284,12 @@ export class SubmitPage {
       this.presentToast('Please fill out all the mandatory fields so we can process your great vimeo video!');
       return;
     }
-
+    // if the user has selected reddit, the redditDetailForm needs to be valid
+    if ((strategy === 'reddit') && !this.redditDetailForm.valid) {
+      this.presentToast('Please fill out all the mandatory fields so we can process your great reddit video!');
+      return;
+    }
+    debugger;
     this.saveButtonDisabled = true;
     var oSpot = {
       title : title,
@@ -274,10 +318,13 @@ export class SubmitPage {
     if (strategy === "vimeo") {
       oSpot.videoId = this.vimeoDetailForm.get('videoId').value;
     }
+    if (strategy === "reddit") {
+      oSpot.videoId = this.redditDetailForm.get('videoId').value;
+    }
 
-    this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
+    /* this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
       this.presentToast('Spot successfully created. Lean back while we verify your great spot!');
-    })
+    }) */
   }
 
   displayDetails() {
