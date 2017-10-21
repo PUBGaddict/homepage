@@ -57,9 +57,8 @@ export class AuthServiceProvider {
   }
 
   // facebook
-
   signInWithFacebook(): firebase.Promise<any> {
-    return this.afAuth.auth.signInWithPopup(new firebase.auth.EmailAuthProvider());
+    return this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
   }
 
   // google

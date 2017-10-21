@@ -50,6 +50,26 @@ export class LoginPage {
       });
     }
 
+    loginWithFacebook() {
+      this.authData.signInWithFacebook()
+      .then( authData => {
+        this.navCtrl.setRoot(WelcomePage);
+      }, error => {
+        this.loading.dismiss().then( () => {
+          let alert = this.alertCtrl.create({
+            message: error.message,
+            buttons: [
+              {
+                text: "Ok",
+                role: 'cancel'
+              }
+            ]
+          });
+          alert.present();
+        });
+      });
+    }
+
     loginUser(){
       if (!this.loginForm.valid){
         console.log(this.loginForm.value);
