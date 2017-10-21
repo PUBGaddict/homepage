@@ -45,7 +45,10 @@
     <button class="margin-top" ion-button block type="submit">
       Login
     </button>
-
+    <button class="margin-top" color="danger" ion-button block (click)="loginWithGoogle()">
+        <ion-icon padding-right name="logo-google"></ion-icon>
+        Login with Google
+    </button>
   </form>
 
   <button ion-button block clear (click)="goToResetPassword()">
@@ -55,4 +58,4 @@
   <button ion-button block clear (click)="createAccount()">
     Create a new account
   </button>
-</ion-content>
+</ion-content>  

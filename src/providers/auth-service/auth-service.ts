@@ -62,6 +62,11 @@ export class AuthServiceProvider {
     return this.afAuth.auth.signInWithPopup(new firebase.auth.EmailAuthProvider());
   }
 
+  // google
+  signInWithGoogle(): firebase.Promise<any> {
+    return this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  }
+
   signOut(): void {
     this.afAuth.auth.signOut();
   }
