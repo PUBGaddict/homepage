@@ -66,6 +66,11 @@ export class AuthServiceProvider {
     return this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
 
+  // twitter
+  signInWithTwitter(): firebase.Promise<any> {
+    return this.afAuth.auth.signInWithPopup(new firebase.auth.TwitterAuthProvider());
+  }
+
   signOut(): void {
     this.afAuth.auth.signOut();
   }

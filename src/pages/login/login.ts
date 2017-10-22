@@ -30,6 +30,26 @@ export class LoginPage {
       });
     }
 
+    loginWithTwitter() {
+      this.authData.signInWithTwitter()
+      .then( authData => {
+        this.navCtrl.setRoot(WelcomePage);
+      }, error => {
+        this.loading.dismiss().then( () => {
+          let alert = this.alertCtrl.create({
+            message: error.message,
+            buttons: [
+              {
+                text: "Ok",
+                role: 'cancel'
+              }
+            ]
+          });
+          alert.present();
+        });
+      });
+    }
+
     loginWithGoogle() {
       this.authData.signInWithGoogle()
       .then( authData => {
