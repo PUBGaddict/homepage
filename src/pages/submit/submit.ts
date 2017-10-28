@@ -322,9 +322,9 @@ export class SubmitPage {
       oSpot.videoId = this.redditDetailForm.get('videoId').value;
     }
 
-    /* this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
+    this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
       this.presentToast('Spot successfully created. Lean back while we verify your great spot!');
-    }) */
+    })
   }
 
   displayDetails() {
