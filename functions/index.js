@@ -7,6 +7,27 @@ const statistics = {};
 
 admin.initializeApp(functions.config().firebase);
 
+exports.migrate = functions.https.onRequest((req, res) => {
+	if (req.method === 'PUT') {
+		res.status(403).send('Forbidden!');
+	}
+
+	cors(req, res, () => {				
+		const spotRef = admin.database().ref("/fspots")
+		spotRef.once('value').then(snap => {
+			let spotMap = snap.val();
+			
+			admin.firestore().doc(`fspots/2Qqw4`).set(spotMap['2Qqw4']).then(res => {
+				res.status(200).send("migrated dat shit");				
+			})
+			/* for (let spot in spotMap) {
+
+			} */
+		});
+		
+	});		
+});	
+
 exports.homoTags = functions.https.onRequest((req, res) => {
 	
 		if (req.method === 'PUT') {
