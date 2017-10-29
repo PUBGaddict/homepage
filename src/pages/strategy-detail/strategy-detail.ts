@@ -4,7 +4,7 @@ import { Http } from '@angular/http';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { SpotData } from '../../providers/spot-data';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database-deprecated';
+import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 
 import { SubmitPage } from '../submit/submit';
 import { UserPage } from '../user/user';
@@ -47,8 +47,8 @@ export class StrategyDetailPage {
     published: true
   }
 
-  public afRatingRef: FirebaseObjectObservable<any>;
-  public tagRefs : Array<FirebaseObjectObservable<any>> = [];
+  public afRatingRef: AngularFireObject<any>;
+  public tagRefs : Array<AngularFireObject<any>> = [];
 
   constructor(public http: Http, public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, private sanitizer: DomSanitizer) {
     this.angularFireDatabase = angularFireDatabase;
@@ -76,7 +76,7 @@ export class StrategyDetailPage {
   }
 
   displaySpot() {     
-    this.afRatingRef.subscribe();
+    this.afRatingRef.valueChanges().subscribe();
     this.spotData.getSpot(this.spotId).subscribe(spot => {
       for (let tag in spot.tags) {
         if (spot.tags.hasOwnProperty(tag)) {

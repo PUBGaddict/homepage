@@ -8,7 +8,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
 import { CategoryData } from '../providers/category-data';
-import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database-deprecated';
+import { AngularFireDatabase } from 'angularfire2/database';
+
 import { AngularFirestore } from 'angularfire2/firestore';
 
 @Injectable()
@@ -19,8 +20,6 @@ export class SpotData {
   private spotCacheShallowKeys: any = [];
   private lastKey = "";
   private lastValue = "";
-
-  public afRatingRef: FirebaseObjectObservable<any>;
 
   constructor(public http: Http, public categoryData: CategoryData, public angularFireDatabase: AngularFireDatabase) { }
 
@@ -73,30 +72,34 @@ export class SpotData {
     return this.loadSpots("unpublished");
   }
 
-  public getNextSpot(category: string, spotId: string) {
-    const queryObservable = this.angularFireDatabase.list('/fspots', {
+  public getNextSpot(category: string, spotId: string) :Observable<any>{  
+    const queryObservable = this.angularFireDatabase.list('/fspots',
+    ref => ref.orderByChild('path').startAt(category, spotId).limitToFirst(2)
+    /* {
       query: {
         orderByChild: 'path',
         startAt: { value: category, key: spotId },
         limitToFirst: 2
       }
-    });
+    } */);
 
-    return queryObservable.map(spots => {
+    return queryObservable.valueChanges().map(spots => {
       return spots[1];
     });
   }
 
   public getPreviousSpot(category: string, spotId: string) {
-    const queryObservable = this.angularFireDatabase.list('/fspots', {
+    const queryObservable = this.angularFireDatabase.list('/fspots', 
+    ref => ref.orderByChild('path').endAt(category, spotId).limitToLast(2)
+    /* {
       query: {
         orderByChild: 'path',
         endAt: { value: category, key: spotId },
         limitToLast: 2
       }
-    });
+    } */);
 
-    return queryObservable.map(spots => {
+    return queryObservable.valueChanges().map(spots => {
       return spots[0];
     });
   }
@@ -128,14 +131,18 @@ export class SpotData {
       this.lastKey = "";
       this.lastValue = "";
     }
+    let endAt = !!this.lastKey ? { value: this.lastValue, key: this.lastKey } : maxValue;
 
-    let queryObservable = this.angularFireDatabase.list(`/menu/${category}/spots`, {
+    let queryObservable = this.angularFireDatabase.list(`/menu/${category}/spots`, 
+    ref => ref.orderByChild(sortProperty).endAt(endAt.toString()).limitToFirst(4)
+    
+    /* {
       query: {
         orderByChild: sortProperty,
         endAt: !!this.lastKey ? { value: this.lastValue, key: this.lastKey } : maxValue,
         limitToLast: 4
       }
-    }).map((data: any) => {
+    } */).valueChanges().map((data: any) => {
       if (!!this.lastKey && data.length <= 1) {
         return [];
       }

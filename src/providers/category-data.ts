@@ -4,7 +4,8 @@ import { firebaseConfig } from '../app/app.module';
 import { Http } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database-deprecated';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
@@ -22,13 +23,16 @@ export class CategoryData {
 
   getNextCategories() : Observable<any> {
     let maxValue = 99999999999999;
-    return this.angularFireDatabase.list('/menu', {
+    let endAt = !!this.lastKey ? { value: this.lastValue, key: this.lastKey } : maxValue;
+    return this.angularFireDatabase.list('/menu',
+      ref => ref.orderByChild('amount').endAt(endAt.toString()).limitToLast(5)
+    /*  {
       query: {
         orderByChild: 'amount',
         endAt: !!this.lastKey ? { value: this.lastValue, key: this.lastKey } : maxValue,
         limitToLast: 5
       }
-    }).map(categories => {
+    } */).valueChanges().map(categories => {
       return this.processCategories(categories);
     });
   }
