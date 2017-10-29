@@ -23,7 +23,6 @@ exports.migrate = functions.https.onRequest((req, res) => {
 				})
 			}
 		});
-		
 	});		
 });	
 
