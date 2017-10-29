@@ -40,34 +40,34 @@ export class AuthServiceProvider {
   }
 
   // email password
-  loginUser(newEmail: string, newPassword: string): firebase.Promise<any> {
+  loginUser(newEmail: string, newPassword: string): Promise<any> {
     return this.afAuth.auth.signInWithEmailAndPassword(newEmail, newPassword);
   }
 
-  resetPassword(email: string): firebase.Promise<any> {
+  resetPassword(email: string): Promise<any> {
     return this.afAuth.auth.sendPasswordResetEmail(email);
   }
 
-  logoutUser(): firebase.Promise<any> {
+  logoutUser(): Promise<any> {
     return this.afAuth.auth.signOut();
   }
 
-  signupUser(newEmail: string, newPassword: string): firebase.Promise<any> {
+  signupUser(newEmail: string, newPassword: string): Promise<any> {
     return this.afAuth.auth.createUserWithEmailAndPassword(newEmail, newPassword);
   }
 
   // facebook
-  signInWithFacebook(): firebase.Promise<any> {
+  signInWithFacebook(): Promise<any> {
     return this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
   }
 
   // google
-  signInWithGoogle(): firebase.Promise<any> {
+  signInWithGoogle(): Promise<any> {
     return this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
 
   // twitter
-  signInWithTwitter(): firebase.Promise<any> {
+  signInWithTwitter(): Promise<any> {
     return this.afAuth.auth.signInWithPopup(new firebase.auth.TwitterAuthProvider());
   }
 
