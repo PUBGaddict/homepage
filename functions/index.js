@@ -17,12 +17,11 @@ exports.migrate = functions.https.onRequest((req, res) => {
 		spotRef.once('value').then(snap => {
 			let spotMap = snap.val();
 			
-			admin.firestore().doc(`fspots/2Qqw4`).set(spotMap['2Qqw4']).then(res => {
-				res.status(200).send("migrated dat shit");				
-			})
-			/* for (let spot in spotMap) {
-
-			} */
+			for (let spot in spotMap) {
+				admin.firestore().doc(`fspots/${spot}`).set(spotMap[spot]).then(result => {
+					res.status(200).send("migrated dat shit");				
+				})
+			}
 		});
 		
 	});		
