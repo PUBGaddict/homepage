@@ -8,9 +8,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
 import { CategoryData } from '../providers/category-data';
-import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
-
-
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database-deprecated';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Injectable()
 export class SpotData {

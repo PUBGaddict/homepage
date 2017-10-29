@@ -4,7 +4,7 @@ import { Http } from '@angular/http';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { SpotData } from '../../providers/spot-data';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database-deprecated';
 
 import { SubmitPage } from '../submit/submit';
 import { UserPage } from '../user/user';

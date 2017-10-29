@@ -4,7 +4,7 @@ import { firebaseConfig } from '../app/app.module';
 import { Http } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database-deprecated';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
