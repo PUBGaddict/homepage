@@ -44,11 +44,10 @@ export class SpotData {
       console.log("loading query from cache");
       return Observable.of(this.spotCacheQuery[path]);
     } else {
-      return this.http.get(firebaseConfig.databaseURL + '/fspots.json?orderBy="path"&equalTo="'
-        + path + '"')
-        .map((rawData) => {
-          let data = rawData.json(),
-            spots = [];
+      return this.fireStore.collection(`fspots`, ref => {
+          return ref.where('path', '==', path);
+        }).valueChanges().map((data : any) => {
+          let spots = [];
           for (let key in data) {
             if (data.hasOwnProperty(key)) {
               spots.push(data[key]);
@@ -57,8 +56,8 @@ export class SpotData {
           this.spotCacheQuery[path] = spots;
           Object.assign(this.spotCacheSingle, spots);
           return spots;
-        });
-    }
+        })
+      }    
   }
 
   public getUnpublishedSpots() {
