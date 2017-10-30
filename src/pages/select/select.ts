@@ -26,9 +26,6 @@ export class SelectPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public authService : AuthServiceProvider, public toastCtrl: ToastController) {
     this.category = navParams.get("category");
     this.getInitialTags();
-    /* this.spotData.getSpotsForTag(this.category).then((spots: any[]) => {
-      this.spots = spots;
-    }); */
   }
 
   getInitialTags() {

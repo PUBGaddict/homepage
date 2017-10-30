@@ -158,7 +158,7 @@ export class SpotData {
         console.log("getting random spot from shallow cache");
         let randomIndex = Math.floor(Math.random() * this.spotCacheShallowKeys.length);
         let key = this.spotCacheShallowKeys[randomIndex];
-        this.getSpot(key).then(spot => {
+        this.getSpot(key).subscribe(spot => {
           if (!!spot.published) {
             resolve(spot);
           } else {
@@ -176,7 +176,7 @@ export class SpotData {
             let randomIndex = Math.floor(Math.random() * keys.length);
             return keys[randomIndex];
           }).toPromise().then(key => {
-            this.getSpot(key).then(spot => {
+            this.getSpot(key).subscribe(spot => {
               if (!!spot.published) {
                 resolve(spot);
               } else {

@@ -56,7 +56,7 @@ export class PublishPage {
 
   displaySpot() {     
     this.afRatingRef.valueChanges().subscribe();
-    this.spotData.getSpot(this.spotId).then(spot => {
+    this.spotData.getSpot(this.spotId).subscribe(spot => {
       this.spot = spot;
       this.tags = Object.keys(spot.tags);
 
