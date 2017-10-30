@@ -10,7 +10,7 @@ import 'rxjs/add/observable/of';
 import { CategoryData } from '../providers/category-data';
 import { AngularFireDatabase } from 'angularfire2/database';
 
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 @Injectable()
 export class SpotData {
@@ -21,24 +21,21 @@ export class SpotData {
   private lastKey = "";
   private lastValue = "";
 
-  constructor(public http: Http, public categoryData: CategoryData, public angularFireDatabase: AngularFireDatabase) { }
+  constructor(public http: Http, public categoryData: CategoryData, public angularFireDatabase: AngularFireDatabase, public fireStore : AngularFirestore) { }
 
   private loadSpot(spotId: string): Observable<any> {
     if (spotId in this.spotCacheSingle) {
       console.log("loading single from cache");
       return Observable.of(this.spotCacheSingle[spotId]);
     } else {
-      return this.http.get(firebaseConfig.databaseURL + '/fspots/'
-        + spotId + '.json')
-        .map((data) => {
-          let spot = data.json();
-          this.spotCacheSingle[spotId] = spot;
-          return spot || {};
-        });
+      return this.fireStore.doc(`fspots/${spotId}`).valueChanges().map((spot : any) => {
+        this.spotCacheSingle[spotId] = spot;
+        return spot;
+      });
     }
   }
 
-  public getSpot(spotId: string) {
+  public getSpot(spotId: string) : Observable<any> {
     return this.loadSpot(spotId);
   }
 
@@ -64,24 +61,13 @@ export class SpotData {
     }
   }
 
-  public getSpots(category) {
-    return this.loadSpots(category);
-  }
-
   public getUnpublishedSpots() {
     return this.loadSpots("unpublished");
   }
 
   public getNextSpot(category: string, spotId: string) :Observable<any>{  
     const queryObservable = this.angularFireDatabase.list('/fspots',
-    ref => ref.orderByChild('path').startAt(category, spotId).limitToFirst(2)
-    /* {
-      query: {
-        orderByChild: 'path',
-        startAt: { value: category, key: spotId },
-        limitToFirst: 2
-      }
-    } */);
+    ref => ref.orderByChild('path').startAt(category, spotId).limitToFirst(2));
 
     return queryObservable.valueChanges().map(spots => {
       return spots[1];
@@ -90,14 +76,7 @@ export class SpotData {
 
   public getPreviousSpot(category: string, spotId: string) {
     const queryObservable = this.angularFireDatabase.list('/fspots', 
-    ref => ref.orderByChild('path').endAt(category, spotId).limitToLast(2)
-    /* {
-      query: {
-        orderByChild: 'path',
-        endAt: { value: category, key: spotId },
-        limitToLast: 2
-      }
-    } */);
+    ref => ref.orderByChild('path').endAt(category, spotId).limitToLast(2));
 
     return queryObservable.valueChanges().map(spots => {
       return spots[0];
@@ -116,7 +95,7 @@ export class SpotData {
           }
 
           for (let key in data) {
-            promises.push(this.loadSpot(key).toPromise())
+            promises.push(this.loadSpot(key))
           }
           Promise.all(promises).then((params) => {
             resolve(params);
@@ -134,15 +113,9 @@ export class SpotData {
     let endAt = !!this.lastKey ? { value: this.lastValue, key: this.lastKey } : maxValue;
 
     let queryObservable = this.angularFireDatabase.list(`/menu/${category}/spots`, 
-    ref => ref.orderByChild(sortProperty).endAt(endAt.toString()).limitToFirst(4)
-    
-    /* {
-      query: {
-        orderByChild: sortProperty,
-        endAt: !!this.lastKey ? { value: this.lastValue, key: this.lastKey } : maxValue,
-        limitToLast: 4
-      }
-    } */).valueChanges().map((data: any) => {
+    ref => ref.orderByChild(sortProperty).endAt(endAt.toString()).limitToFirst(4))
+    .valueChanges()
+    .map((data: any) => {
       if (!!this.lastKey && data.length <= 1) {
         return [];
       }
@@ -166,7 +139,7 @@ export class SpotData {
         .subscribe(data => {
           let promises = [];
           for (let key in data) {
-            promises.push(this.loadSpot(data[key].$key).toPromise())
+            promises.push(this.loadSpot(data[key].$key))
           }
           Promise.all(promises).then((params) => {
             subscription.unsubscribe();
@@ -185,7 +158,7 @@ export class SpotData {
         console.log("getting random spot from shallow cache");
         let randomIndex = Math.floor(Math.random() * this.spotCacheShallowKeys.length);
         let key = this.spotCacheShallowKeys[randomIndex];
-        this.getSpot(key).toPromise().then(spot => {
+        this.getSpot(key).then(spot => {
           if (!!spot.published) {
             resolve(spot);
           } else {
@@ -203,7 +176,7 @@ export class SpotData {
             let randomIndex = Math.floor(Math.random() * keys.length);
             return keys[randomIndex];
           }).toPromise().then(key => {
-            this.getSpot(key).toPromise().then(spot => {
+            this.getSpot(key).then(spot => {
               if (!!spot.published) {
                 resolve(spot);
               } else {

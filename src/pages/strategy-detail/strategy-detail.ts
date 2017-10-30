@@ -67,7 +67,7 @@ export class StrategyDetailPage {
   }
 
   previousSpot() {
-    this.spotData.getPreviousSpot(this.spot.path, this.spot.id).subscribe(prevSpot => {
+    this.spotData.getPreviousSpot(this.spot.path, this.spot.id).subscribe((prevSpot : any) => {
       this.navCtrl.pop();
       this.navCtrl.push(StrategyDetailPage, {
         spotId : prevSpot.id
@@ -76,7 +76,7 @@ export class StrategyDetailPage {
   }
 
   displaySpot() {     
-    this.afRatingRef.valueChanges().subscribe();
+    this.afRatingRef.snapshotChanges().subscribe();
     this.spotData.getSpot(this.spotId).subscribe(spot => {
       for (let tag in spot.tags) {
         if (spot.tags.hasOwnProperty(tag)) {
