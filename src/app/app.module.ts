@@ -28,6 +28,7 @@ import { PatchnoteData } from '../providers/patchnote-data';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { YoutubePlayerComponent } from './youtube-player.component';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { AuthComponent } from '../components/auth/auth';
@@ -89,6 +90,7 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AngularFirestoreModule,
     IonTagsInputModule
   ],
   bootstrap: [IonicApp],
