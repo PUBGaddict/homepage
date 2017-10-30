@@ -66,7 +66,7 @@ export class SpotData {
 
   public getNextSpot(category: string, spotId: string) :Observable<any>{  
     const queryObservable = this.angularFireDatabase.list('/fspots',
-    ref => ref.orderByChild('path').startAt(category, spotId).limitToFirst(2));
+      ref => ref.orderByChild('path').startAt(category, spotId).limitToFirst(2));
 
     return queryObservable.valueChanges().map(spots => {
       return spots[1];
@@ -75,32 +75,11 @@ export class SpotData {
 
   public getPreviousSpot(category: string, spotId: string) {
     const queryObservable = this.angularFireDatabase.list('/fspots', 
-    ref => ref.orderByChild('path').endAt(category, spotId).limitToLast(2));
+      ref => ref.orderByChild('path').endAt(category, spotId).limitToLast(2));
 
     return queryObservable.valueChanges().map(spots => {
       return spots[0];
     });
-  }
-
-  getSpotsForTag(category: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.http.get(`${firebaseConfig.databaseURL}/menu/${category}/spots.json?shallow=true`).toPromise()
-        .then((rawData) => {
-          let data = rawData.json(),
-            promises = [];
-
-          if (Object.keys(data).length === 0 && data.constructor === Object) {
-            reject("category is empty");
-          }
-
-          for (let key in data) {
-            promises.push(this.loadSpot(key))
-          }
-          Promise.all(promises).then((params) => {
-            resolve(params);
-          });
-        });
-    })
   }
 
   public getNextTagsForCategory(category: string, sortProperty: string, bReset: boolean): Promise<any> {
@@ -111,7 +90,29 @@ export class SpotData {
     }
     let endAt = !!this.lastKey ? { value: this.lastValue, key: this.lastKey } : maxValue;
 
-    let queryObservable = this.angularFireDatabase.list(`/menu/${category}/spots`, 
+    let queryObservable = this.fireStore.collection(`fspots`, ref => {
+      return ref.orderBy(sortProperty).endAt(endAt).limit(8);
+    }).valueChanges().map((data : any) => {
+      if (!!this.lastKey && data.length <= 1) {
+        return [];
+      }
+
+      if (!!this.lastKey) {
+        data = data.slice(0, data.length - 1);
+      }
+
+      this.lastKey = data[0]['$key'];
+      this.lastValue = data[0][sortProperty];
+
+      data.sort((b, a) => {
+        if (a[sortProperty] < b[sortProperty]) return -1;
+        if (a[sortProperty] > b[sortProperty]) return 1;
+        return 0;
+      });
+      return data;
+    })
+
+    /* let queryObservable = this.angularFireDatabase.list(`/menu/${category}/spots`, 
     ref => ref.orderByChild(sortProperty).endAt(endAt.toString()).limitToFirst(4))
     .valueChanges()
     .map((data: any) => {
@@ -131,7 +132,7 @@ export class SpotData {
         return 0;
       });
       return data;
-    });
+    }); */
 
     return new Promise((resolve, reject) => {
       let subscription = queryObservable

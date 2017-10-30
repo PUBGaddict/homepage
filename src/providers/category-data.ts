@@ -45,6 +45,7 @@ export class CategoryData {
     if (!!this.lastKey) {
       data = data.slice(0, data.length - 1);
     }
+
     this.lastKey = data[0]['$key'];
     this.lastValue = data[0]['amount'];
 

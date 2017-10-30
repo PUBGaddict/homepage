@@ -49,12 +49,6 @@ export class SelectPage {
     this.getInitialTags();
   }
 
-  loadSpots() {
-    this.spotData.getNextTagsForCategory(this.category, this.filter, true).then((spots : any[]) => {
-      this.spots = spots;
-    });
-  }
-
   highestClicked() {
     ga('send', 'event', "filter", "highest", "clicked");
     
