@@ -24,11 +24,7 @@ export class MyApp {
   noMoreCategories: boolean = false;
 
   constructor(platform: Platform, public categoryData : CategoryData, public spotData : SpotData, public paginationProvider : PaginationProvider) {
-    debugger;
     this.paginationProvider.init('menu', 'amount', { reverse: true, prepend: false })
-    /* this.categoryData.getNextCategories().subscribe((categories: any[]) => {
-      this.categories = categories;
-    }); */
   }
 
   openPage (category) {
@@ -42,23 +38,6 @@ export class MyApp {
     console.log('Begin async operation');
 
     this.paginationProvider.more()
-    
-/*     this.categoryData.getNextCategories()
-      .subscribe(categories => {
-        if (categories.length === this.categories.length) {
-          this.noMoreCategories = true;
-        }
-        this.categories = categories;
-        if (infiniteScroll) {
-          infiniteScroll.complete()
-        }
-        console.log('Async operation has ended');
-      }, err => {
-        if (infiniteScroll) {
-          infiniteScroll.complete()
-        }
-        console.log("No more categories found");
-      }) */
   }
 
   randomSpot() {
