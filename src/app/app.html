@@ -22,7 +22,13 @@
             {{category.id}}
               <ion-badge item-end color="primary">{{category.amount}}</ion-badge>
             </button>
-            <div *ngIf="!noMoreCategories" style="text-align:center;">
+            
+            <div *ngIf="paginationProvider.done | async" style="text-align:center;">
+              <button small ion-button color="danger" round>
+                No more categories
+              </button>
+            </div>
+            <div *ngIf="!(paginationProvider.done | async)" style="text-align:center;">
               <button small ion-button icon-left (click)="doInfinite()" color="primary" round outline>
                 <ion-icon name="arrow-down"></ion-icon>
                 Load More

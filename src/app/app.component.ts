@@ -38,6 +38,14 @@ export class MyApp {
     console.log('Begin async operation');
 
     this.paginationProvider.more()
+
+    this.paginationProvider.loading.subscribe((loading : boolean) => {
+      if (!loading && infiniteScroll) {
+        infiniteScroll.complete();
+      }
+    });
+
+
   }
 
   randomSpot() {
