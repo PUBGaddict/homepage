@@ -26,6 +26,25 @@ exports.migrate = functions.https.onRequest((req, res) => {
 	});		
 });	
 
+exports.migrateMenu = functions.https.onRequest((req, res) => {
+	if (req.method === 'PUT') {
+		res.status(403).send('Forbidden!');
+	}
+
+	cors(req, res, () => {				
+		const menuRef = admin.database().ref("/menu")
+		menuRef.once('value').then(snap => {
+			let menuMap = snap.val();
+
+			for (let menu in menuMap) {
+				admin.firestore().doc(`menu/${menu}`).set(menuMap[menu]).then(result => {
+					res.status(200).send("migrated dat shit");				
+				})
+			}
+		});
+	});		
+});	
+
 exports.homoTags = functions.https.onRequest((req, res) => {
 	
 		if (req.method === 'PUT') {
