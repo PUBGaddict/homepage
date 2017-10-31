@@ -5,6 +5,7 @@ import { Http } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
@@ -19,22 +20,23 @@ export class CategoryData {
   lastKey : string = "";
   lastValue : number;
 
-  constructor(public http: Http, public angularFireDatabase: AngularFireDatabase) { }
+  constructor(public http: Http, public angularFireDatabase: AngularFireDatabase, public fireStore: AngularFirestore) { }
 
   getNextCategories() : Observable<any> {
     let maxValue = 99999999999999;
     let endAt = !!this.lastKey ? { value: this.lastValue, key: this.lastKey } : maxValue;
-    return this.angularFireDatabase.list('/menu',
-      ref => ref.orderByChild('amount').endAt(endAt.toString()).limitToLast(5)
-    /*  {
-      query: {
-        orderByChild: 'amount',
-        endAt: !!this.lastKey ? { value: this.lastValue, key: this.lastKey } : maxValue,
-        limitToLast: 5
-      }
-    } */).valueChanges().map(categories => {
+
+    return this.fireStore.collection(`menu`, ref => {
+      return ref.orderBy('amount', 'asc').endAt(endAt).limit(5);
+    }).valueChanges().map((categories : any) => {
       return this.processCategories(categories);
     });
+
+ /*    return this.angularFireDatabase.list('/menu',
+      ref => ref.orderByChild('amount').endAt(endAt.toString()).limitToLast(5)
+      ).valueChanges().map(categories => {
+      return this.processCategories(categories);
+    }); */
   }
   
   processCategories (data) {

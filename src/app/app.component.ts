@@ -10,6 +10,7 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { SelectPage } from '../pages/select/select';
 
 import { StrategyDetailPage } from '../pages/strategy-detail/strategy-detail'
+import { PaginationProvider } from '../providers/pagination/pagination';
 
 
 @Component({
@@ -22,10 +23,12 @@ export class MyApp {
   categories: any[] = [];
   noMoreCategories: boolean = false;
 
-  constructor(platform: Platform, public categoryData : CategoryData, public spotData : SpotData) {
-    this.categoryData.getNextCategories().subscribe((categories: any[]) => {
+  constructor(platform: Platform, public categoryData : CategoryData, public spotData : SpotData, public paginationProvider : PaginationProvider) {
+    debugger;
+    this.paginationProvider.init('menu', 'amount', { reverse: true, prepend: false })
+    /* this.categoryData.getNextCategories().subscribe((categories: any[]) => {
       this.categories = categories;
-    });
+    }); */
   }
 
   openPage (category) {
@@ -38,7 +41,9 @@ export class MyApp {
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
 
-    this.categoryData.getNextCategories()
+    this.paginationProvider.more()
+    
+/*     this.categoryData.getNextCategories()
       .subscribe(categories => {
         if (categories.length === this.categories.length) {
           this.noMoreCategories = true;
@@ -53,7 +58,7 @@ export class MyApp {
           infiniteScroll.complete()
         }
         console.log("No more categories found");
-      })
+      }) */
   }
 
   randomSpot() {

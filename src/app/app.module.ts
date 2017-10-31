@@ -38,6 +38,7 @@ import { UsernameValidator } from '../validators/username';
 import { SearchProvider } from '../providers/search/search';
 
 import { IonTagsInputModule } from "ionic-tags-input";
+import { PaginationProvider } from '../providers/pagination/pagination';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBj7uFGKWDuKFDx_6nQOhMSRC0cx3vJpCI",
@@ -120,6 +121,7 @@ export const firebaseConfig = {
     AuthServiceProvider,
     UserProvider,
     UsernameValidator,
-    SearchProvider]
+    SearchProvider,
+    PaginationProvider]
 })
 export class AppModule {}
