@@ -35,12 +35,17 @@ exports.migrateMenu = functions.https.onRequest((req, res) => {
 		const menuRef = admin.database().ref("/menu")
 		menuRef.once('value').then(snap => {
 			let menuMap = snap.val();
-
+			let aPromises = []
+			
 			for (let menu in menuMap) {
-				admin.firestore().doc(`menu/${menu}`).set(menuMap[menu]).then(result => {
-					res.status(200).send("migrated dat shit");				
-				})
+				aPromises.push(admin.firestore().doc(`menu/${menu}`).set({amount : menuMap[menu].amount}))
+				for (let spot in menuMap[menu]['spots']) {
+					aPromises.push(admin.firestore().doc(`menu/${menu}/spots/${spot}`).set(menuMap[menu]['spots'][spot]));
+				}
 			}
+			Promise.all(aPromises).then(x => {
+				res.status(200).send("migrated all menus");
+			})
 		});
 	});		
 });	
