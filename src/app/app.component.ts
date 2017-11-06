@@ -24,14 +24,14 @@ export class MyApp {
   noMoreCategories: boolean = false;
 
   constructor(platform: Platform, public categoryData : CategoryData, public spotData : SpotData, public paginationProvider : PaginationProvider) {
-    this.paginationProvider.init('menu', 'amount', { reverse: true, prepend: false })
+    this.paginationProvider.init('menu', 'amount', { tag: "", reverse: true, prepend: false })
   }
 
   openPage (category) {
      // the nav component was found using @ViewChild(Nav)
     // reset the nav to remove previous pages and only have this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(SelectPage, { category: category });
+    this.nav.setRoot(SelectPage, { category: category.id });
   }
 
   doInfinite(infiniteScroll) {

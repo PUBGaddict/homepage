@@ -39,6 +39,7 @@ import { SearchProvider } from '../providers/search/search';
 
 import { IonTagsInputModule } from "ionic-tags-input";
 import { PaginationProvider } from '../providers/pagination/pagination';
+import { SpotProvider } from '../providers/spot/spot';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBj7uFGKWDuKFDx_6nQOhMSRC0cx3vJpCI",
@@ -122,6 +123,7 @@ export const firebaseConfig = {
     UserProvider,
     UsernameValidator,
     SearchProvider,
-    PaginationProvider]
+    PaginationProvider,
+    SpotProvider]
 })
 export class AppModule {}

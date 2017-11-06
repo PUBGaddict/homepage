@@ -5,6 +5,7 @@ import { SpotData } from '../../providers/spot-data';
 import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
 import { SubmitPage } from '../submit/submit'
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service'
+import { SpotProvider } from '../../providers/spot/spot';
 
 
 /*
@@ -23,15 +24,16 @@ export class SelectPage {
   private noMoreSpots: boolean = false;
   public filter = "date";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public authService : AuthServiceProvider, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public authService : AuthServiceProvider, public toastCtrl: ToastController, public spotProvider : SpotProvider) {
     this.category = navParams.get("category");
-    this.getInitialTags();
+    //this.getInitialTags();
+    this.spotProvider.init(`menu/${this.category}/spots`, this.filter, { reverse: false, prepend: false })
   }
 
   getInitialTags() {
-    this.spotData.getNextTagsForCategory(this.category, this.filter, true).then((spots : any[]) => {
-      this.spots = spots;
-    });
+    // this.spotData.getNextTagsForCategory(this.category, this.filter, true).then((spots : any[]) => {
+    //   this.spots = spots;
+    // });
   }
 
   ionViewDidLoad() {
@@ -46,14 +48,16 @@ export class SelectPage {
     ga('send', 'event', "filter", "newest", "clicked");
     
     this.filter = "date";
-    this.getInitialTags();
+    //this.getInitialTags();
+    this.spotProvider.init(`menu/${this.category}/spots`, this.filter, { reverse: true, prepend: false })
   }
 
   highestClicked() {
     ga('send', 'event', "filter", "highest", "clicked");
     
     this.filter = "rating";
-    this.getInitialTags();
+    //this.getInitialTags();    
+    this.spotProvider.init(`menu/${this.category}/spots`, this.filter, { reverse: true, prepend: false })    
   }
 
   openSpot(spotId) {
@@ -80,7 +84,15 @@ export class SelectPage {
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
 
-    this.spotData.getNextTagsForCategory(this.category, this.filter, false)
+    this.spotProvider.more()
+    
+    this.spotProvider.loading.subscribe((loading : boolean) => {
+      if (!loading && infiniteScroll) {
+        infiniteScroll.complete();
+      }
+    });
+
+  /*   this.spotData.getNextTagsForCategory(this.category, this.filter, false)
       .then((spots : any[]) => {
         if (spots.length <= 0) {
           this.noMoreSpots = true;
@@ -95,6 +107,6 @@ export class SelectPage {
           infiniteScroll.complete()
         }
         console.log("No more categories found");
-      })
+      }) */
   }
 }

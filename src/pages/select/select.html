@@ -20,9 +20,14 @@
     </ion-segment-button>
   </ion-segment>
 
+  <!-- <button ion-item *ngFor="let category of paginationProvider.data | async" >
+      {{category.id}}
+        <ion-badge item-end color="primary">{{category.amount}}</ion-badge>
+      </button> -->
+
   <ion-grid fixed>
     <ion-row align-items-stretch>
-      <ion-col *ngFor="let spot of spots" col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center>
+      <ion-col *ngFor="let spot of spotProvider.data | async" col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center>
         <ion-card class="card" (click)="openSpot(spot.id)">
           <div class="card-content">
             <img class="picture" [src]="getThumbnail(spot)"/>

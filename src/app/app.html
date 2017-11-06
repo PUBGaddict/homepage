@@ -18,7 +18,7 @@
               </div>
               <ion-title style="margin-top:25px;">Categories</ion-title>
             </ion-list-header>
-            <button ion-item *ngFor="let category of paginationProvider.data | async" >
+            <button ion-item *ngFor="let category of paginationProvider.data | async" (click)="openPage(category)" >
             {{category.id}}
               <ion-badge item-end color="primary">{{category.amount}}</ion-badge>
             </button>
