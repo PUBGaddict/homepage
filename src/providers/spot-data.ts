@@ -39,7 +39,8 @@ export class SpotData {
     return this.loadSpot(spotId);
   }
 
-  private loadSpots(path: string): Observable<any> {
+  public getUnpublishedSpots() : Observable<any> {
+    let path = 'unpublished'
     if (path in this.spotCacheQuery) {
       console.log("loading query from cache");
       return Observable.of(this.spotCacheQuery[path]);
@@ -57,11 +58,7 @@ export class SpotData {
           Object.assign(this.spotCacheSingle, spots);
           return spots;
         })
-      }    
-  }
-
-  public getUnpublishedSpots() {
-    return this.loadSpots("unpublished");
+      } 
   }
 
   public getNextSpot(category: string, spotId: string) :Observable<any>{  
@@ -81,74 +78,6 @@ export class SpotData {
       return spots[0];
     });
   }
-
-  public getNextTagsForCategory(category: string, sortProperty: string, bReset: boolean): Promise<any> {
-    let maxValue = 99999999999999;
-    if (bReset) {
-      this.lastKey = "";
-      this.lastValue = "";
-    }
-    let endAt = !!this.lastKey ? { value: this.lastValue, key: this.lastKey } : maxValue;
-
-    let queryObservable = this.fireStore.collection(`fspots`, ref => {
-      return ref.orderBy(sortProperty).endAt(endAt).limit(8);
-    }).valueChanges().map((data : any) => {
-      if (!!this.lastKey && data.length <= 1) {
-        return [];
-      }
-
-      if (!!this.lastKey) {
-        data = data.slice(0, data.length - 1);
-      }
-
-      this.lastKey = data[0]['$key'];
-      this.lastValue = data[0][sortProperty];
-
-      data.sort((b, a) => {
-        if (a[sortProperty] < b[sortProperty]) return -1;
-        if (a[sortProperty] > b[sortProperty]) return 1;
-        return 0;
-      });
-      return data;
-    })
-
-    /* let queryObservable = this.angularFireDatabase.list(`/menu/${category}/spots`, 
-    ref => ref.orderByChild(sortProperty).endAt(endAt.toString()).limitToFirst(4))
-    .valueChanges()
-    .map((data: any) => {
-      if (!!this.lastKey && data.length <= 1) {
-        return [];
-      }
-
-      if (!!this.lastKey) {
-        data = data.slice(0, data.length - 1);
-      }
-      this.lastKey = data[0]['$key'];
-      this.lastValue = data[0][sortProperty];
-
-      data.sort((b, a) => {
-        if (a[sortProperty] < b[sortProperty]) return -1;
-        if (a[sortProperty] > b[sortProperty]) return 1;
-        return 0;
-      });
-      return data;
-    }); */
-
-    return new Promise((resolve, reject) => {
-      let subscription = queryObservable
-        .subscribe(data => {
-          let promises = [];
-          for (let key in data) {
-            promises.push(this.loadSpot(data[key].$key))
-          }
-          Promise.all(promises).then((params) => {
-            subscription.unsubscribe();
-            resolve(params);
-          });
-        });
-    });
-  }
-
 
   public getRandomSpot(): Promise<any> {
     return new Promise((resolve, reject) => {
