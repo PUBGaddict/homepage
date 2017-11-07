@@ -6,6 +6,7 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/first';
 
 import { CategoryData } from '../providers/category-data';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -23,19 +24,19 @@ export class SpotData {
 
   constructor(public http: Http, public categoryData: CategoryData, public angularFireDatabase: AngularFireDatabase, public fireStore : AngularFirestore) { }
 
-  private loadSpot(spotId: string): Observable<any> {
+  private loadSpot(spotId: string): Promise<any> {
     if (spotId in this.spotCacheSingle) {
       console.log("loading single from cache");
-      return Observable.of(this.spotCacheSingle[spotId]);
+      return Promise.resolve(this.spotCacheSingle[spotId]);
     } else {
-      return this.fireStore.doc(`fspots/${spotId}`).valueChanges().map((spot : any) => {
+      return this.fireStore.doc(`fspots/${spotId}`).valueChanges().first().map((spot : any) => {
         this.spotCacheSingle[spotId] = spot;
         return spot;
-      });
+      }).toPromise();
     }
   }
 
-  public getSpot(spotId: string) : Observable<any> {
+  public getSpot(spotId: string) : Promise<any> {
     return this.loadSpot(spotId);
   }
 
@@ -61,7 +62,7 @@ export class SpotData {
       } 
   }
 
-  public getNextSpot(category: string, spotId: string) :Observable<any>{  
+  public getNextSpot(category: string, spotId: string) : Observable<any>{  
     const queryObservable = this.angularFireDatabase.list('/fspots',
       ref => ref.orderByChild('path').startAt(category, spotId).limitToFirst(2));
 
@@ -87,7 +88,7 @@ export class SpotData {
         console.log("getting random spot from shallow cache");
         let randomIndex = Math.floor(Math.random() * this.spotCacheShallowKeys.length);
         let key = this.spotCacheShallowKeys[randomIndex];
-        this.getSpot(key).subscribe(spot => {
+        this.getSpot(key).then(spot => {
           if (!!spot.published) {
             resolve(spot);
           } else {
@@ -105,7 +106,7 @@ export class SpotData {
             let randomIndex = Math.floor(Math.random() * keys.length);
             return keys[randomIndex];
           }).toPromise().then(key => {
-            this.getSpot(key).subscribe(spot => {
+            this.getSpot(key).then(spot => {
               if (!!spot.published) {
                 resolve(spot);
               } else {

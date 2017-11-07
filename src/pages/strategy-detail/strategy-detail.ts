@@ -77,7 +77,7 @@ export class StrategyDetailPage {
 
   displaySpot() {     
     this.afRatingRef.snapshotChanges().subscribe();
-    this.spotData.getSpot(this.spotId).subscribe(spot => {
+    this.spotData.getSpot(this.spotId).then(spot => {
       for (let tag in spot.tags) {
         if (spot.tags.hasOwnProperty(tag)) {
           this.tagRefs.push(this.angularFireDatabase.object('/menu/' + tag + '/spots/' + spot.id + '/rating'))
