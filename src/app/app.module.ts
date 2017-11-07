@@ -21,7 +21,6 @@ import { PublishPage } from '../pages/publish/publish';
 
 
 import { SpotData } from '../providers/spot-data';
-import { CategoryData } from '../providers/category-data';
 import { SpotIdData } from '../providers/spotid-data';
 import { PatchnoteData } from '../providers/patchnote-data';
 
@@ -117,7 +116,6 @@ export const firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler}, 
     SpotData,
     PatchnoteData,
-    CategoryData,
     SpotIdData,
     AuthServiceProvider,
     UserProvider,

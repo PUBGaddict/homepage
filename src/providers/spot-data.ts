@@ -8,7 +8,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/first';
 
-import { CategoryData } from '../providers/category-data';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
@@ -22,7 +21,7 @@ export class SpotData {
   private lastKey = "";
   private lastValue = "";
 
-  constructor(public http: Http, public categoryData: CategoryData, public angularFireDatabase: AngularFireDatabase, public fireStore : AngularFirestore) { }
+  constructor(public http: Http, public angularFireDatabase: AngularFireDatabase, public fireStore : AngularFirestore) { }
 
   private loadSpot(spotId: string): Promise<any> {
     if (spotId in this.spotCacheSingle) {

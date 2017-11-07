@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { CategoryData } from '../../providers/category-data';
 import { SpotIdData } from '../../providers/spotid-data';
 import { Http } from '@angular/http';
 import { YoutubePlayerComponent } from '../../app/youtube-player.component';
@@ -42,7 +41,7 @@ export class SubmitPage {
   public vimeoDetailForm : any;
   public redditDetailForm : any;
 
-  constructor(public navCtrl: NavController, public categoryData : CategoryData, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder, private sanitizer: DomSanitizer) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder, private sanitizer: DomSanitizer) {
     // validators
     this.spotHeadForm = formBuilder.group({
       title: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.minLength(10), Validators.pattern('[a-zA-Z,. ]*')])],

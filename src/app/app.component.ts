@@ -3,7 +3,6 @@ import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { CategoryData } from '../providers/category-data';
 import { SpotData } from '../providers/spot-data';
 
 import { WelcomePage } from '../pages/welcome/welcome';
@@ -23,7 +22,7 @@ export class MyApp {
   categories: any[] = [];
   noMoreCategories: boolean = false;
 
-  constructor(platform: Platform, public categoryData : CategoryData, public spotData : SpotData, public paginationProvider : PaginationProvider) {
+  constructor(platform: Platform, public spotData : SpotData, public paginationProvider : PaginationProvider) {
     this.paginationProvider.init('menu', 'amount', { tag: "", reverse: true, prepend: false })
   }
 
