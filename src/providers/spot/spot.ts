@@ -7,6 +7,8 @@ import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/first';
 
+import { SpotData } from '../spot-data'
+
 // Options to reproduce firestore queries consistently
 interface QueryConfig {
   path: string, // path to collection
@@ -32,7 +34,7 @@ export class SpotProvider {
   done: Observable<boolean> = this._done.asObservable();
   loading: Observable<boolean> = this._loading.asObservable();
 
-  constructor(private afs: AngularFirestore) { }
+  constructor(private afs: AngularFirestore, private spotData : SpotData) { }
 
   // Initial query sets options and defines the Observable
   init(path, field, opts?) {
@@ -104,12 +106,12 @@ export class SpotProvider {
         values = this.query.prepend ? values.reverse() : values
 
         // load the spots
-        let aPromises = [];
+        let aPromises : Promise<any>[] = [];
         for (let i in values) {
-          let doc : any = values[i] ;
-          aPromises.push(this.afs.doc(`fspots/${doc.id}`).valueChanges().first().toPromise().then(spot => {
+          let doc : any = values[i];
+          aPromises.push(this.spotData.getSpot(doc.id).then(spot => {
             Object.assign(values[i], spot);
-          }))
+          }));
         }
 
         Promise.all(aPromises).then((params) => {
