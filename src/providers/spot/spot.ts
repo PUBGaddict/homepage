@@ -32,7 +32,6 @@ export class SpotProvider {
   done: Observable<boolean> = this._done.asObservable();
   loading: Observable<boolean> = this._loading.asObservable();
 
-
   constructor(private afs: AngularFirestore) { }
 
   // Initial query sets options and defines the Observable
@@ -112,7 +111,7 @@ export class SpotProvider {
             Object.assign(values[i], spot);
           }))
         }
-        
+
         Promise.all(aPromises).then((params) => {
           // update source with new values, done loading
           this._data.next(values)

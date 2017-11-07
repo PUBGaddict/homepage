@@ -26,14 +26,8 @@ export class SelectPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public authService : AuthServiceProvider, public toastCtrl: ToastController, public spotProvider : SpotProvider) {
     this.category = navParams.get("category");
-    //this.getInitialTags();
+    this.spotProvider.reset();
     this.spotProvider.init(`menu/${this.category}/spots`, this.filter, { reverse: false, prepend: false })
-  }
-
-  getInitialTags() {
-    // this.spotData.getNextTagsForCategory(this.category, this.filter, true).then((spots : any[]) => {
-    //   this.spots = spots;
-    // });
   }
 
   ionViewDidLoad() {
@@ -48,7 +42,7 @@ export class SelectPage {
     ga('send', 'event', "filter", "newest", "clicked");
     
     this.filter = "date";
-    //this.getInitialTags();
+    this.spotProvider.reset();
     this.spotProvider.init(`menu/${this.category}/spots`, this.filter, { reverse: true, prepend: false })
   }
 
@@ -56,7 +50,7 @@ export class SelectPage {
     ga('send', 'event', "filter", "highest", "clicked");
     
     this.filter = "rating";
-    //this.getInitialTags();    
+    this.spotProvider.reset();  
     this.spotProvider.init(`menu/${this.category}/spots`, this.filter, { reverse: true, prepend: false })    
   }
 
@@ -91,22 +85,5 @@ export class SelectPage {
         infiniteScroll.complete();
       }
     });
-
-  /*   this.spotData.getNextTagsForCategory(this.category, this.filter, false)
-      .then((spots : any[]) => {
-        if (spots.length <= 0) {
-          this.noMoreSpots = true;
-        }
-        this.spots = this.spots.concat(spots);
-        if (infiniteScroll) {
-          infiniteScroll.complete()
-        }
-        console.log('Async operation has ended');
-      }, err => {
-        if (infiniteScroll) {
-          infiniteScroll.complete()
-        }
-        console.log("No more categories found");
-      }) */
   }
 }
