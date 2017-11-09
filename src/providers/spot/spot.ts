@@ -108,10 +108,10 @@ export class SpotProvider {
         // load the spots
         let aPromises : Promise<any>[] = [];
         for (let i in values) {
-          let doc : any = values[i];
+          let doc : any = values[i] ;
           aPromises.push(this.spotData.getSpot(doc.id).then(spot => {
-            Object.assign(values[i], spot);
-          }));
+            return Object.assign(values[i], spot);
+          }))
         }
 
         Promise.all(aPromises).then((params) => {
