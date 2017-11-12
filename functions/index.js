@@ -234,9 +234,13 @@ exports.reject = functions.https.onRequest((req, res) => {
 
 	cors(req, res, () => {
 		let spotId = req.query["id"];
-		let spotRef = admin.database().ref("/fspots/" + spotId);
-		spotRef.remove();
-		res.status(200).send("Rejected the spot");
+		let spotRef = admin.firestore().doc("/fspots/" + spotId).delete()
+		.then(x => {
+			res.status(200).send("Rejected the spot");
+		})
+		.catch(x => {
+			res.status(501).send("Something went wrong");
+		});
 	});
 })
 
