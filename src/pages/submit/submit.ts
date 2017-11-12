@@ -294,11 +294,11 @@ export class SubmitPage {
       title : title,
       strategy : strategy,
       tags : tags,
-      videoId : undefined,
+      videoId : null,
 
       // optional properties for youtube
-      startSeconds : undefined,
-      endSeconds : undefined
+      startSeconds : null,
+      endSeconds : null
     };
     if (strategy === "youtube") {
       oSpot.videoId = this.youtubeDetailForm.get('videoId').value;
@@ -321,8 +321,12 @@ export class SubmitPage {
       oSpot.videoId = this.redditDetailForm.get('videoId').value;
     }
 
-    this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
-      this.presentToast('Spot successfully created. Lean back while we verify your great spot!');
+    this.spotIdData.submitSpot(oSpot).then((spot: any) => {
+      if (spot) {
+        this.presentToast('Spot successfully created. Lean back while we verify your great spot!');
+      } else {
+        this.presentToast('Please log in before submitting a spot');
+      }
     })
   }
 
