@@ -264,6 +264,30 @@ exports.processNewUser = functions.database.ref('/tempuser/{pushId}')
 
 })
 
+exports.processNewFirestoreUser = functions.firestore.document('/tempuser/{pushId}')
+.onCreate(event => {
+	console.log('received new user request');
+	const user = event.data.data();
+	const key = event.params.pushId;
+	const promises = [];
+
+	promises.push(createUid());
+
+	Promise.all(promises).then((a) => {
+		admin.firestore().doc(`/tempuser/${key}`).delete();
+	});		
+
+	function createUid() {
+		let o = {};
+		o[user.uid] = {
+			email: user.email,
+			displayName: user.displayName
+		};
+		return admin.firestore().collection('uids').add(o);
+	}
+
+})
+
 exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 	.onCreate(event => {
 		const post = event.data.val();
