@@ -375,3 +375,115 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 			return text;
 		}
 	})
+
+exports.processNewFlatSpot = functions.firestore.document('/tempf/{pushId}')
+	.onCreate(event => {
+		const post = event.data.data();
+		const key = event.params.pushId;
+		var sKey = makeid();
+		readKey();
+		console.log("starting processing new fspot in ftemp: " + post.toString());
+		
+		function readKey() {
+			console.log("checking if there is already a key named " + sKey);
+			return admin.firestore().doc(`Nspots/${sKey}`).get().then(doc => {
+				if (!doc.exists) {
+					console.log("found an unused key, it is: " + sKey)
+					processSpot();
+					return sKey;
+				} else {
+					console.log("key " + sKey + " already in use, getting a new one.")
+					sKey = makeid();
+					console.log("new key is: " + sKey);
+					readKey();
+				}
+			})
+		}
+
+		function processSpot() {
+			// validation
+			if (!post.strategy || !post.title || !post.videoId) {
+				console.log("no strategy/title/videoId provided");
+				return;
+			} else {
+				if (post.strategy === "youtube") {
+					return processYoutubeVideo();
+				}
+				if (post.strategy === "gfycat" || post.strategy === "twitch" || post.strategy === 'streamable' || post.strategy === 'vimeo' || post.strategy === 'reddit') {
+					return processSlugVideo();
+				}
+			}
+		}
+
+		// persist to spot data
+		function createSpot() {
+			let tags = {};
+			for (var i = 0; i < 3; i++) {
+				if ( !!post.tags[i] ) {
+					tags[post.tags[i]] = true;
+				}
+			}
+
+			let spot = {
+				id: sKey,
+				date: admin.database.ServerValue.TIMESTAMP,
+				title: post.title,
+				strategy: post.strategy,
+				videoId: post.videoId,
+				startSeconds: post.startSeconds || null,
+				endSeconds: post.endSeconds || null,
+				displayName: post.displayName || null,
+				tags : tags,
+				path: "unpublished",
+				published: false,
+				rating : 0
+			}			
+
+			return admin.firestore().doc('/Nspots/' + sKey)
+				.set(spot);
+		}		
+
+		function processYoutubeVideo() {
+			if (!post.videoId || !post.endSeconds) {
+				console.log("no videoId or valid endtime provided for youtube")
+				return;
+			}
+			console.log("data seems fine, going in!");
+
+			let aPromises = [];
+			aPromises.push(createSpot());
+
+			// cleanup tmp folder
+			Promise.all(aPromises).then((a) => {
+				console.log(" pushed successfully");
+				admin.firestore().doc(`temp/${key}`).delete();
+			})
+		}
+
+		function processSlugVideo() {
+			if (!post.videoId) {
+				console.log("no video id provided for gfycat or twitch or streamable or vimeo or reddit")
+				return;
+			}
+			console.log("data seems fine, going in!");
+
+			let aPromises = [];
+			aPromises.push(createSpot());
+
+			// cleanup tmp folder
+			Promise.all(aPromises).then((a) => {
+				console.log("pushed successfully");
+				return admin.firestore().doc(`tempf/${key}`).delete();
+			})
+		}
+
+		function makeid() {
+			var text = "";
+			var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+			for (var i = 0; i < 5; i++) {
+				text += possible.charAt(Math.floor(Math.random() * possible.length));
+			}
+			return text;
+		}
+	})
