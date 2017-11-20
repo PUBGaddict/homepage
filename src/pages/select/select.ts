@@ -27,7 +27,7 @@ export class SelectPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public authService : AuthServiceProvider, public toastCtrl: ToastController, public spotProvider : SpotProvider) {
     this.category = navParams.get("category");
     this.spotProvider.reset();
-    this.spotProvider.init(`menu/${this.category}/spots`, this.filter, { reverse: false, prepend: false })
+    this.spotProvider.init(`menu/${this.category}/spots`, this.filter, { reverse: true, prepend: false })
   }
 
   ionViewDidLoad() {
