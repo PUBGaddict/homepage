@@ -223,6 +223,81 @@ exports.publish = functions.https.onRequest((req, res) => {
 	});
 })
 
+exports.Fpublish = functions.https.onRequest((req, res) => {
+	
+		// TODO: Authentication check.
+	
+		if (req.method === 'PUT') {
+			res.status(403).send('Forbidden!');
+		}
+	
+		let debug_msgs = [];
+	
+		cors(req, res, () => {
+			let spotId = req.query["id"];
+			let spotBody = JSON.parse(req.body);
+	
+			function concatTagsToPath(tags) {
+				let tagNames = Object.keys(tags);
+				tagNames.sort();			
+				return tagNames.join("/");
+			}
+	
+			let docRef = admin.firestore().doc("/Nspots/" + spotId);
+			docRef.get().then(doc => {
+				if (!doc.exists) {
+					res.status(200).send("No spot found");
+				}
+	
+				let spot = doc.data();
+				spot.title = spotBody.title;
+	
+				let tags = {};
+				for (var i = 0; i < 3; i++) {
+					if ( !!spotBody.tags[i] ) {
+						tags[spotBody.tags[i]] = true;
+					}
+				}
+	
+				spot.tags = tags;
+				spot.path = concatTagsToPath(spot.tags);
+				spot.published = true;
+				var promises = [];
+	
+				promises.push(docRef.update(spot));
+	
+				for (let tag in spot.tags) {
+					let menuRef = admin.firestore().doc("/menu/" + tag);
+					menuRef.get().then(snap => {
+						let bExists = snap.exists//!!snap.val(),
+							val = bExists ? snap.data() : { amount : 0 },
+							spots = bExists ? snap.data().spots : {},
+							node = {};
+						
+						val.amount++;
+	
+						// spots
+						spots[spot.id] = {
+							date: spot.date,
+							rating : 0
+						}
+						val.spots = spots;
+	
+						node[tag] = val;
+						promises.push(menuRef.set(val, { merge: true }).then(() => {
+						//promises.push(admin.firestore().doc(`/menu/${tag}`).update(val).then(() => {
+							debug_msgs.push("updated menu");
+						}));
+					});
+				}
+	
+				Promise.all(promises).then(() => {	
+					res.status(200).send("Publish done with messages: "+ debug_msgs.join(","));
+				});		
+			});		
+		});
+	})
+	
 
 exports.reject = functions.https.onRequest((req, res) => {
 	
@@ -409,7 +484,7 @@ exports.processNewFlatSpot = functions.firestore.document('/tempf/{pushId}')
 		const post = event.data.data();
 		const key = event.params.pushId;
 		var sKey = makeid();
-		readKey();
+		return readKey();
 		console.log("starting processing new fspot in ftemp: " + post.toString());
 		
 		function readKey() {
@@ -454,7 +529,7 @@ exports.processNewFlatSpot = functions.firestore.document('/tempf/{pushId}')
 
 			let spot = {
 				id: sKey,
-				date: admin.database.ServerValue.TIMESTAMP,
+				date: admin.firestore.FieldValue.serverTimestamp(),
 				title: post.title,
 				strategy: post.strategy,
 				videoId: post.videoId,

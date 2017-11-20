@@ -50,7 +50,7 @@ export class PublishPage {
     
     this.angularFireDatabase = angularFireDatabase;
     this.spotId = navParams.get("spotId");
-    this.afRatingRef = this.angularFireDatabase.object('/fspots/' + this.spotId + '/rating');
+    this.afRatingRef = this.angularFireDatabase.object('/Nspots/' + this.spotId + '/rating');
     this.displaySpot();
   }
 
@@ -79,7 +79,7 @@ export class PublishPage {
   }
 
   acceptSpot(spotId) {    
-    this.http.post(firebaseConfig.functionsURL + '/publish?id=' + spotId,
+    this.http.post(firebaseConfig.functionsURL + '/Fpublish?id=' + spotId,
       JSON.stringify({
         title: this.spot.title,
         tags: this.tags
@@ -88,7 +88,7 @@ export class PublishPage {
         this.presentToast("published successfully");
       }
     });
-    this.nextSpot();
+    //this.nextSpot();
   }
 
   rejectSpot(spotId) {
@@ -97,7 +97,7 @@ export class PublishPage {
         this.presentToast("declined successfully");
       }
     });
-    this.nextSpot();
+    //this.nextSpot();
   }
 
   nextSpot() {

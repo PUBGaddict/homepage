@@ -28,7 +28,7 @@ export class SpotData {
       console.log("loading single from cache");
       return Promise.resolve(this.spotCacheSingle[spotId]);
     } else {
-      return this.fireStore.doc(`fspots/${spotId}`).valueChanges().first().map((spot : any) => {
+      return this.fireStore.doc(`Nspots/${spotId}`).valueChanges().first().map((spot : any) => {
         this.spotCacheSingle[spotId] = spot;
         return spot;
       }).toPromise();
@@ -45,7 +45,7 @@ export class SpotData {
       console.log("loading query from cache");
       return Observable.of(this.spotCacheQuery[path]);
     } else {
-      return this.fireStore.collection(`fspots`, ref => {
+      return this.fireStore.collection(`Nspots`, ref => {
           return ref.where('path', '==', path);
         }).valueChanges().map((data : any) => {
           let spots = [];
