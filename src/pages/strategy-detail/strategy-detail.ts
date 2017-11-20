@@ -1,15 +1,20 @@
 import { Component, ViewChild } from '@angular/core';
 import { firebaseConfig } from '../../app/app.module';
-import { Http } from '@angular/http';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { SpotData } from '../../providers/spot-data';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
+import { Observable } from 'rxjs/Observable';
 
 import { SubmitPage } from '../submit/submit';
 import { UserPage } from '../user/user';
 import { SelectPage } from '../select/select';
+import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 
+
+interface Spot {
+  rating : number
+}
 /*
   Generated class for the StrategyDetail page.
 
@@ -47,13 +52,18 @@ export class StrategyDetailPage {
     published: true
   }
 
-  public afRatingRef: AngularFireObject<any>;
+
+  //public afRatingRef: AngularFireObject<any>;
+  public spotDoc : AngularFirestoreDocument<Spot>;
+  public spotObs : Observable<Spot>;
   public tagRefs : Array<AngularFireObject<any>> = [];
 
-  constructor(public http: Http, public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, private sanitizer: DomSanitizer) {
+  constructor(public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, private sanitizer: DomSanitizer, public firestore : AngularFirestore) {
     this.angularFireDatabase = angularFireDatabase;
     this.spotId = navParams.get("spotId");
-    this.afRatingRef = this.angularFireDatabase.object('/fspots/' + this.spotId + '/rating');
+    this.spotDoc = firestore.doc<Spot>(`/Nspots/${this.spotId}`);
+    this.spotObs = this.spotDoc.valueChanges();
+    //this.afRatingRef = this.angularFireDatabase.object('/Nspots/' + this.spotId + '/rating');
     this.displaySpot();
   }
 
@@ -76,7 +86,7 @@ export class StrategyDetailPage {
   }
 
   displaySpot() {     
-    this.afRatingRef.snapshotChanges().subscribe();
+    //this.afRatingRef.snapshotChanges().subscribe();
     this.spotData.getSpot(this.spotId).then(spot => {
       for (let tag in spot.tags) {
         if (spot.tags.hasOwnProperty(tag)) {
@@ -181,7 +191,10 @@ export class StrategyDetailPage {
     if (this.mayVote()) {
       this.spot.rating += delta;
 
-      this.afRatingRef.set(this.spot.rating);
+      //this.afRatingRef.set(this.spot.rating);
+      this.spotDoc.update({
+        rating : this.spot.rating
+      })
 
       for (let tagRef in this.tagRefs) {
         this.tagRefs[tagRef].set(this.spot.rating);        
