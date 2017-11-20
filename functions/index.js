@@ -269,23 +269,16 @@ exports.Fpublish = functions.https.onRequest((req, res) => {
 				for (let tag in spot.tags) {
 					let menuRef = admin.firestore().doc("/menu/" + tag);
 					menuRef.get().then(snap => {
-						let bExists = snap.exists//!!snap.val(),
-							val = bExists ? snap.data() : { amount : 0 },
-							spots = bExists ? snap.data().spots : {},
-							node = {};
+						let bExists = snap.exists,
+							val = bExists ? snap.data() : { amount : 0 };
 						
-						val.amount++;
-	
-						// spots
-						spots[spot.id] = {
-							date: spot.date,
-							rating : 0
-						}
-						val.spots = spots;
-	
-						node[tag] = val;
+						val.amount++;	
+
 						promises.push(menuRef.set(val, { merge: true }).then(() => {
-						//promises.push(admin.firestore().doc(`/menu/${tag}`).update(val).then(() => {
+							promises.push(admin.firestore().doc(`/menu/${tag}/spots/${spotId}`).set({
+								date: spot.date,
+								rating : 0
+							}));
 							debug_msgs.push("updated menu");
 						}));
 					});
