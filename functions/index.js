@@ -7,6 +7,51 @@ const statistics = {};
 
 admin.initializeApp(functions.config().firebase);
 
+exports.news = functions.https.onRequest((req, res) => {
+	if (req.method === 'PUT') {
+		res.status(403).send('Forbidden!');
+	}
+
+	cors(req, res, () => {		
+		admin.firestore().collection("/news").add({
+			"title": "Early Access Week 27 Update",
+			"timestamp" : 1506384000000,
+			"date": "26.09.2017",
+			"articles" : [{
+				"heading" : "UI/UX",
+				"paragraphs" : [{
+					"text": "Enhanced breathing animation in the Spectator mode"
+				},{
+					"text": "Added a new feature in the Settings to adjust the zoom-in and zoom-out speed of the World Map"
+				}]
+			},{
+				"heading" : "Bug Fixes",
+				"paragraphs" : [{
+					"text": "Fixed a bug that made the shadows disappear mid-game"
+				},{
+					"text": "Fixed a graphic bug related to players who left the game inside of the starting airplane"
+				},{
+					"text": "Fixed a bug that prevented users from seeing the full alias of their teammates"
+				},{
+					"text": "Improved the synchronization between player aim and spectator aim"
+				},{
+					"text": "Fixed a bug to accurately display teammates' marker direction in Free Look mode "
+				}]
+			}]
+		})
+
+		admin.firestore().collection("/news").add({
+			"title": "We are officially in BETA now :)",
+			"timestamp" : 1499644800000,
+			"date": "07.10.2017",
+			"articles" : [{
+				"heading" : "Please feel free to add your own cool PUBG related videos!"
+			}]
+		})
+	})		
+});
+
+
 exports.migrate = functions.https.onRequest((req, res) => {
 	if (req.method === 'PUT') {
 		res.status(403).send('Forbidden!');
