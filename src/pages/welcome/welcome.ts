@@ -6,6 +6,7 @@ import { Http } from '@angular/http';
 import { firebaseConfig } from '../../app/app.module';
 import { ResultPage } from '../result/result';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service'
+import { NewsProvider } from '../../providers/news/news';
 
 import * as firebase from 'firebase/app';
 
@@ -24,18 +25,21 @@ export class WelcomePage {
   public patchNotesRepo = [];
   @ViewChild('searchBar') searchBar: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public patchnoteData : PatchnoteData, private http: Http, public authService : AuthServiceProvider, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public patchnoteData : PatchnoteData, private http: Http, public authService : AuthServiceProvider, public toastCtrl: ToastController, public newsProvider : NewsProvider) {
+    this.newsProvider.init('news', 'timestamp', { reverse: true, prepend: false })
+/*     
+    
     if (this.patchNotes.length === 0) {  
       this.patchnoteData.getInitialPatchNotes().then((initialPatchNotes) => {
         this.patchNotes = initialPatchNotes;
       })
     }
-  }
+ */  }
 
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
-
-    this.patchnoteData.getNextPatchNotes()
+    this.newsProvider.more();
+    /* this.patchnoteData.getNextPatchNotes()
     .then(patchNote => {
       this.patchNotes.push(patchNote);
       infiniteScroll.complete();
@@ -43,7 +47,7 @@ export class WelcomePage {
     }).catch(reason => {
       infiniteScroll.complete();
       console.log("No more patchnotes found");
-    })
+    }) */
   }
 
   ionViewDidLoad() {

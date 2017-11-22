@@ -93,7 +93,7 @@ export class PaginationProvider {
     // Map snapshot with doc ref (needed for cursor)
     return col.snapshotChanges()
       .do(arr => {
-        
+
         let values = arr.map(snap => {
           const data = snap.payload.doc.data()
           data.id = snap.payload.doc.id

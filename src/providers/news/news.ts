@@ -5,9 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/first';
-
-import { SpotData } from '../spot-data'
 
 // Options to reproduce firestore queries consistently
 interface QueryConfig {
@@ -20,7 +17,7 @@ interface QueryConfig {
 
 
 @Injectable()
-export class SpotProvider {
+export class NewsProvider {
 
   // Source data
   private _done = new BehaviorSubject(false);
@@ -34,7 +31,8 @@ export class SpotProvider {
   done: Observable<boolean> = this._done.asObservable();
   loading: Observable<boolean> = this._loading.asObservable();
 
-  constructor(private afs: AngularFirestore, private spotData : SpotData) { }
+
+  constructor(private afs: AngularFirestore) { }
 
   // Initial query sets options and defines the Observable
   init(path, field, opts?) {
@@ -48,8 +46,9 @@ export class SpotProvider {
     }
 
     const first = this.afs.collection(this.query.path, ref => {
-      return ref.orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
-          .limit(this.query.limit)
+      return ref
+        .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
+        .limit(this.query.limit)
     })
 
     this.mapAndUpdate(first)
@@ -67,9 +66,9 @@ export class SpotProvider {
 
     const more = this.afs.collection(this.query.path, ref => {
       return ref
-        .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
-        .limit(this.query.limit)
-        .startAfter(cursor)
+              .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
+              .limit(this.query.limit)
+              .startAfter(cursor)
     })
     this.mapAndUpdate(more)
   }
@@ -105,25 +104,14 @@ export class SpotProvider {
         // If prepending, reverse array
         values = this.query.prepend ? values.reverse() : values
 
-        // load the spots
-        let aPromises : Promise<any>[] = [];
-        for (let i in values) {
-          let doc : any = values[i] ;
-          aPromises.push(this.spotData.getSpot(doc.id).then(spot => {
-            return Object.assign(values[i], spot);
-          }))
-        }
+        // update source with new values, done loading
+        this._data.next(values)
+        this._loading.next(false)
 
-        Promise.all(aPromises).then((params) => {
-          // update source with new values, done loading
-          this._data.next(values)
-          this._loading.next(false)
-  
-          // no more values, mark done
-          if (!values.length) {
-            this._done.next(true)
-          }
-        })
+        // no more values, mark done
+        if (!values.length) {
+          this._done.next(true)
+        }
     })
     .take(1)
     .subscribe()
