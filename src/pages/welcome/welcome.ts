@@ -39,6 +39,12 @@ export class WelcomePage {
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
     this.newsProvider.more();
+
+    this.newsProvider.loading.subscribe((loading : boolean) => {
+      if (!loading && infiniteScroll) {
+        infiniteScroll.complete();
+      }
+    });
     /* this.patchnoteData.getNextPatchNotes()
     .then(patchNote => {
       this.patchNotes.push(patchNote);

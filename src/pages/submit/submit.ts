@@ -288,7 +288,7 @@ export class SubmitPage {
       this.presentToast('Please fill out all the mandatory fields so we can process your great reddit video!');
       return;
     }
-    debugger;
+
     this.saveButtonDisabled = true;
     var oSpot = {
       title : title,

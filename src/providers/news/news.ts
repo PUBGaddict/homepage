@@ -39,7 +39,7 @@ export class NewsProvider {
     this.query = { 
       path,
       field,
-      limit: 5,
+      limit: 1,
       reverse: false,
       prepend: false,
       ...opts
@@ -93,10 +93,9 @@ export class NewsProvider {
     // Map snapshot with doc ref (needed for cursor)
     return col.snapshotChanges()
       .do(arr => {
-        debugger;
+
         let values = arr.map(snap => {
           const data = snap.payload.doc.data()
-          data.id = snap.payload.doc.id
           const doc = snap.payload.doc
           return { ...data, doc }
         })

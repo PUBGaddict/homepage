@@ -28,7 +28,7 @@
 
   <ion-title margin-top padding-top>Updates</ion-title>  
   <ion-list no-lines>
-    <ion-item *ngFor="let patchnote of patchNotes">
+    <ion-item *ngFor="let patchnote of newsProvider.data | async">
       <ion-item>
         <h1 class="wordWrap">{{patchnote.title}}</h1>
         <ion-note item-end>
@@ -38,9 +38,8 @@
           <img src="assets/icon/pubg.png">
         </ion-avatar>
       </ion-item>
-      <div *ngFor="let article of (newsProvider.data | async).articles" class="paddingLeft">
-<!--       <div *ngFor="let article of patchnote.articles" class="paddingLeft">
- -->        <h2 class="wordWrap">{{article.heading}}</h2>
+      <div *ngFor="let article of patchnote.articles" class="paddingLeft">     
+        <h2 class="wordWrap">{{article.heading}}</h2>
         <h3 *ngIf="article.subtitle" class="wordWrap">{{article.subtitle}}</h3>            
         <ion-list no-lines>
           <ul> 

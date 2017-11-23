@@ -94,7 +94,7 @@ export class SpotProvider {
     // Map snapshot with doc ref (needed for cursor)
     return col.snapshotChanges()
       .do(arr => {
-        debugger;
+
         let values = arr.map(snap => {
           const data = snap.payload.doc.data()
           data.id = snap.payload.doc.id
