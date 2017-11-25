@@ -39,14 +39,13 @@ export class SpotData {
           resolve(this.spotCacheSingle[spotId])
         })
       })
-      /* return this.fireStore.doc(`spots/${spotId}`).valueChanges().first().map((spot : any) => {
-        this.spotCacheSingle[spotId] = spot;
-        return spot;
-      }).toPromise(); */
     }
   }
 
   private loadThumbnailUrl(spot) : Promise<any> {
+    if (spot.strategy === 'youtube') {
+      return Promise.resolve(`http://img.youtube.com/vi/${spot.videoId}/0.jpg`);
+    }
     if (spot.strategy === 'gfycat') {
       return Promise.resolve(`https://thumbs.gfycat.com/${spot.videoId}-thumb100.jpg`);
     } 
