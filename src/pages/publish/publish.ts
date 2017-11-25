@@ -79,7 +79,7 @@ export class PublishPage {
   }
 
   acceptSpot(spotId) {    
-    this.http.post(firebaseConfig.functionsURL + '/Fpublish?id=' + spotId,
+    this.http.post(firebaseConfig.functionsURL + '/publish?id=' + spotId,
       JSON.stringify({
         title: this.spot.title,
         tags: this.tags

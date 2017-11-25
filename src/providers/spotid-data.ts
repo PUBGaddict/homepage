@@ -16,9 +16,7 @@ export class SpotIdData {
   constructor(public http: Http, public authService : AuthServiceProvider, public fireStore : AngularFirestore) { }
 
   private submitPost(data : any): Promise<any> {
-      return this.fireStore.collection('tempf').add(data);
-      // return this.http.post(firebaseConfig.databaseURL + '/tempf.json', data)
-      //   .map(this.processMapIdData);
+      return this.fireStore.collection('temp').add(data);
   }
 
   submitSpot(data : any) : Promise<any>{

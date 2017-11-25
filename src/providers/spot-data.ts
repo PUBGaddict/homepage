@@ -62,7 +62,7 @@ export class SpotData {
   }
 
   public getNextSpot(category: string, spotId: string) : Observable<any>{  
-    const queryObservable = this.angularFireDatabase.list('/fspots',
+    const queryObservable = this.angularFireDatabase.list('/spots',
       ref => ref.orderByChild('path').startAt(category, spotId).limitToFirst(2));
 
     return queryObservable.valueChanges().map(spots => {
@@ -71,7 +71,7 @@ export class SpotData {
   }
 
   public getPreviousSpot(category: string, spotId: string) {
-    const queryObservable = this.angularFireDatabase.list('/fspots', 
+    const queryObservable = this.angularFireDatabase.list('/spots', 
       ref => ref.orderByChild('path').endAt(category, spotId).limitToLast(2));
 
     return queryObservable.valueChanges().map(spots => {
@@ -98,7 +98,7 @@ export class SpotData {
 
         // no cache
       } else {
-        this.http.get(firebaseConfig.databaseURL + '/fspots.json?shallow=true')
+        this.http.get(firebaseConfig.databaseURL + '/spots.json?shallow=true')
           .map(data => {
             this.spotCacheShallowKeys = Object.keys(data.json());
             let keys = this.spotCacheShallowKeys;

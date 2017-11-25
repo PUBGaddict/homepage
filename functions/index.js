@@ -63,7 +63,7 @@ exports.migrateSpots = functions.https.onRequest((req, res) => {
 			let spotMap = snap.val();
 			
 			for (let spot in spotMap) {
-				admin.firestore().doc(`fspots/${spot}`).set(spotMap[spot]).then(result => {
+				admin.firestore().doc(`spots/${spot}`).set(spotMap[spot]).then(result => {
 					res.status(200).send("migrated dat shit");				
 				})
 			}
@@ -162,6 +162,9 @@ exports.search = functions.https.onRequest((req, res) => {
 	cors(req, res, () => {
 		var words = req.query["s"].split(" ");
 
+
+		/* let docRef = admin.firestore().doc("/spots/" + spotId);
+		docRef.get().then(doc => { */
 		var ref = admin.database().ref("/fspots");
 		ref.orderByChild("published").equalTo(true).once('value').then(snap => {
 			if (!snap.exists()) {
@@ -273,7 +276,7 @@ exports.reject = functions.https.onRequest((req, res) => {
 
 	cors(req, res, () => {
 		let spotId = req.query["id"];
-		let spotRef = admin.firestore().doc("/fspots/" + spotId).delete()
+		let spotRef = admin.firestore().doc("/spots/" + spotId).delete()
 		.then(x => {
 			res.status(200).send("Rejected the spot");
 		})
@@ -307,13 +310,13 @@ exports.processUser = functions.firestore.document('/tempuser/{pushId}')
 
 })
 
-exports.processSpot = functions.firestore.document('/tempf/{pushId}')
+exports.processSpot = functions.firestore.document('/temp/{pushId}')
 	.onCreate(event => {
 		const post = event.data.data();
 		const key = event.params.pushId;
 		var sKey = makeid();
 		return readKey();
-		console.log("starting processing new fspot in ftemp: " + post.toString());
+		console.log("starting processing new spot in temp: " + post.toString());
 		
 		function readKey() {
 			console.log("checking if there is already a key named " + sKey);
@@ -404,7 +407,7 @@ exports.processSpot = functions.firestore.document('/tempf/{pushId}')
 			// cleanup tmp folder
 			Promise.all(aPromises).then((a) => {
 				console.log("pushed successfully");
-				return admin.firestore().doc(`tempf/${key}`).delete();
+				return admin.firestore().doc(`temp/${key}`).delete();
 			})
 		}
 

@@ -38,7 +38,7 @@ export class UserProvider {
   } */
 
   private loadSpots (displayName : string) : Promise<any> {
-    return this.http.get(`https://pubgaddicts-b4ff7.firebaseio.com/fspots.json?orderBy="displayName"&equalTo="${displayName}"`)
+    return this.http.get(`https://pubgaddicts-b4ff7.firebaseio.com/spots.json?orderBy="displayName"&equalTo="${displayName}"`)
     .map(data => {
       return data.json()
     }).toPromise(); 
