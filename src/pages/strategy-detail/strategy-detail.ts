@@ -61,9 +61,9 @@ export class StrategyDetailPage {
   constructor(public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, private sanitizer: DomSanitizer, public firestore : AngularFirestore) {
     this.angularFireDatabase = angularFireDatabase;
     this.spotId = navParams.get("spotId");
-    this.spotDoc = firestore.doc<Spot>(`/Nspots/${this.spotId}`);
+    this.spotDoc = firestore.doc<Spot>(`/spots/${this.spotId}`);
     this.spotObs = this.spotDoc.valueChanges();
-    //this.afRatingRef = this.angularFireDatabase.object('/Nspots/' + this.spotId + '/rating');
+    //this.afRatingRef = this.angularFireDatabase.object('/spots/' + this.spotId + '/rating');
     this.displaySpot();
   }
 

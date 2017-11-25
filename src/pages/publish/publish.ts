@@ -50,7 +50,7 @@ export class PublishPage {
     
     this.angularFireDatabase = angularFireDatabase;
     this.spotId = navParams.get("spotId");
-    this.afRatingRef = this.angularFireDatabase.object('/Nspots/' + this.spotId + '/rating');
+    this.afRatingRef = this.angularFireDatabase.object('/spots/' + this.spotId + '/rating');
     this.displaySpot();
   }
 
