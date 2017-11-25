@@ -15,6 +15,10 @@ import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firesto
 interface Spot {
   rating : number
 }
+interface MenuSpot {
+  date : number,
+  rating : number
+}
 /*
   Generated class for the StrategyDetail page.
 
@@ -49,21 +53,21 @@ export class StrategyDetailPage {
     picture_3 : "",
     rating: 0,
     path: "",
-    published: true
+    published: true,
+    tags: {}
   }
 
 
-  //public afRatingRef: AngularFireObject<any>;
   public spotDoc : AngularFirestoreDocument<Spot>;
   public spotObs : Observable<Spot>;
   public tagRefs : Array<AngularFireObject<any>> = [];
+  public menuRefs : Array<AngularFirestoreDocument<MenuSpot>> = [];
 
   constructor(public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, private sanitizer: DomSanitizer, public firestore : AngularFirestore) {
     this.angularFireDatabase = angularFireDatabase;
     this.spotId = navParams.get("spotId");
     this.spotDoc = firestore.doc<Spot>(`/spots/${this.spotId}`);
     this.spotObs = this.spotDoc.valueChanges();
-    //this.afRatingRef = this.angularFireDatabase.object('/spots/' + this.spotId + '/rating');
     this.displaySpot();
   }
 
@@ -86,11 +90,10 @@ export class StrategyDetailPage {
   }
 
   displaySpot() {     
-    //this.afRatingRef.snapshotChanges().subscribe();
     this.spotData.getSpot(this.spotId).then(spot => {
       for (let tag in spot.tags) {
         if (spot.tags.hasOwnProperty(tag)) {
-          this.tagRefs.push(this.angularFireDatabase.object('/menu/' + tag + '/spots/' + spot.id + '/rating'))
+          this.menuRefs.push(this.firestore.doc<MenuSpot>(`/menu/${tag}/spots/${this.spotId}`));
         }
       }
       
@@ -191,13 +194,14 @@ export class StrategyDetailPage {
     if (this.mayVote()) {
       this.spot.rating += delta;
 
-      //this.afRatingRef.set(this.spot.rating);
       this.spotDoc.update({
         rating : this.spot.rating
       })
 
-      for (let tagRef in this.tagRefs) {
-        this.tagRefs[tagRef].set(this.spot.rating);        
+      for (let menuRef in this.menuRefs) {
+        this.menuRefs[menuRef].update({
+          rating : this.spot.rating
+        })
       }
       this.saveVote();
     }
