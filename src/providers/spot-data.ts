@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { firebaseConfig } from '../app/app.module';
 
-import { Http } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -28,10 +28,44 @@ export class SpotData {
       console.log("loading single from cache");
       return Promise.resolve(this.spotCacheSingle[spotId]);
     } else {
-      return this.fireStore.doc(`spots/${spotId}`).valueChanges().first().map((spot : any) => {
+      return new Promise((resolve, reject) => {
+        this.fireStore.doc(`spots/${spotId}`).valueChanges().first().map((spot : any) => {
+          this.spotCacheSingle[spotId] = spot;
+          return spot;
+        }).toPromise().then((spot) => {
+          return this.loadThumbnailUrl(spot);
+        }).then(thumbnailUrl => {
+          this.spotCacheSingle[spotId].thumbnailUrl = thumbnailUrl;
+          resolve(this.spotCacheSingle[spotId])
+        })
+      })
+      /* return this.fireStore.doc(`spots/${spotId}`).valueChanges().first().map((spot : any) => {
         this.spotCacheSingle[spotId] = spot;
         return spot;
-      }).toPromise();
+      }).toPromise(); */
+    }
+  }
+
+  private loadThumbnailUrl(spot) : Promise<any> {
+    if (spot.strategy === 'gfycat') {
+      return Promise.resolve(`https://thumbs.gfycat.com/${spot.videoId}-thumb100.jpg`);
+    } 
+    if (spot.strategy === 'streamable') {
+      return Promise.resolve(`https://cf-e2.streamablevideo.com/image/${spot.videoId}.jpg`);
+    }
+    if (spot.strategy === 'twitch') {
+      let headers = new Headers();
+      headers.append('Accept', 'application/vnd.twitchtv.v5+json')
+      headers.append('Client-ID', '0a76rdy0iubpg9dvunt9l4hbsoc3o3')
+      let options = new RequestOptions({
+        headers: headers
+      });
+      
+      return this.http.get(`https://api.twitch.tv/kraken/clips/${spot.videoId}`, new RequestOptions({
+        headers: headers
+      })).first().toPromise().then(twitchClip => {
+        return twitchClip.json().thumbnails.small;
+      })
     }
   }
 

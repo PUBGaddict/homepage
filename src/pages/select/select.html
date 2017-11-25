@@ -30,7 +30,7 @@
       <ion-col *ngFor="let spot of spotProvider.data | async" col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 align-self-stretch align-self-center>
         <ion-card class="card" (click)="openSpot(spot.id)">
           <div class="card-content">
-            <img class="picture" [src]="getThumbnail(spot)"/>
+            <img class="picture" [src]="spot.thumbnailUrl"/>
             <div class="card-title">{{spot.title}}</div>
             <div class="card-subtitle">{{spot.rating}} upvotes</div>
           </div>

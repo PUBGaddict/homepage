@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { SpotData } from '../../providers/spot-data';
+import { Http, Headers, RequestOptions } from '@angular/http';
 
 import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
 import { SubmitPage } from '../submit/submit'
@@ -24,7 +25,7 @@ export class SelectPage {
   private noMoreSpots: boolean = false;
   public filter = "date";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public authService : AuthServiceProvider, public toastCtrl: ToastController, public spotProvider : SpotProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public authService : AuthServiceProvider, public toastCtrl: ToastController, public spotProvider : SpotProvider, public http: Http) {
     this.category = navParams.get("category");
     this.spotProvider.reset();
     this.spotProvider.init(`menu/${this.category}/spots`, this.filter, { reverse: true, prepend: false })
@@ -59,9 +60,26 @@ export class SelectPage {
   }
 
   getThumbnail(spot) {
+    /* if (spot.strategy === 'gfycat') {
+      return `https://thumbs.gfycat.com/${spot.videoId}-thumb100.jpg`;
+    } 
+    if (spot.strategy === 'streamable') {
+      return `https://cf-e2.streamablevideo.com/image/${spot.videoId}.jpg`
+    } */
     if (spot.strategy === 'gfycat') {
-      return "https://thumbs.gfycat.com/" + spot.videoId + "-thumb100.jpg";
-    }  
+      let headers = new Headers();
+      headers.append('Accept', 'application/vnd.twitchtv.v5+json')
+      headers.append('Client-ID', '0a76rdy0iubpg9dvunt9l4hbsoc3o3')
+      let options = new RequestOptions({
+        headers: headers
+      });
+      
+      return this.http.get("https://api.twitch.tv/kraken/clips/IncredulousBlatantBaconTakeNRG", new RequestOptions({
+        headers: headers
+      })).subscribe(twitchClip => {
+        return twitchClip.json().thumbnails.tiny;
+      })
+    }
   }
 
   openSubmitPage() {
