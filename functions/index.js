@@ -164,7 +164,7 @@ exports.search = functions.https.onRequest((req, res) => {
 
 
 		// @ mm 
-		let collection = admin.firestore().collection("/spots");
+		/* let collection = admin.firestore().collection("/spots");
 		collection.where('published', '==', true).get().then(snapshot => {
 			snapshot.forEach(doc => {
 				if (!doc.exists) {
@@ -173,7 +173,7 @@ exports.search = functions.https.onRequest((req, res) => {
 					res.status(200).send("all good");
 				}
 			})
-		})
+		}) */
 
 		var ref = admin.database().ref("/fspots");
 		ref.orderByChild("published").equalTo(true).once('value').then(snap => {
