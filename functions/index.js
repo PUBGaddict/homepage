@@ -163,8 +163,18 @@ exports.search = functions.https.onRequest((req, res) => {
 		var words = req.query["s"].split(" ");
 
 
-		/* let docRef = admin.firestore().doc("/spots/" + spotId);
-		docRef.get().then(doc => { */
+		// @ mm 
+		let collection = admin.firestore().collection("/spots");
+		collection.where('published', '==', true).get().then(snapshot => {
+			snapshot.forEach(doc => {
+				if (!doc.exists) {
+					res.status(200).send("No data");
+				} else {
+					res.status(200).send("all good");
+				}
+			})
+		})
+
 		var ref = admin.database().ref("/fspots");
 		ref.orderByChild("published").equalTo(true).once('value').then(snap => {
 			if (!snap.exists()) {
