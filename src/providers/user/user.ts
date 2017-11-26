@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { firebaseConfig } from '../../app/app.module';
 import { Http } from '@angular/http';
 import { AuthServiceProvider } from '../auth-service/auth-service'
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -15,17 +16,18 @@ import 'rxjs/add/observable/of';
 */
 @Injectable()
 export class UserProvider {
-  constructor(public http: Http, public authService : AuthServiceProvider) { }
+  constructor(public http: Http, public authService : AuthServiceProvider, public firestore: AngularFirestore) { }
   
-  private submitUser(user : any): Observable<any> {
-    return this.http.post(firebaseConfig.databaseURL + '/tempuser.json', user)
-      .map(data => {
-        return data.json()
-      });
+  private submitUser(user : any): Promise<any> {
+    return this.firestore.collection('tempuser').add(user);
+    // return this.http.post(firebaseConfig.databaseURL + '/tempuser.json', user)
+    //   .map(data => {
+    //     return data.json()
+    //   });
   }
 
   createUser(user : any) : Promise<any>{
-    return this.submitUser(user).toPromise();
+    return this.submitUser(user);
   }
 
 /*   private loadUid (displayName : string) : Promise<any>{
@@ -36,7 +38,7 @@ export class UserProvider {
   } */
 
   private loadSpots (displayName : string) : Promise<any> {
-    return this.http.get(`https://pubgaddicts-b4ff7.firebaseio.com/fspots.json?orderBy="displayName"&equalTo="${displayName}"`)
+    return this.http.get(`https://pubgaddicts-b4ff7.firebaseio.com/spots.json?orderBy="displayName"&equalTo="${displayName}"`)
     .map(data => {
       return data.json()
     }).toPromise(); 

@@ -7,6 +7,94 @@ const statistics = {};
 
 admin.initializeApp(functions.config().firebase);
 
+exports.news = functions.https.onRequest((req, res) => {
+	if (req.method === 'PUT') {
+		res.status(403).send('Forbidden!');
+	}
+
+	cors(req, res, () => {		
+		admin.firestore().collection("/news").add({
+			"title": "Early Access Week 27 Update",
+			"timestamp" : 1506384000000,
+			"date": "26.09.2017",
+			"articles" : [{
+				"heading" : "UI/UX",
+				"paragraphs" : [{
+					"text": "Enhanced breathing animation in the Spectator mode"
+				},{
+					"text": "Added a new feature in the Settings to adjust the zoom-in and zoom-out speed of the World Map"
+				}]
+			},{
+				"heading" : "Bug Fixes",
+				"paragraphs" : [{
+					"text": "Fixed a bug that made the shadows disappear mid-game"
+				},{
+					"text": "Fixed a graphic bug related to players who left the game inside of the starting airplane"
+				},{
+					"text": "Fixed a bug that prevented users from seeing the full alias of their teammates"
+				},{
+					"text": "Improved the synchronization between player aim and spectator aim"
+				},{
+					"text": "Fixed a bug to accurately display teammates' marker direction in Free Look mode "
+				}]
+			}]
+		})
+
+		admin.firestore().collection("/news").add({
+			"title": "We are officially in BETA now :)",
+			"timestamp" : 1499644800000,
+			"date": "07.10.2017",
+			"articles" : [{
+				"heading" : "Please feel free to add your own cool PUBG related videos!"
+			}]
+		})
+	})		
+});
+
+
+exports.migrateSpots = functions.https.onRequest((req, res) => {
+	if (req.method === 'PUT') {
+		res.status(403).send('Forbidden!');
+	}
+
+	cors(req, res, () => {				
+		const spotRef = admin.database().ref("/fspots")
+		spotRef.once('value').then(snap => {
+			let spotMap = snap.val();
+			
+			for (let spot in spotMap) {
+				admin.firestore().doc(`spots/${spot}`).set(spotMap[spot]).then(result => {
+					res.status(200).send("migrated dat shit");				
+				})
+			}
+		});
+	});		
+});	
+
+exports.migrateMenu = functions.https.onRequest((req, res) => {
+	if (req.method === 'PUT') {
+		res.status(403).send('Forbidden!');
+	}
+
+	cors(req, res, () => {				
+		const menuRef = admin.database().ref("/menu")
+		menuRef.once('value').then(snap => {
+			let menuMap = snap.val();
+			let aPromises = []
+			
+			for (let menu in menuMap) {
+				aPromises.push(admin.firestore().doc(`/menu/${menu}`).set({amount : menuMap[menu]['spots'].length }))
+				for (let spot in menuMap[menu]['spots']) {
+					aPromises.push(admin.firestore().doc(`/menu/${menu}/spots/${spot}`).set(menuMap[menu]['spots'][spot]));
+				}
+			}
+			Promise.all(aPromises).then(x => {
+				res.status(200).send("migrated all menus");
+			})
+		});
+	});		
+});	
+
 exports.homoTags = functions.https.onRequest((req, res) => {
 	
 		if (req.method === 'PUT') {
@@ -74,6 +162,19 @@ exports.search = functions.https.onRequest((req, res) => {
 	cors(req, res, () => {
 		var words = req.query["s"].split(" ");
 
+
+		// @ mm 
+		let collection = admin.firestore().collection("/spots");
+		collection.where('published', '==', true).get().then(snapshot => {
+			snapshot.forEach(doc => {
+				if (!doc.exists) {
+					res.status(200).send("No data");
+				} else {
+					res.status(200).send("all good");
+				}
+			})
+		})
+
 		var ref = admin.database().ref("/fspots");
 		ref.orderByChild("published").equalTo(true).once('value').then(snap => {
 			if (!snap.exists()) {
@@ -107,79 +208,73 @@ exports.search = functions.https.onRequest((req, res) => {
 })
 
 exports.publish = functions.https.onRequest((req, res) => {
-
-	// TODO: Authentication check.
-
-	if (req.method === 'PUT') {
-		res.status(403).send('Forbidden!');
-	}
-
-	let debug_msgs = [];
-
-	cors(req, res, () => {
-		let spotId = req.query["id"];
-		let spotBody = JSON.parse(req.body);
-
-		function concatTagsToPath(tags) {
-			let tagNames = Object.keys(tags);
-			tagNames.sort();			
-			return tagNames.join("/");
+	
+		// TODO: Authentication check.
+	
+		if (req.method === 'PUT') {
+			res.status(403).send('Forbidden!');
 		}
-
-		let spotRef = admin.database().ref("/fspots/" + spotId);
-		spotRef.once('value').then(snap => {
-			if (!snap.exists()) {
-				res.status(200).send("No spot found");
+	
+		let debug_msgs = [];
+	
+		cors(req, res, () => {
+			let spotId = req.query["id"];
+			let spotBody = JSON.parse(req.body);
+	
+			function concatTagsToPath(tags) {
+				let tagNames = Object.keys(tags);
+				tagNames.sort();			
+				return tagNames.join("/");
 			}
-
-			let spot = snap.val();
-			spot.title = spotBody.title;
-
-			let tags = {};
-			for (var i = 0; i < 3; i++) {
-				if ( !!spotBody.tags[i] ) {
-					tags[spotBody.tags[i]] = true;
+	
+			let docRef = admin.firestore().doc("/spots/" + spotId);
+			docRef.get().then(doc => {
+				if (!doc.exists) {
+					res.status(200).send("No spot found");
 				}
-			}
-
-			spot.tags = tags;
-			spot.path = concatTagsToPath(spot.tags);
-			spot.published = true;
-			var promises = [];
-
-			promises.push(spotRef.update(spot));
-
-			for (let tag in spot.tags) {
-				let menuRef = admin.database().ref("/menu/" + tag);
-				menuRef.once('value').then(snap => {
-					let bExists = !!snap.val(),
-						val = bExists ? snap.val() : { amount : 0 },
-						spots = bExists ? snap.val().spots : {},
-						node = {};
-					
-					val.amount++;
-
-					// spots
-					spots[spot.id] = {
-						date: spot.date,
-						rating : 0
+	
+				let spot = doc.data();
+				spot.title = spotBody.title;
+	
+				let tags = {};
+				for (var i = 0; i < 3; i++) {
+					if ( !!spotBody.tags[i] ) {
+						tags[spotBody.tags[i]] = true;
 					}
-					val.spots = spots;
+				}
+	
+				spot.tags = tags;
+				spot.path = concatTagsToPath(spot.tags);
+				spot.published = true;
+				var promises = [];
+	
+				promises.push(docRef.update(spot));
+	
+				for (let tag in spot.tags) {
+					let menuRef = admin.firestore().doc("/menu/" + tag);
+					menuRef.get().then(snap => {
+						let bExists = snap.exists,
+							val = bExists ? snap.data() : { amount : 0 };
+						
+						val.amount++;	
 
-					node[tag] = val;
-					promises.push(admin.database().ref("/menu/").update(node).then(() => {
-						debug_msgs.push("updated menu");
-					}));
-				});
-			}
-
-			Promise.all(promises).then(() => {	
-				res.status(200).send("Publish done with messages: "+ debug_msgs.join(","));
+						promises.push(menuRef.set(val, { merge: true }).then(() => {
+							promises.push(admin.firestore().doc(`/menu/${tag}/spots/${spotId}`).set({
+								date: spot.date,
+								rating : 0
+							}));
+							debug_msgs.push("updated menu");
+						}));
+					});
+				}
+	
+				Promise.all(promises).then(() => {	
+					res.status(200).send("Publish done with messages: "+ debug_msgs.join(","));
+				});		
 			});		
-		});		
-	});
-})
-
+		});
+	})
+	
 
 exports.reject = functions.https.onRequest((req, res) => {
 	
@@ -191,48 +286,50 @@ exports.reject = functions.https.onRequest((req, res) => {
 
 	cors(req, res, () => {
 		let spotId = req.query["id"];
-		let spotRef = admin.database().ref("/fspots/" + spotId);
-		spotRef.remove();
-		res.status(200).send("Rejected the spot");
+		let spotRef = admin.firestore().doc("/spots/" + spotId).delete()
+		.then(x => {
+			res.status(200).send("Rejected the spot");
+		})
+		.catch(x => {
+			res.status(501).send("Something went wrong");
+		});
 	});
 })
 
-exports.processNewUser = functions.database.ref('/tempuser/{pushId}')
-	.onCreate(event => {
-		console.log('received new user request');
-		const user = event.data.val();
-		const key = event.data.key;
-		const promises = [];
+exports.processUser = functions.firestore.document('/tempuser/{pushId}')
+.onCreate(event => {
+	console.log('received new user request');
+	const user = event.data.data();
+	const key = event.params.pushId;
+	const promises = [];
 
-		promises.push(createUid());
+	promises.push(createUid());
 
-		Promise.all(promises).then((a) => {
-			admin.database().ref(`/tempuser/${key}`).remove();
-		});		
+	Promise.all(promises).then((a) => {
+		admin.firestore().doc(`/tempuser/${key}`).delete();
+	});		
 
-		function createUid() {
-			let o = {};
-			o[user.uid] = {
-				email: user.email,
-				displayName: user.displayName
-			};
-			return admin.database().ref('uids/').update(o);
-		}
+	function createUid() {
+		return admin.firestore().doc(`uids/${user.uid}`).set({
+			email: user.email,
+			displayName: user.displayName
+		});
+	}
 
 })
 
-exports.processNewSpot = functions.database.ref('/temp/{pushId}')
+exports.processSpot = functions.firestore.document('/temp/{pushId}')
 	.onCreate(event => {
-		const post = event.data.val();
-		const key = event.data.key;
+		const post = event.data.data();
+		const key = event.params.pushId;
 		var sKey = makeid();
-
-		readKey();
-
+		return readKey();
+		console.log("starting processing new spot in temp: " + post.toString());
+		
 		function readKey() {
 			console.log("checking if there is already a key named " + sKey);
-			return admin.database().ref(`fspots/${sKey}`).once('value').then(snap => {
-				if (snap.val() === null) {
+			return admin.firestore().doc(`spots/${sKey}`).get().then(doc => {
+				if (!doc.exists) {
 					console.log("found an unused key, it is: " + sKey)
 					processSpot();
 					return sKey;
@@ -252,10 +349,10 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 				return;
 			} else {
 				if (post.strategy === "youtube") {
-					processYoutubeVideo();
+					return processYoutubeVideo();
 				}
 				if (post.strategy === "gfycat" || post.strategy === "twitch" || post.strategy === 'streamable' || post.strategy === 'vimeo' || post.strategy === 'reddit') {
-					processSlugVideo();
+					return processSlugVideo();
 				}
 			}
 		}
@@ -271,7 +368,7 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 
 			let spot = {
 				id: sKey,
-				date: admin.database.ServerValue.TIMESTAMP,
+				date: admin.firestore.FieldValue.serverTimestamp(),
 				title: post.title,
 				strategy: post.strategy,
 				videoId: post.videoId,
@@ -284,7 +381,7 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 				rating : 0
 			}			
 
-			return admin.database().ref('/fspots/' + sKey)
+			return admin.firestore().doc('/spots/' + sKey)
 				.set(spot);
 		}		
 
@@ -301,7 +398,7 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 			// cleanup tmp folder
 			Promise.all(aPromises).then((a) => {
 				console.log(" pushed successfully");
-				admin.database().ref(`temp/${key}`).remove();
+				admin.firestore().doc(`temp/${key}`).delete();
 			})
 		}
 
@@ -318,7 +415,7 @@ exports.processNewSpot = functions.database.ref('/temp/{pushId}')
 			// cleanup tmp folder
 			Promise.all(aPromises).then((a) => {
 				console.log("pushed successfully");
-				admin.database().ref(`temp/${key}`).remove();
+				return admin.firestore().doc(`temp/${key}`).delete();
 			})
 		}
 

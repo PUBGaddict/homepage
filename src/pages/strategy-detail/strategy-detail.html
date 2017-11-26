@@ -31,7 +31,7 @@
     <ion-label color="primary">Useful?</ion-label>
     <div>
       <div class="floatLeft">
-        <h4>{{ (afRatingRef | async)?.$value }}</h4>
+        <h4>{{ (spotObs | async)?.rating }}</h4>
       </div>
       <div class="paddingLeft">
         <button ion-button [color]="'secondary'" icon-only (click)="vote(true)">
@@ -46,7 +46,7 @@
         <ion-label color="primary">Video</ion-label>
         <youtube-player #youtubePlayer [start]="spot.startSeconds" [end]="spot.endSeconds" [vid]="spot.videoId" [width]="'100%'"></youtube-player>
     </div>
-    <div margin-top *ngIf="isGfycat() || isTwitch() || isStreamable() || isVimeo()" style='position:relative;padding-bottom:calc(100% / 1.85)'>
+    <div margin-top *ngIf="isGfycat() || isTwitch() || isStreamable() || isVimeo() || isReddit()" style='position:relative;padding-bottom:calc(100% / 1.85)'>
       <iframe 
         [src]='safeVidUrl' 
         frameborder='0' 

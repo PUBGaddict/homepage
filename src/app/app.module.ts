@@ -21,13 +21,13 @@ import { PublishPage } from '../pages/publish/publish';
 
 
 import { SpotData } from '../providers/spot-data';
-import { CategoryData } from '../providers/category-data';
 import { SpotIdData } from '../providers/spotid-data';
 import { PatchnoteData } from '../providers/patchnote-data';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { YoutubePlayerComponent } from './youtube-player.component';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { AuthComponent } from '../components/auth/auth';
@@ -37,6 +37,9 @@ import { UsernameValidator } from '../validators/username';
 import { SearchProvider } from '../providers/search/search';
 
 import { IonTagsInputModule } from "ionic-tags-input";
+import { PaginationProvider } from '../providers/pagination/pagination';
+import { NewsProvider } from '../providers/news/news';
+import { SpotProvider } from '../providers/spot/spot';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBj7uFGKWDuKFDx_6nQOhMSRC0cx3vJpCI",
@@ -89,6 +92,7 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AngularFirestoreModule,
     IonTagsInputModule
   ],
   bootstrap: [IonicApp],
@@ -113,11 +117,13 @@ export const firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler}, 
     SpotData,
     PatchnoteData,
-    CategoryData,
     SpotIdData,
     AuthServiceProvider,
     UserProvider,
     UsernameValidator,
-    SearchProvider]
+    SearchProvider,
+    PaginationProvider,
+    NewsProvider,
+    SpotProvider]
 })
 export class AppModule {}

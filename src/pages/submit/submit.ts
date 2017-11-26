@@ -2,9 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { CategoryData } from '../../providers/category-data';
 import { SpotIdData } from '../../providers/spotid-data';
-import { Http } from '@angular/http';
 import { YoutubePlayerComponent } from '../../app/youtube-player.component';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -42,7 +40,7 @@ export class SubmitPage {
   public vimeoDetailForm : any;
   public redditDetailForm : any;
 
-  constructor(public navCtrl: NavController, public categoryData : CategoryData, public navParams: NavParams, public toastCtrl: ToastController, public http: Http, public spotIdData : SpotIdData, public formBuilder: FormBuilder, private sanitizer: DomSanitizer) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public spotIdData : SpotIdData, public formBuilder: FormBuilder, private sanitizer: DomSanitizer) {
     // validators
     this.spotHeadForm = formBuilder.group({
       title: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.minLength(10), Validators.pattern('[a-zA-Z,. ]*')])],
@@ -186,22 +184,20 @@ export class SubmitPage {
     }
 
     if (this.isReddit()) {
-      let bIsReddit = false;
+      let bIsReddit = false,
+        redditChannel = "";
       if (url.startsWith("https://www.reddit.com/")) {
         bIsReddit = true;
         videoId = url.substr(23);
+        redditChannel = url.substr(25);
+        redditChannel = redditChannel.substr(0, redditChannel.indexOf("/") + 1)
         let indexOfComments = videoId.indexOf("/comments/"),
           startOfId = indexOfComments + "/comments/".length,
           restOfUrl = videoId.substr(startOfId),
           endOfId = restOfUrl.indexOf("/");
         videoId = restOfUrl.substr(0, endOfId);
-        this.redditDetailForm.get('videoId').setValue(videoId);
-      } else if (url.startsWith("https://redd.it/")) {
-        bIsReddit = true;        
-        videoId = url.substr(16);
-        this.redditDetailForm.get('videoId').setValue(videoId);
+        this.redditDetailForm.get('videoId').setValue(redditChannel + videoId);
       } 
-
       console.log("videoid: "+ videoId);
       
       if (bIsReddit) {
@@ -289,17 +285,17 @@ export class SubmitPage {
       this.presentToast('Please fill out all the mandatory fields so we can process your great reddit video!');
       return;
     }
-    debugger;
+
     this.saveButtonDisabled = true;
     var oSpot = {
       title : title,
       strategy : strategy,
       tags : tags,
-      videoId : undefined,
+      videoId : null,
 
       // optional properties for youtube
-      startSeconds : undefined,
-      endSeconds : undefined
+      startSeconds : null,
+      endSeconds : null
     };
     if (strategy === "youtube") {
       oSpot.videoId = this.youtubeDetailForm.get('videoId').value;
@@ -322,8 +318,12 @@ export class SubmitPage {
       oSpot.videoId = this.redditDetailForm.get('videoId').value;
     }
 
-    this.spotIdData.submitSpot(oSpot).subscribe((spot: any) => {
-      this.presentToast('Spot successfully created. Lean back while we verify your great spot!');
+    this.spotIdData.submitSpot(oSpot).then((spot: any) => {
+      if (spot) {
+        this.presentToast('Spot successfully created. Lean back while we verify your great spot!');
+      } else {
+        this.presentToast('Please log in before submitting a spot');
+      }
     })
   }
 

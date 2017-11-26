@@ -1,15 +1,24 @@
 import { Component, ViewChild } from '@angular/core';
 import { firebaseConfig } from '../../app/app.module';
-import { Http } from '@angular/http';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { SpotData } from '../../providers/spot-data';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
+import { Observable } from 'rxjs/Observable';
 
 import { SubmitPage } from '../submit/submit';
 import { UserPage } from '../user/user';
 import { SelectPage } from '../select/select';
+import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 
+
+interface Spot {
+  rating : number
+}
+interface MenuSpot {
+  date : number,
+  rating : number
+}
 /*
   Generated class for the StrategyDetail page.
 
@@ -44,16 +53,21 @@ export class StrategyDetailPage {
     picture_3 : "",
     rating: 0,
     path: "",
-    published: true
+    published: true,
+    tags: {}
   }
 
-  public afRatingRef: FirebaseObjectObservable<any>;
-  public tagRefs : Array<FirebaseObjectObservable<any>> = [];
 
-  constructor(public http: Http, public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, private sanitizer: DomSanitizer) {
+  public spotDoc : AngularFirestoreDocument<Spot>;
+  public spotObs : Observable<Spot>;
+  public tagRefs : Array<AngularFireObject<any>> = [];
+  public menuRefs : Array<AngularFirestoreDocument<MenuSpot>> = [];
+
+  constructor(public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, private sanitizer: DomSanitizer, public firestore : AngularFirestore) {
     this.angularFireDatabase = angularFireDatabase;
     this.spotId = navParams.get("spotId");
-    this.afRatingRef = this.angularFireDatabase.object('/fspots/' + this.spotId + '/rating');
+    this.spotDoc = firestore.doc<Spot>(`/spots/${this.spotId}`);
+    this.spotObs = this.spotDoc.valueChanges();
     this.displaySpot();
   }
 
@@ -67,7 +81,7 @@ export class StrategyDetailPage {
   }
 
   previousSpot() {
-    this.spotData.getPreviousSpot(this.spot.path, this.spot.id).subscribe(prevSpot => {
+    this.spotData.getPreviousSpot(this.spot.path, this.spot.id).subscribe((prevSpot : any) => {
       this.navCtrl.pop();
       this.navCtrl.push(StrategyDetailPage, {
         spotId : prevSpot.id
@@ -76,11 +90,10 @@ export class StrategyDetailPage {
   }
 
   displaySpot() {     
-    this.afRatingRef.subscribe();
-    this.spotData.getSpot(this.spotId).subscribe(spot => {
+    this.spotData.getSpot(this.spotId).then(spot => {
       for (let tag in spot.tags) {
         if (spot.tags.hasOwnProperty(tag)) {
-          this.tagRefs.push(this.angularFireDatabase.object('/menu/' + tag + '/spots/' + spot.id + '/rating'))
+          this.menuRefs.push(this.firestore.doc<MenuSpot>(`/menu/${tag}/spots/${this.spotId}`));
         }
       }
       
@@ -97,6 +110,9 @@ export class StrategyDetailPage {
       }
       if (this.isVimeo()) {
         this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://player.vimeo.com/video/" + spot.videoId)
+      }
+      if (this.isReddit()) {
+        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl(spot.redditVideo)
       }
     });
   }
@@ -181,10 +197,14 @@ export class StrategyDetailPage {
     if (this.mayVote()) {
       this.spot.rating += delta;
 
-      this.afRatingRef.set(this.spot.rating);
+      this.spotDoc.update({
+        rating : this.spot.rating
+      })
 
-      for (let tagRef in this.tagRefs) {
-        this.tagRefs[tagRef].set(this.spot.rating);        
+      for (let menuRef in this.menuRefs) {
+        this.menuRefs[menuRef].update({
+          rating : this.spot.rating
+        })
       }
       this.saveVote();
     }

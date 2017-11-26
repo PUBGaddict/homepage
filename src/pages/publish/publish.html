@@ -17,7 +17,7 @@
       <ion-label color="primary">Useful?</ion-label>
       <div>
         <div class="floatLeft">
-          <h4>{{ (afRatingRef | async)?.$value }}</h4>
+          <h4>{{ (afRatingRef.payload | async)?.val() }}</h4>
         </div>
         <div class="paddingLeft">
           <button ion-button [color]="'secondary'" icon-only (click)="vote(true)">

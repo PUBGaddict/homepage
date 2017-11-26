@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { SpotData } from '../../providers/spot-data';
+import { Http, Headers, RequestOptions } from '@angular/http';
 
 import { StrategyDetailPage } from '../strategy-detail/strategy-detail'
 import { SubmitPage } from '../submit/submit'
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service'
+import { SpotProvider } from '../../providers/spot/spot';
 
 
 /*
@@ -23,18 +25,10 @@ export class SelectPage {
   private noMoreSpots: boolean = false;
   public filter = "date";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public authService : AuthServiceProvider, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, public authService : AuthServiceProvider, public toastCtrl: ToastController, public spotProvider : SpotProvider, public http: Http) {
     this.category = navParams.get("category");
-    this.getInitialTags();
-    /* this.spotData.getSpotsForTag(this.category).then((spots: any[]) => {
-      this.spots = spots;
-    }); */
-  }
-
-  getInitialTags() {
-    this.spotData.getNextTagsForCategory(this.category, this.filter, true).then((spots : any[]) => {
-      this.spots = spots;
-    });
+    this.spotProvider.reset();
+    this.spotProvider.init(`menu/${this.category}/spots`, this.filter, { reverse: true, prepend: false })
   }
 
   ionViewDidLoad() {
@@ -49,20 +43,16 @@ export class SelectPage {
     ga('send', 'event', "filter", "newest", "clicked");
     
     this.filter = "date";
-    this.getInitialTags();
-  }
-
-  loadSpots() {
-    this.spotData.getNextTagsForCategory(this.category, this.filter, true).then((spots : any[]) => {
-      this.spots = spots;
-    });
+    this.spotProvider.reset();
+    this.spotProvider.init(`menu/${this.category}/spots`, this.filter, { reverse: true, prepend: false })
   }
 
   highestClicked() {
     ga('send', 'event', "filter", "highest", "clicked");
     
     this.filter = "rating";
-    this.getInitialTags();
+    this.spotProvider.reset();  
+    this.spotProvider.init(`menu/${this.category}/spots`, this.filter, { reverse: true, prepend: false })    
   }
 
   openSpot(spotId) {
@@ -70,9 +60,26 @@ export class SelectPage {
   }
 
   getThumbnail(spot) {
+    /* if (spot.strategy === 'gfycat') {
+      return `https://thumbs.gfycat.com/${spot.videoId}-thumb100.jpg`;
+    } 
+    if (spot.strategy === 'streamable') {
+      return `https://cf-e2.streamablevideo.com/image/${spot.videoId}.jpg`
+    } */
     if (spot.strategy === 'gfycat') {
-      return "https://thumbs.gfycat.com/" + spot.videoId + "-thumb100.jpg";
-    }  
+      let headers = new Headers();
+      headers.append('Accept', 'application/vnd.twitchtv.v5+json')
+      headers.append('Client-ID', '0a76rdy0iubpg9dvunt9l4hbsoc3o3')
+      let options = new RequestOptions({
+        headers: headers
+      });
+      
+      return this.http.get("https://api.twitch.tv/kraken/clips/IncredulousBlatantBaconTakeNRG", new RequestOptions({
+        headers: headers
+      })).subscribe(twitchClip => {
+        return twitchClip.json().thumbnails.tiny;
+      })
+    }
   }
 
   openSubmitPage() {
@@ -89,21 +96,12 @@ export class SelectPage {
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
 
-    this.spotData.getNextTagsForCategory(this.category, this.filter, false)
-      .then((spots : any[]) => {
-        if (spots.length <= 0) {
-          this.noMoreSpots = true;
-        }
-        this.spots = this.spots.concat(spots);
-        if (infiniteScroll) {
-          infiniteScroll.complete()
-        }
-        console.log('Async operation has ended');
-      }, err => {
-        if (infiniteScroll) {
-          infiniteScroll.complete()
-        }
-        console.log("No more categories found");
-      })
+    this.spotProvider.more()
+    
+    this.spotProvider.loading.subscribe((loading : boolean) => {
+      if (!loading && infiniteScroll) {
+        infiniteScroll.complete();
+      }
+    });
   }
 }

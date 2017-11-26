@@ -5,7 +5,7 @@ import { Http } from '@angular/http';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { SpotData } from '../../providers/spot-data';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 
 import { UserPage } from '../user/user';
 
@@ -40,7 +40,7 @@ export class PublishPage {
     published: true
   }
 
-  public afRatingRef: FirebaseObjectObservable<any>;
+  public afRatingRef: AngularFireObject<any>;
 
   constructor(public http: Http, public formBuilder: FormBuilder, public toastCtrl: ToastController, private angularFireDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, public spotData: SpotData, private sanitizer: DomSanitizer) {
     this.spotHeadForm = formBuilder.group({
@@ -50,13 +50,13 @@ export class PublishPage {
     
     this.angularFireDatabase = angularFireDatabase;
     this.spotId = navParams.get("spotId");
-    this.afRatingRef = this.angularFireDatabase.object('/fspots/' + this.spotId + '/rating');
+    this.afRatingRef = this.angularFireDatabase.object('/spots/' + this.spotId + '/rating');
     this.displaySpot();
   }
 
   displaySpot() {     
-    this.afRatingRef.subscribe();
-    this.spotData.getSpot(this.spotId).subscribe(spot => {
+    this.afRatingRef.valueChanges().subscribe();
+    this.spotData.getSpot(this.spotId).then(spot => {
       this.spot = spot;
       this.tags = Object.keys(spot.tags);
 
@@ -73,7 +73,7 @@ export class PublishPage {
         this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://player.vimeo.com/video/" + spot.videoId)
       }
       if (this.isReddit()) {
-        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.reddit.com/mediaembed/video/" + spot.videoId)
+        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl(spot.redditVideo)
       }
     });
   }
@@ -88,7 +88,7 @@ export class PublishPage {
         this.presentToast("published successfully");
       }
     });
-    this.nextSpot();
+    //this.nextSpot();
   }
 
   rejectSpot(spotId) {
@@ -97,7 +97,7 @@ export class PublishPage {
         this.presentToast("declined successfully");
       }
     });
-    this.nextSpot();
+    //this.nextSpot();
   }
 
   nextSpot() {
