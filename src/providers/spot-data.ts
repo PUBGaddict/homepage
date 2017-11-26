@@ -12,6 +12,24 @@ import { AngularFireDatabase } from 'angularfire2/database';
 
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 
+
+interface Spot {
+  videoId : string,
+  title: string,
+  strategy: string,
+  id: string,
+  displayName: string,
+  path: string,
+  published: boolean,
+  rating: number,
+  tags: object,
+  
+  thumbnailUrl? : string,
+  startSeconds? : number,
+  endSeconds? : number,
+  redditVideo? : string
+}
+
 @Injectable()
 export class SpotData {
   private mapCache: any = {};
@@ -23,34 +41,37 @@ export class SpotData {
 
   constructor(public http: Http, public angularFireDatabase: AngularFireDatabase, public fireStore : AngularFirestore) { }
 
-  private loadSpot(spotId: string): Promise<any> {
+  private loadSpot(spotId: string): Promise<Spot> {
     if (spotId in this.spotCacheSingle) {
       console.log("loading single from cache");
       return Promise.resolve(this.spotCacheSingle[spotId]);
     } else {
       return new Promise((resolve, reject) => {
-        this.fireStore.doc(`spots/${spotId}`).valueChanges().first().map((spot : any) => {
-          this.spotCacheSingle[spotId] = spot;
+        this.fireStore.doc(`spots/${spotId}`).valueChanges().first().map((spot : Spot) => {
           return spot;
         }).toPromise().then((spot) => {
-          return this.loadThumbnailUrl(spot);
-        }).then(thumbnailUrl => {
-          this.spotCacheSingle[spotId].thumbnailUrl = thumbnailUrl;
-          resolve(this.spotCacheSingle[spotId])
+          return this.loadAdditionalData(spot);
+        }).then(spot => {
+          this.spotCacheSingle[spotId] = spot;          
+          resolve(spot)
         })
       })
     }
   }
 
-  private loadThumbnailUrl(spot) : Promise<any> {
+  private loadAdditionalData(spot : Spot) : Promise<Spot> {
     if (spot.strategy === 'youtube') {
-      return Promise.resolve(`http://img.youtube.com/vi/${spot.videoId}/0.jpg`);
+      spot.thumbnailUrl = `http://img.youtube.com/vi/${spot.videoId}/mqdefault.jpg`;
+      return Promise.resolve(spot);
     }
     if (spot.strategy === 'gfycat') {
-      return Promise.resolve(`https://thumbs.gfycat.com/${spot.videoId}-thumb100.jpg`);
+      spot.thumbnailUrl = `https://thumbs.gfycat.com/${spot.videoId}-thumb100.jpg`;
+      return Promise.resolve(spot);
     } 
     if (spot.strategy === 'streamable') {
-      return Promise.resolve(`https://cf-e2.streamablevideo.com/image/${spot.videoId}.jpg`);
+      spot.thumbnailUrl = `https://cf-e2.streamablevideo.com/image/${spot.videoId}.jpg`;
+      return Promise.resolve(spot);
+      
     }
     if (spot.strategy === 'twitch') {
       let headers = new Headers();
@@ -63,7 +84,19 @@ export class SpotData {
       return this.http.get(`https://api.twitch.tv/kraken/clips/${spot.videoId}`, new RequestOptions({
         headers: headers
       })).first().toPromise().then(twitchClip => {
-        return twitchClip.json().thumbnails.small;
+        spot.thumbnailUrl = twitchClip.json().thumbnails.small;
+        return spot;
+      })
+    }
+    if (spot.strategy === 'reddit') {
+      let slashIndex = spot.videoId.indexOf("/"),
+        subreddit = spot.videoId.substr(0, slashIndex),
+        articleId = spot.videoId.substr(slashIndex + 1);
+      return this.http.get(`https://www.reddit.com/r/${subreddit}/comments/${articleId}/.json?limit=1`).first().toPromise().then(redditData => {
+        let article = redditData.json();
+        spot.thumbnailUrl = article[0].data.children[0].data.thumbnail;
+        spot.redditVideo = article[0].data.children[0].data.media.reddit_video.fallback_url;
+        return spot;
       })
     }
   }
