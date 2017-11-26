@@ -111,6 +111,9 @@ export class StrategyDetailPage {
       if (this.isVimeo()) {
         this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://player.vimeo.com/video/" + spot.videoId)
       }
+      if (this.isReddit()) {
+        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl(spot.redditVideo)
+      }
     });
   }
 

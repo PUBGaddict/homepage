@@ -184,22 +184,20 @@ export class SubmitPage {
     }
 
     if (this.isReddit()) {
-      let bIsReddit = false;
+      let bIsReddit = false,
+        redditChannel = "";
       if (url.startsWith("https://www.reddit.com/")) {
         bIsReddit = true;
         videoId = url.substr(23);
+        redditChannel = url.substr(25);
+        redditChannel = redditChannel.substr(0, redditChannel.indexOf("/") + 1)
         let indexOfComments = videoId.indexOf("/comments/"),
           startOfId = indexOfComments + "/comments/".length,
           restOfUrl = videoId.substr(startOfId),
           endOfId = restOfUrl.indexOf("/");
         videoId = restOfUrl.substr(0, endOfId);
-        this.redditDetailForm.get('videoId').setValue(videoId);
-      } else if (url.startsWith("https://redd.it/")) {
-        bIsReddit = true;        
-        videoId = url.substr(16);
-        this.redditDetailForm.get('videoId').setValue(videoId);
+        this.redditDetailForm.get('videoId').setValue(redditChannel + videoId);
       } 
-
       console.log("videoid: "+ videoId);
       
       if (bIsReddit) {

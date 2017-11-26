@@ -73,7 +73,7 @@ export class PublishPage {
         this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://player.vimeo.com/video/" + spot.videoId)
       }
       if (this.isReddit()) {
-        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.reddit.com/mediaembed/video/" + spot.videoId)
+        this.safeVidUrl = this.sanitizer.bypassSecurityTrustResourceUrl(spot.redditVideo)
       }
     });
   }
