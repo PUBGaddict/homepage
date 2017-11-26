@@ -300,12 +300,10 @@ exports.processUser = functions.firestore.document('/tempuser/{pushId}')
 	});		
 
 	function createUid() {
-		let o = {};
-		o[user.uid] = {
+		return admin.firestore().doc(`uids/${user.uid}`).set({
 			email: user.email,
 			displayName: user.displayName
-		};
-		return admin.firestore().collection('uids').add(o);
+		});
 	}
 
 })
