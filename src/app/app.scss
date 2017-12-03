@@ -33,6 +33,14 @@ ion-content .scroll-content::-webkit-scrollbar-thumb {
   background: #666; 
 }
 
+.pubgaddictsTitle {
+  cursor:pointer;
+  text-decoration: none;
+  font-family: Futura,Trebuchet MS,Arial,sans-serif; 
+  font-style: oblique;
+  font-size: 24pt;  
+}
+
 // iOS
 .content-ios.outer-content {
   background-color: $background-dark;
